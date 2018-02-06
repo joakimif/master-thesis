@@ -1,0 +1,46 @@
+\documentclass[UKenglish]{ifimaster}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc,url}
+\urlstyle{sf}
+\usepackage{babel,textcomp,csquotes,duomasterforside,varioref,graphicx}
+\usepackage[backend=biber,style=numeric-comp]{biblatex}
+
+\title{Thetitleofmythesis}
+\subtitle{Anyshortsubtitle}
+\author{Joakim I. Frogner}
+
+\bibliography{mybib}
+
+\begin{document}
+\duoforside[dept={Department of Informatics},
+program={Programming and Networks},
+short]
+
+\frontmatter{}
+\chapter*{Abstract}
+
+\tableofcontents{}
+\listoffigures{}
+\listoftables{}
+
+\chapter*{Preface}
+
+\mainmatter{}
+\part{Introduction}
+
+\chapter{Background}
+
+
+\part{Theproject}
+
+\chapter{Planningtheproject}
+
+
+\part{Conclusion}
+
+\chapter{Results}
+
+
+\backmatter{}
+\printbibliography
+\end{document}

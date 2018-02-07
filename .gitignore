@@ -14,11 +14,10 @@
 
 *.eps.bb
 *.eps.gz
-
+.vscode
 .DS_Store
 
 files.tar.gz
-mymaster.pdf
 
 ## Intermediate documents:
 *.dvi

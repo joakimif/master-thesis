@@ -5,8 +5,11 @@
 \usepackage{babel,textcomp,csquotes,duomasterforside,varioref,graphicx}
 \usepackage[backend=biber,style=numeric-comp]{biblatex}
 
-\title{Thetitleofmythesis}
-\subtitle{Anyshortsubtitle}
+\title{Can Machine learning be used to predict bipolar states with different types of input data?}
+\subtitle{
+% Subtitle %
+}
+
 \author{Joakim I. Frogner}
 
 \bibliography{mybib}
@@ -14,7 +17,7 @@
 \begin{document}
 \duoforside[dept={Department of Informatics},
 program={Programming and Networks},
-short]
+long]
 
 \frontmatter{}
 \chapter*{Abstract}
@@ -28,7 +31,11 @@ short]
 \mainmatter{}
 \part{Introduction}
 
+\chapter{Introduction}
+\input{parts/introduction/1_Introduction/introduction}
+
 \chapter{Background}
+\input{parts/introduction/2_Background/background}
 
 
 \part{Theproject}

@@ -4,6 +4,14 @@
 \urlstyle{sf}
 \usepackage{babel,textcomp,csquotes,duomasterforside,varioref,graphicx}
 \usepackage[backend=biber,style=numeric-comp]{biblatex}
+%\usepackage{color}   %May be necessary if you want to color links
+%\usepackage[hidelinks]{hyperref}
+\usepackage{hyperref}
+\hypersetup{
+   colorlinks=false, %set true if you want colored links
+   linktoc=all,     %set to all if you want both sections and subsections linked
+   %linkcolor=black,  %choose some color if you want links to stand out
+}
 
 \title{Can Machine learning be used to predict bipolar states with different types of input data?}
 \subtitle{
@@ -12,7 +20,7 @@
 
 \author{Joakim I. Frogner}
 
-\bibliography{mybib}
+\bibliography{src}
 
 \begin{document}
 \duoforside[dept={Department of Informatics},
@@ -38,14 +46,14 @@ long]
 \input{parts/introduction/2_Background/background}
 
 
-\part{Theproject}
+\part{The project}
 
-\chapter{Planningtheproject}
-
+\chapter{Planning the project}
 
 \part{Conclusion}
+ 
+\chapter{Results} 
 
-\chapter{Results}
 
 
 \backmatter{}

@@ -35,8 +35,36 @@ if one parent is bipolar, and 66\% if both parents are \cite{bipolar_statistics}
 %% Use stories from book?
 
 \newpage
-\section{Machine learning}  
-%Some description about machine learning in general...
+\section{Machine learning}
+Machine learning is the field of computer science where you basically throw a lot of data into an algorithm
+and expect it to give you answers to whatever you prefer, with as little work as possible. 
+This was not the case in the early days of the technology, but nowadays it is a lot easier with all the diffent 
+frameworks and tools available.
+
+Machine learning is a great and almost "magical" technology, but only if you do it right.
+First you need to have enough data to feed into the algorithm, and to be efficient when training the model on a 
+large dataset, which you need to be if you want your result quickly, you need good hardware. You can get away with a 
+decent CPU if you just want to test it out on a small dataset, but if you really want to do machine learning,
+then you need a good GPU. The reason why GPUs are so much better than CPUs on this specific task, 
+is because the CPUs are designed for flexibility and general computing workloads. The GPUs on the other hand, 
+are designed to do the same instructions over and over again in parallel. This makes GPUs a lot more efficient for 
+machine learning, and especially for deep neural networks \cite{cpu_vs_gpu_ml}. 
+
+Now how do you do the actual machine learning? Well there are many diffent approaches to this, which I will come back to 
+in the next sections. 
+For example in the programming language \textbf{Python} you have the 
+framework \textbf{TensorFlow}, which allows you to build models in a simple way, and also execute the training. 
+You actually might not even have to implement the model yourself, because so many models have been implemented already. 
+
+Another framework for Python is \textbf{Keras}. On their documentation website \cite{keras_docs}, they see their 
+framework as \blockquote{A high-level neural networks API, written in Python and capable of running on top of TensorFlow, 
+CNTK or Teano}. This makes the programming of the model even easier, and this is the framework I will use 
+on top of TensorFlow for the deep learning programming parts of my thesis. 
+
+So, as long as you know your theory, and can decide which machine learning model to use (and you find a good 
+implementation of that model), you really just have to make the dataset ready. This is the boring and tedious part 
+of machine learning, but it has to be done in order for making it possible to train the model on it. 
+
 
 
 \newpage

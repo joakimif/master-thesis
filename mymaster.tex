@@ -9,12 +9,16 @@
 \usepackage{hyperref}
 \usepackage{listings}
 \usepackage{graphicx}
-\usepackage{minted}
+\usepackage[newfloat]{minted}
+\usepackage{caption}
 \hypersetup{
    colorlinks=false, %set true if you want colored links
    linktoc=all,     %set to all if you want both sections and subsections linked
    %linkcolor=black,  %choose some color if you want links to stand out
 }
+
+\newenvironment{code}{\captionsetup{type=listing}}{}
+\SetupFloatingEnvironment{listing}{name=Source Code}
 
 \title{Can Machine learning be used to predict bipolar states with different types of input data?}
 \subtitle{

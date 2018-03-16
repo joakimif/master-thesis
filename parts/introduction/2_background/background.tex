@@ -72,6 +72,10 @@ together with TensorFlow. On their documentation website \cite{keras_docs}, they
 \noindent Follwing their `30 seconds to Keras` guide \cite{keras_docs}, you can create a `sequential` model with `dense` 
 layers, configure its learning process (compile), then fit, train, evaluate and predict with just a few lines of code: 
 
+\begin{code}
+\caption{30 Seconds to Keras}
+\label{code:keras-guide}
+
 \begin{minted}[linenos]{python}
     from keras.models import Sequential
     from keras.layers import Dense
@@ -89,6 +93,7 @@ layers, configure its learning process (compile), then fit, train, evaluate and 
     loss_and_metrics = model.evaluate(x_test, y_test, batch_size=128)
     classes = model.predict(x_test, batch_size=128)
 \end{minted}
+\end{code}
 
 \noindent So, as long as you know your theory, and can decide which model to use (and either find a good 
 implementation of that model or create it yourself), you really just have to make the dataset ready. 

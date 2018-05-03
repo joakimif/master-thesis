@@ -96,35 +96,101 @@ layers, configure its learning process (compile), then fit, train, evaluate and 
 \end{code}
 
 \noindent So, as long as you know your theory, and can decide which model to use (and either find a good 
-implementation of that model or create it yourself), you really just have to make the dataset ready. 
-This is the boring and tedious part of machine learning, but it has to be done in order for making it possible to 
-train the model on it. 
+implementation of that model or create it yourself), you can easily do machine learning. One important task 
+you have to do, is to make the dataset ready. This is the boring and tedious part of machine learning, 
+but it has to be done in order for making it possible to train the model on it. 
 
-\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{Machine learning strategies}
+
+Picking the right machine learning model can be quite difficult, especially if you don't have any experience from earlier. 
+There are a couple of diffent \textit{strategies} you can choose from when deciding on a machine learning model.
+These are called \textit{Supervised and unupervised learning}, and you need to look at your dataset and how it is structured to find out 
+which one to use. The following sections will be a description of the strategies, to make the decision easier.
+
 \subsection{Supervised learning}
+This is the machine learning strategy where both input and desired output data are provided \cite{supervised_learning_intro}. 
+You can use this if you want to train a model to classify letters in the alphabet, or anything else where you have a dataset 
+with both input and output data (for the alphabet, images of letters are input data and the actual letters are the output data).
+If you train this alphabet model, you will be able to input a competely new image of a letter, and the model will classify it to 
+the letter it most likely fits. This kind of supervised learning is called \textit{Classification}, and is 
+\textit{the problem of assigning new observations to the class they most likely belong, based on a classification model built from labeled training data} 
+\cite{machine_learning_for_humans_supervised_2}.
+
+Another kind of supervised learning is called \textit{Regression}, and is all about predicting (or estimating) a value. 
+A classic example for regression learning is predicting income, using \textit{features} like home location, job title, field of study,  
+years of education and years of experience. We call these features \textit{categorical} (first three) and \textit{numerical} (last two) 
+\cite{machine_learning_for_humans_supervised_1}. 
+
 \subsection{Unsupervised learning}
+Another strategy is \textit{Unsupervised learning}. This is what you want to use if you have a dataset without the same meaning 
+as in a dataset for supervised learning. The items may not have a fixed answer, like the letters in the alphabet are. 
+It is useful when you have \textit{unlabeled} data, and want to for instance group data together in what we call a \textit{cluster}.
+It may not be as commonly used as supervised learning, but unsupervised learning can also be very useful in some cases; like grouping addresses together
+in neighborhoods if you have a unsorted list of addresses as a dataset.
+
 \subsection{Semi-supervised learning}
+Now, you may not always want to use one of the strategies above. Looking at your dataset you may want something in between; 
+a combination of labeled and unlabeled data. This is when semi-supervised learning comes in handy. For example if you have 
+a lot of data to give labels to in your dataset, it can be simply too much work. I won't go deep into details about how this works, 
+but I think it is important to mention it because of its usefulness.
 
-\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{Machine learning approaches}
-\subsection{Decision tree learning}
-\subsection{Reinforcement learning}
-\subsection{Neural networks}
-\begin{itemize}
-    \item General idea
-    \item Deep learning
-\end{itemize}
+When you know whether you want to use supervised learning, unsupervised learning or something in between, you need to select an approach.
+I call them approaches because you use these regardless of the strategy you end up using; most of them (with the exception of \textit{reinforcement learning}, 
+which I will come back to) work in both supervised and unsupervised learning. There are a lot of diffent approaches available, and I will describe some of them,
+namely those I will use in the main parts of this thesis.
 
-%% More approaches?
+\subsection{Decision tree learning}
+In computer science, trees are data structures commonly used to describe something that \textit{branches out} based on different input. 
+For example a tree can be a representation of how the frequency of letters in the alphabet are distributed in a text file, so that the text file 
+can be compressed optimally. I won't go into details about how this works, but my point is that tree-structures are very common in most fields of 
+computer science. 
+
+In machine learning, we can apply the tree-structures as \textit{decision tree learning}. And in this approach, we set up all the different outcomes
+(with the training data set) of a specific question in a tree. Let's say you want to predict whether or not a person will run outside on a specific day.
+Then it makes sense that the training set contains weather information. The different data in the training set is called attributes, and picking these 
+correctly is important for the quality of the prediction.
+
+\begin{table}
+    \begin{tabular}{| l | l | l | l | l | l |}
+    \hline
+    \textbf{Day} & \textbf{Temperature} & \textbf{Outlook}   & \textbf{Humidity}  & \textbf{Wind}     & \textbf{Run} \\ \hline
+            1    & 15 C                 & Sunny              & Low                & Strong            & Yes \\
+            2    & 6 C                  & Rain               & High               & Strong            & No  \\
+            3    & 10 C                 & Rain               & Medium             & Strong            & Yes \\
+            4    & 11 C                 & Overcast           & High               & Strong            & Yes \\
+            5    & 13 C                 & Sun                & Low                & Strong            & No  \\
+            6    & 4 C                  & Overcast           & Medium             & Strong            & No  \\
+            7    & 6 C                  & Sun                & Medium             & Strong            & Yes \\
+    \hline
+    \end{tabular}
+    \caption{Training data set: days a person went out for a run}
+    \label{table:days_running}
+\end{table}
+
+Table \ref{table:days_running} contains data about whether a person went outside for a run or not for a week (just an example, not real data). 
+\\ ... more about decision tree learning ....
+
+\subsubsection{Random Forest}
+
+\subsection{Neural networks}
+
+\subsubsection{General idea}
+\subsubsection{Deep learning}
+\subsubsection{Long Short-Term Memory Recurrent Neural Network (LSTM RNN)}
+
 \newpage
-\section{How can machine learning help}
-How I can solve the problem described in the beginning of this chapter...
+\section{How can machine learning help predicting states of people with bipolar disorder?}
+...
 
 \newpage
 \section{Related work}
 List related work and discuss...
-
+ 
 \newpage
 \section{Challenges}
 Describe some challenges...

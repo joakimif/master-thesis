@@ -159,13 +159,13 @@ correctly is important for the quality of the prediction.
     \begin{tabular}{| l | l | l | l | l | l |}
     \hline
     \textbf{Day} & \textbf{Temperature} & \textbf{Outlook}   & \textbf{Humidity}  & \textbf{Wind}     & \textbf{Run} \\ \hline
-            1    & 15 C                 & Sunny              & Low                & Strong            & Yes \\
-            2    & 6 C                  & Rain               & High               & Strong            & No  \\
-            3    & 10 C                 & Rain               & Medium             & Strong            & Yes \\
-            4    & 11 C                 & Overcast           & High               & Strong            & Yes \\
-            5    & 13 C                 & Sun                & Low                & Strong            & No  \\
-            6    & 4 C                  & Overcast           & Medium             & Strong            & No  \\
-            7    & 6 C                  & Sun                & Medium             & Strong            & Yes \\
+            1    & 15 C                 & Sun                & Low                & Strong            & Yes \\
+            2    & 6 C                  & Rain               & High               & Weak              & No  \\
+            3    & 15 C                 & Rain               & Medium             & Strong            & Yes \\
+            4    & 6 C                  & Overcast           & High               & Medium            & Yes \\
+            5    & 15 C                 & Sun                & Low                & Weak              & No  \\
+            6    & 12 C                 & Overcast           & Medium             & Weak              & No  \\
+            7    & 12 C                 & Sun                & Medium             & Medium            & Yes \\
     \hline
     \end{tabular}
     \caption{Training data set: days a person went out for a run}
@@ -173,7 +173,14 @@ correctly is important for the quality of the prediction.
 \end{table}
 
 Table \ref{table:days_running} contains data about whether a person went outside for a run or not for a week (just an example, not real data). 
-\\ ... more about decision tree learning ....
+Here the first 4 (excluding "Day") columns (Temperature, Outlook, Humidity and Wind) is the "predictors" and the last column (Run) is the "target". 
+To use this table in decision tree learning, we need to view it as a tree, with one of the predictors as root node and the targets as leaf nodes. 
+
+How we choose the tree structure is critical to the performance of the machine learning, and we need to use a good tree building algorithm. 
+The most common algorithm to use in this situation, is the \textit{ID3} algorithm made by J. R. Quinlan. It is a top-down, 
+greedy search through the space of possible branches with no backtracking \cite{decision_tree}. The way this happens is by calculating \textit{Entropy} 
+and \textit{Information Gain}. The idea is to recursively choose the predictor that has the highest information gain and generate a tree structure.
+With an optimal tree, you can create decision rules by simply following the tree with new data.
 
 \subsubsection{Random Forest}
 
@@ -185,7 +192,7 @@ Table \ref{table:days_running} contains data about whether a person went outside
 
 \newpage
 \section{How can machine learning help predicting states of people with bipolar disorder?}
-...
+
 
 \newpage
 \section{Related work}
@@ -198,3 +205,18 @@ Describe some challenges...
 \newpage
 \section{Ethical concerns}
 Describe some ethical concerns...
+
+%% This will be moved to chapter 3 which is about planning the project
+
+\newpage
+\section{The dataset}
+The dataset I will use in this project \cite{dataset} was collected for another study for motor activity in schizophrenia and major depression. 
+Wit the data about schizophrenia stripped out, this dataset is sufficient for my thesis. It contains activity level data for 23 bipolar and unipolar patients, 
+and 32 non-depressed contributors. From now on, I will refer to the bipolar/unipolar group as the \textit{condition group}, and the non-depressed group as 
+the \textit{control group}. This is also done in the dataset details \cite{dataset_details}.
+
+\section{What to do in this project}
+My problem statement is "\problemStatement", which indicates that this project will contain both some classification and some regression.
+
+To do this, I will use all the algorithms I have specified, beginning with the easiest ones (decision tree learning and random forest), before I try neural networks.
+

@@ -196,7 +196,6 @@ but most likely, asking multiple people for recommendations is going to give a b
 will most likely give a better answer if they are combined in a Random Forest.
 
 \subsection{Neural networks}
-\includegraphics[height=10cm]{neural_net.png}
 \subsubsection{General idea}
 The general idea of machine learning with neural networks, is to make the computer think like a human; it is inspired by they way biological 
 neural networks in the human brain process information \cite{neural_networks_0}. There are a lot of diffent neural networks, but all of them 
@@ -219,6 +218,13 @@ typed in the beginning of a long text is a dependancy for a prediction four chap
 is something called \textit{Long Short-Term Memory Recurrent Neural Network (LSTM RNN)}, and is basically the idea of having additional logic to avoid 
 the prediction model forgetting important facts.
 
+\begin{figure}
+    \includegraphics[height=10cm]{neural_net.png}
+    \caption{Neural network}
+    \label{figure:neural_net}
+\end{figure}
+
+\newpage
 \section{How can machine learning help people with bipolar disorder?}
 The usage of machine learning in the medical fields is growing exponentially these days. There are so many use cases of machine learning, and of course 
 it can help in the bipolar field too! Let's say bipolar patients had a device that measured their heart rate among other things 24 hours a day could 
@@ -235,15 +241,31 @@ Wit the data about schizophrenia stripped out, this dataset is sufficient for my
 and 32 non-depressed contributors. From now on, I will refer to the bipolar/unipolar group as the \textit{condition group}, and the non-depressed group as 
 the \textit{control group}. This is also done in the dataset details \cite{dataset_details}.
 
+The dataset is in two parts. One part includes sensor data about the condition group and control group, as one file for each person. 
+These files are in two folders: "condition" and "control" (for the two groups respectively), and one file for each person is inside the folders (filename 
+is "GROUP\_X.csv" where X is their id and GROUP is either condition or control. Inside the files, there is a list of activity measurements for every 
+minute of the data collection period.
+
+The other part of the dataset is one file including the demographics of each person in the dataset. For the control group this only includes the number of 
+days they were collecting data, their gender (1 for female and 2 for male) and age. For the condition group, it also includes their affliction type (1 for bipolar
+type II, 2 for unipolar depressive, 3 for bipolar type I), melanch (1 for melancholia, 2 for no melancholia), inpatient (1 for inpatient, 2 for outpatient),
+edu (education in years), marriage (1 for married / cohabiting, 2 for single), work (1 for working / studying, 2 for unemployed/sick/pension), madrs1 (MADRS score 
+when measurement started) and madrs2 (MADRS score when measurement stopped) \cite{dataset_details}. MADRS score (Montgomery-Asberg Depression Rating Scale) 
+is used to grade the current severity of an ongoing depression \cite{dataset_details}.
+
 \section{What to do in this project}
-My problem statement is "\problemStatement". This is an open project statement, which enables this project to contain both some classification and some regression.
-To do this, I will use all the algorithms I have specified, beginning with the easiest ones (decision tree learning and random forest), before I try neural networks.
+As stated in my problem statement, I want to perform different types of machine learning to do predictions on bipolar patients. Specifically, I want to do
+predictions on their MADRS score. % more
+
+To do this, I will use all the algorithms I have specified, with both regression and classification, beginning with the least complicated ones 
+(decision tree learning and random forest), before I will do predictions using a neural network (LSTM RNN), and compare them. The next part of the 
+thesis will cover more specifics on how I will use these machine learning models to acheive my goal. % remember this
 
 \section{Challenges and ethical concerns}
 In most projects in the medical fields, there are going to be ethical concerns and challenges with privacy. What happens if someone that are not clearified for 
-the data gets access to it? What if the database gets hacked? With new regulations (GDPR), privacy gets more and more important. However, in this project all
-data is anonymized, and there will be no persons mentioned. 
+the data gets access to it? What if the database gets hacked? With new regulations (GDPR), which basically means that users have the right to be "forgotten". 
+However, in this project all data is anonymized (only referenced by an id), so there will be no persons mentioned. 
 
-\section{Related work}
-List related work and discuss...
+%\section{Related work}
+%List related work and discuss...
 

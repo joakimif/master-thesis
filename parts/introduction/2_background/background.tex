@@ -202,21 +202,34 @@ neural networks in the human brain process information \cite{neural_networks_0}.
 share the same underlying layer based architecture, where data is passed between layers where computation is done. The first layer is the input layer, 
 which simply passes the data to the next layer, which is the hidden layers. The number of hidden layers is competely up to the model and the programmer, 
 and this is where the intermediate processing/computation is done, before the data is passed to the output layer where we perform an activation function 
-to define the output \cite{neural_networks_1}. 
+to define the output \cite{neural_networks_1}.
 
 If you have a lot of hidden layers in a neural network, we call it a \textit{deep} neural network. This 
-is commonly used, and there is a lot of different deep networks with a lot of diffent use cases. To keep it simple for this thesis, I will explain one deep 
-network called \textit{Recurrent Neural Network}. 
+is commonly used, and there is a lot of different deep networks with a lot of diffent use cases. Two of the most common
+neural network models are \textit{Recurrent Neural Networks} and \textit{Convolutional Neural Networks}. These two have their own use cases, 
+which I will describe below.
+
+Figure \ref{figure:neural_net} is a visualisation of a basic neural network with the input layer on the left,
+one hidden layer in the middle and the putput layer on the right hand side. Every node in the input layer is connected with every node in the hidden layer,
+and every node in the hidden layer is connected to every node in the output layer.
 
 \subsubsection{Recurrent Neural Networks (RNN)}
 This type of neural network is good for predicting something based on a sequence of data, like for example predicting words in a sentence, which 
 can be especially useful for typing on a phone. Also doing predictions based on historical data, like a forecast, is something an RNN can do effectively, 
-which the dataset I'm going to use in this thesis consist of. 
+which is something the dataset that I'm going to use in this thesis consist of. 
 
 One downside to regular Recurrent Neural Networks, is that if the sequence of data is long, the prediction will most likely be off if something that was for example 
 typed in the beginning of a long text is a dependancy for a prediction four chapters later, like the location of the main charater. The workaround for this
-is something called \textit{Long Short-Term Memory Recurrent Neural Network (LSTM RNN)}, and is basically the idea of having additional logic to avoid 
+is something called \textit{Long Short-Term Memory Recurrent Neural Network (LSTM RNN)}, and is the idea of having additional logic to avoid 
 the prediction model forgetting important facts.
+
+\subsubsection{Convolutional Neural Networks (CNN)}
+A Convolutional Neural Network, or \textit{CNN} for short, can be used for identifying patterns in data, which can be used for predictions.
+A common use case for a CNN is image recognition. This is where you train your model to be really good at identifying objects in images, 
+for example the difference between cats and dogs. Then you can input a competely different image to the model, and it will output whether the image is of 
+a cat or a dog. This type of CNN is two-dimentional because an input image is really a two-dimentional array of pixel values, and it is most common to have a 
+2D CNN. Another way of constructing a CNN, is one-dimentionally, which can be useful for \textit{one-dimentional} data, for example sensor data from
+gyroscopes or accelerometers \cite{1d_cnn}.
 
 \begin{figure}
     \includegraphics[height=10cm]{neural_net.png}
@@ -237,7 +250,7 @@ of the condition competely.
 
 \section{The dataset}
 The dataset I will use in this project \cite{dataset} was collected for another study for motor activity in schizophrenia and major depression. 
-Wit the data about schizophrenia stripped out, this dataset is sufficient for my thesis. It contains activity level data for 23 bipolar and unipolar patients, 
+With the data about schizophrenia stripped out, this dataset is sufficient for my thesis. It contains activity level data for 23 bipolar and unipolar patients, 
 and 32 non-depressed contributors. From now on, I will refer to the bipolar/unipolar group as the \textit{condition group}, and the non-depressed group as 
 the \textit{control group}. This is also done in the dataset details \cite{dataset_details}.
 
@@ -254,18 +267,22 @@ when measurement started) and madrs2 (MADRS score when measurement stopped) \cit
 is used to grade the current severity of an ongoing depression \cite{dataset_details}.
 
 \section{What to do in this project}
-As stated in my problem statement, I want to perform different types of machine learning to do predictions on bipolar patients. Specifically, I want to do
-predictions on their MADRS score. % more
+As stated in my problem statement, I want to perform different types of machine learning on the dataset. 
+There is a couple of things I have in mind that the dataset can be used for:
 
-To do this, I will use all the algorithms I have specified, with both regression and classification, beginning with the least complicated ones 
-(decision tree learning and random forest), before I will do predictions using a neural network (LSTM RNN), and compare them. The next part of the 
-thesis will cover more specifics on how I will use these machine learning models to acheive my goal. % remember this
+\begin{itemize}
+    \item Predict whether a given person belongs to the \textit{control group} or the \textit{condition group}.
+    \item Predictions on the patients MADRS score and sleep patterns.
+\end{itemize}
+
+More details on how I will acheive my goal will come in the next part of this thesis.
 
 \section{Challenges and ethical concerns}
 In most projects in the medical fields, there are going to be ethical concerns and challenges with privacy. What happens if someone that are not clearified for 
 the data gets access to it? What if the database gets hacked? With new regulations (GDPR), which basically means that users have the right to be "forgotten". 
-However, in this project all data is anonymized (only referenced by an id), so there will be no persons mentioned. 
+However, in this project all data is anonymized (only referenced by an id), so there will be no persons mentioned. If the dataset were not to be anonymized, 
+and the patient's names were in it, things could get problematic if it got into the wrong hands. 
 
 %\section{Related work}
-%List related work and discuss...
+
 

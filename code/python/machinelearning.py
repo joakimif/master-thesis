@@ -117,7 +117,7 @@ labels = []
 N_FEATURES = 1
 
 SEG_LEN = 120
-step = 60
+step = 120
 
 for person in scores['number']:
     p = scores[scores['number'] == person]

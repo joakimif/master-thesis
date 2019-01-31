@@ -145,7 +145,7 @@ input_shape = num_time_periods * num_sensors
 segments = segments.reshape(segments.shape[0], input_shape).astype('float32')
 labels = labels.astype('float32')
 
-X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.4)
+X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2)
 
 """ Start machine learning """ 
 

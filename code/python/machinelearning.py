@@ -24,6 +24,36 @@ from tensorflow.keras.layers import Dense, Dropout, Flatten, Reshape, GlobalAver
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Conv1D, MaxPooling1D
 from tensorflow.keras.callbacks import TensorBoard, EarlyStopping, ModelCheckpoint
 
+pd.options.mode.chained_assignment = None
+
+PROJECT_DIR = '../'
+DATASET_DIR = 'datasets'
+SAVE_DIR = 'data'
+
+try:
+    os.chdir(PROJECT_DIR)
+except:
+    print('No such directory')
+    pass
+
+CATEGORIES = ['CONDITION', 'CONTROL']
+BIPOLAR = ['normal', 'bipolar II', 'unipolar', 'bipolar I']
+
+def make_confusion_matrix(validations, predictions):
+    matrix = confusion_matrix(validations, predictions)
+    plt.figure(figsize=(6, 4))
+    sns.heatmap(matrix,
+                cmap="coolwarm",
+                linecolor='white',
+                linewidths=1,
+                xticklabels=BIPOLAR,
+                yticklabels=BIPOLAR,
+                annot=True,
+                fmt="d")
+    plt.title("Confusion Matrix")
+    plt.ylabel("True Label")
+    plt.xlabel("Predicted Label")
+    plt.savefig('confusion_matrix.png')
 
 def average_str(string):
     if(type(string) == str):
@@ -59,21 +89,6 @@ def feature_normalize(dataset):
     mu = np.mean(dataset, axis=0)
     sigma = np.std(dataset, axis=0)
     return (dataset - mu)/sigma
-
-pd.options.mode.chained_assignment = None
-
-PROJECT_DIR = '../'
-DATASET_DIR = 'datasets'
-SAVE_DIR = 'data'
-
-try:
-    os.chdir(PROJECT_DIR)
-except:
-    print('No such directory')
-    pass
-
-CATEGORIES = ['CONDITION', 'CONTROL']
-BIPOLAR = ['normal', 'bipolar II', 'unipolar', 'bipolar I']
 
 
 scores = pd.read_csv(os.path.join(DATASET_DIR, 'scores.csv'))
@@ -163,3 +178,5 @@ max_y_pred_test = np.argmax(y_pred_test, axis=1)
 max_y_test = np.argmax(y_test, axis=1)
 
 print(classification_report(max_y_test, max_y_pred_test))
+
+make_confusion_matrix(max_y_test, max_y_pred_test)

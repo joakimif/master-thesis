@@ -39,6 +39,7 @@ except:
 
 CATEGORIES = ['CONDITION', 'CONTROL']
 BIPOLAR = ['normal', 'bipolar II', 'unipolar', 'bipolar I']
+LABELS = ['normal', 'bipolar']
 
 def make_confusion_matrix(validations, predictions):
     matrix = confusion_matrix(validations, predictions)

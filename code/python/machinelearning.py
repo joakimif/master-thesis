@@ -163,8 +163,8 @@ print(model.summary())
 
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-BATCH_SIZE = 40
-EPOCHS = 50
+BATCH_SIZE = 200
+EPOCHS = 40
 
 history = model.fit(X_train,
                     y_train,
@@ -174,7 +174,7 @@ history = model.fit(X_train,
                         ModelCheckpoint(
                             filepath='best_model.{epoch:02d}-{val_loss:.2f}.h5',
                             monitor='val_loss', save_best_only=True),
-                        EarlyStopping(monitor='acc', patience=3)
+                        EarlyStopping(monitor='acc', patience=2)
                     ],
                     validation_split=0.2,
                     verbose=1)

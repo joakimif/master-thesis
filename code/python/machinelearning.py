@@ -177,13 +177,12 @@ history = model.fit(X_train,
                         ModelCheckpoint(
                             filepath='best_model.{epoch:02d}-{val_loss:.2f}.h5',
                             monitor='val_loss', save_best_only=True),
-                        EarlyStopping(monitor='val_acc', patience=2)
+                        EarlyStopping(monitor='val_acc', patience=3)
                     ],
                     validation_split=0.2,
                     verbose=1)
 
 y_pred_test = model.predict(X_test)
-
 max_y_pred_test = np.argmax(y_pred_test, axis=1)
 max_y_test = np.argmax(y_test, axis=1)
 

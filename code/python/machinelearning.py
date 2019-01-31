@@ -177,7 +177,8 @@ history = model.fit(X_train,
                         ModelCheckpoint(
                             filepath='best_model.{epoch:02d}-{val_loss:.2f}.h5',
                             monitor='val_loss', save_best_only=True),
-                        EarlyStopping(monitor='val_loss', patience=3)
+                        EarlyStopping(monitor='val_loss', patience=3),
+                        TensorBoard(log_dir='./logs', histogram_freq=0, batch_size=32, write_graph=True, write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None, embeddings_metadata=None, embeddings_data=None, update_freq='epoch')
                     ],
                     validation_split=0.2,
                     verbose=1)

@@ -110,7 +110,7 @@ scores['edu'] = scores['edu'].apply(average_str)
 segments = []
 labels = []
 
-N_FEATURES = 2
+N_FEATURES = 1
 
 SEG_LEN = 60
 step = 60
@@ -124,10 +124,14 @@ for person in scores['number']:
         segment = df_activity['activity'].values[i : i + step]
         hour = int(df_activity['timestamp'][i].split(' ')[1].split(':')[0])
 
-        segments.append([segment, hour])
-        labels.append(p['afftype'].values[0])
-
-labels = to_categorical(np.asarray(labels), 4)
+        segments.append([segment])
+        
+        if p['afftype'].values[0] == 0:
+            labels.append(0)
+        else:
+            labels.append(1)
+    
+labels = to_categorical(np.asarray(labels), 2)
 segments = np.asarray(segments).reshape(-1, SEG_LEN, N_FEATURES)
 
 num_time_periods, num_sensors = segments.shape[1], segments.shape[2]

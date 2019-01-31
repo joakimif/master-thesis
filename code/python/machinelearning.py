@@ -145,7 +145,7 @@ input_shape = num_time_periods * num_sensors
 segments = segments.reshape(segments.shape[0], input_shape).astype('float32')
 labels = labels.astype('float32')
 
-X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2)
+X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.4)
 
 """ Start machine learning """ 
 
@@ -177,7 +177,7 @@ history = model.fit(X_train,
                         ModelCheckpoint(
                             filepath='best_model.{epoch:02d}-{val_loss:.2f}.h5',
                             monitor='val_loss', save_best_only=True),
-                        EarlyStopping(monitor='acc', patience=1)
+                        EarlyStopping(monitor='val_acc', patience=2)
                     ],
                     validation_split=0.2,
                     verbose=1)

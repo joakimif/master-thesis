@@ -193,10 +193,9 @@ callbacks_list = [
 
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-BATCH_SIZE = 400
+BATCH_SIZE = 40
 EPOCHS = 50
 
-# Enable validation to use ModelCheckpoint and EarlyStopping callbacks.
 history = model.fit(X_train,
                       y_train,
                       batch_size=BATCH_SIZE,
@@ -204,20 +203,6 @@ history = model.fit(X_train,
                       callbacks=callbacks_list,
                       validation_split=0.2,
                       verbose=1)
-
-# summarize history for accuracy and loss
-""" plt.figure(figsize=(6, 4))
-plt.plot(history.history['acc'], "g--", label="Accuracy of training data")
-plt.plot(history.history['val_acc'], "g", label="Accuracy of validation data")
-plt.plot(history.history['loss'], "r--", label="Loss of training data")
-plt.plot(history.history['val_loss'], "r", label="Loss of validation data")
-plt.title('Model Accuracy and Loss')
-plt.ylabel('Accuracy and Loss')
-plt.xlabel('Training Epoch')
-plt.ylim(0)
-plt.legend()
-
-plt.savefig('graph.png') """
 
 y_pred_test = model.predict(X_test)
 

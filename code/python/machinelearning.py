@@ -219,7 +219,7 @@ plt.legend()
 
 plt.savefig('graph.png') """
 
-y_pred_test = model.predict(x_test)
+y_pred_test = model.predict(X_test)
 
 max_y_pred_test = np.argmax(y_pred_test, axis=1)
 max_y_test = np.argmax(y_test, axis=1)

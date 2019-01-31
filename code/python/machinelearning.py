@@ -135,7 +135,7 @@ labels = to_categorical(np.asarray(labels), 2)
 segments = np.asarray(segments).reshape(-1, SEG_LEN, N_FEATURES)
 
 num_time_periods, num_sensors = segments.shape[1], segments.shape[2]
-num_classes = 4
+num_classes = 2
 input_shape = num_time_periods * num_sensors
 
 segments = segments.reshape(segments.shape[0], input_shape).astype('float32')
@@ -156,7 +156,7 @@ model.add(Conv1D(80, 10, activation='relu'))
 model.add(Conv1D(80, 10, activation='relu'))
 model.add(GlobalAveragePooling1D())
 model.add(Dropout(0.5))
-model.add(Dense(4, activation='softmax'))
+model.add(Dense(2, activation='softmax'))
 
 print(model.summary())
 

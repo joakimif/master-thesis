@@ -167,7 +167,7 @@ history = model.fit(X_train,
                         ModelCheckpoint(
                             filepath='best_model.{epoch:02d}-{val_loss:.2f}.h5',
                             monitor='val_loss', save_best_only=True),
-                        EarlyStopping(monitor='acc', patience=5)
+                        EarlyStopping(monitor='acc', patience=3)
                     ],
                     validation_split=0.2,
                     verbose=1)

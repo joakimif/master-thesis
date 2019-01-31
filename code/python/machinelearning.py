@@ -205,4 +205,16 @@ history = model.fit(X_train,
                       validation_split=0.2,
                       verbose=1)
 
-print(type(history))
+# summarize history for accuracy and loss
+plt.figure(figsize=(6, 4))
+plt.plot(history.history['acc'], "g--", label="Accuracy of training data")
+plt.plot(history.history['val_acc'], "g", label="Accuracy of validation data")
+plt.plot(history.history['loss'], "r--", label="Loss of training data")
+plt.plot(history.history['val_loss'], "r", label="Loss of validation data")
+plt.title('Model Accuracy and Loss')
+plt.ylabel('Accuracy and Loss')
+plt.xlabel('Training Epoch')
+plt.ylim(0)
+plt.legend()
+
+plt.savefig('graph.png')

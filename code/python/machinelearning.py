@@ -122,6 +122,7 @@ for person in scores['number']:
 
     for i in range(0, len(df_activity) - SEG_LEN, step):
         segment = df_activity['activity'].values[i : i + step]
+        hour = int(df_activity['timestamp'][i].split(' ')[1].split(':')[0])
 
         segments.append([segment])
         labels.append(p['afftype'].values[0])

@@ -26,7 +26,7 @@ from tensorflow.keras.callbacks import TensorBoard, EarlyStopping, ModelCheckpoi
 
 pd.options.mode.chained_assignment = None
 
-PROJECT_DIR = 'projects/MasterOppgave/code'
+PROJECT_DIR = '../../projects/MasterOppgave/code'
 DATASET_DIR = 'datasets'
 SAVE_DIR = 'data'
 

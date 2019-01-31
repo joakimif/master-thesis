@@ -41,7 +41,7 @@ CATEGORIES = ['CONDITION', 'CONTROL']
 BIPOLAR = ['normal', 'bipolar II', 'unipolar', 'bipolar I']
 LABELS = ['normal', 'bipolar']
 
-def make_confusion_matrix(validations, predictions):
+def make_confusion_matrix(validations, predictions, print_stdout=False):
     matrix = confusion_matrix(validations, predictions)
     plt.figure(figsize=(6, 4))
     sns.heatmap(matrix,
@@ -56,6 +56,9 @@ def make_confusion_matrix(validations, predictions):
     plt.ylabel("True Label")
     plt.xlabel("Predicted Label")
     plt.savefig('confusion_matrix.png')
+
+    if print_stdout:
+        print(matrix)
 
 def average_str(string):
     if(type(string) == str):
@@ -186,4 +189,4 @@ max_y_test = np.argmax(y_test, axis=1)
 
 print(classification_report(max_y_test, max_y_pred_test))
 
-make_confusion_matrix(max_y_test, max_y_pred_test)
+make_confusion_matrix(max_y_test, max_y_pred_test, print_stdout=True)

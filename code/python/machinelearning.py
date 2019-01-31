@@ -116,7 +116,7 @@ labels = []
 
 N_FEATURES = 1
 
-SEG_LEN = 60
+SEG_LEN = 120
 step = 60
 
 for person in scores['number']:

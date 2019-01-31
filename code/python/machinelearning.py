@@ -58,7 +58,7 @@ def make_confusion_matrix(validations, predictions, print_stdout=False):
     plt.savefig('confusion_matrix.png')
 
     if print_stdout:
-        print('Confusion matrix: ', matrix)
+        print('Confusion matrix:\n', matrix)
 
 def average_str(string):
     if(type(string) == str):

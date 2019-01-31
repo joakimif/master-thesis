@@ -116,8 +116,8 @@ labels = []
 
 N_FEATURES = 1
 
-SEG_LEN = 120
-step = 120
+SEG_LEN = 240
+step = 60
 
 for person in scores['number']:
     p = scores[scores['number'] == person]
@@ -125,7 +125,7 @@ for person in scores['number']:
     df_activity = pd.read_csv(filepath)
 
     for i in range(0, len(df_activity) - SEG_LEN, step):
-        segment = df_activity['activity'].values[i : i + step]
+        segment = df_activity['activity'].values[i : i + SEG_LEN]
         hour = int(df_activity['timestamp'][i].split(' ')[1].split(':')[0])
 
         segments.append([segment])

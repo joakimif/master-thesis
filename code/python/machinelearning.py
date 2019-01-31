@@ -194,7 +194,7 @@ callbacks_list = [
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 BATCH_SIZE = 16
-EPOCHS = 1
+EPOCHS = 10
 
 # Enable validation to use ModelCheckpoint and EarlyStopping callbacks.
 history = model.fit(X_train,

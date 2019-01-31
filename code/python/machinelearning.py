@@ -48,8 +48,8 @@ def make_confusion_matrix(validations, predictions):
                 cmap="coolwarm",
                 linecolor='white',
                 linewidths=1,
-                xticklabels=BIPOLAR,
-                yticklabels=BIPOLAR,
+                xticklabels=LABELS,
+                yticklabels=LABELS,
                 annot=True,
                 fmt="d")
     plt.title("Confusion Matrix")

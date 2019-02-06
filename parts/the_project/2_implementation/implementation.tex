@@ -1,0 +1,30 @@
+\section{Regression}
+
+\section{1D Convolutional Neural Network}
+
+\begin{code}
+  \caption{1D Convolutional Neural Network Model}
+  \label{code:1d_conv_net}
+  
+  \begin{minted}[linenos]{python}
+    def create_model():
+      model = Sequential()
+      model.add(Reshape((SEG_LEN, num_sensors), input_shape=(input_shape,)))
+      model.add(Conv1D(100, 10, activation='relu', 
+                                input_shape=(SEG_LEN, num_sensors)))
+      model.add(Conv1D(100, 10, activation='relu'))
+      model.add(MaxPooling1D(2))
+      model.add(Conv1D(160, 10, activation='relu'))
+      model.add(Conv1D(160, 10, activation='relu'))
+      model.add(GlobalAveragePooling1D())
+      model.add(Dropout(0.5))
+      model.add(Dense(2, activation='softmax'))
+
+      return model
+  \end{minted}
+\end{code}
+
+
+
+
+\section{Optimizing the model}

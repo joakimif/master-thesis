@@ -9,9 +9,7 @@ import datetime
 
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
-from sklearn.metrics import accuracy_score
-from sklearn.metrics import classification_report
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 
 from IPython.display import display
 
@@ -41,7 +39,7 @@ CATEGORIES = ['CONDITION', 'CONTROL']
 BIPOLAR = ['normal', 'bipolar II', 'unipolar', 'bipolar I']
 LABELS = ['normal', 'bipolar']
 
-def make_confusion_matrix(validations, predictions, print_stdout=False):
+def make_confusion_matrix(validations, predictions, print_stdout=False, save=True):
     matrix = confusion_matrix(validations, predictions)
     plt.figure(figsize=(6, 4))
     sns.heatmap(matrix,
@@ -55,7 +53,9 @@ def make_confusion_matrix(validations, predictions, print_stdout=False):
     plt.title("Confusion Matrix")
     plt.ylabel("True Label")
     plt.xlabel("Predicted Label")
-    plt.savefig('confusion_matrix.png')
+
+    if save:
+        plt.savefig('confusion_matrix.png')
 
     if print_stdout:
         print('Confusion matrix:\n', matrix)
@@ -116,7 +116,7 @@ labels = []
 
 N_FEATURES = 1
 
-SEG_LEN = 240
+SEG_LEN = 4*60 # 4 hours
 step = 60
 
 for person in scores['number']:
@@ -126,8 +126,6 @@ for person in scores['number']:
 
     for i in range(0, len(df_activity) - SEG_LEN, step):
         segment = df_activity['activity'].values[i : i + SEG_LEN]
-        hour = int(df_activity['timestamp'][i].split(' ')[1].split(':')[0])
-
         segments.append([segment])
         
         if p['afftype'].values[0] == 0:
@@ -174,11 +172,9 @@ history = model.fit(X_train,
                     batch_size=BATCH_SIZE,
                     epochs=EPOCHS,
                     callbacks=[
-                        ModelCheckpoint(
-                            filepath='best_model.{epoch:02d}-{val_loss:.2f}.h5',
-                            monitor='val_loss', save_best_only=True),
                         EarlyStopping(monitor='val_loss', patience=3),
-                        TensorBoard(log_dir='./logs', histogram_freq=0, batch_size=32, write_graph=True, write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None, embeddings_metadata=None, embeddings_data=None)
+                        # ModelCheckpoint(filepath='best_model.{epoch:02d}-{val_loss:.2f}.h5', monitor='val_loss', save_best_only=True),
+                        # TensorBoard(log_dir='./logs', histogram_freq=0, batch_size=32, write_graph=True, write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None, embeddings_metadata=None, embeddings_data=None)
                     ],
                     validation_split=0.2,
                     verbose=1)

@@ -249,33 +249,50 @@ I believe that using machine learning in this field of study could help a lot of
 of the condition competely.
 
 \section{The dataset}
-The dataset I will use in this project \cite{dataset} was collected for another study for motor activity in schizophrenia and major depression. 
+
+\begin{figure}
+    \begin{center}
+        \includegraphics[height=3.5cm]{img/demographics.png}
+        \caption{Demographics about participants (5 first rows)}
+        \label{figure:demographics}
+    \end{center}
+\end{figure}
+
+\begin{figure}
+    \begin{center}
+        \includegraphics[height=3.5cm]{img/participant.png}
+        \caption{Activity measurements (5 first rows)}
+        \label{figure:participant_activity}
+    \end{center}
+\end{figure}
+
+The dataset we will use in this project \cite{dataset} was collected for another study for motor activity in schizophrenia and major depression. 
 With the data about schizophrenia stripped out, this dataset is sufficient for my thesis. It contains activity level data for 23 bipolar and unipolar patients, 
 and 32 non-depressed contributors. From now on, I will refer to the bipolar/unipolar group as the \textit{condition group}, and the non-depressed group as 
 the \textit{control group}. This is also done in the dataset details \cite{dataset_details}.
 
-The dataset is in two parts. One part includes sensor data about the condition group and control group, as one file for each person. 
-These files are in two folders: "condition" and "control" (for the two groups respectively), and one file for each person is inside the folders (filename 
-is "GROUP\_X.csv" where X is their id and GROUP is either condition or control. Inside the files, there is a list of activity measurements for every 
-minute of the data collection period.
-
-The other part of the dataset is one file including the demographics of each person in the dataset. For the control group this only includes the number of 
+The dataset is in two parts. One part includes the demographics of each participant \ref{figure:demographics}. For the control group this only includes the number of 
 days they were collecting data, their gender (1 for female and 2 for male) and age. For the condition group, it also includes their affliction type (1 for bipolar
 type II, 2 for unipolar depressive, 3 for bipolar type I), melanch (1 for melancholia, 2 for no melancholia), inpatient (1 for inpatient, 2 for outpatient),
 edu (education in years), marriage (1 for married / cohabiting, 2 for single), work (1 for working / studying, 2 for unemployed/sick/pension), madrs1 (MADRS score 
 when measurement started) and madrs2 (MADRS score when measurement stopped) \cite{dataset_details}. MADRS score (Montgomery-Asberg Depression Rating Scale) 
 is used to grade the current severity of an ongoing depression \cite{dataset_details}.
 
+The second part includes sensor data about the condition group and control group, as one file for each person \ref{figure:participant_activity}. 
+These files are in two folders: "condition" and "control" (for the two groups respectively), and one file for each person is inside the folders (filename 
+is "GROUP\_X.csv" where X is their id and GROUP is either condition or control. Inside the files, there is a list of activity measurements for every 
+minute of the data collection period.
+
 \section{What to do in this project}
-As stated in my problem statement, I want to perform different types of machine learning on the dataset. 
-There is a couple of things I have in mind that the dataset can be used for:
+As stated in the problem statement, we want to perform different types of machine learning on the dataset. 
+There is a couple of things we have in mind that the dataset can be used for:
 
 \begin{itemize}
-    \item Predict whether a given person belongs to the \textit{control group} or the \textit{condition group}.
+    \item Predict whether a given participant belongs to the \textit{control group} or the \textit{condition group}.
     \item Predictions on the patients MADRS score and sleep patterns.
 \end{itemize}
 
-More details on how I will acheive my goal will come in the next part of this thesis.
+More details on how we will acheive our goal will come in the next part of this thesis.
 
 \section{Challenges and ethical concerns}
 In most projects in the medical fields, there are going to be ethical concerns and challenges with privacy. What happens if someone that are not clearified for 

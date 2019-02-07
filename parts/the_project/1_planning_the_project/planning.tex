@@ -1,7 +1,7 @@
 \section{Goals}
 
 Our goal is to build a machine learning model that can find out which group a participant belongs to (\textit{control group} or the \textit{condition group}).
-There are several ways this can be acheived, and two ideas came to our minds. The first one was a bit naive, and was to simply throw in the columns from the 
+There are several ways this can be achieved, and two ideas came to our minds. The first one was a bit naive, and was to simply throw in the columns from the 
 demographics dataset \ref{figure:demographics}. We did not expect much from this, as there is only 55 rows in the table. Anyone having a little bit experience 
 with machine learning will know that this is not nearly enough data. But we wanted to do it regardless, and see how a simple and stupid model performed.
 Doing this, we would also establish some sort of benchmark for performance; the second model must do \textit{at least} better than this one.
@@ -82,16 +82,15 @@ In machine learning it is common to normalize data values, which is important to
 There are built in ways to automatically do this, but you can also make your own \textit{normalizer}, which was done in this tutorial in the following way, 
 and is the one we ended up using in our activity measurement classifier as well:
 
-\begin{code}
-  \caption{Feature Normalizer}
-  \label{code:feature_normalizer}
-  
+\begin{code} 
   \begin{minted}[linenos]{python}
     def feature_normalize(dataset):
         mu = np.mean(dataset, axis=0)
         sigma = np.std(dataset, axis=0)
         return (dataset - mu)/sigma
   \end{minted}
+  \caption{Feature Normalizer}
+  \label{code:feature_normalizer}
 \end{code}
 
 We also learned where our dataset could provide more data. 
@@ -108,7 +107,7 @@ as previously learned in the tutorial \cite{1d_cnn}.
 
 We created a list where for each participant in the demographics table \ref{figure:demographics}, measurements for four hours were grouped. 
 Another choice we learned from the tutorial was to overlap the sequences, so we made the next group of four hours start \textit{one} hour after, 
-and not \textit{four} hours after the group before, like one might think. When this list was complete with sequences from all participants, we 
+and not \textit{four} hours after the group before, as one might think. When this list was complete with sequences from all participants, we 
 had to \textbf{reshape} it so that it could fit into a neural network. We ended up with a feature list (which we called \textbf{segments}), 
 where each element was a list of activity measurements for 4 hours: 
 
@@ -122,8 +121,154 @@ This list, which we called \textbf{labels}, looked like this:
 
 \textbf{labels[0] = [0, 1]}
 
-\noindent Meaning that the first segment is labelled as \textbf{[BIPOLAR]}.
+\noindent Meaning that the first segment is labeled as \textbf{[BIPOLAR]}.
 
-\section{Metrics}
+\section{Performance Metrics}
+\subsection{Confusion Matrix}
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{| l | l | l | l |}
+      \hline
+                                    & \textbf{Actual: Positive} & \textbf{Actual: Negative} \\ \hline
+      \textbf{Predicted: Positive}  & True Positive (TP)        & False Positive (FP)       \\ \hline
+      \textbf{Predicted: Negative}  & False Negative (FN)       & True Negative (TN)        \\
+      \hline
+    \end{tabular}
+    \caption{Confusion Matrix}
+    \label{table:confusion_matrix}
+  \end{center}
+\end{table}
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{| l | l | l | l |}
+      \hline
+                                      & \textbf{Actual: Bipolar} & \textbf{Actual: Not Bipolar} \\ \hline
+      \textbf{Predicted: Bipolar}     & \textbf{93}              & 7                            \\ \hline
+      \textbf{Predicted: Not Bipolar} & 5                        & \textbf{95}                  \\
+      \hline
+    \end{tabular}
+    \caption{Confusion Matrix Example: Bipolar vs Not Bipolar}
+    \label{table:confusion_matrix_bipolar}
+  \end{center}
+\end{table}
+
+Table \ref{table:confusion_matrix} shows a \textit{confusion matrix}. It is a very common and easy to understand metric for classification models in machine 
+learning, and is the basis for other of common performance metrics, which we will describe later in this section. It can tell you how well your model is performing, 
+by having correlation values for the different predicted classes. In our planned model for 
+predicting bipolar vs not bipolar, let's say we have 200 samples in our test data, a \textit{confusion matrix} for a good model would look like 
+table \ref{table:confusion_matrix_bipolar}, with highest numbers in \textbf{True Positive} and \textbf{True Negative} and as low numbers as possible in 
+\textbf{False Positive} and \textbf{False Negative}. Having a high number in \textbf{True Positive} means that the model is able to predict that a 
+participant is bipolar if he or she actually is bipolar, and having a high number in \textbf{True Negative} means that the model is able to predict 
+that a participant is not bipolar if he or she actually isn't. The other cases, \textbf{False Positive} and \textbf{False Negative}, is where the model
+made a wrong prediction, and therefore as close these numbers are to zero the better our model is.
+
+\subsection{Accuracy}
+
+\blockquote[\cite{ml_metrics}]{Accuracy is a good measure when the target variable classes in the data are nearly balanced.}
+
+When calculating the \textit{accuracy}, we sum up the correct predictions and divide that with the total number of predictions 
+($ \frac{TP + TN}{TP + TN + FN + FP} $).
+For our example (\ref{table:confusion_matrix_bipolar}), the \textit{accuracy} would be 
+$ \frac{93 + 95}{93 + 95 + 5 + 7} = 94\% $. 
+It is a good metric to use for our example because the number of samples for each variable class is well balanced 
+($ 93+5=98 $ samples where \textbf{bipolar} was the correct option, and $ 7+95=102 $ samples where \textbf{not bipolar} was correct).
+
+Terrible use of the \textit{accuracy} metric would be when one of the classes strongly dominates the samples. 
+For example, if a model predicts \textbf{cancer} vs \textbf{no cancer}, and the samples contain 5 people with cancer and 
+the 95 remaining people do not. The model would be terrible at predicting cancer and have an \textit{accuracy} score of $ 95\% $ \cite{ml_metrics}.
+
+\subsection{Precision}
+
+This performance metric operates entirely on the predicted positives, and it tells us how many \textbf{true positives} there is among 
+\textbf{predicted positives} ($ \frac{TP}{TP + FP} $) \cite{ml_metrics}. 
+
+Precision is better to use on \textit{unbalanced} classes than accuracy. The \textit{cancer vs no cancer} example, assuming it 
+predicts no-one to have \textbf{cancer}, would yield a precision score of $ \frac{5}{5+95} = 5\% $. And our \textit{bipolar vs not bipolar} example
+would result in a precision score of $ \frac{93}{93+7} = 93\% $.
+
+\subsection{Recall}
+
+\textit{Recall} is another useful performance metric. It tells us the relationship between \textbf{true positives} and \textbf{actual positives},
+for example how many predicted bipolar participants there were among total bipolar participants.
+
+The calculation of recall is done by dividing \textbf{true positives} by \textbf{true positives + false negatives} ($ \frac{TP}{TP+FN} $), 
+which translates into $ \frac{93}{93+5} \approx 95\% $ for table \ref{table:confusion_matrix_bipolar}.
+
+Choosing a metric to use from \textit{precision} or \textit{recall} depends on your goal. Try to achieve close to $ 100\% $ \textit{recall} 
+if you want to reduce \textbf{false negatives}, and likewise with \textit{precision} if you want to reduce \textbf{false positives} \cite{ml_metrics}.
+
+\subsection{Specificity}
+
+As \textit{recall} operates on \textbf{actual positives}, \textit{specificity} is the exact opposite metric. It tells us the relationship between
+\textbf{true negatives} and \textbf{actual negatives}. So if your goal is to reduce \textbf{false positives}, specificity is a valid choice.
+
+\textit{Specificity} is calculated by dividing \textbf{true negatives} by \textbf{true negatives + false positives} ($ \frac{TN}{TN+FP} $). 
+For table \ref{table:confusion_matrix_bipolar}, the \textit{specificity} score equals $ \frac{95}{95+7} \approx 93\% $.
+
+\subsection{F1 Score}
+
+The metrics that we have described in this section are all useful when determining whether your classification model is good enough. 
+But the relationship between \textit{recall} and \textit{precision} and knowing when to use which can be confusing, at least if the different classes
+are somewhere between completely unbalanced and perfectly balanced (for example a 35\% split). 
+
+Therefore another metric called \textit{F1 Score} was created, which gives us a balanced value combining \textit{recall (R)} and \textit{precision (P)}.
+The basic idea is to return the \textit{mean} value of the two scores (F1 = $ \frac{P + R}{2} $), but that would not be balanced if one score is
+much lower than the other. F1 score actually uses something called \textit{harmonic mean} instead of the standard \textit{arithmetic mean}, 
+and is calculated as $ 2 \cdot \frac{P \cdot R}{P + R} $ \cite{ml_metrics}. 
+
+Following this formula, the F1 score for confusion matrix \ref{table:confusion_matrix_bipolar} becomes:
+
+\[
+  F1 = 2 \cdot \frac{P \cdot R}{P + R} = 2 \cdot \frac{0,93 \cdot 0,95}{0,93 + 0,95} \approx 94\%
+\]
+
+\subsection{Classification Report}
+
+A machine learning framework for Python, \textit{sklearn}, includes a package with functions to calculate most of these scores. 
+Simpy import and use them like this:
+
+\begin{code}
+  \begin{minted}[linenos]{python}
+    from sklearn.metrics import confusion_matrix, 
+                                precision_score, 
+                                recall_score, 
+                                f1_score, 
+                                classification_report
+
+    # ... set up model, make predictions ...
+
+    print(confusion_matrix(y, y_class_predicted))
+    print(precision_score(y, y_class_predicted))
+    print(recall_score(y, y_class_predicted))
+    print(f1_score(y, y_class_predicted))
+    print(classification_report(y, y_class_predicted))
+  \end{minted}
+  \caption{sklearn metrics}
+  \label{code:sklearn_metrics}
+\end{code}
+
+\begin{table}
+  \begin{tabular}{| l | l | l | l | l |}
+    \hline
+                  & precision & recall & f1-score & support \\ \hline
+    class 0       & 0.05      & 1.00    & 0.67    & 1       \\
+    class 1       & 0.00      & 0.00    & 0.00    & 1       \\
+    class 2       & 1.00      & 0.67    & 0.80    & 3       \\
+                  &           &         &         &         \\ 
+    micro avg     & 0.60      & 0.60    & 0.60    & 5       \\
+    macro avg     & 0.50      & 0.56    & 0.49    & 5       \\
+    weighted avg  & 0.60      & 0.60    & 0.60    & 5       \\
+    \hline
+  \end{tabular}
+  \caption{Classification Report}
+  \label{table:classification_report}
+\end{table}
+
+The classification report returns a matrix (see table \ref{table:classification_report}) with \textit{precision}, 
+\textit{recall}, \textit{F1 score} and another column called \textit{support} (simply how many samples of data there is for this class). 
+The rows describe each class used for prediction \cite{sklearn_classification_report}.
 
 \section{Benchmarks}
+ 

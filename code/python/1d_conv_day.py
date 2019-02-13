@@ -24,4 +24,4 @@ max_y_test = np.argmax(y_test, axis=1)
 
 print(classification_report(max_y_test, max_y_pred_test))
 
-make_confusion_matrix(max_y_test, max_y_pred_test, print_stdout=True)
+make_confusion_matrix(max_y_test, max_y_pred_test, 'day', print_stdout=True)

@@ -55,7 +55,7 @@ def make_confusion_matrix(validations, predictions, print_stdout=False, save=Tru
     plt.xlabel("Predicted Label")
 
     if save:
-        plt.savefig('confusion_matrix.png')
+        plt.savefig('img/confusion_matrix.png')
 
     if print_stdout:
         print('Confusion matrix:\n', matrix)

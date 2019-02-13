@@ -91,8 +91,8 @@ def extract_time_of_day(timestamp):
 
 def is_at_night(timestamp):
     return time_between(time.strptime(timestamp.split(' ')[1], '%H:%M:%S'),
-                        time.strptime('23:00:00', '%H:%M:%S'),
-                        time.strptime('05:00:00', '%H:%M:%S'))
+                        time.strptime('22:00:00', '%H:%M:%S'),
+                        time.strptime('06:00:00', '%H:%M:%S'))
 
 def feature_normalize(dataset):
     mu = np.mean(dataset, axis=0)

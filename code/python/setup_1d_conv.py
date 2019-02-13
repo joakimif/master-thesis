@@ -47,9 +47,6 @@ else:
 CATEGORIES = ['CONDITION', 'CONTROL']
 LABELS = ['normal', 'bipolar']
 
-segments = []
-labels = []
-
 def make_confusion_matrix(validations, predictions, print_stdout=False, save=True):
     matrix = confusion_matrix(validations, predictions)
     plt.figure(figsize=(6, 4))

@@ -8,7 +8,7 @@ BATCH_SIZE = 100
 EPOCHS = 40
 
 segments, labels, num_sensors, input_shape = create_segments_and_labels(N_FEATURES, SEG_LEN, STEP)
-X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2)
+X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.4)
 
 model = create_model(SEG_LEN, num_sensors, input_shape)
 

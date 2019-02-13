@@ -130,7 +130,7 @@ for person in scores['number']:
     for i in range(0, len(df_activity) - SEG_LEN, step):
         segment = df_activity['activity'].values[i : i + SEG_LEN]
         
-        if is_at_night(df_activity['timestamp']):
+        if is_at_night(df_activity['timestamp'].values[i]) and is_at_night(df_activity['timestamp'].values[i+SEG_LEN]):
             segments.append([segment])
             
             if p['afftype'].values[0] == 0:

@@ -8,11 +8,11 @@
   \label{code:1d_conv_net}
   
   \begin{minted}[linenos]{python}
-    def create_model():
+    def create_model(segment_length, input_shape):
       model = Sequential()
-      model.add(Reshape((SEG_LEN, num_sensors), input_shape=(input_shape,)))
-      model.add(Conv1D(100, 10, activation='relu', 
-                                input_shape=(SEG_LEN, num_sensors)))
+
+      model.add(Reshape((segment_length, 1), input_shape=(input_shape,)))
+      model.add(Conv1D(100, 10, activation='relu', input_shape=(segment_length, 1)))
       model.add(Conv1D(100, 10, activation='relu'))
       model.add(MaxPooling1D(2))
       model.add(Conv1D(160, 10, activation='relu'))
@@ -25,7 +25,26 @@
   \end{minted}
 \end{code}
 
+\begin{table}[]
+  \begin{tabular}{|l|l|l|}
+    \hline
+    \multicolumn{1}{|l|}{\textbf{Layer (type)}}         & \multicolumn{1}{l|}{\textbf{Output Shape}} & \multicolumn{1}{l|}{\textbf{Param \#}} \\ \hline
+    reshape (Reshape)                                   & (None, 480, 1)                             & 0                                      \\  
+    conv1d (Conv1D)                                     & (None, 471, 100)                           & 1100                                   \\ 
+    conv1d\_1 (Conv1D)                                  & (None, 462, 100)                           & 100100                                 \\ 
+    max\_pooling1d (MaxPooling1D)                       & (None, 231, 100)                           & 0                                      \\ 
+    conv1d\_2 (Conv1D)                                  & (None, 222, 160)                           & 160160                                 \\ 
+    conv1d\_3 (Conv1D)                                  & (None, 213, 160)                           & 256160                                 \\ 
+    global\_average\_pooling1d (GlobalAveragePooling1D) & (None, 160)                                & 0                                      \\ 
+    dropout (Dropout)                                   & (None, 160)                                & 0                                      \\ 
+    dense (Dense)                                       & (None, 2)                                  & 322                                    \\ 
+    \hline
+  \end{tabular}
+  \caption{Model summary}
+  \label{table:model_summary}
+\end{table}
 
-
+Following the tutorial on 1D CNNs \cite{1d_cnn}, we came up with this model \ref{code:1d_conv_net} after tweaking the parameters for our dataset.
+ 
 
 \section{Optimizing the model}

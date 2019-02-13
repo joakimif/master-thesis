@@ -18,10 +18,6 @@ callbacks = [
 
 history = train(model, X_train, y_train, BATCH_SIZE, EPOCHS, callbacks)
 
-y_pred_test = model.predict(X_test)
-max_y_pred_test = np.argmax(y_pred_test, axis=1)
-max_y_test = np.argmax(y_test, axis=1)
-
-print(classification_report(max_y_test, max_y_pred_test))
+max_y_test, max_y_pred_test = predict(model, X_test, y_test)
 
 make_confusion_matrix(max_y_test, max_y_pred_test, 'day', print_stdout=True)

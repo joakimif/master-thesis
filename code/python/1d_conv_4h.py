@@ -4,7 +4,7 @@ N_FEATURES = 1
 SEG_LEN = 4*60
 STEP = 60
 
-BATCH_SIZE = 100
+BATCH_SIZE = 200
 EPOCHS = 40
 
 segments, labels, num_sensors, input_shape = create_segments_and_labels(N_FEATURES, SEG_LEN, STEP)

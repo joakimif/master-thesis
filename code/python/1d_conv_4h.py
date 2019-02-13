@@ -1,7 +1,7 @@
 from setup_1d_conv import *
 
 N_FEATURES = 1
-SEG_LEN = 8*60
+SEG_LEN = 8*60 
 STEP = 60
 
 BATCH_SIZE = 100
@@ -20,4 +20,4 @@ history = train(model, X_train, y_train, BATCH_SIZE, EPOCHS, callbacks, validati
 
 max_y_test, max_y_pred_test = predict(model, X_test, y_test)
 
-make_confusion_matrix(max_y_test, max_y_pred_test, save_image_location='img/4h/confusion_matrix.png', print_stdout=True)
+make_confusion_matrix(max_y_test, max_y_pred_test, save_image_location='img/confusion_matrix.png', print_stdout=True)

@@ -130,9 +130,9 @@ This list, which we called \textbf{labels}, looked like this:
   \begin{center}
     \begin{tabular}{| l | l | l | l |}
       \hline
-                                    & \textbf{Actual: Positive} & \textbf{Actual: Negative} \\ \hline
-      \textbf{Predicted: Positive}  & True Positive (TP)        & False Positive (FP)       \\ \hline
-      \textbf{Predicted: Negative}  & False Negative (FN)       & True Negative (TN)        \\
+                                    & \textbf{Actual: Negative} & \textbf{Actual: Positive} \\ \hline
+      \textbf{Predicted: Negative}  & True Negative (TN)        & False Negative (FN)       \\ \hline
+      \textbf{Predicted: Positive}  & False Positive (FP)       & True Positive (TP)        \\
       \hline
     \end{tabular}
     \caption{Confusion Matrix}
@@ -144,9 +144,9 @@ This list, which we called \textbf{labels}, looked like this:
   \begin{center}
     \begin{tabular}{| l | l | l | l |}
       \hline
-                                      & \textbf{Actual: Bipolar} & \textbf{Actual: Not Bipolar} \\ \hline
-      \textbf{Predicted: Bipolar}     & \textbf{93}              & 7                            \\ \hline
-      \textbf{Predicted: Not Bipolar} & 5                        & \textbf{95}                  \\
+                                      & \textbf{Actual: Not Bipolar} & \textbf{Actual: Bipolar} \\ \hline
+      \textbf{Predicted: Not Bipolar} & \textbf{95}                  & 5                        \\ \hline
+      \textbf{Predicted: Bipolar}     & 7                            & \textbf{93}              \\
       \hline
     \end{tabular}
     \caption{Confusion Matrix Example: Bipolar vs Not Bipolar}
@@ -227,7 +227,7 @@ Following this formula, the F1 score for confusion matrix \ref{table:confusion_m
 \subsection{Classification Report}
 
 A machine learning framework for Python, \textit{sklearn}, includes a package with functions to calculate most of these scores. 
-Simpy import and use them like this:
+Simply import and use them like this: 
 
 \begin{code}
   \begin{minted}[linenos]{python}

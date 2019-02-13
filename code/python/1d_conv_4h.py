@@ -133,6 +133,8 @@ for person in scores['number']:
         else:
             labels.append(1)
     
+print('Segments:', len(segments))
+
 labels = to_categorical(np.asarray(labels), 2)
 segments = np.asarray(segments).reshape(-1, SEG_LEN, N_FEATURES)
 

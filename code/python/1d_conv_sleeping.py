@@ -92,7 +92,7 @@ def extract_time_of_day(timestamp):
 def is_at_night(timestamp):
     return time_between(time.strptime(timestamp.split(' ')[1], '%H:%M:%S'),
                         time.strptime('23:00:00', '%H:%M:%S'),
-                        time.strptime('06:00:00', '%H:%M:%S'))
+                        time.strptime('05:00:00', '%H:%M:%S'))
 
 def feature_normalize(dataset):
     mu = np.mean(dataset, axis=0)
@@ -119,8 +119,8 @@ labels = []
 
 N_FEATURES = 1
 
-SEG_LEN = 5*60
-step = 2*60
+SEG_LEN = 4*60
+step = 60
 
 for person in scores['number']:
     p = scores[scores['number'] == person]
@@ -130,7 +130,7 @@ for person in scores['number']:
     for i in range(0, len(df_activity) - SEG_LEN, step):
         segment = df_activity['activity'].values[i : i + SEG_LEN]
         
-        if is_at_night(df_activity['timestamp'].values[i]) and is_at_night(df_activity['timestamp'].values[i+SEG_LEN]):
+        if is_at_night(df_activity['timestamp'].values[i]):# and is_at_night(df_activity['timestamp'].values[i+SEG_LEN]):
             segments.append([segment])
             
             if p['afftype'].values[0] == 0:

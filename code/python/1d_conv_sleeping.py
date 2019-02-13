@@ -137,6 +137,8 @@ for person in scores['number']:
                 labels.append(0)
             else:
                 labels.append(1)
+        else:
+            print('Not at night', df_activity['timestamp'].values[i], df_activity['timestamp'].values[i+SEG_LEN])
     
 labels = to_categorical(np.asarray(labels), 2)
 segments = np.asarray(segments).reshape(-1, SEG_LEN, N_FEATURES)

@@ -119,7 +119,7 @@ labels = []
 
 N_FEATURES = 1
 
-SEG_LEN = 4*60 # 4 hours
+SEG_LEN = 2*60 # 4 hours
 step = 60
 
 for person in scores['number']:

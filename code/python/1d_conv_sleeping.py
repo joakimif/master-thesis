@@ -130,16 +130,13 @@ for person in scores['number']:
     for i in range(0, len(df_activity) - SEG_LEN, step):
         segment = df_activity['activity'].values[i : i + SEG_LEN]
         
-        if is_at_night(df_activity['timestamp'].values[i]):# and is_at_night(df_activity['timestamp'].values[i+SEG_LEN]):
+        if is_at_night(df_activity['timestamp'].values[i]):
             segments.append([segment])
             
             if p['afftype'].values[0] == 0:
                 labels.append(0)
             else:
                 labels.append(1)
-        else:
-            #print('Not at night', df_activity['timestamp'].values[i], df_activity['timestamp'].values[i+SEG_LEN])
-            pass
 
 print('Segments:', len(segments))
 

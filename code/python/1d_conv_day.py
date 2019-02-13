@@ -20,4 +20,4 @@ history = train(model, X_train, y_train, BATCH_SIZE, EPOCHS, callbacks)
 
 max_y_test, max_y_pred_test = predict(model, X_test, y_test)
 
-make_confusion_matrix(max_y_test, max_y_pred_test, 'day', print_stdout=True)
+make_confusion_matrix(max_y_test, max_y_pred_test, save_image_location='img/day/confusion_matrix.png', print_stdout=True)

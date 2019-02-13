@@ -47,7 +47,7 @@ else:
 CATEGORIES = ['CONDITION', 'CONTROL']
 LABELS = ['normal', 'bipolar']
 
-def make_confusion_matrix(validations, predictions, save_dir, print_stdout=False, save=True):
+def make_confusion_matrix(validations, predictions, save_image_location=None, print_stdout=False):
     matrix = confusion_matrix(validations, predictions)
     plt.figure(figsize=(6, 4))
     sns.heatmap(matrix,
@@ -62,8 +62,8 @@ def make_confusion_matrix(validations, predictions, save_dir, print_stdout=False
     plt.ylabel("True Label")
     plt.xlabel("Predicted Label")
 
-    if save:
-        plt.savefig(f'img/{save_dir}/confusion_matrix.png')
+    if save_image_location:
+        plt.savefig(save_image_location)
 
     if print_stdout:
         print('Confusion matrix:\n', matrix)

@@ -119,8 +119,8 @@ labels = []
 
 N_FEATURES = 1
 
-SEG_LEN = 2*60 # 4 hours
-step = 60
+SEG_LEN = 5*60
+step = 2*60
 
 for person in scores['number']:
     p = scores[scores['number'] == person]

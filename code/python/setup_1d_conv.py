@@ -116,6 +116,9 @@ def is_daytime(timestamp):
 def create_segments_and_labels(n_features, segment_length, step, filter_timestamp=None):
     scores = pd.read_csv(os.path.join(DATASET_DIR, 'scores.csv'))
     scores['afftype'].fillna(0, inplace=True)
+    
+    segments = []
+    labels = []
 
     for person in scores['number']:
         p = scores[scores['number'] == person]

@@ -1,10 +1,10 @@
 from setup_1d_conv import *
 
 N_FEATURES = 1
-SEG_LEN = 4*60
+SEG_LEN = 8*60
 STEP = 60
 
-BATCH_SIZE = 200
+BATCH_SIZE = 100
 EPOCHS = 40
 
 segments, labels, num_sensors, input_shape = create_segments_and_labels(N_FEATURES, SEG_LEN, STEP)

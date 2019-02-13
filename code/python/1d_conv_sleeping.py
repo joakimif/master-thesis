@@ -174,7 +174,7 @@ print(model.summary())
 
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-BATCH_SIZE = 100
+BATCH_SIZE = 50
 EPOCHS = 100
 
 history = model.fit(X_train,

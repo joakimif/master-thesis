@@ -142,7 +142,8 @@ for person in scores['number']:
         else:
             labels.append(1)
     
-print('Segments:', len(segments))
+if verbose:
+    print('Segments:', len(segments))
 
 labels = to_categorical(np.asarray(labels), 2)
 segments = np.asarray(segments).reshape(-1, SEG_LEN, N_FEATURES)
@@ -171,7 +172,8 @@ model.add(GlobalAveragePooling1D())
 model.add(Dropout(0.5))
 model.add(Dense(2, activation='softmax'))
 
-print(model.summary())
+if verbose:
+    print(model.summary())
 
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 

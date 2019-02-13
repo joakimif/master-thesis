@@ -39,7 +39,10 @@ except:
 verbose = len(sys.argv) > 1 and sys.argv[1] == '-v'
 
 if verbose:
+    verbose = 1
     print('Verbose mode.')
+else:
+    verbose = 0
 
 CATEGORIES = ['CONDITION', 'CONTROL']
 BIPOLAR = ['normal', 'bipolar II', 'unipolar', 'bipolar I']
@@ -185,7 +188,7 @@ history = model.fit(X_train,
                         # TensorBoard(log_dir='./logs', histogram_freq=0, batch_size=32, write_graph=True, write_grads=False, write_images=False, embeddings_freq=0, embeddings_layer_names=None, embeddings_metadata=None, embeddings_data=None)
                     ],
                     validation_split=0.2,
-                    verbose=1)
+                    verbose=verbose)
 
 y_pred_test = model.predict(X_test)
 max_y_pred_test = np.argmax(y_pred_test, axis=1)

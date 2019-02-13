@@ -3,6 +3,7 @@ import pandas as pd
 import seaborn as sns
 
 import os
+import sys
 import random
 import time
 import datetime
@@ -34,6 +35,11 @@ try:
 except:
     print('No such directory')
     pass
+
+verbose = len(sys.argv) > 1 and sys.argv[1] == '-v'
+
+if verbose:
+    print('Verbose mode.')
 
 CATEGORIES = ['CONDITION', 'CONTROL']
 BIPOLAR = ['normal', 'bipolar II', 'unipolar', 'bipolar I']

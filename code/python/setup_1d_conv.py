@@ -168,7 +168,7 @@ def create_model(segment_length, num_sensors, input_shape, loss='categorical_cro
     K.clear_session()
 
     model = Sequential()
-    # model.add(Reshape((segment_length, num_sensors), input_shape=(input_shape,)))
+    model.add(Reshape((segment_length, num_sensors), input_shape=(input_shape,)))
     model.add(Conv1D(100, 10, activation='relu', input_shape=(segment_length, num_sensors)))
     model.add(Conv1D(100, 10, activation='relu'))
     model.add(MaxPooling1D(2))

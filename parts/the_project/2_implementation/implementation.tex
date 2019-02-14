@@ -2,7 +2,7 @@
 
 \section{1D Convolutional Neural Network}
 
-%%% The model %%%
+%%% The model %%% model.add(Reshape((480, 1), input_shape=(480,)))
 \begin{code}
   \caption{1D Convolutional Neural Network Model}
   \label{code:1d_conv_net}
@@ -11,7 +11,7 @@
     def create_model(segment_length, input_shape):
       model = Sequential()
 
-      model.add(Reshape((segment_length, 1), input_shape=(input_shape,)))
+      model.add(Reshape((segment_length, 1), input_shape=(input_shape,))) 
       model.add(Conv1D(100, 10, activation='relu', input_shape=(segment_length, 1)))
       model.add(Conv1D(100, 10, activation='relu'))
       model.add(MaxPooling1D(2))

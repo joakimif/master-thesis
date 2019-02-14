@@ -1,0 +1,21 @@
+\begin{code}
+  \caption{1D Convolutional Neural Network Model}
+  \label{code:1d_conv_net}
+  
+  \begin{minted}[linenos]{python}
+    def create_model(segment_length, input_shape):
+      model = Sequential()
+
+      model.add(Reshape((8*60, 1), input_shape=(8*60,)))
+      model.add(Conv1D(100, 10, activation='relu', input_shape=(8*60, 1)))
+      model.add(Conv1D(100, 10, activation='relu'))
+      model.add(MaxPooling1D(2))
+      model.add(Conv1D(160, 10, activation='relu'))
+      model.add(Conv1D(160, 10, activation='relu'))
+      model.add(GlobalAveragePooling1D())
+      model.add(Dropout(0.5))
+      model.add(Dense(2, activation='softmax'))
+
+      return model
+  \end{minted}
+\end{code}

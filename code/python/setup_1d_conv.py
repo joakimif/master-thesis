@@ -157,8 +157,8 @@ def create_segments_and_labels(n_features, segment_length, step, filter_timestam
     labels = labels.astype('float32')
 
     if verbose:
-        print('\nINPUT DATA\n------------\n')
-        print(f'Segments length:', len(segments), ':: Labels length:', len(labels))
+        print('\nINPUT DATA\n------------')
+        print(f'Segments length:', len(segments), segments.shape, ':: Labels length:', len(labels), labels.shape)
         print(f'num_time_periods: {num_time_periods}, num_sensors: {num_sensors}, input_shape: {input_shape}')
         print('------------\n')
     

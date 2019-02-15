@@ -6,8 +6,8 @@ demographics dataset \ref{figure:demographics}. We did not expect much from this
 with machine learning will know that this is not nearly enough data. But we wanted to do it regardless, and see how a simple and stupid model performed.
 Doing this, we would also establish some sort of benchmark for performance; the second model must do \textit{at least} better than this one.
 
-The other idea was to use the activity measurements as time series data, and create a one-dimentional Convolutional Neural Network (1D-CNN). We knew that 
-CNNs are used a lot today on image recognition, but is a bit different as images are two-dimentional data, and our measurements are in \textit{one} dimention.
+The other idea was to use the activity measurements as time series data, and create a one-dimensional Convolutional Neural Network (1D-CNN). We knew that 
+CNNs are used a lot today on image recognition, but is a bit different as images are two-dimensional data, and our measurements are in \textit{one} dimension.
 
 \subsection{Regression}
 
@@ -21,7 +21,7 @@ The column \textbf{afftype} is be the column the regression model should guess, 
 Both the \textit{age} and \textit{education} columns are strings with values that the actual value is within. For example the participant \textbf{condition\_1} 
 has age = \textbf{35-39} and edu = \textbf{6-10}. It would be better to change this to one value, and we decided to use the median of the two values.
 Also, we changed some other values to make more sense. \textit{Melanch, inpatient, marriage, work and gender} are \textbf{binary} values, 
-so we changed them to be either 0 or 1. We also changed \textit{afftype} (terniary value) to between 0 and 2 instead of between 1 and 3.
+so we changed them to be either 0 or 1. We also changed \textit{afftype} (ternary value) to between 0 and 2 instead of between 1 and 3.
 
 \newpage
 After the changes, the tables should be read the following way:
@@ -57,7 +57,7 @@ It was both a fun and informative experience implementing this. Especially when 
 Then we could browse for any image of a cat or a dog, and find out if the model could handle it (in most cases it did!). 
 We even tried inputting images of humans to the model for fun. This experiment resulted in a lot of motivation for our task.
 
-However as mentioned before, our data is one-dimentional, so a two-dimentional CNN would not be useful.
+However as mentioned before, our data is one-dimensional, so a two-dimensional CNN would not be useful.
 
 \begin{quote}
   \textit{A 1D CNN is very effective when you expect to derive interesting features from shorter (fixed-length) segments of the overall data set 
@@ -96,7 +96,7 @@ and is the one we ended up using in our activity measurement classifier as well:
 We also learned where our dataset could provide more data. 
 What if the dataset contained the current mental state of the bipolar patient? Then someone could make some automated system that always can tell a patient 
 whether they are normal, manic or depressive. However data collection for this kind of task would be difficult because we can't always know what the
-patient thinks, nor does the patient themselves. The "tutorial" dataset is different because it is easy to differientiate physical states of the body
+patient thinks, nor does the patient themselves. The "tutorial" dataset is different because it is easy to differentiate physical states of the body
 like standing or walking.
 
 \subsubsection{Classification based on activity measurements}
@@ -229,25 +229,7 @@ Following this formula, the F1 score for confusion matrix \ref{table:confusion_m
 A machine learning framework for Python, \textit{sklearn}, includes a package with functions to calculate most of these scores. 
 Simply import and use them like this: 
 
-\begin{code}
-  \begin{minted}[linenos]{python}
-    from sklearn.metrics import confusion_matrix, 
-                                precision_score, 
-                                recall_score, 
-                                f1_score, 
-                                classification_report
-
-    # ... set up model, make predictions ...
-
-    print(confusion_matrix(y, y_class_predicted))
-    print(precision_score(y, y_class_predicted))
-    print(recall_score(y, y_class_predicted))
-    print(f1_score(y, y_class_predicted))
-    print(classification_report(y, y_class_predicted))
-  \end{minted}
-  \caption{sklearn metrics}
-  \label{code:sklearn_metrics}
-\end{code}
+\input{code/tex/sklearn_metrics}
 
 \begin{table}
   \begin{tabular}{| l | l | l | l | l |}

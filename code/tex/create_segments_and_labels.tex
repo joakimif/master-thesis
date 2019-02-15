@@ -3,7 +3,7 @@
   \label{code:reading_dataset}
   
   \begin{minted}[linenos]{python}
-  def create_segments_and_labels():
+  def create_segments_and_labels(segment_length=60, step=60):
     scores = pd.read_csv('scores.csv')
     scores['afftype'].fillna(0, inplace=True)
     
@@ -14,8 +14,8 @@
       p = scores[scores['number'] == person]
       df_activity = pd.read_csv(f'{person}.csv')
 
-      for i in range(0, len(df_activity) - 8*60, 60):
-        segment = df_activity['activity'].values[i : i + 8*60]
+      for i in range(0, len(df_activity) - segment_length, step):
+        segment = df_activity['activity'].values[i : i + segment_length]
         segments.append([segment])
 
         if p['afftype'].values[0] == 0: 
@@ -23,8 +23,8 @@
         else:
           labels.append(1)
 
-    segments = np.asarray(segments).reshape(-1, 8*60, 1)
-    segments = segments.reshape(segments.shape[0], 8*60)
+    segments = np.asarray(segments).reshape(-1, segment_length, 1)
+    segments = segments.reshape(segments.shape[0], segment_length)
 
     labels = to_categorical(np.asarray(labels), 2)
     

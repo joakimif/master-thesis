@@ -20,7 +20,7 @@ They may also feel really excited or powerful \cite{bipolar_overview}.
 A bipolar patient is in a depressive state when he or she is in a bad mood swing. They can stop doing everything 
 they usually like to do, and lie down in bed all day with no motivation to do anything useful. 
 They may feel useless and that they don't belong here, or being guilty of something they may or may not have done. 
-In some cases, a depression may even end up with suicidality, where the person either just thinks of death, 
+In some cases, a depression may even end up with suicide, where the person either just thinks of death, 
 or actually attempt suicide (actually 20\% of people diagnosed with bipolarity commit suicide \cite{bipolar_statistics}). 
 
 The frequency of these symptoms can vary. One year they can have these mood swings every day for several weeks at the time, 
@@ -38,7 +38,7 @@ if one parent is bipolar, and 66\% if both parents are \cite{bipolar_statistics}
 \section{Machine learning}
 Machine learning is the field of computer science where you basically throw a lot of data into an algorithm
 and expect it to give you answers to whatever you prefer, with as little work as possible. 
-This was not the case in the early days of the technology, but nowadays it is a lot easier with all the diffent 
+This was not the case in the early days of the technology, but nowadays it is a lot easier with all the different 
 frameworks and tools available.
 
 Machine learning is a great and almost `magical` technology, but only if you do it right.
@@ -50,7 +50,7 @@ is because the CPUs are designed for flexibility and general computing workloads
 are designed to do the same instructions over and over again in parallel. This makes GPUs a lot more efficient for 
 machine learning, and especially for deep neural networks \cite{cpu_vs_gpu_ml}. 
 
-Now how do you do the actual machine learning? Well there are many diffent approaches to this, which I will discuss 
+Now how do you do the actual machine learning? Well there are many different approaches to this, which I will discuss 
 in the next sections, but say you want to use a neural network for your task. Then your next step should be to 
 choose a framework. You can of course do everything yourself, but why reinvent the wheel when there are so many good 
 frameworks and tools already out there? 
@@ -60,7 +60,7 @@ It is structured in a way such that it really looks like pseudo-code, and this i
 spend time on weird syntax rules in another language. For Python, you have a popular framework called \textbf{TensorFlow} 
 which is developed by Google. This allows you to build models easily, and also execute the training and testing. 
 Before you get started with TensorFlow, do a quick google search to see if someone else has already done something 
-similiar to what you are trying to acheive, and if you find something, odds are that your neural network model can be 
+similar to what you are trying to achieve, and if you find something, odds are that your neural network model can be 
 similar, if not identical to it. If not, then you have to sit down and actually make the model yourself. 
 
 For the model implementation part, whether you found a model online or want to build it yourself, you can of course do 
@@ -69,31 +69,10 @@ together with TensorFlow. On their documentation website \cite{keras_docs}, they
 \blockquote{A high-level neural networks API, written in Python and capable of running on top of TensorFlow, CNTK or Teano}.
 
 \newpage
-\noindent Follwing their `30 seconds to Keras` guide \cite{keras_docs}, you can create a `sequential` model with `dense` 
+\noindent Following their `30 seconds to Keras` guide \cite{keras_docs}, you can create a `sequential` model with `dense` 
 layers, configure its learning process (compile), then fit, train, evaluate and predict with just a few lines of code: 
 
-\begin{code}
-\caption{30 Seconds to Keras}
-\label{code:keras-guide}
-
-\begin{minted}[linenos]{python}
-    from keras.models import Sequential
-    from keras.layers import Dense
-
-    model = Sequential()
-
-    model.add(Dense(units=64, activation='relu', input_dim=100))
-    model.add(Dense(units=10, activation='softmax'))
-
-    model.compile(loss='categorical_crossentropy',
-              optimizer='sgd',
-              metrics=['accuracy'])
-    
-    model.fit(x_train, y_train, epochs=5, batch_size=32)
-    loss_and_metrics = model.evaluate(x_test, y_test, batch_size=128)
-    classes = model.predict(x_test, batch_size=128)
-\end{minted}
-\end{code}
+\input{code/tex/keras_guide}
 
 \noindent So, as long as you know your theory, and can decide which model to use (and either find a good 
 implementation of that model or create it yourself), you can easily do machine learning. One important task 
@@ -105,15 +84,15 @@ but it has to be done in order for making it possible to train the model on it.
 \section{Machine learning strategies}
 
 Picking the right machine learning model can be quite difficult, especially if you don't have any experience from earlier. 
-There are a couple of diffent \textit{strategies} you can choose from when deciding on a machine learning model.
-These are called \textit{Supervised and unupervised learning}, and you need to look at your dataset and how it is structured to find out 
+There are a couple of different \textit{strategies} you can choose from when deciding on a machine learning model.
+These are called \textit{Supervised and unsupervised learning}, and you need to look at your dataset and how it is structured to find out 
 which one to use. The following sections will be a description of the strategies, to make the decision easier.
 
 \subsection{Supervised learning}
 This is the machine learning strategy where both input and desired output data are provided \cite{supervised_learning_intro}. 
 You can use this if you want to train a model to classify letters in the alphabet, or anything else where you have a dataset 
 with both input and output data (for the alphabet, images of letters are input data and the actual letters are the output data).
-If you train this alphabet model, you will be able to input a competely new image of a letter, and the model will classify it to 
+If you train this alphabet model, you will be able to input a completely new image of a letter, and the model will classify it to 
 the letter it most likely fits. This kind of supervised learning is called \textit{Classification}, and is 
 \textit{the problem of assigning new observations to the class they most likely belong, based on a classification model built from labeled training data} 
 \cite{machine_learning_for_humans_supervised_2}.
@@ -198,19 +177,19 @@ will most likely give a better answer if they are combined in a Random Forest.
 \subsection{Neural networks}
 \subsubsection{General idea}
 The general idea of machine learning with neural networks, is to make the computer think like a human; it is inspired by they way biological 
-neural networks in the human brain process information \cite{neural_networks_0}. There are a lot of diffent neural networks, but all of them 
+neural networks in the human brain process information \cite{neural_networks_0}. There are a lot of different neural networks, but all of them 
 share the same underlying layer based architecture, where data is passed between layers where computation is done. The first layer is the input layer, 
-which simply passes the data to the next layer, which is the hidden layers. The number of hidden layers is competely up to the model and the programmer, 
+which simply passes the data to the next layer, which is the hidden layers. The number of hidden layers is completely up to the model and the programmer, 
 and this is where the intermediate processing/computation is done, before the data is passed to the output layer where we perform an activation function 
 to define the output \cite{neural_networks_1}.
 
 If you have a lot of hidden layers in a neural network, we call it a \textit{deep} neural network. This 
-is commonly used, and there is a lot of different deep networks with a lot of diffent use cases. Two of the most common
+is commonly used, and there is a lot of different deep networks with a lot of different use cases. Two of the most common
 neural network models are \textit{Recurrent Neural Networks} and \textit{Convolutional Neural Networks}. These two have their own use cases, 
 which I will describe below.
 
-Figure \ref{figure:neural_net} is a visualisation of a basic neural network with the input layer on the left,
-one hidden layer in the middle and the putput layer on the right hand side. Every node in the input layer is connected with every node in the hidden layer,
+Figure \ref{figure:neural_net} is a visualization of a basic neural network with the input layer on the left,
+one hidden layer in the middle and the output layer on the right hand side. Every node in the input layer is connected with every node in the hidden layer,
 and every node in the hidden layer is connected to every node in the output layer.
 
 \subsubsection{Recurrent Neural Networks (RNN)}
@@ -219,16 +198,16 @@ can be especially useful for typing on a phone. Also doing predictions based on 
 which is something the dataset that I'm going to use in this thesis consist of. 
 
 One downside to regular Recurrent Neural Networks, is that if the sequence of data is long, the prediction will most likely be off if something that was for example 
-typed in the beginning of a long text is a dependancy for a prediction four chapters later, like the location of the main charater. The workaround for this
+typed in the beginning of a long text is a dependency for a prediction four chapters later, like the location of the main character. The workaround for this
 is something called \textit{Long Short-Term Memory Recurrent Neural Network (LSTM RNN)}, and is the idea of having additional logic to avoid 
 the prediction model forgetting important facts.
 
 \subsubsection{Convolutional Neural Networks (CNN)}
 A Convolutional Neural Network, or \textit{CNN} for short, can be used for identifying patterns in data, which can be used for predictions.
 A common use case for a CNN is image recognition. This is where you train your model to be really good at identifying objects in images, 
-for example the difference between cats and dogs. Then you can input a competely different image to the model, and it will output whether the image is of 
-a cat or a dog. This type of CNN is two-dimentional because an input image is really a two-dimentional array of pixel values, and it is most common to have a 
-2D CNN. Another way of constructing a CNN, is one-dimentionally, which can be useful for \textit{one-dimentional} data, for example sensor data from
+for example the difference between cats and dogs. Then you can input a completely different image to the model, and it will output whether the image is of 
+a cat or a dog. This type of CNN is two-dimensional because an input image is really a two-dimensional array of pixel values, and it is most common to have a 
+2D CNN. Another way of constructing a CNN, is one-dimensionally, which can be useful for \textit{one-dimensional} data, for example sensor data from
 gyroscopes or accelerometers \cite{1d_cnn}.
 
 \begin{figure}
@@ -242,11 +221,11 @@ gyroscopes or accelerometers \cite{1d_cnn}.
 The usage of machine learning in the medical fields is growing exponentially these days. There are so many use cases of machine learning, and of course 
 it can help in the bipolar field too! Let's say bipolar patients had a device that measured their heart rate among other things 24 hours a day could 
 feed the data into a machine learning model that could give the user live feedback on which bipolar state they are currently in. I think that would be very 
-useful, for both the patients and doctors/nurses. Another use case coudl be if medical institutions could know in advance how many new bipolar patients to 
+useful, for both the patients and doctors/nurses. Another use case could be if medical institutions could know in advance how many new bipolar patients to 
 expect the next day. 
 
 I believe that using machine learning in this field of study could help a lot of people get through their depression or mania, and potentially get rid 
-of the condition competely.
+of the condition completely.
 
 \section{The dataset}
 
@@ -292,10 +271,10 @@ There is a couple of things we have in mind that the dataset can be used for:
     \item Predictions on the patients MADRS score and sleep patterns.
 \end{itemize}
 
-More details on how we will acheive our goal will come in the next part of this thesis.
+More details on how we will achieve our goal will come in the next part of this thesis.
 
 \section{Challenges and ethical concerns}
-In most projects in the medical fields, there are going to be ethical concerns and challenges with privacy. What happens if someone that are not clearified for 
+In most projects in the medical fields, there are going to be ethical concerns and challenges with privacy. What happens if someone that are not authorized for 
 the data gets access to it? What if the database gets hacked? With new regulations (GDPR), which basically means that users have the right to be "forgotten". 
 However, in this project all data is anonymized (only referenced by an id), so there will be no persons mentioned. If the dataset were not to be anonymized, 
 and the patient's names were in it, things could get problematic if it got into the wrong hands. 

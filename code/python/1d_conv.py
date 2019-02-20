@@ -20,6 +20,12 @@ callbacks = [
 
 history = train(model, X_train, y_train, BATCH_SIZE, EPOCHS, callbacks, validation_split=0.3)
 
+loss, acc = model.evaluate(X_test, y_test)
+
+if verbose:
+    print('Accuracy: {:5.2f}%'.format(100 * acc))
+    print('Loss: {:5.2f}%'.format(100 * loss))
+
 max_y_test, max_y_pred_test = predict(model, X_test, y_test)
 
 timestamp = datetime.datetime.now().strftime("%m-%d-%YT%H:%M:%S")

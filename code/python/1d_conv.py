@@ -11,7 +11,8 @@ else:
     step = 60
 
 if verbose:
-    print('Hours:', hours)
+    print('Segment length:', segment_length)
+    print('Step:', step)
 
 N_FEATURES = 1
 BATCH_SIZE = 100

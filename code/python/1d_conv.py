@@ -1,5 +1,5 @@
 from setup_1d_conv import *
-from parse_args import segment_length, step
+from parse_args import segment_length, step, model_path
 
 if verbose:
     print('Segment length:', segment_length) 

@@ -12,13 +12,22 @@ EPOCHS = 40
 segments, labels, num_sensors, input_shape = create_segments_and_labels(N_FEATURES, segment_length, step)
 X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2)
 
-model = create_model(segment_length, num_sensors, input_shape)
+if not model_path:
+    if verbose:
+        print('Creating model from scratch...')
 
-callbacks = [
-    EarlyStopping(monitor='val_loss', patience=2),
-]
+    model = create_model(segment_length, num_sensors, input_shape)
 
-history = train(model, X_train, y_train, BATCH_SIZE, EPOCHS, callbacks, validation_split=0.4)
+    callbacks = [
+        EarlyStopping(monitor='val_loss', patience=2),
+    ]
+
+    history = train(model, X_train, y_train, BATCH_SIZE, EPOCHS, callbacks, validation_split=0.4)
+else:
+    if verbose:
+        print(f'Loading model from {model_path}...')
+
+    model = load_model(model_path)
 
 loss, acc = model.evaluate(X_test, y_test)
 
@@ -28,9 +37,12 @@ if verbose:
 
 max_y_test, max_y_pred_test = predict(model, X_test, y_test)
 
-timestamp = datetime.datetime.now().strftime("%m-%d-%YT%H:%M:%S")
-save_label = f'{segment_length}_{step}_{timestamp}'
+if not model_path:
+    timestamp = datetime.datetime.now().strftime("%m-%d-%YT%H:%M:%S")
+    save_label = f'{segment_length}_{step}_{timestamp}'
 
-model.save(f'models/{save_label}.h5')
+    model.save(f'models/{save_label}.h5')
 
-make_confusion_matrix(max_y_test, max_y_pred_test, output_file=f'img/confusion_matrix_1d_conv_{save_label}.png', print_stdout=True)
+    make_confusion_matrix(max_y_test, max_y_pred_test, output_file=f'img/confusion_matrix_1d_conv_{save_label}.png', print_stdout=True)
+else:
+    make_confusion_matrix(max_y_test, max_y_pred_test, print_stdout=True)

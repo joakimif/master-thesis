@@ -22,7 +22,9 @@ history = train(model, X_train, y_train, BATCH_SIZE, EPOCHS, callbacks, validati
 
 max_y_test, max_y_pred_test = predict(model, X_test, y_test)
 
-timestamp = datetime.datetime.now().strftime("%m-%d-%Y %H:%M:%S")
-save_label = f'confusion_matrix_1d_conv_{segment_length}_{step}_{timestamp}.png'
+timestamp = datetime.datetime.now().strftime("%m-%d-%YT%H:%M:%S")
+save_label = f'{segment_length}_{step}_{timestamp}'
 
-make_confusion_matrix(max_y_test, max_y_pred_test, ouput_file=f'img/{save_label}', print_stdout=True)
+model.save(f'models/{save_label}.h5')
+
+make_confusion_matrix(max_y_test, max_y_pred_test, output_file=f'img/confusion_matrix_1d_conv_{save_label}.png', print_stdout=True)

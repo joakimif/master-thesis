@@ -1,0 +1,3 @@
+- cross validation N fold / patient wise
+- graph: learning time / results
+- MADRS score prediction: value / depression class 

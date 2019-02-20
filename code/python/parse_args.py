@@ -10,4 +10,9 @@ if '--step' in sys.argv:
 else:
     step = 60
 
+if '--model' in sys.argv:
+    model_path = sys.argv[sys.argv.index('--model')+1]
+else:
+    model_path = None
+
 verbose = '-v' in sys.argv or '--verbose' in sys.argv

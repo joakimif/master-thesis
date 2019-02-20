@@ -18,7 +18,7 @@ callbacks = [
     EarlyStopping(monitor='val_loss', patience=2),
 ]
 
-history = train(model, X_train, y_train, BATCH_SIZE, EPOCHS, callbacks, validation_split=0.2)
+history = train(model, X_train, y_train, BATCH_SIZE, EPOCHS, callbacks, validation_split=0.4)
 
 loss, acc = model.evaluate(X_test, y_test)
 

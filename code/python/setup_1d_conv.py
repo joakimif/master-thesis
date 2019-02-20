@@ -28,15 +28,9 @@ from parse_args import segment_length, step, epochs, batch_size, model_path, ver
 
 pd.options.mode.chained_assignment = None
 
-PROJECT_DIR = '../'
-DATASET_DIR = 'datasets'
-SAVE_DIR = 'data'
-
-try:
-    os.chdir(PROJECT_DIR)
-except:
-    print('No such directory')
-    pass
+PROJECT_DIR = '..'
+DATASET_DIR = f'{PROJECT_DIR}/datasets'
+SAVE_DIR = f'{PROJECT_DIR}/data'
 
 if verbose:
     verbose = 1

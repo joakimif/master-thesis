@@ -38,8 +38,8 @@ if not model_path:
     timestamp = datetime.datetime.now().strftime("%m-%d-%YT%H:%M:%S")
     save_label = f'{segment_length}_{step}_{epochs}_{batch_size}_{timestamp}'
 
-    model.save(f'models/{save_label}.h5')
+    model.save(f'../models/{save_label}.h5')
 
-    make_confusion_matrix(max_y_test, max_y_pred_test, output_file=f'img/confusion_matrix/{save_label}.png', print_stdout=True)
+    make_confusion_matrix(max_y_test, max_y_pred_test, output_file=f'../img/confusion_matrix/{save_label}.png', print_stdout=True)
 else:
     make_confusion_matrix(max_y_test, max_y_pred_test, print_stdout=True)

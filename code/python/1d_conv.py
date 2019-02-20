@@ -5,6 +5,9 @@ if '--hours' in sys.argv:
 else:
     hours = 8
 
+if verbose:
+    print('Hours:', hours)
+
 N_FEATURES = 1
 SEG_LEN = hours*60 
 STEP = 60

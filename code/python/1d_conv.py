@@ -1,5 +1,4 @@
 from setup_1d_conv import *
-from parse_args import segment_length, step, model_path, epochs, batch_size
 
 if verbose:
     print('Segment length:', segment_length) 

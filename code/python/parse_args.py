@@ -10,6 +10,16 @@ if '--step' in sys.argv:
 else:
     step = 60
 
+if '--epochs' in sys.argv:
+    epochs = int(sys.argv[sys.argv.index('--epochs')+1])
+else:
+    epochs = 40
+
+if '--batch_size' in sys.argv:
+    batch_size = int(sys.argv[sys.argv.index('--batch_size')+1])
+else:
+    batch_size = 100
+
 if '--model' in sys.argv:
     model_path = sys.argv[sys.argv.index('--model')+1]
 else:

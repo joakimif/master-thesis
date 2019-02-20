@@ -1,13 +1,11 @@
 from setup_1d_conv import *
-from parse_args import segment_length, step, model_path
+from parse_args import segment_length, step, model_path, epochs, batch_size
 
 if verbose:
     print('Segment length:', segment_length) 
     print('Step:', step)
 
 N_FEATURES = 1
-BATCH_SIZE = 100
-EPOCHS = 40
 
 segments, labels, num_sensors, input_shape = create_segments_and_labels(N_FEATURES, segment_length, step)
 X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2)
@@ -22,7 +20,7 @@ if not model_path:
         EarlyStopping(monitor='val_loss', patience=2),
     ]
 
-    history = train(model, X_train, y_train, BATCH_SIZE, EPOCHS, callbacks, validation_split=0.4)
+    history = train(model, X_train, y_train, batch_size, epochs, callbacks, validation_split=0.4)
 else:
     if verbose:
         print(f'Loading model from {model_path}...')
@@ -39,10 +37,10 @@ max_y_test, max_y_pred_test = predict(model, X_test, y_test)
 
 if not model_path:
     timestamp = datetime.datetime.now().strftime("%m-%d-%YT%H:%M:%S")
-    save_label = f'{segment_length}_{step}_{timestamp}'
+    save_label = f'{segment_length}_{step}_{epochs}_{batch_size}_{timestamp}'
 
     model.save(f'models/{save_label}.h5')
 
-    make_confusion_matrix(max_y_test, max_y_pred_test, output_file=f'img/confusion_matrix_1d_conv_{save_label}.png', print_stdout=True)
+    make_confusion_matrix(max_y_test, max_y_pred_test, output_file=f'img/confusion_matrix/{save_label}.png', print_stdout=True)
 else:
     make_confusion_matrix(max_y_test, max_y_pred_test, print_stdout=True)

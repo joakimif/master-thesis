@@ -11,7 +11,7 @@ else:
     step = 60
 
 if verbose:
-    print('Segment length:', segment_length)
+    print('Segment length:', segment_length) 
     print('Step:', step)
 
 N_FEATURES = 1

@@ -1,7 +1,7 @@
 from setup_1d_conv import *
 
 if '--hours' in sys.argv:
-    hours = sys.argv[sys.argv.index('--hours')+1]
+    hours = int(sys.argv[sys.argv.index('--hours')+1])
 else:
     hours = 8
 

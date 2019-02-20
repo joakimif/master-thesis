@@ -24,6 +24,8 @@ from tensorflow.keras.layers import Dense, Dropout, Flatten, Reshape, GlobalAver
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Conv1D, MaxPooling1D
 from tensorflow.keras.callbacks import TensorBoard, EarlyStopping, ModelCheckpoint
 
+from parse_args import verbose
+
 pd.options.mode.chained_assignment = None
 
 PROJECT_DIR = '../'
@@ -35,8 +37,6 @@ try:
 except:
     print('No such directory')
     pass
-
-verbose = len(sys.argv) > 1 and sys.argv[1] == '-v'
 
 if verbose:
     verbose = 1

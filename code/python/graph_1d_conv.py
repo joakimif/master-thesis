@@ -36,7 +36,7 @@ for f in os.listdir(model_path):
         # losses.append(loss)
         accuracies.append((acc, seg))
 
-        # print('Accuracy: {:5.2f}%'.format(100 * acc))
+        print('Accuracy: {:5.2f}%'.format(100 * acc))
         # print('Loss: {:5.2f}%'.format(100 * loss))
         # make_confusion_matrix(max_y_test, max_y_pred_test, print_stdout=True)
 

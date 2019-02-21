@@ -40,8 +40,8 @@ for f in os.listdir(model_path):
         # print('Loss: {:5.2f}%'.format(100 * loss))
         # make_confusion_matrix(max_y_test, max_y_pred_test, print_stdout=True)
 
-x = sorted([a[0] for a in accuracies])
-y = sorted([a[1] for a in accuracies])
+x = [a[0] for a in accuracies]
+y = [a[1] for a in accuracies]
 
 plt.plot(x, y)
 plt.xlabel('accuracy')

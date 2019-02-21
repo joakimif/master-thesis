@@ -6,10 +6,7 @@ if not model_path:
     print('Usage: python3 graph_1d_conv.py [options] --model_path <path_to_models>')
     exit()
 
-results = []
-
-losses = []
-accuracies = []
+histories = []
 
 for f in os.listdir(model_path):
     if '.h5' in f and 'Conv1D' in f:
@@ -23,28 +20,13 @@ for f in os.listdir(model_path):
         segments, labels, num_sensors, input_shape = create_segments_and_labels(N_FEATURES, seg, step)
         X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2)
 
-        model = load_model(f'{model_path}/{f}')
-        loss, acc = model.evaluate(X_test, y_test)
-        # max_y_test, max_y_pred_test = predict(model, X_test, y_test)
+        model = create_model(seg, num_sensors, input_shape)
+        history = train(model, X_train, y_train, batch_size, epochs, callbacks, validation_split=0.4)
 
-        """ results.append({
-            'parameters': (t, ts, seg, step, epochs, batch),
-            'evaluation': (loss, acc),
-            'predictions': (max_y_test, max_y_pred_test)
-        }) """
+        df = pd.DataFrame(h.history, index=h.epoch)
+        histories.append(df)
 
-        # losses.append(loss)
-        accuracies.append((acc, seg))
+        df.plot()
 
-        print('Accuracy: {:5.2f}%'.format(100 * acc))
-        # print('Loss: {:5.2f}%'.format(100 * loss))
-        # make_confusion_matrix(max_y_test, max_y_pred_test, print_stdout=True)
-
-x = [a[0] for a in accuracies]
-y = [a[1] for a in accuracies]
-
-plt.plot(x, y)
-plt.xlabel('accuracy')
-plt.ylabel('segment length')
-plt.savefig('../img/plot.png')
+plt.savefig('plot.png')
 

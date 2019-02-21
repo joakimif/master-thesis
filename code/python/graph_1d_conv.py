@@ -13,7 +13,7 @@ for f in os.listdir(model_path):
 
         t, ts, seg, step, epochs, batch = f.split('_')
 
-        segments, labels, num_sensors, input_shape = create_segments_and_labels(N_FEATURES, segment_length, step)
+        segments, labels, num_sensors, input_shape = create_segments_and_labels(N_FEATURES, int(seg), int(step))
 
         model = load_model(f'{model_path}/{f}')
 

@@ -4,25 +4,23 @@ callbacks = [
     EarlyStopping(monitor='val_loss', patience=2),
 ]
 
-if not model_path:
-    print('Usage: python3 graph_1d_conv.py [options] --model_path <path_to_models>')
-    exit()
-
 output_classes = 2
-filename_filter = 'Conv1D'
+filename_prefix = 'Conv1D'
 
 if madrs:
     create_segments_and_labels = create_segments_and_labels_madrs
     output_classes = 4
-    filename_filter = 'Conv1D-MADRS'
+    filename_prefix = 'Conv1D-MADRS'
 
+save_path = f'../img/{filename_prefix}_{datetime.datetime.now().strftime("%m-%d-%YT%H:%M:%S")}'
+
+histories = []
 loss_list = []
 acc_list = []
 
-histories = []
-seg_lengths = []
+hours_list = [4, 8, 16, 24]
 
-for hours in [4, 8, 16, 24]:
+for hours in hours_list:
     seg = hours * 60
 
     segments, labels, num_sensors, input_shape = create_segments_and_labels(1, seg, step)
@@ -34,17 +32,19 @@ for hours in [4, 8, 16, 24]:
     loss, acc = model.evaluate(X_test, y_test)
 
     histories.append(pd.DataFrame(h.history, index=h.epoch))
-    seg_lengths.append(seg//60)
+
     loss_list.append(loss)
     acc_list.append(acc)
 
     if len(histories) > 2:
         break
 
+os.mkdir(save_path)
+
 historydf = pd.concat(histories, axis=1)
 
 metrics_reported = histories[0].columns
-historydf.columns = pd.MultiIndex.from_product([seg_lengths, metrics_reported], names=['hours', 'metric'])
+historydf.columns = pd.MultiIndex.from_product([hours_list, metrics_reported], names=['hours', 'metric'])
 
 ax = plt.subplot(211)
 historydf.xs('loss', axis=1, level='metric').plot(ax=ax)
@@ -57,16 +57,16 @@ plt.title('Accuracy')
 plt.xlabel('Epochs')
 
 plt.tight_layout()
-plt.savefig('../img/plot.png')
+plt.savefig(f'{save_path}/plot.png')
 
 plt.clf()
 plt.plot(seg_lengths, loss_list)
 plt.xlabel('Hours')
 plt.ylabel('Loss')
-plt.savefig('../img/plot_loss_eval.png')
+plt.savefig(f'{save_path}/plot_loss_eval.png')
 
 plt.clf()
 plt.plot(seg_lengths, acc_list)
 plt.xlabel('Hours')
 plt.ylabel('Accuracy')
-plt.savefig('../img/plot_acc_eval.png')
+plt.savefig(f'{save_path}/plot_acc_eval.png')

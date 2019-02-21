@@ -12,7 +12,7 @@ if not model_path:
 
 histories = []
 
-for f in os.listdir(model_path):
+for f in reversed(os.listdir(model_path)):
     if '.h5' in f and 'Conv1D' in f:
         t, ts, seg, step, epochs, batch = f.split('_')
         

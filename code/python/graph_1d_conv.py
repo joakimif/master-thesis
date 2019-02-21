@@ -10,9 +10,6 @@ results = []
 
 for f in os.listdir(model_path):
     if '.h5' in f and 'Conv1D' in f:
-        print('\n=============')
-        print(f'Loading model: {f}')
-
         f = f.replace('.h5', '')
         t, ts, seg, step, epochs, batch = f.split('_')
 

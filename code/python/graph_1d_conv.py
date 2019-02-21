@@ -41,5 +41,5 @@ for f in os.listdir(model_path):
         # make_confusion_matrix(max_y_test, max_y_pred_test, print_stdout=True)
 
 plt.plot([losses, accuracies])
-plt.save('../img/plot.png')
+plt.savefig('../img/plot.png')
 

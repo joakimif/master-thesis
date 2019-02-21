@@ -39,7 +39,7 @@ for f in reversed(os.listdir(model_path)):
 historydf = pd.concat(histories, axis=1)
 
 metrics_reported = histories[0].columns
-historydf.columns = pd.MultiIndex.from_product([seg_lengths, metrics_reported], names=['segment lengths', 'metric'])
+historydf.columns = pd.MultiIndex.from_product([seg_lengths, metrics_reported], names=['segment length', 'metric'])
 
 ax = plt.subplot(211)
 historydf.xs('loss', axis=1, level='metric').plot(ylim=(0,1), ax=ax)

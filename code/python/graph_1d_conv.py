@@ -23,7 +23,7 @@ loss_list = []
 acc_list = []
 
 hours_list = [1, 2, 4, 8, 16, 24]
-test_hours = 2 # len(hours_list)
+test_hours = len(hours_list)
 
 for hours in hours_list:
     seg = hours * 60

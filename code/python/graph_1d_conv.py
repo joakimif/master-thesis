@@ -16,12 +16,13 @@ for f in os.listdir(model_path):
         t, ts, seg, step, epochs, batch = f.split('_')
 
         print(t,ts,seg,step,epochs,batch)
-        break
+        continue
 
         segments, labels, num_sensors, input_shape = create_segments_and_labels(N_FEATURES, segment_length, step)
 
         datasets.append(train_test_split(segments, labels, test_size=0.2))
 
+exit()
 if verbose:
     print(f'Loading models from {model_path}...')
 

@@ -16,7 +16,7 @@ acc_list = []
 histories = []
 seg_lengths = []
 
-for f in reversed(os.listdir(model_path)):
+for f in sorted(os.listdir(model_path)):
     print(f)
     continue
 

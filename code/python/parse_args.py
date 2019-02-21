@@ -30,6 +30,7 @@ if '--history_graph' in sys.argv:
 else:
     history_graph = None
 
+madrs = '-v' in sys.argv or '--madrs' in sys.argv
 verbose = '-v' in sys.argv or '--verbose' in sys.argv
 
 if verbose:

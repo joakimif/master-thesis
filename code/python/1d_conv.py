@@ -9,7 +9,7 @@ if not model_path:
     if verbose:
         print('Creating model from scratch...')
 
-    model = create_model(segment_length, num_sensors, input_shape)
+    model = create_model(segment_length, num_sensors, input_shape, output_classes=2)
 
     callbacks = [
         EarlyStopping(monitor='val_loss', patience=2),

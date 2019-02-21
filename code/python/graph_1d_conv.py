@@ -10,6 +10,14 @@ if not model_path:
     print('Usage: python3 graph_1d_conv.py [options] --model_path <path_to_models>')
     exit()
 
+output_classes = 2
+filename_filter = 'Conv1D'
+
+if madrs:
+    create_segments_and_labels = create_segments_and_labels_madrs
+    output_classes = 4
+    filename_filter = 'Conv1D-MADRS'
+
 loss_list = []
 acc_list = []
 
@@ -17,7 +25,7 @@ histories = []
 seg_lengths = []
 
 for f in sorted(os.listdir(model_path)):
-    if '.h5' in f and 'Conv1D' in f:
+    if '.h5' in f and filename_filter in f:
         t, ts, seg, step, epochs, batch = f.split('_')
         
         seg = int(seg)
@@ -28,7 +36,7 @@ for f in sorted(os.listdir(model_path)):
         segments, labels, num_sensors, input_shape = create_segments_and_labels(N_FEATURES, seg, step)
         X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2)
 
-        model = create_model(seg, num_sensors, input_shape)
+        model = create_model(seg, num_sensors, input_shape, output_classes=output_classes)
 
         h = train(model, X_train, y_train, batch_size, epochs, callbacks, validation_split=0.4)
         loss, acc = model.evaluate(X_test, y_test)
@@ -38,8 +46,8 @@ for f in sorted(os.listdir(model_path)):
         loss_list.append(loss)
         acc_list.append(acc)
 
-        # if len(histories) > 2:
-        #    break
+        if len(histories) > 2:
+            break
 
 historydf = pd.concat(histories, axis=1)
 

@@ -190,7 +190,7 @@ def create_segments_and_labels(n_features, segment_length, step):
     
     return segments, labels, num_sensors, input_shape
 
-def create_model_madrs(segment_length, num_sensors, input_shape, loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy']):
+def create_model(segment_length, num_sensors, input_shape, loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'], output_classes=2):
     K.clear_session()
 
     model = Sequential()
@@ -203,7 +203,7 @@ def create_model_madrs(segment_length, num_sensors, input_shape, loss='categoric
     model.add(Conv1D(160, 10, activation='relu'))
     model.add(GlobalAveragePooling1D())
     model.add(Dropout(0.5))
-    model.add(Dense(4, activation='softmax'))
+    model.add(Dense(output_classes, activation='softmax'))
 
     model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
 
@@ -211,28 +211,7 @@ def create_model_madrs(segment_length, num_sensors, input_shape, loss='categoric
         print(model.summary())
 
     return model
-
-def create_model(segment_length, num_sensors, input_shape, loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy']):
-    K.clear_session()
-
-    model = Sequential()
-    model.add(Reshape((segment_length, num_sensors), input_shape=(input_shape,)))
-    model.add(Conv1D(100, 10, activation='relu', input_shape=(segment_length, num_sensors)))
-    model.add(Conv1D(100, 10, activation='relu'))
-    model.add(MaxPooling1D(2))
-    model.add(Conv1D(160, 10, activation='relu'))
-    model.add(Conv1D(160, 10, activation='relu'))
-    model.add(GlobalAveragePooling1D())
-    model.add(Dropout(0.5))
-    model.add(Dense(2, activation='softmax'))
-
-    model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
-
-    if verbose:
-        print(model.summary())
-
-    return model
-
+    
 def train(model, X_train, y_train, batch_size, epochs, callbacks, validation_split=0.2):
     return model.fit(X_train,
                     y_train,

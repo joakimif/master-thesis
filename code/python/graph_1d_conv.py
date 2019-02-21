@@ -17,6 +17,9 @@ histories = []
 seg_lengths = []
 
 for f in reversed(os.listdir(model_path)):
+    print(f)
+    continue
+
     if '.h5' in f and 'Conv1D' in f:
         t, ts, seg, step, epochs, batch = f.split('_')
         
@@ -40,6 +43,8 @@ for f in reversed(os.listdir(model_path)):
 
         # if len(histories) > 2:
         #    break
+
+exit()
 
 historydf = pd.concat(histories, axis=1)
 

@@ -110,8 +110,6 @@ def is_daytime(timestamp):
                         time.strptime('06:00:00', '%H:%M:%S'),
                         time.strptime('21:00:00', '%H:%M:%S'))
 
-def madrs_class
-
 def create_segments_and_labels_madrs(n_features, segment_length, step):
     scores = pd.read_csv(os.path.join(DATASET_DIR, 'scores.csv'))
     scores['madrs2'].fillna(0, inplace=True)

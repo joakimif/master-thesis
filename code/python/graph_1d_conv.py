@@ -5,7 +5,7 @@ N_FEATURES = 1
 if not model_path:
     print('Usage: python3 graph_1d_conv.py [options] --model_path <path_to_models>')
     exit()
-    
+
 for f in os.listdir(model_path):
     if '.h5' in f and 'Conv1D' in f:
         print('\n=============')
@@ -17,7 +17,7 @@ for f in os.listdir(model_path):
 
         model = load_model(f'{model_path}/{f}')
 
-        X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2))
+        X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2)
 
         loss, acc = model.evaluate(X_test, y_test)
 

@@ -28,5 +28,7 @@ for f in os.listdir(model_path):
 
         df.plot()
 
+        break
+
 plt.savefig('plot.png')
 

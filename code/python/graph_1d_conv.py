@@ -36,9 +36,9 @@ for f in reversed(os.listdir(model_path)):
         #if len(histories) > 1:
         break
 
-historydf = pd.concat(dflist, axis=1)
+historydf = pd.concat(histories, axis=1)
 
-metrics_reported = dflist[0].columns
+metrics_reported = histories[0].columns
 historydf.columns = pd.MultiIndex.from_product([seg_lengths, metrics_reported], names=['segment lengths', 'metric'])
 
 ax = plt.subplot(211)

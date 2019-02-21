@@ -24,7 +24,7 @@ from tensorflow.keras.layers import Dense, Dropout, Flatten, Reshape, GlobalAver
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Conv1D, MaxPooling1D
 from tensorflow.keras.callbacks import TensorBoard, EarlyStopping, ModelCheckpoint
 
-from parse_args import segment_length, step, epochs, batch_size, model_path, verbose
+from parse_args import *
 
 pd.options.mode.chained_assignment = None
 
@@ -211,7 +211,7 @@ def create_model(segment_length, num_sensors, input_shape, loss='categorical_cro
         print(model.summary())
 
     return model
-    
+
 def train(model, X_train, y_train, batch_size, epochs, callbacks, validation_split=0.2):
     return model.fit(X_train,
                     y_train,

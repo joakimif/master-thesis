@@ -25,7 +25,7 @@ for f in reversed(os.listdir(model_path)):
         X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2)
 
         model = create_model(seg, num_sensors, input_shape)
-        history = train(model, X_train, y_train, batch_size, epochs, callbacks, validation_split=0.4)
+        h = train(model, X_train, y_train, batch_size, epochs, callbacks, validation_split=0.4)
 
         df = pd.DataFrame(h.history, index=h.epoch)
         histories.append(df)

@@ -11,9 +11,11 @@ results = []
 for f in os.listdir(model_path):
     if '.h5' in f and 'Conv1D' in f:
         t, ts, seg, step, epochs, batch = f.split('_')
-        batch = batch.replace('h5', '')
+        batch = batch.replace('.h5', '')
+        seg = int(seg)
+        step = int(step)
 
-        segments, labels, num_sensors, input_shape = create_segments_and_labels(N_FEATURES, int(seg), int(step))
+        segments, labels, num_sensors, input_shape = create_segments_and_labels(N_FEATURES, seg, step)
 
         model = load_model(f'{model_path}/{f}')
 
@@ -22,8 +24,11 @@ for f in os.listdir(model_path):
         loss, acc = model.evaluate(X_test, y_test)
         max_y_test, max_y_pred_test = predict(model, X_test, y_test)
 
-        results.append(((t, ts, seg, step, epochs, batch), (loss, acc), (max_y_test, max_y_pred_test)))
-
+        results.append({
+            'parameters': (t, ts, seg, step, epochs, batch),
+            'evaluation': (loss, acc),
+            'predictions': (max_y_test, max_y_pred_test)
+        })
         # print('Accuracy: {:5.2f}%'.format(100 * acc))
         # print('Loss: {:5.2f}%'.format(100 * loss))
         # make_confusion_matrix(max_y_test, max_y_pred_test, print_stdout=True)

@@ -2,6 +2,10 @@ from setup_1d_conv import *
 
 N_FEATURES = 1
 
+callbacks = [
+    EarlyStopping(monitor='val_loss', patience=2),
+]
+
 if not model_path:
     print('Usage: python3 graph_1d_conv.py [options] --model_path <path_to_models>')
     exit()

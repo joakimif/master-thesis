@@ -10,7 +10,6 @@ results = []
 
 for f in os.listdir(model_path):
     if '.h5' in f and 'Conv1D' in f:
-        f = f.replace('.h5', '')
         t, ts, seg, step, epochs, batch = f.split('_')
 
         segments, labels, num_sensors, input_shape = create_segments_and_labels(N_FEATURES, int(seg), int(step))

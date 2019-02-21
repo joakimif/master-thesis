@@ -51,8 +51,8 @@ def make_confusion_matrix(validations, predictions, output_file=None, print_stdo
                 cmap="coolwarm",
                 linecolor='white',
                 linewidths=1,
-                xticklabels=xticklabels,
-                yticklabels=yticklabels,
+                xticklabels=xticklabels[:matrix.shape[0]],
+                yticklabels=yticklabels[:matrix.shape[1]],
                 annot=True,
                 fmt="d")
     plt.title("Confusion Matrix")

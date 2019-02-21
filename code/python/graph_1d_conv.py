@@ -11,26 +11,17 @@ datasets = []
 
 for f in os.listdir(model_path):
     if '.h5' in f and 'Conv1D' in f:
-        models.append(load_model(f'{model_path}/{f}'))
-
         t, ts, seg, step, epochs, batch = f.split('_')
-
-        print(t,ts,seg,step,epochs,batch)
-        continue
 
         segments, labels, num_sensors, input_shape = create_segments_and_labels(N_FEATURES, segment_length, step)
 
+        models.append(load_model(f'{model_path}/{f}'))
         datasets.append(train_test_split(segments, labels, test_size=0.2))
 
-exit()
-if verbose:
-    print(f'Loading models from {model_path}...')
 
+for model, dataset in zip(models, datasets):
+    X_train, X_test, y_train, y_test = dataset
 
-
-
-
-for model in models:
     loss, acc = model.evaluate(X_test, y_test)
 
     if verbose:
@@ -39,12 +30,4 @@ for model in models:
 
     max_y_test, max_y_pred_test = predict(model, X_test, y_test)
 
-    if not model_path:
-        timestamp = datetime.datetime.now().strftime("%m-%d-%YT%H:%M:%S")
-        save_label = f'Conv1D_{timestamp}_{segment_length}_{step}_{epochs}_{batch_size}'
-
-        model.save(f'../models/{save_label}.h5')
-
-        make_confusion_matrix(max_y_test, max_y_pred_test, output_file=f'../img/confusion_matrix/{save_label}.png', print_stdout=True)
-    else:
-        make_confusion_matrix(max_y_test, max_y_pred_test, print_stdout=True)
+    make_confusion_matrix(max_y_test, max_y_pred_test, print_stdout=True)

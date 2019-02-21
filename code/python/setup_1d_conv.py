@@ -38,9 +38,6 @@ if verbose:
 else:
     verbose = 0
 
-MADRS_LABLES = ['Normal', 'Mild', 'Moderate', 'Severe']
-MADRS_VALUES = [0, 7, 20, 34]
-
 CATEGORIES = ['CONDITION', 'CONTROL']
 LABELS = ['normal', 'bipolar']
 
@@ -114,6 +111,10 @@ def create_segments_and_labels_madrs(n_features, segment_length, step):
     scores = pd.read_csv(os.path.join(DATASET_DIR, 'scores.csv'))
     scores['madrs2'].fillna(0, inplace=True)
     
+    MADRS_LABLES = ['Normal', 'Mild', 'Moderate', 'Severe']
+    MADRS_VALUES = [0, 7, 20, 34]
+    classes = len(MADRS_VALUES)
+
     segments = []
     labels = []
 
@@ -127,14 +128,13 @@ def create_segments_and_labels_madrs(n_features, segment_length, step):
             segments.append([segment])
 
             madrs = p['madrs2'].values[0]
-            classes = len(MADRS_VALUES)
 
             for i in range(classes):
-                if madrs >= MADRS_VALUES[classes - i]:
-                    labels.append(classes - i)
+                if madrs >= MADRS_VALUES[classes - i - 1]:
+                    labels.append(classes - i - 1)
                     break
 
-    labels = to_categorical(np.asarray(labels), 2)
+    labels = to_categorical(np.asarray(labels), classes)
     segments = np.asarray(segments).reshape(-1, segment_length, n_features)
 
     num_time_periods, num_sensors = segments.shape[1], segments.shape[2]

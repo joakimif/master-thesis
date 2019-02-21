@@ -2,14 +2,14 @@ from setup_1d_conv import *
 
 N_FEATURES = 1
 
-segments, labels, num_sensors, input_shape = create_segments_and_labels(N_FEATURES, segment_length, step)
+segments, labels, num_sensors, input_shape = create_segments_and_labels_madrs(N_FEATURES, segment_length, step)
 X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2)
 
 if not model_path:
     if verbose:
         print('Creating model from scratch...')
 
-    model = create_model(segment_length, num_sensors, input_shape)
+    model = create_model_madrs(segment_length, num_sensors, input_shape)
 
     callbacks = [
         EarlyStopping(monitor='val_loss', patience=2),
@@ -32,7 +32,7 @@ max_y_test, max_y_pred_test = predict(model, X_test, y_test)
 
 if not model_path:
     timestamp = datetime.datetime.now().strftime("%m-%d-%YT%H:%M:%S")
-    save_label = f'Conv1D_{timestamp}_{segment_length}_{step}_{epochs}_{batch_size}'
+    save_label = f'Conv1D-MADRS_{timestamp}_{segment_length}_{step}_{epochs}_{batch_size}'
 
     model.save(f'../models/{save_label}.h5')
 

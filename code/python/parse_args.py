@@ -31,3 +31,7 @@ else:
     history_graph = None
 
 verbose = '-v' in sys.argv or '--verbose' in sys.argv
+
+if verbose:
+    print('Segment length:', segment_length) 
+    print('Step:', step)

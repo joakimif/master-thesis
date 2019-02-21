@@ -38,6 +38,9 @@ if verbose:
 else:
     verbose = 0
 
+MADRS_LABLES = ['Normal', 'Mild', 'Moderate', 'Severe']
+MADRS_VALUES = [0, 7, 20, 34]
+
 CATEGORIES = ['CONDITION', 'CONTROL']
 LABELS = ['normal', 'bipolar']
 
@@ -107,7 +110,50 @@ def is_daytime(timestamp):
                         time.strptime('06:00:00', '%H:%M:%S'),
                         time.strptime('21:00:00', '%H:%M:%S'))
 
-def create_segments_and_labels(n_features, segment_length, step, filter_timestamp=None):
+def madrs_class
+
+def create_segments_and_labels_madrs(n_features, segment_length, step):
+    scores = pd.read_csv(os.path.join(DATASET_DIR, 'scores.csv'))
+    scores['madrs2'].fillna(0, inplace=True)
+    
+    segments = []
+    labels = []
+
+    for person in scores['number']:
+        p = scores[scores['number'] == person]
+        filepath = os.path.join(DATASET_DIR, person.split('_')[0], f'{person}.csv')
+        df_activity = pd.read_csv(filepath)
+
+        for i in range(0, len(df_activity) - segment_length, step):
+            segment = df_activity['activity'].values[i : i + segment_length]
+            segments.append([segment])
+
+            madrs = p['madrs2'].values[0]
+            classes = len(MADRS_VALUES)
+
+            for i in range(classes):
+                if madrs >= MADRS_VALUES[classes - i]:
+                    labels.append(classes - i)
+                    break
+
+    labels = to_categorical(np.asarray(labels), 2)
+    segments = np.asarray(segments).reshape(-1, segment_length, n_features)
+
+    num_time_periods, num_sensors = segments.shape[1], segments.shape[2]
+    input_shape = num_time_periods * num_sensors
+
+    segments = segments.reshape(segments.shape[0], input_shape).astype('float32')
+    labels = labels.astype('float32')
+
+    if verbose:
+        print('\nINPUT DATA\n------------')
+        print(f'Segments:', segments.shape, ':: Labels:', labels.shape)
+        print(f'num_time_periods: {num_time_periods}, num_sensors: {num_sensors}, input_shape: {input_shape}')
+        print('------------\n')
+    
+    return segments, labels, num_sensors, input_shape    
+
+def create_segments_and_labels(n_features, segment_length, step):
     scores = pd.read_csv(os.path.join(DATASET_DIR, 'scores.csv'))
     scores['afftype'].fillna(0, inplace=True)
     
@@ -121,25 +167,12 @@ def create_segments_and_labels(n_features, segment_length, step, filter_timestam
 
         for i in range(0, len(df_activity) - segment_length, step):
             segment = df_activity['activity'].values[i : i + segment_length]
+            segments.append([segment])
 
-            append = False
-
-            if not filter_timestamp:
-                append = True
-
-            elif filter_timestamp == 'day' and is_daytime(df_activity['timestamp'].values[i]):
-                append = True
-                
-            elif filter_timestamp == 'night' and is_at_night(df_activity['timestamp'].values[i]):
-                append = True
-            
-            if append:
-                segments.append([segment])
-
-                if p['afftype'].values[0] == 0:
-                    labels.append(0)
-                else:
-                    labels.append(1)
+            if p['afftype'].values[0] == 0:
+                labels.append(0)
+            else:
+                labels.append(1)
 
     labels = to_categorical(np.asarray(labels), 2)
     segments = np.asarray(segments).reshape(-1, segment_length, n_features)
@@ -157,6 +190,28 @@ def create_segments_and_labels(n_features, segment_length, step, filter_timestam
         print('------------\n')
     
     return segments, labels, num_sensors, input_shape
+
+def create_model_madrs(segment_length, num_sensors, input_shape, loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy']):
+    K.clear_session()
+
+    model = Sequential()
+    model.add(Reshape((segment_length, num_sensors), input_shape=(input_shape,)))
+    
+    model.add(Conv1D(100, 10, activation='relu', input_shape=(segment_length, num_sensors)))
+    model.add(Conv1D(100, 10, activation='relu'))
+    model.add(MaxPooling1D(2))
+    model.add(Conv1D(160, 10, activation='relu'))
+    model.add(Conv1D(160, 10, activation='relu'))
+    model.add(GlobalAveragePooling1D())
+    model.add(Dropout(0.5))
+    model.add(Dense(4, activation='softmax'))
+
+    model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
+
+    if verbose:
+        print(model.summary())
+
+    return model
 
 def create_model(segment_length, num_sensors, input_shape, loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy']):
     K.clear_session()

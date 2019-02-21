@@ -3,7 +3,7 @@ from setup_1d_conv import *
 N_FEATURES = 1
 
 callbacks = [
-    EarlyStopping(monitor='val_loss', patience=1),
+    EarlyStopping(monitor='val_loss', patience=2),
 ]
 
 if not model_path:
@@ -38,7 +38,7 @@ for f in reversed(os.listdir(model_path)):
         loss_list.append(loss)
         acc_list.append(acc)
 
-        if len(histories) > 1:
+        if len(histories) > 2:
             break
 
 historydf = pd.concat(histories, axis=1)

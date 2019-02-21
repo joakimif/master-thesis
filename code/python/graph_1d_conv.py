@@ -36,7 +36,7 @@ for hours in hours_list:
     loss_list.append(loss)
     acc_list.append(acc)
 
-    if len(histories) > 2:
+    if len(histories) > 1:
         break
 
 os.mkdir(save_path)
@@ -44,7 +44,7 @@ os.mkdir(save_path)
 historydf = pd.concat(histories, axis=1)
 
 metrics_reported = histories[0].columns
-historydf.columns = pd.MultiIndex.from_product([hours_list, metrics_reported], names=['hours', 'metric'])
+historydf.columns = pd.MultiIndex.from_product([hours_list[:2], metrics_reported], names=['hours', 'metric'])
 
 ax = plt.subplot(211)
 historydf.xs('loss', axis=1, level='metric').plot(ax=ax)

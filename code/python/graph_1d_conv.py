@@ -19,6 +19,7 @@ loss_list = []
 acc_list = []
 
 hours_list = [4, 8, 16, 24]
+test_hours = 2
 
 for hours in hours_list:
     seg = hours * 60
@@ -36,7 +37,7 @@ for hours in hours_list:
     loss_list.append(loss)
     acc_list.append(acc)
 
-    if len(histories) > 1:
+    if len(histories) > test_hours - 1:
         break
 
 os.mkdir(save_path)
@@ -44,7 +45,7 @@ os.mkdir(save_path)
 historydf = pd.concat(histories, axis=1)
 
 metrics_reported = histories[0].columns
-historydf.columns = pd.MultiIndex.from_product([hours_list[:2], metrics_reported], names=['hours', 'metric'])
+historydf.columns = pd.MultiIndex.from_product([hours_list[:test_hours], metrics_reported], names=['hours', 'metric'])
 
 ax = plt.subplot(211)
 historydf.xs('loss', axis=1, level='metric').plot(ax=ax)
@@ -60,13 +61,13 @@ plt.tight_layout()
 plt.savefig(f'{save_path}/plot.png')
 
 plt.clf()
-plt.plot(seg_lengths, loss_list)
+plt.plot(hours_list[:test_hours], loss_list)
 plt.xlabel('Hours')
 plt.ylabel('Loss')
 plt.savefig(f'{save_path}/plot_loss_eval.png')
 
 plt.clf()
-plt.plot(seg_lengths, acc_list)
+plt.plot(hours_list[:test_hours], acc_list)
 plt.xlabel('Hours')
 plt.ylabel('Accuracy')
 plt.savefig(f'{save_path}/plot_acc_eval.png')

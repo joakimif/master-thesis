@@ -38,8 +38,8 @@ for f in reversed(os.listdir(model_path)):
         loss_list.append(loss)
         acc_list.append(acc)
 
-        if len(histories) > 2:
-            break
+        # if len(histories) > 2:
+        #    break
 
 historydf = pd.concat(histories, axis=1)
 

@@ -5,15 +5,12 @@ N_FEATURES = 1
 if not model_path:
     print('Usage: python3 graph_1d_conv.py [options] --model_path <path_to_models>')
     exit()
-
-models = []
-datasets = []
-
+    
 for f in os.listdir(model_path):
     if '.h5' in f and 'Conv1D' in f:
         print('\n=============')
         print(f'Loading model: {f}')
-        
+
         t, ts, seg, step, epochs, batch = f.split('_')
 
         segments, labels, num_sensors, input_shape = create_segments_and_labels(N_FEATURES, segment_length, step)

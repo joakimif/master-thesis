@@ -43,6 +43,8 @@ for f in os.listdir(model_path):
 x = [a[0] for a in accuracies]
 y = [a[1] for a in accuracies]
 
-plt.plot(x, y, xlabel='accuracy', ylabel='segment length')
+plt.plot(x, y)
+plt.xlabel('accuracy')
+plt.ylabel('segment length')
 plt.savefig('../img/plot.png')
 

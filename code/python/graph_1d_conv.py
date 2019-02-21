@@ -38,8 +38,8 @@ for f in reversed(os.listdir(model_path)):
         loss_list.append(loss)
         acc_list.append(acc)
 
-        #if len(histories) > 1:
-        break
+        if len(histories) > 1:
+            break
 
 historydf = pd.concat(histories, axis=1)
 
@@ -47,7 +47,7 @@ metrics_reported = histories[0].columns
 historydf.columns = pd.MultiIndex.from_product([seg_lengths, metrics_reported], names=['hours', 'metric'])
 
 ax = plt.subplot(211)
-historydf.xs('loss', axis=1, level='metric').plot(ylim=(0,1), ax=ax)
+historydf.xs('loss', axis=1, level='metric').plot(ax=ax)
 plt.title('Loss')
 
 ax = plt.subplot(212)

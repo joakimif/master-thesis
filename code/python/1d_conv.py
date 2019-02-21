@@ -36,7 +36,7 @@ max_y_test, max_y_pred_test = predict(model, X_test, y_test)
 
 if not model_path:
     timestamp = datetime.datetime.now().strftime("%m-%d-%YT%H:%M:%S")
-    save_label = f'Conv1D_{segment_length}_{step}_{epochs}_{batch_size}_{timestamp}'
+    save_label = f'Conv1D_{timestamp}_{segment_length}_{step}_{epochs}_{batch_size}'
 
     model.save(f'../models/{save_label}.h5')
 

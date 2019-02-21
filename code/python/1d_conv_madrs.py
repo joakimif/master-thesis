@@ -36,6 +36,10 @@ if not model_path:
 
     model.save(f'../models/{save_label}.h5')
 
-    make_confusion_matrix(max_y_test, max_y_pred_test, output_file=f'../img/confusion_matrix/{save_label}.png', print_stdout=True)
+    make_confusion_matrix(max_y_test, max_y_pred_test, 
+                            output_file=f'../img/confusion_matrix/{save_label}.png', 
+                            print_stdout=True, 
+                            xticklabels=MADRS_LABLES, 
+                            yticklabels=MADRS_LABLES)
 else:
     make_confusion_matrix(max_y_test, max_y_pred_test, print_stdout=True)

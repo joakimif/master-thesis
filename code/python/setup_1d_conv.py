@@ -41,15 +41,18 @@ else:
 CATEGORIES = ['CONDITION', 'CONTROL']
 LABELS = ['normal', 'bipolar']
 
-def make_confusion_matrix(validations, predictions, output_file=None, print_stdout=False):
+MADRS_LABLES = ['Normal', 'Mild', 'Moderate', 'Severe']
+MADRS_VALUES = [0, 7, 20, 34]
+
+def make_confusion_matrix(validations, predictions, output_file=None, print_stdout=False, xticklabels=LABELS, yticklabels=LABELS):
     matrix = confusion_matrix(validations, predictions)
     plt.figure(figsize=(6, 4))
     sns.heatmap(matrix,
                 cmap="coolwarm",
                 linecolor='white',
                 linewidths=1,
-                xticklabels=LABELS,
-                yticklabels=LABELS,
+                xticklabels=xticklabels,
+                yticklabels=yticklabels,
                 annot=True,
                 fmt="d")
     plt.title("Confusion Matrix")
@@ -111,8 +114,6 @@ def create_segments_and_labels_madrs(n_features, segment_length, step):
     scores = pd.read_csv(os.path.join(DATASET_DIR, 'scores.csv'))
     scores['madrs2'].fillna(0, inplace=True)
     
-    MADRS_LABLES = ['Normal', 'Mild', 'Moderate', 'Severe']
-    MADRS_VALUES = [0, 7, 20, 34]
     classes = len(MADRS_VALUES)
 
     segments = []

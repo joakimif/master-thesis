@@ -188,11 +188,12 @@ def train(model, X_train, y_train, batch_size, epochs, callbacks, validation_spl
                     validation_split=validation_split,
                     verbose=verbose)
 
-def predict(model, X_test, y_test):
+def predict(model, X_test, y_test, print_classification_report=False):
     y_pred_test = model.predict(X_test)
     max_y_pred_test = np.argmax(y_pred_test, axis=1)
     max_y_test = np.argmax(y_test, axis=1)
 
-    print(classification_report(max_y_test, max_y_pred_test))
+    if print_classification_report:
+        print(classification_report(max_y_test, max_y_pred_test))
 
     return max_y_test, max_y_pred_test

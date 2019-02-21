@@ -25,7 +25,7 @@ for f in os.listdir(model_path):
 
         model = load_model(f'{model_path}/{f}')
         loss, acc = model.evaluate(X_test, y_test)
-        max_y_test, max_y_pred_test = predict(model, X_test, y_test)
+        # max_y_test, max_y_pred_test = predict(model, X_test, y_test)
 
         """ results.append({
             'parameters': (t, ts, seg, step, epochs, batch),
@@ -33,13 +33,16 @@ for f in os.listdir(model_path):
             'predictions': (max_y_test, max_y_pred_test)
         }) """
 
-        losses.append(loss)
-        accuracies.append(acc)
+        # losses.append(loss)
+        accuracies.append((acc, seg))
 
         # print('Accuracy: {:5.2f}%'.format(100 * acc))
         # print('Loss: {:5.2f}%'.format(100 * loss))
         # make_confusion_matrix(max_y_test, max_y_pred_test, print_stdout=True)
 
-plt.plot([losses, accuracies])
+x = [a[0] for a in accuracies]
+y = [a[1] for a in accuracies]
+
+plt.plot(x, y, xlabel='accuracy', ylabel='segment length')
 plt.savefig('../img/plot.png')
 

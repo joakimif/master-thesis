@@ -3,7 +3,7 @@ from setup_1d_conv import *
 N_FEATURES = 1
 
 callbacks = [
-    EarlyStopping(monitor='val_loss', patience=2),
+    EarlyStopping(monitor='val_loss', patience=1),
 ]
 
 if not model_path:

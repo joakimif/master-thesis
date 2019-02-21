@@ -32,7 +32,8 @@ for f in reversed(os.listdir(model_path)):
 
         df.plot()
 
-        break
+        if len(histories) > 1:
+            break
 
-plt.savefig('plot.png')
+plt.savefig('../img/plot.png')
 

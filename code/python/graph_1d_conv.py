@@ -11,7 +11,7 @@ datasets = []
 
 for f in os.listdir(model_path):
     if '.h5' in f and 'Conv1D' in f:
-        models.append(load_model(f))
+        models.append(load_model(f'{model_path}/{f}'))
 
         t, ts, seg, step, epochs, batch = f.split('_')
 

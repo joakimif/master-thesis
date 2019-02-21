@@ -1,7 +1,5 @@
 from setup_1d_conv import *
 
-N_FEATURES = 1
-
 callbacks = [
     EarlyStopping(monitor='val_loss', patience=2),
 ]
@@ -24,30 +22,24 @@ acc_list = []
 histories = []
 seg_lengths = []
 
-for f in sorted(os.listdir(model_path)):
-    if '.h5' in f and filename_filter in f:
-        t, ts, seg, step, epochs, batch = f.split('_')
-        
-        seg = int(seg)
-        step = int(step)
-        epochs = int(epochs)
-        batch = int(batch.replace('.h5', ''))
+for hours in [4, 8, 16, 24]:
+    seg = hours * 60
 
-        segments, labels, num_sensors, input_shape = create_segments_and_labels(N_FEATURES, seg, step)
-        X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2)
+    segments, labels, num_sensors, input_shape = create_segments_and_labels(1, seg, step)
+    X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2)
 
-        model = create_model(seg, num_sensors, input_shape, output_classes=output_classes)
+    model = create_model(seg, num_sensors, input_shape, output_classes=output_classes)
 
-        h = train(model, X_train, y_train, batch_size, epochs, callbacks, validation_split=0.4)
-        loss, acc = model.evaluate(X_test, y_test)
+    h = train(model, X_train, y_train, batch_size, epochs, callbacks, validation_split=0.4)
+    loss, acc = model.evaluate(X_test, y_test)
 
-        histories.append(pd.DataFrame(h.history, index=h.epoch))
-        seg_lengths.append(seg//60)
-        loss_list.append(loss)
-        acc_list.append(acc)
+    histories.append(pd.DataFrame(h.history, index=h.epoch))
+    seg_lengths.append(seg//60)
+    loss_list.append(loss)
+    acc_list.append(acc)
 
-        if len(histories) > 2:
-            break
+    if len(histories) > 2:
+        break
 
 historydf = pd.concat(histories, axis=1)
 

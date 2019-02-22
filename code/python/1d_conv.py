@@ -1,5 +1,15 @@
 from setup_1d_conv import *
 
+setup()
+
+if madrs:
+    output_classes = 4
+    confusion_matrix_labels = MADRS_LABLES
+    create_segments_and_labels = create_segments_and_labels_madrs
+else:
+    output_classes = 2
+    confusion_matrix_labels = LABELS
+
 N_FEATURES = 1
 
 segments, labels, num_sensors, input_shape = create_segments_and_labels(N_FEATURES, segment_length, step)
@@ -9,7 +19,7 @@ if not model_path:
     if verbose:
         print('Creating model from scratch...')
 
-    model = create_model(segment_length, num_sensors, input_shape, output_classes=2)
+    model = create_model(segment_length, num_sensors, input_shape, output_classes=output_classes, dropout=dropout)
 
     callbacks = [
         EarlyStopping(monitor='val_loss', patience=2),
@@ -22,20 +32,18 @@ else:
 
     model = load_model(model_path)
 
-loss, acc = model.evaluate(X_test, y_test)
-
-if verbose:
-    print('Accuracy: {:5.2f}%'.format(100 * acc))
-    print('Loss: {:5.2f}%'.format(100 * loss))
-
-max_y_test, max_y_pred_test = predict(model, X_test, y_test)
+loss, acc = evaluate(model, X_test, y_test, verbose=verbose)
+max_y_test, max_y_pred_test = predict(model, X_test, y_test, verbose=verbose)
 
 if not model_path:
-    timestamp = datetime.datetime.now().strftime("%m-%d-%YT%H:%M:%S")
-    save_label = f'Conv1D_{timestamp}_{segment_length}_{step}_{epochs}_{batch_size}'
+    model.save(f'../models/{identifier}.h5')
 
-    model.save(f'../models/{save_label}.h5')
-
-    make_confusion_matrix(max_y_test, max_y_pred_test, output_file=f'../img/confusion_matrix/{save_label}.png', print_stdout=True)
+    make_confusion_matrix(max_y_test, max_y_pred_test, 
+                            output_file=f'../img/confusion_matrix/{identifier}.png', 
+                            print_stdout=True, 
+                            xticklabels=confusion_matrix_labels, 
+                            yticklabels=confusion_matrix_labels)
 else:
     make_confusion_matrix(max_y_test, max_y_pred_test, print_stdout=True)
+
+cleanup()

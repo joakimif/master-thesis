@@ -28,13 +28,10 @@ loss, acc = evaluate(model, X_test, y_test, verbose=verbose)
 max_y_test, max_y_pred_test = predict(model, X_test, y_test, verbose=verbose)
 
 if not model_path:
-    timestamp = datetime.datetime.now().strftime("%m-%d-%YT%H:%M:%S")
-    save_label = f'Conv1D-MADRS_{timestamp}_{segment_length}_{step}_{epochs}_{batch_size}'
-
-    model.save(f'../models/{save_label}.h5')
+    model.save(f'../models/{identifier}.h5')
 
     make_confusion_matrix(max_y_test, max_y_pred_test, 
-                            output_file=f'../img/confusion_matrix/{save_label}.png', 
+                            output_file=f'../img/confusion_matrix/{identifier}.png', 
                             print_stdout=True, 
                             xticklabels=MADRS_LABLES, 
                             yticklabels=MADRS_LABLES)

@@ -1,4 +1,7 @@
 import sys
+import datetime
+
+timestamp = datetime.datetime.now().strftime("%m-%d-%YT%H:%M:%S")
 
 if '--segment_length' in sys.argv:
     segment_length = int(sys.argv[sys.argv.index('--segment_length')+1])
@@ -30,11 +33,6 @@ if '--history_graph' in sys.argv:
 else:
     history_graph = None
 
-if '--logfile' in sys.argv:
-    logfile = sys.argv[sys.argv.index('--logfile')+1]
-else:
-    logfile = None
-
 if '--dropout' in sys.argv:
     dropout = float(sys.argv[sys.argv.index('--dropout')+1])
 else:
@@ -43,6 +41,14 @@ else:
 madrs = '-m' in sys.argv or '--madrs' in sys.argv
 verbose = '-v' in sys.argv or '--verbose' in sys.argv
 
+identifier = f'Conv1D{madrs and '-MADRS' or ''}_{timestamp}_{segment_length}_{step}_{epochs}_{batch_size}'
+
+if '--logfile' in sys.argv:
+    logfile = sys.argv[sys.argv.index('--logfile')+1]
+elif '--log' in sys.argv:
+    logfile = f'../logs/python/{identifier}'
+else:
+    logfile = None
 
 if verbose:
     print('Segment length:', segment_length) 

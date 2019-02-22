@@ -307,8 +307,8 @@ def evaluate(model, X_test, y_test, verbose):
     loss, acc = model.evaluate(X_test, y_test)
 
     if verbose:
-        print(f'Accuracy: {acc}%')
-        print(f'Loss: {loss}%')
+        print(f'Accuracy: {acc}')
+        print(f'Loss: {loss}')
 
     if logfile:
         log.write(

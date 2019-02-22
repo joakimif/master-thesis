@@ -47,6 +47,8 @@ MADRS_VALUES = [0, 7, 20, 34]
 log = None
 
 def setup():
+    global log
+    
     if logfile:
         log = open(logfile, 'w')
 

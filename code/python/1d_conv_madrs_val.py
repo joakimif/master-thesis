@@ -26,7 +26,7 @@ else:
     model = load_model(model_path)
 
 loss, acc = evaluate(model, X_test, y_test, verbose=verbose)
-#max_y_test, max_y_pred_test = predict(model, X_test, y_test, verbose=verbose)
+# max_y_test, max_y_pred_test = predict(model, X_test, y_test, verbose=verbose)
 
 if not model_path:
     model.save(f'../models/{identifier}.h5')

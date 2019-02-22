@@ -191,6 +191,55 @@ def create_segments_and_labels_madrs(n_features, segment_length, step):
     
     return segments, labels, num_sensors, input_shape    
 
+def create_segments_and_labels_madrs_val(n_features, segment_length, step):
+    global log
+
+    scores = pd.read_csv(os.path.join(DATASET_DIR, 'scores.csv'))
+    scores['madrs2'].fillna(0, inplace=True)
+    
+    segments = []
+    labels = []
+
+    for person in scores['number']:
+        p = scores[scores['number'] == person]
+        filepath = os.path.join(DATASET_DIR, person.split('_')[0], f'{person}.csv')
+        df_activity = pd.read_csv(filepath)
+
+        for i in range(0, len(df_activity) - segment_length, step):
+            segment = df_activity['activity'].values[i : i + segment_length]
+            
+            segments.append([segment])
+            labels.append(p['madrs2'].values[0])
+
+    segments = np.asarray(segments)
+    segments = segments.reshape(-1, segment_length, n_features)
+
+    num_time_periods, num_sensors = segments.shape[1], segments.shape[2]
+    input_shape = num_time_periods * num_sensors
+
+    segments = segments.reshape(segments.shape[0], input_shape).astype('float32')
+    labels = np.asarray(labels).astype('float32')
+
+    if verbose:
+        print('\nINPUT DATA\n------------')
+        print(f'Segments:', segments.shape, ':: Labels:', labels.shape)
+        print(f'num_time_periods: {num_time_periods}, num_sensors: {num_sensors}, input_shape: {input_shape}')
+        print('------------\n')
+
+    if logfile:
+        log.write(
+            ('=========================\n'
+            'Input Data:\n'
+            f'Segments: {segments.shape}\n'
+            f'Labels: {labels.shape}\n'
+            f'num_time_periods: {num_time_periods}\n'
+            f'num_sensors: {num_sensors}\n'
+            f'input_shape: {input_shape}\n'
+            '=========================\n\n')
+        )
+    
+    return segments, labels, num_sensors, input_shape
+
 def create_segments_and_labels(n_features, segment_length, step):
     global log
 
@@ -259,6 +308,37 @@ def create_model(segment_length, num_sensors, input_shape, loss='categorical_cro
     model.add(GlobalAveragePooling1D())
     model.add(Dropout(dropout))
     model.add(Dense(output_classes, activation='softmax'))
+
+    model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
+
+    if verbose:
+        model.summary()
+    
+    if logfile:
+        model.summary(print_fn=lambda x: log.write(x + '\n'))
+
+    return model
+
+def create_model_madrs(segment_length, num_sensors, input_shape, loss='mean_squared_logarithmic_error', optimizer='adam', metrics=['accuracy'], dropout=0.5):
+    global log
+
+    K.clear_session()
+
+    inputs = Input(shape=input_shape)
+
+    x = Conv1D(32, 1, activation='relu')(inputs)
+    x = Conv1D(32, 1, activation='relu')(x)
+
+    x = Conv1D(64, 2, activation='relu')(x)
+    x = Conv1D(64, 2, activation='relu')(x)
+
+    x = Dense(64, activation='relu')(x)
+    x = Dense(64, activation='relu')(x)
+
+    x = Flatten()(x)
+    output = Dense(1)(x)
+
+    model = Model(inputs=inputs, outputs=output)
 
     model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
 

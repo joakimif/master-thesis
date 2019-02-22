@@ -10,9 +10,7 @@ else:
     output_classes = 2
     confusion_matrix_labels = LABELS
 
-N_FEATURES = 1
-
-segments, labels, num_sensors, input_shape = create_segments_and_labels(N_FEATURES, segment_length, step)
+segments, labels, num_sensors, input_shape = create_segments_and_labels(1, segment_length, step)
 X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2)
 
 if not model_path:

@@ -41,7 +41,9 @@ else:
 madrs = '-m' in sys.argv or '--madrs' in sys.argv
 verbose = '-v' in sys.argv or '--verbose' in sys.argv
 
-identifier = f'Conv1D{madrs and '-MADRS' or ''}_{timestamp}_{segment_length}_{step}_{epochs}_{batch_size}'
+_type = madrs and '-MADRS' or ''
+
+identifier = f'Conv1D{_type}_{timestamp}_{segment_length}_{step}_{epochs}_{batch_size}'
 
 if '--logfile' in sys.argv:
     logfile = sys.argv[sys.argv.index('--logfile')+1]

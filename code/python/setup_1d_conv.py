@@ -348,7 +348,16 @@ def create_model_madrs(segment_length, num_sensors, input_shape, loss='mean_squa
 
     return model
 
-def train(model, X_train, y_train, batch_size, epochs, callbacks, validation_split=0.2):
+def train(model, X_train, y_train, batch_size, epochs, callbacks, validation_split=0.2, validation_data=None):
+    if validation_data:
+        return model.fit(X_train,
+                    y_train,
+                    batch_size=batch_size,
+                    epochs=epochs,
+                    callbacks=callbacks,
+                    validation_data=validation_data,
+                    verbose=verbose)
+
     return model.fit(X_train,
                     y_train,
                     batch_size=batch_size,

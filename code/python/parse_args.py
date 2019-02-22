@@ -35,8 +35,9 @@ if '--dropout' in sys.argv:
 else:
     dropout = 0.5
 
-madrs = '-v' in sys.argv or '--madrs' in sys.argv
+madrs = '-m' in sys.argv or '--madrs' in sys.argv
 verbose = '-v' in sys.argv or '--verbose' in sys.argv
+print_classification_report = '-c' in sys.argv or '--print_classification_report' in sys.argv
 
 if verbose:
     print('Segment length:', segment_length) 

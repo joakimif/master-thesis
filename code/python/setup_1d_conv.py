@@ -319,7 +319,7 @@ def create_model(segment_length, num_sensors, input_shape, loss='categorical_cro
 
     return model
 
-def create_model_madrs(segment_length, num_sensors, input_shape, loss='mean_squared_logarithmic_error', optimizer='adam', metrics=['accuracy'], dropout=0.5):
+def create_model_madrs(segment_length, num_sensors, input_shape, loss='mse', optimizer='adam', metrics=['accuracy'], dropout=0.5):
     global log
 
     K.clear_session()
@@ -337,9 +337,6 @@ def create_model_madrs(segment_length, num_sensors, input_shape, loss='mean_squa
     model.add(Conv1D(160, 10, activation='relu'))
 
     model.add(GlobalAveragePooling1D())
-
-    # model.add(Dense(64, activation='relu'))
-    # model.add(Dense(64, activation='relu'))
 
     # model.add(Dropout(dropout))
 

@@ -83,10 +83,10 @@ def make_confusion_matrix(validations, predictions, output_file=None, print_stdo
 
     if logfile:
         log.write(
-            ('========================='
-            'Input Data:'
-            'Confusion Matrix:'
-            f'{matrix}'
+            ('=========================\n'
+            'Input Data:\n'
+            'Confusion Matrix:\n'
+            f'{matrix}\n'
             '=========================')
         )
 
@@ -179,13 +179,13 @@ def create_segments_and_labels_madrs(n_features, segment_length, step):
 
     if logfile:
         log.write(
-            ('========================='
-            'Input Data:'
-            f'Segments: {segments.shape}'
-            f'Labels: {labels.shape}'
-            f'num_time_periods: {num_time_periods}'
-            f'num_sensors: {num_sensors}'
-            f'input_shape: {input_shape}'
+            ('=========================\n'
+            'Input Data:\n'
+            f'Segments: {segments.shape}\n'
+            f'Labels: {labels.shape}\n'
+            f'num_time_periods: {num_time_periods}\n'
+            f'num_sensors: {num_sensors}\n'
+            f'input_shape: {input_shape}\n'
             '=========================')
         )
     
@@ -231,13 +231,13 @@ def create_segments_and_labels(n_features, segment_length, step):
 
     if logfile:
         log.write(
-            ('========================='
-            'Input Data:'
-            f'Segments: {segments.shape}'
-            f'Labels: {labels.shape}'
-            f'num_time_periods: {num_time_periods}'
-            f'num_sensors: {num_sensors}'
-            f'input_shape: {input_shape}'
+            ('=========================\n'
+            'Input Data:\n'
+            f'Segments: {segments.shape}\n'
+            f'Labels: {labels.shape}\n'
+            f'num_time_periods: {num_time_periods}\n'
+            f'num_sensors: {num_sensors}\n'
+            f'input_shape: {input_shape}\n'
             '=========================')
         )
     
@@ -306,10 +306,10 @@ def evaluate(model, X_test, y_test, verbose):
 
     if logfile:
         log.write(
-            ('========================='
-            'Evaluation:'
-            f'Accuracy: {acc}'
-            f'Loss: {loss}'
+            ('=========================\n'
+            'Evaluation:\n'
+            f'Accuracy: {acc}\n'
+            f'Loss: {loss}\n'
             '=========================')
         )
 

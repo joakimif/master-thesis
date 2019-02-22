@@ -111,7 +111,7 @@ def is_daytime(timestamp):
                         time.strptime('21:00:00', '%H:%M:%S'))
 
 def create_segments_and_labels_madrs(n_features, segment_length, step):
-    scores = pd.read_csv(os.path.join(DATASET_DIR, 'scores_2.csv'))
+    scores = pd.read_csv(os.path.join(DATASET_DIR, 'scores.csv'))
     scores['madrs2'].fillna(0, inplace=True)
     
     classes = len(MADRS_VALUES)
@@ -190,7 +190,7 @@ def create_segments_and_labels(n_features, segment_length, step):
     
     return segments, labels, num_sensors, input_shape
 
-def create_model(segment_length, num_sensors, input_shape, loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'], output_classes=2):
+def create_model(segment_length, num_sensors, input_shape, loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'], output_classes=2, dropout=0.5):
     K.clear_session()
 
     model = Sequential()
@@ -202,7 +202,7 @@ def create_model(segment_length, num_sensors, input_shape, loss='categorical_cro
     model.add(Conv1D(160, 10, activation='relu'))
     model.add(Conv1D(160, 10, activation='relu'))
     model.add(GlobalAveragePooling1D())
-    model.add(Dropout(0.5))
+    model.add(Dropout(dropout))
     model.add(Dense(output_classes, activation='softmax'))
 
     model.compile(loss=loss, optimizer=optimizer, metrics=metrics)

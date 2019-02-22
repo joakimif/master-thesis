@@ -224,6 +224,8 @@ def create_segments_and_labels_madrs_val(n_features, segment_length, step):
         print('\nINPUT DATA\n------------')
         print(f'Segments:', segments.shape, ':: Labels:', labels.shape)
         print(f'num_time_periods: {num_time_periods}, num_sensors: {num_sensors}, input_shape: {input_shape}')
+        print(pd.DataFrame(segments).head())
+        print(pd.DataFrame(labels).head())
         print('------------\n')
 
     if logfile:

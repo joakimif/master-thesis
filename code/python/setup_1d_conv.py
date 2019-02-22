@@ -48,15 +48,19 @@ log = None
 
 def setup():
     global log
-    
+
     if logfile:
         log = open(logfile, 'w')
 
 def cleanup():
+    global log
+
     if logfile:
         log.close()
 
 def make_confusion_matrix(validations, predictions, output_file=None, print_stdout=False, xticklabels=LABELS, yticklabels=LABELS):
+    global log
+
     matrix = confusion_matrix(validations, predictions)
     plt.figure(figsize=(6, 4))
     sns.heatmap(matrix,
@@ -131,6 +135,8 @@ def is_daytime(timestamp):
                         time.strptime('21:00:00', '%H:%M:%S'))
 
 def create_segments_and_labels_madrs(n_features, segment_length, step):
+    global log
+
     scores = pd.read_csv(os.path.join(DATASET_DIR, 'scores.csv'))
     scores['madrs2'].fillna(0, inplace=True)
     
@@ -185,6 +191,8 @@ def create_segments_and_labels_madrs(n_features, segment_length, step):
     return segments, labels, num_sensors, input_shape    
 
 def create_segments_and_labels(n_features, segment_length, step):
+    global log
+
     scores = pd.read_csv(os.path.join(DATASET_DIR, 'scores.csv'))
     scores['afftype'].fillna(0, inplace=True)
     
@@ -235,6 +243,8 @@ def create_segments_and_labels(n_features, segment_length, step):
     return segments, labels, num_sensors, input_shape
 
 def create_model(segment_length, num_sensors, input_shape, loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'], output_classes=2, dropout=0.5):
+    global log
+
     K.clear_session()
 
     model = Sequential()
@@ -269,6 +279,8 @@ def train(model, X_train, y_train, batch_size, epochs, callbacks, validation_spl
                     verbose=verbose)
 
 def predict(model, X_test, y_test, verbose=False):
+    global log
+
     y_pred_test = model.predict(X_test)
 
     max_y_pred_test = np.argmax(y_pred_test, axis=1)
@@ -283,6 +295,8 @@ def predict(model, X_test, y_test, verbose=False):
     return max_y_test, max_y_pred_test
 
 def evaluate(model, X_test, y_test, verbose):
+    global log
+    
     loss, acc = model.evaluate(X_test, y_test)
 
     if verbose:

@@ -66,7 +66,6 @@ plt.title('Accuracy')
 
 plt.xlabel('Epochs')
 
-# plt.tight_layout()
 plt.savefig(f'{img_path}/plot.png')
 
 plt.clf()

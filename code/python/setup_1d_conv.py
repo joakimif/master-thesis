@@ -327,14 +327,14 @@ def create_model_madrs(segment_length, num_sensors, input_shape, loss='mean_squa
     model = Sequential()
 
     model.add(Reshape((segment_length, num_sensors), input_shape=(input_shape,)))
-    
-    model.add(Conv1D(32, 1, activation='relu', input_shape=(segment_length, num_sensors)))
-    model.add(Conv1D(32, 1, activation='relu'))
+
+    model.add(Conv1D(32, 10, activation='relu', input_shape=(segment_length, num_sensors)))
+    model.add(Conv1D(32, 10, activation='relu'))
 
     model.add(MaxPooling1D(2))
     
-    model.add(Conv1D(64, 2, activation='relu'))
-    model.add(Conv1D(64, 2, activation='relu'))
+    model.add(Conv1D(64, 20, activation='relu'))
+    model.add(Conv1D(64, 20, activation='relu'))
 
     model.add(GlobalAveragePooling1D())
 

@@ -8,6 +8,8 @@ setup()
 segments, labels, num_sensors, input_shape = create_segments_and_labels_madrs_val(1, segment_length, step)
 X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2)
 
+print(pd.DataFrame(y_test).describe())
+
 if not model_path:
     if verbose:
         print('Creating model from scratch...')

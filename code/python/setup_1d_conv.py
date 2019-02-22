@@ -338,8 +338,8 @@ def create_model_madrs(segment_length, num_sensors, input_shape, loss='mean_squa
 
     model.add(GlobalAveragePooling1D())
 
-    model.add(Dense(64, activation='relu'))
-    model.add(Dense(64, activation='relu'))
+    # model.add(Dense(64, activation='relu'))
+    # model.add(Dense(64, activation='relu'))
 
     # model.add(Dropout(dropout))
 

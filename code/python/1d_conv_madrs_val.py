@@ -17,7 +17,7 @@ if not model_path:
     model = create_model_madrs(segment_length, num_sensors, input_shape, dropout=dropout)
 
     callbacks = [
-        EarlyStopping(monitor='val_loss', patience=2),
+        EarlyStopping(monitor='mse', patience=2),
     ]
 
     history = train(model, X_train, y_train, batch_size, epochs, callbacks) # validation_data=(X_test, y_test))

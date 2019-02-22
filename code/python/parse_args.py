@@ -48,7 +48,7 @@ identifier = f'Conv1D{_type}_{timestamp}_{segment_length}_{step}_{epochs}_{batch
 if '--logfile' in sys.argv:
     logfile = sys.argv[sys.argv.index('--logfile')+1]
 elif '--log' in sys.argv:
-    logfile = f'../logs/python/{identifier}.log'
+    logfile = f'../logs/python/{identifier}.log' 
 else:
     logfile = None
 

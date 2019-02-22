@@ -30,6 +30,11 @@ if '--history_graph' in sys.argv:
 else:
     history_graph = None
 
+if '--dropout' in sys.argv:
+    dropout = sys.argv[sys.argv.index('--dropout')+1]
+else:
+    dropout = 0.5
+
 madrs = '-v' in sys.argv or '--madrs' in sys.argv
 verbose = '-v' in sys.argv or '--verbose' in sys.argv
 

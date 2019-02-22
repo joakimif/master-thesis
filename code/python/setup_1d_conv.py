@@ -82,12 +82,13 @@ def make_confusion_matrix(validations, predictions, output_file=None, print_stdo
         print('Confusion matrix:\n', matrix)
 
     if logfile:
-        log.write(f"""\
-        =========================
-        Confusion Matrix:
-        {matrix}
-        =========================
-        """)
+        log.write(
+            ('========================='
+            'Input Data:'
+            'Confusion Matrix:'
+            f'{matrix}'
+            '=========================')
+        )
 
 def average_str(string):
     if(type(string) == str):
@@ -177,16 +178,16 @@ def create_segments_and_labels_madrs(n_features, segment_length, step):
         print('------------\n')
 
     if logfile:
-        log.write(f"""\
-        =========================
-        Input Data:
-        Segments: {segments.shape}
-        Labels: {labels.shape}
-        num_time_periods: {num_time_periods}
-        num_sensors: {num_sensors}
-        input_shape: {input_shape}
-        =========================
-        """)
+        log.write(
+            ('========================='
+            'Input Data:'
+            f'Segments: {segments.shape}'
+            f'Labels: {labels.shape}'
+            f'num_time_periods: {num_time_periods}'
+            f'num_sensors: {num_sensors}'
+            f'input_shape: {input_shape}'
+            '=========================')
+        )
     
     return segments, labels, num_sensors, input_shape    
 
@@ -229,16 +230,16 @@ def create_segments_and_labels(n_features, segment_length, step):
         print('------------\n')
 
     if logfile:
-        log.write(f"""\
-        =========================
-        Input Data:
-        Segments: {segments.shape}
-        Labels: {labels.shape}
-        num_time_periods: {num_time_periods}
-        num_sensors: {num_sensors}
-        input_shape: {input_shape}
-        =========================
-        """)
+        log.write(
+            ('========================='
+            'Input Data:'
+            f'Segments: {segments.shape}'
+            f'Labels: {labels.shape}'
+            f'num_time_periods: {num_time_periods}'
+            f'num_sensors: {num_sensors}'
+            f'input_shape: {input_shape}'
+            '=========================')
+        )
     
     return segments, labels, num_sensors, input_shape
 
@@ -304,12 +305,12 @@ def evaluate(model, X_test, y_test, verbose):
         print(f'Loss: {loss}%')
 
     if logfile:
-        log.write(f"""\
-        =========================
-        Evaluation:
-        Accuracy: {acc}
-        Loss: {loss}
-        =========================
-        """)
+        log.write(
+            ('========================='
+            'Evaluation:'
+            f'Accuracy: {acc}'
+            f'Loss: {loss}'
+            '=========================')
+        )
 
     return loss, acc

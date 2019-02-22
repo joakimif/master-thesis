@@ -2,8 +2,6 @@ from setup_1d_conv import *
 
 setup()
 
-print('log', log)
-
 N_FEATURES = 1
 
 segments, labels, num_sensors, input_shape = create_segments_and_labels_madrs(N_FEATURES, segment_length, step)

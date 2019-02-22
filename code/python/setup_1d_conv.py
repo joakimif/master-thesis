@@ -48,7 +48,7 @@ log = None
 
 def setup():
     if logfile:
-        log = open(logfile, 'rw')
+        log = open(logfile, 'w')
 
 def cleanup():
     if logfile:

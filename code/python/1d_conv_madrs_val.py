@@ -18,7 +18,7 @@ if not model_path:
         EarlyStopping(monitor='val_loss', patience=2),
     ]
 
-    history = train(model, X_train, y_train, batch_size, epochs, callbacks, validation_data=(X_test, y_test), shuffle=True)
+    history = train(model, X_train, y_train, batch_size, epochs, callbacks, validation_data=(X_test, y_test))
 else:
     if verbose:
         print(f'Loading model from {model_path}...')

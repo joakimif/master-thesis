@@ -356,6 +356,7 @@ def train(model, X_train, y_train, batch_size, epochs, callbacks, validation_spl
                     epochs=epochs,
                     callbacks=callbacks,
                     validation_data=validation_data,
+                    shuffle=True,
                     verbose=verbose)
 
     return model.fit(X_train,

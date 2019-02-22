@@ -49,6 +49,7 @@ log = None
 def setup():
     if logfile:
         log = open(logfile, 'w')
+        print(log)
 
 def cleanup():
     if logfile:

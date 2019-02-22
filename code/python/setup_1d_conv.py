@@ -324,21 +324,19 @@ def create_model_madrs(segment_length, num_sensors, input_shape, loss='mean_squa
 
     K.clear_session()
 
-    inputs = Input(shape=(input_shape,))
+    model = Sequential()
 
-    x = Conv1D(32, 1, activation='relu')(inputs)
-    x = Conv1D(32, 1, activation='relu')(x)
+    model.add(Reshape((segment_length, num_sensors), input_shape=(input_shape,)))
+    model.add(Conv1D(100, 10, activation='relu', input_shape=(segment_length, num_sensors)))
+    model.add(Conv1D(100, 10, activation='relu'))
+    model.add(MaxPooling1D(2))
+    model.add(Conv1D(160, 10, activation='relu'))
+    model.add(Conv1D(160, 10, activation='relu'))
+    model.add(GlobalAveragePooling1D())
+    model.add(Dropout(dropout))
 
-    x = Conv1D(64, 2, activation='relu')(x)
-    x = Conv1D(64, 2, activation='relu')(x)
-
-    x = Dense(64, activation='relu')(x)
-    x = Dense(64, activation='relu')(x)
-
-    x = Flatten()(x)
-    output = Dense(1)(x)
-
-    model = Model(inputs=inputs, outputs=output)
+    model.add(Flatten())
+    model.add(Dense(1))
 
     model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
 

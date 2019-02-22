@@ -319,7 +319,7 @@ def create_model(segment_length, num_sensors, input_shape, loss='categorical_cro
 
     return model
 
-def create_model_madrs(segment_length, num_sensors, input_shape, loss='mean_squared_logarithmic_error', optimizer='nadam', metrics=['accuracy'], dropout=0.5):
+def create_model_madrs(segment_length, num_sensors, input_shape, loss='mean_squared_logarithmic_error', optimizer='nadam', metrics=['mse'], dropout=0.5):
     global log
 
     K.clear_session()

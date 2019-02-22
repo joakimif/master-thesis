@@ -1,5 +1,7 @@
 from setup_1d_conv import *
 
+setup()
+
 N_FEATURES = 1
 
 segments, labels, num_sensors, input_shape = create_segments_and_labels_madrs(N_FEATURES, segment_length, step)
@@ -22,13 +24,8 @@ else:
 
     model = load_model(model_path)
 
-loss, acc = model.evaluate(X_test, y_test)
-
-if verbose:
-    print('Accuracy: {:5.2f}%'.format(100 * acc))
-    print('Loss: {:5.2f}%'.format(100 * loss))
-
-max_y_test, max_y_pred_test = predict(model, X_test, y_test, print_classification_report=print_classification_report)
+loss, acc = evaluate(model, X_test, y_test, verbose=verbose)
+max_y_test, max_y_pred_test = predict(model, X_test, y_test, verbose=verbose)
 
 if not model_path:
     timestamp = datetime.datetime.now().strftime("%m-%d-%YT%H:%M:%S")
@@ -43,3 +40,5 @@ if not model_path:
                             yticklabels=MADRS_LABLES)
 else:
     make_confusion_matrix(max_y_test, max_y_pred_test, print_stdout=True)
+
+cleanup()

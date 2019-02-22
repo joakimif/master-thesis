@@ -30,6 +30,11 @@ if '--history_graph' in sys.argv:
 else:
     history_graph = None
 
+if '--logfile' in sys.argv:
+    logfile = sys.argv[sys.argv.index('--logfile')+1]
+else:
+    logfile = None
+
 if '--dropout' in sys.argv:
     dropout = float(sys.argv[sys.argv.index('--dropout')+1])
 else:
@@ -37,7 +42,7 @@ else:
 
 madrs = '-m' in sys.argv or '--madrs' in sys.argv
 verbose = '-v' in sys.argv or '--verbose' in sys.argv
-print_classification_report = '-c' in sys.argv or '--print_classification_report' in sys.argv
+
 
 if verbose:
     print('Segment length:', segment_length) 

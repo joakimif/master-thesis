@@ -44,6 +44,16 @@ LABELS = ['normal', 'bipolar']
 MADRS_LABLES = ['Normal', 'Mild', 'Moderate', 'Severe']
 MADRS_VALUES = [0, 7, 20, 34]
 
+log = None
+
+def setup():
+    if logfile:
+        log = open(logfile, 'rw')
+
+def cleanup():
+    if logfile:
+        log.close()
+
 def make_confusion_matrix(validations, predictions, output_file=None, print_stdout=False, xticklabels=LABELS, yticklabels=LABELS):
     matrix = confusion_matrix(validations, predictions)
     plt.figure(figsize=(6, 4))
@@ -64,6 +74,14 @@ def make_confusion_matrix(validations, predictions, output_file=None, print_stdo
 
     if print_stdout:
         print('Confusion matrix:\n', matrix)
+
+    if logfile:
+        log.write(f"""\
+        =========================
+        Confusion Matrix:
+        {matrix}
+        =========================
+        """)
 
 def average_str(string):
     if(type(string) == str):
@@ -149,6 +167,18 @@ def create_segments_and_labels_madrs(n_features, segment_length, step):
         print(f'Segments:', segments.shape, ':: Labels:', labels.shape)
         print(f'num_time_periods: {num_time_periods}, num_sensors: {num_sensors}, input_shape: {input_shape}')
         print('------------\n')
+
+    if logfile:
+        log.write(f"""\
+        =========================
+        Input Data:
+        Segments: {segments.shape}
+        Labels: {labels.shape}
+        num_time_periods: {num_time_periods}
+        num_sensors: {num_sensors}
+        input_shape: {input_shape}
+        =========================
+        """)
     
     return segments, labels, num_sensors, input_shape    
 
@@ -187,6 +217,18 @@ def create_segments_and_labels(n_features, segment_length, step):
         print(f'Segments:', segments.shape, ':: Labels:', labels.shape)
         print(f'num_time_periods: {num_time_periods}, num_sensors: {num_sensors}, input_shape: {input_shape}')
         print('------------\n')
+
+    if logfile:
+        log.write(f"""\
+        =========================
+        Input Data:
+        Segments: {segments.shape}
+        Labels: {labels.shape}
+        num_time_periods: {num_time_periods}
+        num_sensors: {num_sensors}
+        input_shape: {input_shape}
+        =========================
+        """)
     
     return segments, labels, num_sensors, input_shape
 
@@ -209,6 +251,9 @@ def create_model(segment_length, num_sensors, input_shape, loss='categorical_cro
 
     if verbose:
         print(model.summary())
+    
+    if logfile:
+        log.write(model.summary())
 
     return model
 
@@ -221,12 +266,34 @@ def train(model, X_train, y_train, batch_size, epochs, callbacks, validation_spl
                     validation_split=validation_split,
                     verbose=verbose)
 
-def predict(model, X_test, y_test, print_classification_report=False):
+def predict(model, X_test, y_test, verbose=False):
     y_pred_test = model.predict(X_test)
+
     max_y_pred_test = np.argmax(y_pred_test, axis=1)
     max_y_test = np.argmax(y_test, axis=1)
 
-    if print_classification_report:
+    if verbose:
         print(classification_report(max_y_test, max_y_pred_test))
 
+    if logfile:
+        log.write(classification_report(max_y_test, max_y_pred_test))
+
     return max_y_test, max_y_pred_test
+
+def evaluate(model, X_test, y_test, verbose):
+    loss, acc = model.evaluate(X_test, y_test)
+
+    if verbose:
+        print(f'Accuracy: {acc}%')
+        print(f'Loss: {loss}%')
+
+    if logfile:
+        log.write(f"""\
+        =========================
+        Evaluation:
+        Accuracy: {acc}
+        Loss: {loss}
+        =========================
+        """)
+
+    return loss, acc

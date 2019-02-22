@@ -87,7 +87,7 @@ def make_confusion_matrix(validations, predictions, output_file=None, print_stdo
             'Input Data:\n'
             'Confusion Matrix:\n'
             f'{matrix}\n'
-            '=========================')
+            '=========================\n\n')
         )
 
 def average_str(string):
@@ -186,7 +186,7 @@ def create_segments_and_labels_madrs(n_features, segment_length, step):
             f'num_time_periods: {num_time_periods}\n'
             f'num_sensors: {num_sensors}\n'
             f'input_shape: {input_shape}\n'
-            '=========================')
+            '=========================\n\n')
         )
     
     return segments, labels, num_sensors, input_shape    
@@ -238,7 +238,7 @@ def create_segments_and_labels(n_features, segment_length, step):
             f'num_time_periods: {num_time_periods}\n'
             f'num_sensors: {num_sensors}\n'
             f'input_shape: {input_shape}\n'
-            '=========================')
+            '=========================\n\n')
         )
     
     return segments, labels, num_sensors, input_shape
@@ -291,7 +291,13 @@ def predict(model, X_test, y_test, verbose=False):
         print(classification_report(max_y_test, max_y_pred_test))
 
     if logfile:
-        log.write(classification_report(max_y_test, max_y_pred_test))
+        log.write(
+            ('=========================\n'
+            'Classification Report:\n'
+            f'{classification_report(max_y_test, max_y_pred_test)}'
+            '=========================\n\n'
+            )
+        )
 
     return max_y_test, max_y_pred_test
 
@@ -310,7 +316,7 @@ def evaluate(model, X_test, y_test, verbose):
             'Evaluation:\n'
             f'Accuracy: {acc}\n'
             f'Loss: {loss}\n'
-            '=========================')
+            '=========================\n\n')
         )
 
     return loss, acc

@@ -327,13 +327,21 @@ def create_model_madrs(segment_length, num_sensors, input_shape, loss='mean_squa
     model = Sequential()
 
     model.add(Reshape((segment_length, num_sensors), input_shape=(input_shape,)))
-    model.add(Conv1D(100, 10, activation='relu', input_shape=(segment_length, num_sensors)))
-    model.add(Conv1D(100, 10, activation='relu'))
+    
+    model.add(Conv1D(32, 1, activation='relu', input_shape=(segment_length, num_sensors)))
+    model.add(Conv1D(32, 1, activation='relu'))
+
     model.add(MaxPooling1D(2))
-    model.add(Conv1D(160, 10, activation='relu'))
-    model.add(Conv1D(160, 10, activation='relu'))
+    
+    model.add(Conv1D(64, 2, activation='relu'))
+    model.add(Conv1D(64, 2, activation='relu'))
+
     model.add(GlobalAveragePooling1D())
-    model.add(Dropout(dropout))
+
+    model.add(Dense(64, activation='relu'))
+    model.add(Dense(64, activation='relu'))
+
+    # model.add(Dropout(dropout))
 
     model.add(Flatten())
     model.add(Dense(1))
@@ -382,7 +390,7 @@ def predict(model, X_test, y_test, verbose=False):
         log.write(
             ('=========================\n'
             'Classification Report:\n'
-            f'{classification_report(max_y_test, max_y_pred_test)}'
+            f'{classification_report(max_y_test, max_y_pred_test)}\n'
             '=========================\n\n'
             )
         )

@@ -324,7 +324,7 @@ def create_model_madrs(segment_length, num_sensors, input_shape, loss='mean_squa
 
     K.clear_session()
 
-    inputs = Input(shape=input_shape)
+    inputs = Input(shape=(input_shape,))
 
     x = Conv1D(32, 1, activation='relu')(inputs)
     x = Conv1D(32, 1, activation='relu')(x)

@@ -261,11 +261,13 @@ def create_model(segment_length, num_sensors, input_shape, loss='categorical_cro
 
     model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
 
+    summary = model.summary()
+
     if verbose:
-        print(model.summary())
+        print(summary)
     
     if logfile:
-        log.write(model.summary())
+        log.write(summary)
 
     return model
 
@@ -296,7 +298,7 @@ def predict(model, X_test, y_test, verbose=False):
 
 def evaluate(model, X_test, y_test, verbose):
     global log
-    
+
     loss, acc = model.evaluate(X_test, y_test)
 
     if verbose:

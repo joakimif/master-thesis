@@ -19,10 +19,10 @@ from tensorflow.keras.layers import Conv2D, MaxPooling2D, Conv1D, MaxPooling1D
 from tensorflow.keras.callbacks import TensorBoard, EarlyStopping, ModelCheckpoint
 
 DATASET_DIR = '../datasets'
-SEGMENT_LENGTH = 120
+SEGMENT_LENGTH = 480
 STEP = 60
 EPOCHS = 4000
-BATCH_SIZE = 1000
+BATCH_SIZE = 500
 
 """ Create segments and labels """
 

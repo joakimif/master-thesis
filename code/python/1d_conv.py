@@ -24,10 +24,10 @@ if k_folds > 1:
     for train_index, test_index in skf.split(segments, labels):
         print(f'Fold: {i+1}/{k_folds}')
 
-        labels = to_categorical(labels, output_classes)
+        _labels = to_categorical(labels, output_classes)
 
         X_train, X_test = segments[train_index], segments[test_index]
-        y_train, y_test = labels[train_index], labels[test_index]
+        y_train, y_test = _labels[train_index], _labels[test_index]
 
         model = create_model(segment_length, num_sensors, input_shape, output_classes=output_classes, dropout=dropout, verbose=0)
         history = train(model, X_train, y_train, batch_size, epochs, callbacks=[EarlyStopping(monitor='val_acc', patience=2)], validation_split=0.4, verbose=1)

@@ -18,11 +18,13 @@ from tensorflow.keras.layers import Input, Dense, Dropout, Flatten, Reshape, Glo
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Conv1D, MaxPooling1D
 from tensorflow.keras.callbacks import TensorBoard, EarlyStopping, ModelCheckpoint
 
+from parse_args import *
+
 DATASET_DIR = '../datasets'
-SEGMENT_LENGTH = 960
-STEP = 60
-EPOCHS = 50
-BATCH_SIZE = 500
+SEGMENT_LENGTH = segment_length
+STEP = step
+EPOCHS = epochs
+BATCH_SIZE = batch_size
 
 """ Create segments and labels """
 
@@ -75,7 +77,7 @@ model.compile(loss='mean_squared_error', optimizer='adam', metrics=['mse'])
 
 h = model.fit(X_train,
                 y_train,
-                # batch_size=BATCH_SIZE,
+                batch_size=BATCH_SIZE,
                 epochs=EPOCHS,
                 callbacks=[
                     # EarlyStopping(monitor='mean_squared_error', patience=2),
@@ -84,4 +86,8 @@ h = model.fit(X_train,
                 verbose=1)
 
 print(model.evaluate(X_test, y_test))
-print(model.predict(X_test))
+
+predictions = model.predict(X_test)
+
+for prediction, correct in zip(predictions, y_test):
+    print(f'Predict: {prediction[0]}, correct: {correct}')

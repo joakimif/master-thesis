@@ -30,7 +30,7 @@ if k_folds > 1:
         y_train, y_test = _labels[train_index], _labels[test_index]
 
         model = create_model(segment_length, num_sensors, input_shape, output_classes=output_classes, dropout=dropout, verbose=0)
-        history = train(model, X_train, y_train, batch_size, epochs, callbacks=[EarlyStopping(monitor='val_acc', patience=2)], validation_split=0.4, verbose=1)
+        history = train(model, X_train, y_train, batch_size, epochs, callbacks=[EarlyStopping(monitor='val_loss', patience=2)], validation_split=0.4, verbose=1)
         loss, acc = evaluate(model, X_test, y_test, verbose=0) 
 
         if i == 0 or max_acc < acc:
@@ -43,8 +43,7 @@ if k_folds > 1:
                                 print_stdout=False,
                                 xticklabels=confusion_matrix_labels, 
                                 yticklabels=confusion_matrix_labels)
-            
-
+        
         models.append((model, history, (loss, acc)))
         
         i+=1

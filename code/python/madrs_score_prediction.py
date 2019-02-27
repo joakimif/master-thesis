@@ -91,6 +91,9 @@ actual = pd.DataFrame(y_test)
 predictions = [x[0] for x in model.predict(X_test)]
 predictions = pd.DataFrame(predictions, index=actual.index)
 
+print(actual.head())
+print(predictions.head())
+
 actual.plot()
 predictions.plot()
 

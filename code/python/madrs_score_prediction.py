@@ -96,6 +96,6 @@ ax.scatter(actual, predictions)
 ax.plot([actual.min(), actual.max()], [actual.min(), actual.max()], 'k--', lw=4)
 ax.set_xlabel('Correct')
 ax.set_ylabel('Predicted')
-ax.title('MADRS Score Prediction')
 
+plt.title('MADRS Score Prediction')
 plt.savefig('graph.png')

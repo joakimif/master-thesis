@@ -8,7 +8,7 @@ import random
 import time
 import datetime
 
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, StratifiedKFold
 from sklearn.utils import shuffle
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 

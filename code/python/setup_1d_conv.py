@@ -191,7 +191,7 @@ def create_segments_and_labels_madrs(n_features, segment_length, step):
     
     return segments, labels, num_sensors, input_shape    
 
-def create_segments_and_labels_madrs_val(n_features, segment_length, step):
+def create_segments_and_labels_madrs_val(n_features, segment_length, step, k_folds=1):
     global log
 
     scores = pd.read_csv(os.path.join(DATASET_DIR, 'scores.csv'))
@@ -218,7 +218,11 @@ def create_segments_and_labels_madrs_val(n_features, segment_length, step):
     input_shape = num_time_periods * num_sensors
 
     segments = segments.reshape(segments.shape[0], input_shape).astype('float32')
+    
     labels = np.asarray(labels).astype('float32')
+
+    if k_folds <= 1:
+        labels = to_categorical(labels, 2)
 
     if verbose:
         print('\nINPUT DATA\n------------')

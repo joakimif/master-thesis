@@ -87,9 +87,14 @@ h = model.fit(X_train,
 
 print(model.evaluate(X_test, y_test))
 
+actual = pd.DataFrame(y_test)
 predictions = [x[0] for x in model.predict(X_test)]
+predictions = pd.DataFrame(predictions, index=y_test.index)
 
-plt.plot(predictions)
-plt.plot(y_test)
+actual.plot()
+predictions.plot()
+
+plt.legend(['predicted_score', 'actual_score'])
+plt.ylabel('MADRS Score')
 
 plt.savefig('graph.png')

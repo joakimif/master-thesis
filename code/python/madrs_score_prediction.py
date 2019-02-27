@@ -19,7 +19,7 @@ from tensorflow.keras.layers import Conv2D, MaxPooling2D, Conv1D, MaxPooling1D
 from tensorflow.keras.callbacks import TensorBoard, EarlyStopping, ModelCheckpoint
 
 DATASET_DIR = '../datasets'
-SEGMENT_LENGTH = 960
+SEGMENT_LENGTH = 120
 STEP = 60
 EPOCHS = 4000
 BATCH_SIZE = 100

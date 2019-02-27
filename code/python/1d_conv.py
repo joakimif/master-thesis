@@ -21,7 +21,7 @@ if k_folds > 1:
 
     print(labels.shape)
 
-    for train_index, test_index in skf.split(np.zeros(len(segments)), labels):
+    for train_index, test_index in skf.split(segments, labels):
         print(f'Fold: {i+1}/{k_folds}')
 
         labels = to_categorical(labels, output_classes)

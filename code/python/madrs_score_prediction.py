@@ -87,17 +87,14 @@ h = model.fit(X_train,
 
 print(model.evaluate(X_test, y_test))
 
-actual = pd.DataFrame(y_test)
+actual = y_test
 predictions = [x[0] for x in model.predict(X_test)]
-predictions = pd.DataFrame(predictions, index=actual.index)
 
-print(actual.head())
-print(predictions.head())
+fig, ax = plt.subplots()
 
-actual.plot()
-# predictions.plot()
-
-plt.legend(['predicted_score', 'actual_score'])
-plt.ylabel('MADRS Score')
+ax.scatter(actual, predictions)
+ax.plot([actual.min(), actual.max()], [actual.min(), actual.max()], 'k--', lw=4)
+ax.set_xlabel('Correct')
+ax.set_ylabel('Predicted')
 
 plt.savefig('graph.png')

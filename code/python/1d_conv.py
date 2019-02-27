@@ -12,11 +12,34 @@ else:
 
 segments, labels, num_sensors, input_shape = create_segments_and_labels(1, segment_length, step)
 
-if k_folds > 0:
+if k_folds > 1:
+    models = []
+    max_acc = 0
+
     skf = StratifiedKFold(labels, n_folds=k_folds, shuffle=True)
 
-    for train, test in skf:
-        
+    for i, (train, test) in enumerate(skf):
+        print(f'Fold: {i+1}/{k_folds}')
+
+        X_train, X_test = segments[train], segments[test]
+        y_train, y_test = labels[train], labels[test]
+
+        model = create_model(segment_length, num_sensors, input_shape, output_classes=output_classes, dropout=dropout)
+        history = train(model, X_train, y_train, batch_size, epochs, callbacks=[EarlyStopping(monitor='val_acc', patience=2)], validation_split=0.4)
+        loss, acc = evaluate(model, X_test, y_test, verbose=verbose)
+
+        if i == 0 or max_acc < acc:
+            max_acc = acc
+            model.save(f'../models/{k_folds}_folds_{identifier}.h5')
+            max_y_test, max_y_pred_test = predict(model, X_test, y_test, verbose=0)
+            make_confusion_matrix(max_y_test, max_y_pred_test, 
+                                output_file=f'../img/confusion_matrix/{k_folds}_folds_{identifier}.png', 
+                                print_stdout=False,
+                                xticklabels=confusion_matrix_labels, 
+                                yticklabels=confusion_matrix_labels)
+            
+
+        models.append((model, history, (loss, acc)))
 
 else:
     X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2)

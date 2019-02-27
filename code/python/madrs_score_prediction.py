@@ -89,5 +89,5 @@ print(model.evaluate(X_test, y_test))
 
 predictions = [x[0] for x in model.predict(X_test)]
 
-plt.plot([predictions, correct])
+plt.plot([predictions, y_test])
 plt.savefig('graph.png')

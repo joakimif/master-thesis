@@ -22,6 +22,8 @@ if k_folds > 1:
     for train, test in skf.split(np.zeros(len(segments)), labels):
         print(f'Fold: {i+1}/{k_folds}')
 
+        labels = to_categorical(labels, 2)
+
         X_train, X_test = segments[train], segments[test]
         y_train, y_test = labels[train], labels[test]
 

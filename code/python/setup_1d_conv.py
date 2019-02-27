@@ -241,7 +241,7 @@ def create_segments_and_labels_madrs_val(n_features, segment_length, step):
     return segments, labels, num_sensors, input_shape
 
 def create_segments_and_labels(n_features, segment_length, step):
-    global log
+    global log, k_folds
 
     scores = pd.read_csv(os.path.join(DATASET_DIR, 'scores.csv'))
     scores['afftype'].fillna(0, inplace=True)
@@ -263,7 +263,9 @@ def create_segments_and_labels(n_features, segment_length, step):
             else:
                 labels.append(1)
 
-    labels = to_categorical(np.asarray(labels), 2)
+    if k_folds <= 1:
+        labels = to_categorical(np.asarray(labels), 2)
+    
     segments = np.asarray(segments).reshape(-1, segment_length, n_features)
 
     num_time_periods, num_sensors = segments.shape[1], segments.shape[2]

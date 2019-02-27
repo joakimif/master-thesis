@@ -24,17 +24,17 @@ STEP = 60
 EPOCHS = 40
 BATCH_SIZE = 100
 
+""" Create segments and labels """
+
 scores = pd.read_csv(os.path.join(DATASET_DIR, 'scores.csv'))
 scores['madrs2'].fillna(0, inplace=True)
-
-""" Create segments and labels """
 
 segments = []
 labels = []
 
 for person in scores['number']:
     p = scores[scores['number'] == person]
-    filepath = os.path.join(DATASET_DIR, person.split('_')[0], f'{person}.csv') # ../datasets/[control or condition]/*.csv
+    filepath = os.path.join(DATASET_DIR, person.split('_')[0], f'{person}.csv') # ../datasets/[control or condition]/[person].csv
     df_activity = pd.read_csv(filepath)
 
     for i in range(0, len(df_activity) - SEGMENT_LENGTH, STEP):

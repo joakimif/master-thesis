@@ -79,11 +79,10 @@ h = model.fit(X_train,
                 y_train,
                 batch_size=BATCH_SIZE,
                 epochs=EPOCHS,
-                callbacks=[
-                    # EarlyStopping(monitor='mean_squared_error', patience=2),
-                ],
                 validation_data=(X_test, y_test),
                 verbose=1)
+
+model.save('model.h5')
 
 print(model.evaluate(X_test, y_test))
 

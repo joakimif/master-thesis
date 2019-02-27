@@ -14,7 +14,9 @@ segments, labels, num_sensors, input_shape = create_segments_and_labels(1, segme
 
 if k_folds > 0:
     skf = StratifiedKFold(labels, n_folds=k_folds, shuffle=True)
-    
+
+    for train, test in skf:
+        
 
 else:
     X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2)

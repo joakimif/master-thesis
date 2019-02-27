@@ -15,10 +15,11 @@ segments, labels, num_sensors, input_shape = create_segments_and_labels(1, segme
 if k_folds > 1:
     models = []
     max_acc = 0
+    i = 0
 
     skf = StratifiedKFold(n_splits=k_folds, shuffle=True)
 
-    for i, (train, test) in enumerate(skf.split(segments, labels)):
+    for train, test in skf.split(segments, labels):
         print(f'Fold: {i+1}/{k_folds}')
 
         X_train, X_test = segments[train], segments[test]
@@ -41,6 +42,8 @@ if k_folds > 1:
             
 
         models.append((model, history, (loss, acc)))
+        
+        i+=1
 
     scores = [x[2] for x in models]
     df = pd.DataFrame(scores, columns=['loss', 'acc'])

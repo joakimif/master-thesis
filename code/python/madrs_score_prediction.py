@@ -72,8 +72,8 @@ model.compile(loss='mean_squared_logarithmic_error', optimizer='nadam', metrics=
 
 h = model.fit(X_train,
                 y_train,
-                BATCH_SIZE=BATCH_SIZE,
-                EPOCHS=EPOCHS,
+                batch_size=BATCH_SIZE,
+                epochs=EPOCHS,
                 callbacks=[
                     EarlyStopping(monitor='mean_squared_error', patience=2),
                 ],

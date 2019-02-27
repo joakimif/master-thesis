@@ -50,7 +50,7 @@ input_shape = segments.shape[1]
 segments = segments.reshape(segments.shape[0], input_shape).astype('float32')
 labels = np.asarray(labels).astype('float32')
 
-X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2)
+X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.1)
 
 """ Create model """
 
@@ -77,8 +77,8 @@ h = model.fit(X_train,
                 callbacks=[
                     # EarlyStopping(monitor='mean_squared_error', patience=2),
                 ],
-                validation_split=0.2,
+                validation_data=(X_test, y_test),
                 verbose=1)
 
-print(model.evaluate(X_test, y_test))
+# print(model.evaluate(X_test, y_test))
 

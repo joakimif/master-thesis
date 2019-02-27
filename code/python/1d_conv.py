@@ -14,7 +14,7 @@ segments, labels, num_sensors, input_shape = create_segments_and_labels(1, segme
 
 if k_folds > 1:
     models = []
-    max_acc = 0
+    max_loss = 0
     i = 0
 
     skf = StratifiedKFold(n_splits=k_folds, shuffle=True)
@@ -30,12 +30,12 @@ if k_folds > 1:
         y_train, y_test = _labels[train_index], _labels[test_index]
 
         model = create_model(segment_length, num_sensors, input_shape, output_classes=output_classes, dropout=dropout, verbose=0)
-        history = train(model, X_train, y_train, batch_size, epochs, callbacks=[EarlyStopping(monitor='val_loss', patience=2)], validation_split=0.4, verbose=1)
+        history = train(model, X_train, y_train, batch_size, epochs, callbacks=[EarlyStopping(monitor='val_loss', patience=3)], validation_split=0.4, verbose=1)
         loss, acc = evaluate(model, X_test, y_test, verbose=0) 
 
-        if i == 0 or max_acc < acc:
-            print(f'New best accuracy: {acc}')
-            max_acc = acc
+        if i == 0 or max_loss < loss:
+            print(f'New best loss: {loss}')
+            max_loss = loss
             model.save(f'../models/{k_folds}_folds_{identifier}.h5')
             max_y_test, max_y_pred_test = predict(model, X_test, y_test, verbose=0)
             make_confusion_matrix(max_y_test, max_y_pred_test, 

@@ -28,7 +28,7 @@ BATCH_SIZE = batch_size
 
 """ Create segments and labels """
 
-scores = pd.read_csv(os.path.join(DATASET_DIR, 'scores_2.csv'))
+scores = pd.read_csv(os.path.join(DATASET_DIR, 'scores.csv'))
 scores['madrs2'].fillna(0, inplace=True)
 
 segments = []
@@ -96,5 +96,6 @@ ax.scatter(actual, predictions)
 ax.plot([actual.min(), actual.max()], [actual.min(), actual.max()], 'k--', lw=4)
 ax.set_xlabel('Correct')
 ax.set_ylabel('Predicted')
+ax.title('MADRS Score Prediction')
 
 plt.savefig('graph.png')

@@ -29,6 +29,7 @@ if k_folds > 1:
         loss, acc = evaluate(model, X_test, y_test, verbose=0)
 
         if i == 0 or max_acc < acc:
+            print(f'New best accuracy: {acc}')
             max_acc = acc
             model.save(f'../models/{k_folds}_folds_{identifier}.h5')
             max_y_test, max_y_pred_test = predict(model, X_test, y_test, verbose=0)

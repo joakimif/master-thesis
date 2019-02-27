@@ -240,8 +240,8 @@ def create_segments_and_labels_madrs_val(n_features, segment_length, step):
     
     return segments, labels, num_sensors, input_shape
 
-def create_segments_and_labels(n_features, segment_length, step):
-    global log, k_folds
+def create_segments_and_labels(n_features, segment_length, step, k_folds=1):
+    global log
 
     scores = pd.read_csv(os.path.join(DATASET_DIR, 'scores.csv'))
     scores['afftype'].fillna(0, inplace=True)

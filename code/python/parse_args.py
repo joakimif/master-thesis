@@ -21,7 +21,7 @@ else:
 if '--batch_size' in sys.argv:
     batch_size = int(sys.argv[sys.argv.index('--batch_size')+1])
 else:
-    batch_size = 100
+    batch_size = 32
 
 if '--model_path' in sys.argv:
     model_path = sys.argv[sys.argv.index('--model_path')+1]

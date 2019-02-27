@@ -19,6 +19,8 @@ if k_folds > 1:
 
     skf = StratifiedKFold(n_splits=k_folds, shuffle=True)
 
+    print(labels.shape)
+
     for train, test in skf.split(np.zeros(len(segments)), labels):
         print(f'Fold: {i+1}/{k_folds}')
 

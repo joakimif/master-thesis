@@ -19,7 +19,7 @@ from tensorflow.keras.layers import Conv2D, MaxPooling2D, Conv1D, MaxPooling1D
 from tensorflow.keras.callbacks import TensorBoard, EarlyStopping, ModelCheckpoint
 
 DATASET_DIR = '../datasets'
-SEGMENT_LENGTH = 480
+SEGMENT_LENGTH = 960
 STEP = 60
 EPOCHS = 4000
 BATCH_SIZE = 500
@@ -64,18 +64,18 @@ model.add(Conv1D(64, 2, activation='relu', kernel_initializer='VarianceScaling')
 
 model.add(GlobalAveragePooling1D())
 
-# model.add(Dropout(0.5))
+model.add(Dropout(0.5))
+
 model.add(Flatten())
 model.add(Dense(1, activation='linear', kernel_initializer='VarianceScaling'))
 
-# model.compile(loss='mean_squared_logarithmic_error', optimizer='adam', metrics=['mse'])
 model.compile(loss='mean_squared_error', optimizer='adam', metrics=['mse'])
 
 """ Train model """
 
 h = model.fit(X_train,
                 y_train,
-                batch_size=BATCH_SIZE,
+                # batch_size=BATCH_SIZE,
                 epochs=EPOCHS,
                 callbacks=[
                     # EarlyStopping(monitor='mean_squared_error', patience=2),

@@ -66,7 +66,7 @@ model.add(GlobalAveragePooling1D())
 
 # model.add(Dropout(0.5))
 model.add(Flatten())
-model.add(Dense(1, activation='linear', kernelInitializer='VarianceScaling'))
+model.add(Dense(1, activation='linear', kernel_initializer='VarianceScaling'))
 
 # model.compile(loss='mean_squared_logarithmic_error', optimizer='adam', metrics=['mse'])
 model.compile(loss='mean_squared_error', optimizer='adam', metrics=['mse'])

@@ -87,7 +87,7 @@ h = model.fit(X_train,
 
 print(model.evaluate(X_test, y_test))
 
-predictions = model.predict(X_test)
+predictions = [x[0] for x in model.predict(X_test)]
 
-for prediction, correct in zip(predictions, y_test):
-    print(f'Predict: {prediction[0]}, correct: {correct}')
+plt.plot([predictions, correct])
+plt.savefig('graph.png')

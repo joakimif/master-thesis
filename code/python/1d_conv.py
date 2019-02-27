@@ -16,9 +16,9 @@ if k_folds > 1:
     models = []
     max_acc = 0
 
-    skf = StratifiedKFold(labels, n_folds=k_folds, shuffle=True)
+    skf = StratifiedKFold(n_splits=k_folds, shuffle=True)
 
-    for i, (train, test) in enumerate(skf):
+    for i, (train, test) in enumerate(skf.split(segments, labels)):
         print(f'Fold: {i+1}/{k_folds}')
 
         X_train, X_test = segments[train], segments[test]

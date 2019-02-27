@@ -50,7 +50,7 @@ input_shape = segments.shape[1]
 segments = segments.reshape(segments.shape[0], input_shape).astype('float32')
 labels = np.asarray(labels).astype('float32')
 
-X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.1)
+X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2)
 
 """ Create model """
 

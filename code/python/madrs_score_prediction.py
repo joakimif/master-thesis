@@ -44,7 +44,7 @@ for person in scores['number']:
         labels.append(p['madrs2'].values[0])
 
 segments = np.asarray(segments)
-segments = segments.reshape(-1, SEGMENT_LENGTH, n_features)
+segments = segments.reshape(-1, SEGMENT_LENGTH, 1)
 
 input_shape = segments.shape[1]
 segments = segments.reshape(segments.shape[0], input_shape).astype('float32')

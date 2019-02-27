@@ -19,7 +19,7 @@ from tensorflow.keras.layers import Conv2D, MaxPooling2D, Conv1D, MaxPooling1D
 from tensorflow.keras.callbacks import TensorBoard, EarlyStopping, ModelCheckpoint
 
 DATASET_DIR = '../datasets'
-scores = pd.read_csv(os.path.join(DATASET_DIR, '/scores.csv'))
+scores = pd.read_csv(os.path.join(DATASET_DIR, 'scores.csv'))
 scores['madrs2'].fillna(0, inplace=True)
 
 """ Create segments and labels """

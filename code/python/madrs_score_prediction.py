@@ -21,7 +21,7 @@ from tensorflow.keras.callbacks import TensorBoard, EarlyStopping, ModelCheckpoi
 DATASET_DIR = '../datasets'
 SEGMENT_LENGTH = 960
 STEP = 60
-EPOCHS = 40
+EPOCHS = 4000
 BATCH_SIZE = 100
 
 """ Create segments and labels """
@@ -75,7 +75,7 @@ h = model.fit(X_train,
                 batch_size=BATCH_SIZE,
                 epochs=EPOCHS,
                 callbacks=[
-                    EarlyStopping(monitor='mean_squared_error', patience=2),
+                    # EarlyStopping(monitor='mean_squared_error', patience=2),
                 ],
                 validation_split=0.2,
                 verbose=1)

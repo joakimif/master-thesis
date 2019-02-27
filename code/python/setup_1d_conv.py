@@ -292,7 +292,7 @@ def create_segments_and_labels(n_features, segment_length, step):
     
     return segments, labels, num_sensors, input_shape
 
-def create_model(segment_length, num_sensors, input_shape, loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'], output_classes=2, dropout=0.5):
+def create_model(segment_length, num_sensors, input_shape, loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'], output_classes=2, dropout=0.5, verbose=1):
     global log
 
     K.clear_session()
@@ -353,7 +353,7 @@ def create_model_madrs(segment_length, num_sensors, input_shape, loss='mean_squa
 
     return model
 
-def train(model, X_train, y_train, batch_size, epochs, callbacks, validation_split=0.2, validation_data=None):
+def train(model, X_train, y_train, batch_size, epochs, callbacks, validation_split=0.2, validation_data=None, verbose=1):
     if validation_data:
         return model.fit(X_train,
                     y_train,

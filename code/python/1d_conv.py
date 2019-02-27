@@ -24,9 +24,9 @@ if k_folds > 1:
         X_train, X_test = segments[train], segments[test]
         y_train, y_test = labels[train], labels[test]
 
-        model = create_model(segment_length, num_sensors, input_shape, output_classes=output_classes, dropout=dropout)
-        history = train(model, X_train, y_train, batch_size, epochs, callbacks=[EarlyStopping(monitor='val_acc', patience=2)], validation_split=0.4)
-        loss, acc = evaluate(model, X_test, y_test, verbose=verbose)
+        model = create_model(segment_length, num_sensors, input_shape, output_classes=output_classes, dropout=dropout, verbose=0)
+        history = train(model, X_train, y_train, batch_size, epochs, callbacks=[EarlyStopping(monitor='val_acc', patience=2)], validation_split=0.4, verbose=0)
+        loss, acc = evaluate(model, X_test, y_test, verbose=0)
 
         if i == 0 or max_acc < acc:
             max_acc = acc
@@ -40,6 +40,11 @@ if k_folds > 1:
             
 
         models.append((model, history, (loss, acc)))
+
+    scores = [x[2] for x in models]
+    df = pd.DataFrame(scores, columns=['loss', 'acc'])
+
+    df.to_csv(f'{k_folds}_{identifier}.csv')
 
 else:
     X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2)

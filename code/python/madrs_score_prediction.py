@@ -95,7 +95,7 @@ print(actual.head())
 print(predictions.head())
 
 actual.plot()
-predictions.plot()
+# predictions.plot()
 
 plt.legend(['predicted_score', 'actual_score'])
 plt.ylabel('MADRS Score')

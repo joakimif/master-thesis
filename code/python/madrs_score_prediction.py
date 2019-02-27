@@ -19,6 +19,11 @@ from tensorflow.keras.layers import Conv2D, MaxPooling2D, Conv1D, MaxPooling1D
 from tensorflow.keras.callbacks import TensorBoard, EarlyStopping, ModelCheckpoint
 
 DATASET_DIR = '../datasets'
+SEGMENT_LENGTH = 960
+STEP = 60
+EPOCHS = 40
+BATCH_SIZE = 100
+
 scores = pd.read_csv(os.path.join(DATASET_DIR, 'scores.csv'))
 scores['madrs2'].fillna(0, inplace=True)
 
@@ -32,14 +37,14 @@ for person in scores['number']:
     filepath = os.path.join(DATASET_DIR, person.split('_')[0], f'{person}.csv') # ../datasets/[control or condition]/*.csv
     df_activity = pd.read_csv(filepath)
 
-    for i in range(0, len(df_activity) - segment_length, step):
-        segment = df_activity['activity'].values[i : i + segment_length]
+    for i in range(0, len(df_activity) - SEGMENT_LENGTH, STEP):
+        segment = df_activity['activity'].values[i : i + SEGMENT_LENGTH]
         
         segments.append([segment])
         labels.append(p['madrs2'].values[0])
 
 segments = np.asarray(segments)
-segments = segments.reshape(-1, segment_length, n_features)
+segments = segments.reshape(-1, SEGMENT_LENGTH, n_features)
 
 input_shape = segments.shape[1]
 segments = segments.reshape(segments.shape[0], input_shape).astype('float32')
@@ -50,8 +55,8 @@ X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=
 """ Create model """
 
 model = Sequential()
-model.add(Reshape((segment_length, 1), input_shape=(input_shape,)))
-model.add(Conv1D(100, 10, activation='relu', input_shape=(segment_length, 1)))
+model.add(Reshape((SEGMENT_LENGTH, 1), input_shape=(input_shape,)))
+model.add(Conv1D(100, 10, activation='relu', input_shape=(SEGMENT_LENGTH, 1)))
 model.add(Conv1D(100, 10, activation='relu'))
 model.add(MaxPooling1D(2))
 model.add(Conv1D(160, 10, activation='relu'))
@@ -67,8 +72,8 @@ model.compile(loss='mean_squared_logarithmic_error', optimizer='nadam', metrics=
 
 h = model.fit(X_train,
                 y_train,
-                batch_size=100,
-                epochs=40,
+                BATCH_SIZE=BATCH_SIZE,
+                EPOCHS=EPOCHS,
                 callbacks=[
                     EarlyStopping(monitor='mean_squared_error', patience=2),
                 ],

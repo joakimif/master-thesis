@@ -263,8 +263,10 @@ def create_segments_and_labels(n_features, segment_length, step):
             else:
                 labels.append(1)
 
+    labels = np.asarray(labels).astype('float32')
+
     if k_folds <= 1:
-        labels = to_categorical(np.asarray(labels), 2)
+        labels = to_categorical(labels, 2)
     
     segments = np.asarray(segments).reshape(-1, segment_length, n_features)
 
@@ -272,7 +274,6 @@ def create_segments_and_labels(n_features, segment_length, step):
     input_shape = num_time_periods * num_sensors
 
     segments = segments.reshape(segments.shape[0], input_shape).astype('float32')
-    labels = labels.astype('float32')
 
     if verbose:
         print('\nINPUT DATA\n------------')

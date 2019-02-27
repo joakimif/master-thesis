@@ -89,7 +89,7 @@ print(model.evaluate(X_test, y_test))
 
 actual = pd.DataFrame(y_test)
 predictions = [x[0] for x in model.predict(X_test)]
-predictions = pd.DataFrame(predictions, index=y_test.index)
+predictions = pd.DataFrame(predictions, index=actual.index)
 
 actual.plot()
 predictions.plot()

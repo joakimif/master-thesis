@@ -22,7 +22,7 @@ DATASET_DIR = '../datasets'
 SEGMENT_LENGTH = 120
 STEP = 60
 EPOCHS = 4000
-BATCH_SIZE = 100
+BATCH_SIZE = 1000
 
 """ Create segments and labels """
 

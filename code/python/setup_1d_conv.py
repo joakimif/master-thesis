@@ -135,7 +135,7 @@ def is_daytime(timestamp):
                         time.strptime('06:00:00', '%H:%M:%S'),
                         time.strptime('21:00:00', '%H:%M:%S'))
 
-def create_segments_and_labels_madrs(n_features, segment_length, step):
+def create_segments_and_labels_madrs(n_features, segment_length, step, k_folds=1):
     global log
 
     scores = pd.read_csv(os.path.join(DATASET_DIR, 'scores.csv'))
@@ -162,14 +162,17 @@ def create_segments_and_labels_madrs(n_features, segment_length, step):
                     labels.append(classes - i - 1)
                     break
 
-    labels = to_categorical(np.asarray(labels), classes)
     segments = np.asarray(segments).reshape(-1, segment_length, n_features)
 
     num_time_periods, num_sensors = segments.shape[1], segments.shape[2]
     input_shape = num_time_periods * num_sensors
 
     segments = segments.reshape(segments.shape[0], input_shape).astype('float32')
-    labels = labels.astype('float32')
+    
+    labels = np.asarray(labels).astype('float32')
+
+    if k_folds <= 1:
+        labels = to_categorical(labels, 2)
 
     if verbose:
         print('\nINPUT DATA\n------------')

@@ -38,6 +38,11 @@ if '--optimizer' in sys.argv:
 else:
     optimizer = 'adam'
 
+if '--learning_rate' in sys.argv:
+    learning_rate = float(sys.argv[sys.argv.index('--learning_rate')+1])
+else:
+    learning_rate = None
+
 if '--history_graph' in sys.argv:
     history_graph = sys.argv[sys.argv.index('--history_graph')+1]
 else:

@@ -59,18 +59,22 @@ X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=
 
 model = Sequential()
 model.add(Reshape((SEGMENT_LENGTH, 1), input_shape=(input_shape,)))
-model.add(Conv1D(128, 2, activation='relu', input_shape=(SEGMENT_LENGTH, 1), kernel_initializer='VarianceScaling'))
+model.add(Conv1D(128, 2, activation='relu', input_shape=(SEGMENT_LENGTH, 1)))
 model.add(MaxPooling1D(pool_size=2, strides=1))
-model.add(Conv1D(64, 2, activation='relu', kernel_initializer='VarianceScaling'))
+model.add(Conv1D(64, 2, activation='relu'))
 model.add(GlobalAveragePooling1D())
 model.add(Flatten())
 model.add(Dense(10, activation='relu'))
-model.add(Dense(1, activation='linear', kernel_initializer='VarianceScaling'))
+model.add(Dense(1, activation='linear'))
 
 if optimizer == 'sgd':
-    optimizer = SGD(lr=0.0001, nesterov=True)
+    if learning_rate:
+        optimizer = SGD(lr=learning_rate, nesterov=True)
+    else:
+        optimizer = SGD(nesterov=True)
 elif optimizer == 'nadam':
-    optimizer = Nadam(lr=0.0001)
+    if learning_rate:
+        optimizer = Nadam(lr=learning_rate)
 
 model.compile(loss='mean_squared_error', optimizer=optimizer, metrics=['mse'])
 

@@ -66,3 +66,4 @@ std_error = np.std(train_error)
 
 # print(f'train_error: {train_error}, mean_error: {mean_error}, min_error: {min_error}, max_error: {max_error}, std_error: {std_error}')
 print(pd.DataFrame(prediction).describe())
+print(pd.DataFrame(prediction))

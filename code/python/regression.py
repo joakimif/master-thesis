@@ -51,9 +51,10 @@ y = df[['afftype']]
 X = X.values.astype('float32')
 y = y.values.astype('float32')
 
-estimator = KerasRegressor(build_fn=regression_model, epochs=100, batch_size=5, verbose=1)
+estimator = KerasRegressor(build_fn=regression_model, epochs=100, batch_size=5, verbose=0)
 
-kfold = KFold(n_splits=3)
+kfold = KFold(n_splits=2)
 results = cross_val_score(estimator, X, y, cv=kfold)
 
 print("Results: %.2f (%.2f) MSE" % (results.mean(), results.std()))
+print(type(results))

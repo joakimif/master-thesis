@@ -57,4 +57,4 @@ kfold = KFold(n_splits=2)
 results = cross_val_score(estimator, X, y, cv=kfold)
 
 print("Results: %.2f (%.2f) MSE" % (results.mean(), results.std()))
-print(type(results))
+print(type(results)) 

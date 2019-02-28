@@ -33,6 +33,11 @@ if '--model_path' in sys.argv:
 else:
     model_path = None
 
+if '--optimizer' in sys.argv:
+    optimizer = sys.argv[sys.argv.index('--optimizer')+1]
+else:
+    optimizer = 'adam'
+
 if '--history_graph' in sys.argv:
     history_graph = sys.argv[sys.argv.index('--history_graph')+1]
 else:

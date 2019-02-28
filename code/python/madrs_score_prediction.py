@@ -12,6 +12,7 @@ from matplotlib import pyplot as plt
 
 from tensorflow import keras
 from tensorflow.keras import backend as K
+from tensorflow.keras.optimizers import SGD
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import Input, Dense, Dropout, Flatten, Reshape, GlobalAveragePooling1D
@@ -62,12 +63,14 @@ model.add(Conv1D(128, 2, activation='relu', input_shape=(SEGMENT_LENGTH, 1), ker
 model.add(MaxPooling1D(pool_size=2, strides=1))
 model.add(Conv1D(64, 2, activation='relu', kernel_initializer='VarianceScaling'))
 model.add(GlobalAveragePooling1D())
-# model.add(Dropout(0.5))
 model.add(Flatten())
 model.add(Dense(10, activation='relu'))
 model.add(Dense(1, activation='linear', kernel_initializer='VarianceScaling'))
 
-model.compile(loss='mean_squared_error', optimizer='adam', metrics=['mse'])
+if optimizer == 'sgd':
+    optimizer = SGD(lr=0.0001, nesterov=True)
+
+model.compile(loss='mean_squared_error', optimizer=optimizer, metrics=['mse'])
 
 """ Train model """
 

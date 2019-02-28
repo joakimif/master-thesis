@@ -45,8 +45,8 @@ df['inpatient'].fillna(0, inplace=True)
 df['madrs2'].fillna(0, inplace=True)
 df['work'].fillna(1, inplace=True)
 
-X = df[['gender', 'melanch', 'inpatient', 'madrs2', 'age', 'edu', 'work']]
-y = df[['afftype']]
+X = df[['gender', 'afftype', 'melanch', 'inpatient', 'age', 'edu', 'work']]
+y = df[['madrs2']]
 
 X = X.values.astype('float32')
 y = y.values.astype('float32')

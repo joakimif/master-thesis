@@ -1,11 +1,10 @@
 import numpy as np
 import pandas as pd
-#import seaborn as sns
+import seaborn as sns
 
 import os
 import sys
 
-"""
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split, cross_val_score, KFold
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix 
@@ -21,7 +20,16 @@ from tensorflow.keras.layers import Input, Dense, Dropout, Flatten, Reshape, Glo
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Conv1D, MaxPooling1D
 from tensorflow.keras.callbacks import TensorBoard, EarlyStopping, ModelCheckpoint
 from tensorflow.keras.wrappers.scikit_learn import KerasRegressor
-"""
+
+
+def regression_model():
+	model = Sequential()
+	model.add(Dense(7, input_dim=7, activation='relu'))
+	model.add(Dense(1))
+
+	model.compile(loss='mean_squared_error', optimizer='adam')
+	return model
+
 
 df = pd.read_csv('../datasets/scores.csv')
 df['age'] = df['age'].apply(lambda x: type(x) == str and x.split('-')[0] or x)
@@ -43,3 +51,9 @@ y = df[['afftype']]
 X = X.values.astype('float32')
 y = y.values.astype('float32')
 
+estimator = KerasRegressor(build_fn=regression_model, epochs=100, batch_size=5, verbose=1)
+
+kfold = KFold(n_splits=3)
+results = cross_val_score(estimator, X, y, cv=kfold)
+
+print("Results: %.2f (%.2f) MSE" % (results.mean(), results.std()))

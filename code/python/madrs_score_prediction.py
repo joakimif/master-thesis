@@ -12,7 +12,7 @@ from matplotlib import pyplot as plt
 
 from tensorflow import keras
 from tensorflow.keras import backend as K
-from tensorflow.keras.optimizers import SGD
+from tensorflow.keras.optimizers import SGD, Nadam
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import Input, Dense, Dropout, Flatten, Reshape, GlobalAveragePooling1D
@@ -69,6 +69,8 @@ model.add(Dense(1, activation='linear', kernel_initializer='VarianceScaling'))
 
 if optimizer == 'sgd':
     optimizer = SGD(lr=0.0001, nesterov=True)
+elif optimizer == 'nadam':
+    optimizer = Nadam(lr=0.0001)
 
 model.compile(loss='mean_squared_error', optimizer=optimizer, metrics=['mse'])
 

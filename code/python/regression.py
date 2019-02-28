@@ -55,9 +55,14 @@ print(X.shape)
 print(y.shape)
 
 estimator = KerasRegressor(build_fn=regression_model, epochs=100, batch_size=5, verbose=0)
+estimator.fit(X, y)
 
-kfold = KFold(n_splits=2)
-results = cross_val_score(estimator, X, y, cv=kfold)
+prediction = estimator.predict(X)
+train_error = np.abs(y - prediction)
+mean_error = np.mean(train_error)
+min_error = np.min(train_error)
+max_error = np.max(train_error)
+std_error = np.std(train_error)
 
 print("Results: %.2f (%.2f) MSE" % (results.mean(), results.std()))
 print(pd.DataFrame(results).describe())

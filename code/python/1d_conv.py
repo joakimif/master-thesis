@@ -14,7 +14,7 @@ segments, labels, num_sensors, input_shape = create_segments_and_labels(1, segme
 
 if k_folds > 1:
     models = []
-    max_loss = 0
+    best_loss = 10000
     i = 0
 
     skf = StratifiedKFold(n_splits=k_folds, shuffle=True)
@@ -30,12 +30,12 @@ if k_folds > 1:
         y_train, y_test = _labels[train_index], _labels[test_index]
 
         model = create_model(segment_length, num_sensors, input_shape, output_classes=output_classes, dropout=dropout, verbose=0)
-        history = train(model, X_train, y_train, batch_size, epochs, callbacks=[EarlyStopping(monitor='val_loss', patience=3)], validation_split=0.4, verbose=1)
+        history = train(model, X_train, y_train, batch_size, epochs, validation_split=0.4, verbose=1)
         loss, acc = evaluate(model, X_test, y_test, verbose=0) 
 
-        if i == 0 or max_loss < loss:
+        if i == 0 or best_loss < loss:
             print(f'New best loss: {loss}')
-            max_loss = loss
+            best_loss = loss
             model.save(f'../models/{k_folds}_folds_{identifier}.h5')
             max_y_test, max_y_pred_test = predict(model, X_test, y_test, verbose=0)
             make_confusion_matrix(max_y_test, max_y_pred_test, 
@@ -51,7 +51,7 @@ if k_folds > 1:
     scores = [x[2] for x in models]
     df = pd.DataFrame(scores, columns=['loss', 'acc'])
 
-    df.to_csv(f'{k_folds}_{identifier}.csv')
+    df.to_csv(f'result_{k_folds}_folds_{identifier}.txt')
 
 else:
     X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2)

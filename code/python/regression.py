@@ -51,6 +51,9 @@ y = df[['afftype']]
 X = X.values.astype('float32')
 y = y.values.astype('float32')
 
+print(X.shape)
+print(y.shape)
+
 estimator = KerasRegressor(build_fn=regression_model, epochs=100, batch_size=5, verbose=0)
 
 kfold = KFold(n_splits=2)

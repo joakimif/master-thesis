@@ -63,6 +63,3 @@ mean_error = np.mean(train_error)
 min_error = np.min(train_error)
 max_error = np.max(train_error)
 std_error = np.std(train_error)
-
-print("Results: %.2f (%.2f) MSE" % (results.mean(), results.std()))
-print(pd.DataFrame(results).describe())

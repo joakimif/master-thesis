@@ -87,7 +87,7 @@ h = model.fit(X_train,
                 validation_data=(X_test, y_test),
                 verbose=1)
 
-model.save('model.h5')
+model.save(f'../models/madrs_score_{identifier}.h5')
 
 print(model.evaluate(X_test, y_test))
 
@@ -102,4 +102,4 @@ ax.set_xlabel('Correct')
 ax.set_ylabel('Predicted')
 
 plt.title('MADRS Score Prediction')
-plt.savefig('graph.png')
+plt.savefig(f'../img/madrs_score_{identifier}.png')

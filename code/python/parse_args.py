@@ -60,6 +60,9 @@ _type = madrs and '-MADRS' or ''
 
 identifier = f'Conv1D{_type}_{timestamp}_{segment_length}_{step}_{epochs}_{batch_size}'
 
+if optimizer and learning_rate:
+    identifier = f'{identifier}_opt-{optimizer}_lr-{learning_rate}'
+
 if '--logfile' in sys.argv:
     logfile = sys.argv[sys.argv.index('--logfile')+1]
 elif '--log' in sys.argv:

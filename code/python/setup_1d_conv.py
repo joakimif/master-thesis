@@ -172,7 +172,7 @@ def create_segments_and_labels_madrs(n_features, segment_length, step, k_folds=1
     labels = np.asarray(labels).astype('float32')
 
     if k_folds <= 1:
-        labels = to_categorical(labels, 2)
+        labels = to_categorical(labels, 4)
 
     if verbose:
         print('\nINPUT DATA\n------------')

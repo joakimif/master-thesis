@@ -59,16 +59,12 @@ X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=
 model = Sequential()
 model.add(Reshape((SEGMENT_LENGTH, 1), input_shape=(input_shape,)))
 model.add(Conv1D(128, 2, activation='relu', input_shape=(SEGMENT_LENGTH, 1), kernel_initializer='VarianceScaling'))
-
 model.add(MaxPooling1D(pool_size=2, strides=1))
-
 model.add(Conv1D(64, 2, activation='relu', kernel_initializer='VarianceScaling'))
-
 model.add(GlobalAveragePooling1D())
-
-model.add(Dropout(0.5))
-
+# model.add(Dropout(0.5))
 model.add(Flatten())
+model.add(Dense(10, activation='relu'))
 model.add(Dense(1, activation='linear', kernel_initializer='VarianceScaling'))
 
 model.compile(loss='mean_squared_error', optimizer='adam', metrics=['mse'])

@@ -84,6 +84,9 @@ h = model.fit(X_train,
                 y_train,
                 batch_size=BATCH_SIZE,
                 epochs=EPOCHS,
+                callbacks=[
+                    ModelCheckpoint('../models/checkpoints/madrs_score_'+ identifier +'_weights_{epoch:02d}-{val_loss:.2f}.hdf5', save_best_only=True)
+                ]
                 validation_data=(X_test, y_test),
                 verbose=1)
 

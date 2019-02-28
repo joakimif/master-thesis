@@ -58,12 +58,5 @@ estimator = KerasRegressor(build_fn=regression_model, epochs=100, batch_size=5, 
 estimator.fit(X, y)
 
 prediction = estimator.predict(X)
-train_error = np.abs(y - prediction)
-mean_error = np.mean(train_error)
-min_error = np.min(train_error)
-max_error = np.max(train_error)
-std_error = np.std(train_error)
 
-# print(f'train_error: {train_error}, mean_error: {mean_error}, min_error: {min_error}, max_error: {max_error}, std_error: {std_error}')
 print(pd.DataFrame(prediction).describe())
-print(pd.DataFrame(prediction))

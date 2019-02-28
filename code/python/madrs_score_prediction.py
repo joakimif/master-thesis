@@ -57,26 +57,29 @@ X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=
 
 """ Create model """
 
-model = Sequential()
-model.add(Reshape((SEGMENT_LENGTH, 1), input_shape=(input_shape,)))
-model.add(Conv1D(128, 2, activation='relu', input_shape=(SEGMENT_LENGTH, 1)))
-model.add(MaxPooling1D(pool_size=2, strides=1))
-model.add(Conv1D(64, 2, activation='relu'))
-model.add(GlobalAveragePooling1D())
-model.add(Flatten())
-model.add(Dense(10, activation='relu'))
-model.add(Dense(1, activation='linear'))
+if model_path:
+    model = load_model(model_path)
+else:
+    model = Sequential()
+    model.add(Reshape((SEGMENT_LENGTH, 1), input_shape=(input_shape,)))
+    model.add(Conv1D(128, 2, activation='relu', input_shape=(SEGMENT_LENGTH, 1)))
+    model.add(MaxPooling1D(pool_size=2, strides=1))
+    model.add(Conv1D(64, 2, activation='relu'))
+    model.add(GlobalAveragePooling1D())
+    model.add(Flatten())
+    model.add(Dense(10, activation='relu'))
+    model.add(Dense(1, activation='linear'))
 
-if optimizer == 'sgd':
-    if learning_rate:
-        optimizer = SGD(lr=learning_rate, nesterov=True)
-    else:
-        optimizer = SGD(nesterov=True)
-elif optimizer == 'nadam':
-    if learning_rate:
-        optimizer = Nadam(lr=learning_rate)
+    if optimizer == 'sgd':
+        if learning_rate:
+            optimizer = SGD(lr=learning_rate, nesterov=True)
+        else:
+            optimizer = SGD(nesterov=True)
+    elif optimizer == 'nadam':
+        if learning_rate:
+            optimizer = Nadam(lr=learning_rate)
 
-model.compile(loss='mean_squared_error', optimizer=optimizer, metrics=['mse'])
+    model.compile(loss='mean_squared_error', optimizer=optimizer, metrics=['mse'])
 
 """ Train model """
 

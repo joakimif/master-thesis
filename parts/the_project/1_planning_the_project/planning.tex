@@ -1,13 +1,23 @@
 \section{Goals}
 
-Our goal is to build a machine learning model that can find out which group a participant belongs to (\textit{control group} or the \textit{condition group}).
-There are several ways this can be achieved, and two ideas came to our minds. The first one was a bit naive, and was to simply throw in the columns from the 
-demographics dataset \ref{figure:demographics}. We did not expect much from this, as there is only 55 rows in the table. Anyone having a little bit experience 
-with machine learning will know that this is not nearly enough data. But we wanted to do it regardless, and see how a simple and stupid model performed.
-Doing this, we would also establish some sort of benchmark for performance; the second model must do \textit{at least} better than this one.
+Our goal in this thesis is to create machine learning models for three different tasks:
 
-The other idea was to use the activity measurements as time series data, and create a one-dimensional Convolutional Neural Network (1D-CNN). We knew that 
-CNNs are used a lot today on image recognition, but is a bit different as images are two-dimensional data, and our measurements are in \textit{one} dimension.
+\begin{itemize}
+  \item Predict whether a participant belongs to the \textbf{control} group or \textbf{condition} group.
+  \item Predict a participant's depression class (by MADRS score).
+  \item Predict a participant's MADRS score.
+\end{itemize}
+
+The model is going to be a One-Dimensional Convolutional Neural Network. 
+We will solve all these using each participant's activity data as input, and we will create a model that, with few changes, can be used for all three goals.
+For the different goals, only the last few layers (preferably only the output layer) should be changed. For the first goal, 
+classifying \textbf{control} or \textbf{condition} group, the output data should be a matrix with two columns (\textbf{control}, \textbf{condition}), 
+with a $1$ in one of the columns and a $0$ in the other for each row.
+
+But first we wanted to see if this problem could be solved with simple regression. The idea was to simply throw in the columns from the 
+demographics dataset \ref{figure:demographics}. We did not expect much from this, as there are only 55 rows in the table. Anyone having a little bit experience 
+with machine learning will know that this is not nearly enough data. But we wanted to do it regardless, and see how a simple and stupid model performed.
+Doing this, we would also establish some sort of benchmark for performance; the Convolutional Neural Network model must do \textit{at least} better than this one.
 
 \subsection{Regression}
 
@@ -44,11 +54,11 @@ y:
   \item \textbf{afftype}: 0 = bipolar II, 1 = unipolar depressive, 2 = bipolar I
 \end{itemize}
 
-\subsection{Convolutional Neural Network}
+\section{Convolutional Neural Network}
 
-As we said before, we wanted to use a Convolutional Neural Network to classify which group a given participant most likely belongs to.
+As we said before, we wanted to use a Convolutional Neural Network to achieve our goals. 
 
-\subsubsection{Learning experiments}
+\subsection{Learning experiments}
 
 We needed to learn more about CNNs. CNNs are used in image recognition, so we proceeded to implement one. We found a tutorial on how to make 
 a 2D CNN for classifying cats and dogs from images \cite{2d_cnn}, and thought it would be a good way to learn.
@@ -78,50 +88,45 @@ at the time, given the accelerometer data for that time slice. What the given pe
 \end{itemize}
 
 As we followed the tutorial and implemented the model, we learned a lot about how 1D CNNs work and how we should structure our own data. 
-In machine learning it is common to normalize data values, which is important to for example make up for differences in features. 
-There are built in ways to automatically do this, but you can also make your own \textit{normalizer}, which was done in this tutorial in the following way, 
-and is the one we ended up using in our activity measurement classifier as well:
 
-\begin{code} 
-  \begin{minted}[linenos]{python}
-    def feature_normalize(dataset):
-        mu = np.mean(dataset, axis=0)
-        sigma = np.std(dataset, axis=0)
-        return (dataset - mu)/sigma
-  \end{minted}
-  \caption{Feature Normalizer}
-  \label{code:feature_normalizer}
-\end{code}
-
-We also learned where our dataset could provide more data. 
+However, we also learned where our dataset could provide more data. 
 What if the dataset contained the current mental state of the bipolar patient? Then someone could make some automated system that always can tell a patient 
 whether they are normal, manic or depressive. However data collection for this kind of task would be difficult because we can't always know what the
 patient thinks, nor does the patient themselves. The "tutorial" dataset is different because it is easy to differentiate physical states of the body
 like standing or walking.
 
-\subsubsection{Classification based on activity measurements}
+\subsection{Creating the input data - activity measurements}
 
-The input data was quite different for this kind task. We wanted the input data to the model to be a list containing activity measurements for all participants,
-and somehow label them \textbf{[NOT BIPOLAR]} or \textbf{[BIPOLAR]}. We ended up using time-slices of measurements, 
-as previously learned in the tutorial \cite{1d_cnn}.
+As we said before, we wanted the input data to be exactly the same for each goal, since we wanted to use a similar model on all three.
+The tutorial \cite{1d_cnn} sliced up the measurements with overlap, and labelled the slices. We are also did this.
 
-We created a list where for each participant in the demographics table \ref{figure:demographics}, measurements for four hours were grouped. 
-Another choice we learned from the tutorial was to overlap the sequences, so we made the next group of four hours start \textit{one} hour after, 
-and not \textit{four} hours after the group before, as one might think. When this list was complete with sequences from all participants, we 
+We created a list where for each participant in the demographics table \ref{figure:demographics}, measurements for $N$ hours were grouped. 
+Another choice we learned from the tutorial was to overlap the sequences, so we made the next group of $N$ hours start \textit{$M$} hours after, 
+and not \textit{$N$} hours after the group before, as one might think. When this list was complete with sequences from all participants, we 
 had to \textbf{reshape} it so that it could fit into a neural network. We ended up with a feature list (which we called \textbf{segments}), 
 where each element was a list of activity measurements for 4 hours: 
 
 \textbf{segments[0] = [[0], [143], [0], [20], [166], [160], [306], [277], [439], ...]}
 
-\noindent A second list was created simultaneously, with the value \textbf{0} or \textbf{1} for the labels \textbf{[NOT BIPOLAR]} and \textbf{[BIPOLAR]}.
-This value was chosen according to the group the participants were in. Using a helper function from Keras, \textbf{to\_categorical}, we transformed this 
-list of labels into to columns, \textbf{[NOT BIPOLAR]} and \textbf{[BIPOLAR]}, where only one of the columns have the value 1 for each row. Transforming 
-the values to a categorical table is required for the neural network that we ended up building, to be able to select a \textit{category} for the result. 
+\subsection{Creating the output data}
+
+A second list was created simultaneously, where the value here was different on each goal. 
+
+\subsubsection{Classifying participant group}
+For classifying control / condition group, this list was built to contain the values \textbf{0} or \textbf{1} for the labels
+\textbf{[CONTROL]} and \textbf{[CONDITION]}, which was chosen according to the group the participants were in. Using a helper function from Keras, 
+\textbf{to\_categorical}, we transformed this list of labels into the matrix we described. Transforming the values to a
+categorical matrix is required for the neural network that we ended up building, to be able to select a \textit{category} for the result. 
 This list, which we called \textbf{labels}, looked like this: 
 
 \textbf{labels[0] = [0, 1]}
 
-\noindent Meaning that the first segment is labeled as \textbf{[BIPOLAR]}.
+\noindent Meaning that the first segment is labeled as \textbf{[CONDITION]}.
+
+\subsubsection{Predicting depression class}
+
+
+\subsubsection{Predicting MADRS Score}
 
 \section{Performance Metrics}
 \subsection{Confusion Matrix}

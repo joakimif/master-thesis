@@ -3,8 +3,8 @@
 Our goal in this thesis is to create machine learning models for three different tasks:
 
 \begin{itemize}
-  \item Predict whether a participant belongs to the \textbf{control} group or \textbf{condition} group.
-  \item Predict a participant's depression class (by MADRS score).
+  \item Classify whether a participant belongs to the \textbf{control} group or \textbf{condition} group.
+  \item Classify a participant's depression class (by MADRS score).
   \item Predict a participant's MADRS score.
 \end{itemize}
 
@@ -95,7 +95,7 @@ whether they are normal, manic or depressive. However data collection for this k
 patient thinks, nor does the patient themselves. The "tutorial" dataset is different because it is easy to differentiate physical states of the body
 like standing or walking.
 
-\subsection{Creating the input data - activity measurements}
+\subsection{Input data}
 
 As we said before, we wanted the input data to be exactly the same for each goal, since we wanted to use a similar model on all three.
 The tutorial \cite{1d_cnn} sliced up the measurements with overlap, and labelled the slices. We are also did this.
@@ -108,7 +108,7 @@ where each element was a list of activity measurements for 4 hours:
 
 \textbf{segments[0] = [[0], [143], [0], [20], [166], [160], [306], [277], [439], ...]}
 
-\subsection{Creating the output data}
+\subsection{Output data}
 
 A second list was created simultaneously, where the value here was different on each goal. 
 
@@ -117,16 +117,36 @@ For classifying control / condition group, this list was built to contain the va
 \textbf{[CONTROL]} and \textbf{[CONDITION]}, which was chosen according to the group the participants were in. Using a helper function from Keras, 
 \textbf{to\_categorical}, we transformed this list of labels into the matrix we described. Transforming the values to a
 categorical matrix is required for the neural network that we ended up building, to be able to select a \textit{category} for the result. 
-This list, which we called \textbf{labels}, looked like this: 
+This list, which we called \textbf{labels}, can look like this: 
 
-\textbf{labels[0] = [0, 1]}
+\textbf{labels[i] = [0, 1]}
 
-\noindent Meaning that the first segment is labeled as \textbf{[CONDITION]}.
+\noindent Meaning that segment $i$ is labeled as \textbf{[CONDITION]}.
 
-\subsubsection{Predicting depression class}
+\subsubsection{Classifying depression}
+Here we wanted to classify which depression class a participant belongs to, and as described in the background part about Bipolar Disorder, 
+we divide MADRS scores into some \textit{cutoff} points, which we will use as \textit{classes} in our prediction:
 
+\begin{itemize}
+  \item 0-6: normal
+  \item 7-19: mild depression
+  \item 20-34: moderate depression
+  \item >34: severe depression
+\end{itemize}
+
+So instead of labelling the segments as \textbf{[CONTROL]} or \textbf{[CONDITION]}, we label them as 0, 1 or 2 (we ignore 3 as there is no participant with 
+MADRS score above 34). One element in \textbf{labels} in this case could be, after making it a categorical matrix:
+
+\textbf{labels[i] = [0, 1, 0]}
+
+\noindent Meaning that segment $i$ is labelled as \textbf{[MILD DEPRESSION]}.
 
 \subsubsection{Predicting MADRS Score}
+
+Instead of classifying one of three or one of two classes which we have done earlier, this time we want to predict the actual MADRS score value. 
+Creating the output data for this goal is easier, we simply add the MADRS score for the corresponding participant to the list. For example:
+
+\textbf{scores[i] = [18]}
 
 \section{Performance Metrics}
 \subsection{Confusion Matrix}

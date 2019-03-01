@@ -24,7 +24,9 @@ To make a convolutional neural network, you need some \textit{convolutional} and
 Which layers you add in between and the ordering of them, together with the parameters you pass to the layers, 
 is what makes the model perform differently. This, of course, requires your input data to be well structured.
 
-\begin{itemize}
+The following model is used to achieve our first goal; classifying whether a participant belongs to the \textbf{control} or \textbf{condition} group.
+
+\begin{enumerate}
   \item We start by defining a \textbf{Sequential} model. This is an easy to understand and readable way of defining a model. 
         Alternatively we could use a \textbf{functional} model, which gives more control of inputs and outputs of the layers.
         A \textbf{functional} model would be useful if we wanted to debug and optimize each layer within the model.
@@ -38,21 +40,45 @@ is what makes the model perform differently. This, of course, requires your inpu
         There are many different parameters that you can use on a layer like this, for example \textit{padding} and \textit{strides},
         but using the default values is good for now. This is also something that we can experiment with later.
         However using the default parameters, the output of this layer will be a $(X-10+1) \times 100$ matrix, 
-        and $X$ is the length of each segment here as well.
+        and $X$ is the length of each segment here as well. All the convolutional layers in this model will be using the activation function \textit{relu}.
   \item \textbf{Conv1D}: The second convolutional layer will look exactly like the first one, and the output will be a $(X-10+1-10+1) \times 100$ matrix. 
   \item \textbf{MaxPooling1D}: Pooling is important in a convolutional neural network to reduce complexity \cite{1d_cnn}. 
         The basic idea of \textit{max pooling} is to reduce to only the maximum value for each \textit{window} of size $N \times N$. We are using 2 as 
         window size ($N$), resulting in matrix that is half the size of the input: $ \frac{X-10+1-10+1}{2} \times 100$. 
-        Pooling may also help reduce \textit{overfitting}.
+        Pooling may also help reduce \textit{overfitting}, which is when the model learns its own data too well, and is worse on new unseen data.
   \item \textbf{Conv1D}: Two more convolutional layers are added, and after these the input to the next layer will be a matrix of size
         $ \left( \frac{X-10+1-10+1}{2}-10+1-10+1 \right) \times 160 $.
   \item \textbf{GlobalAveragePooling1D}: This is another pooling layer, and this one takes the average of weights within the network instead of the maximum.
         After doing this, the matrix will be of size $ 1 \times 160 $.
-  %\item \textbf{Dropout}: Dropout
+  \item \textbf{Dropout}: Dropout is used to reduce overfitting, by randomly ignoring units in the neural network. 
   \item \textbf{Dense}: The final layer in the model is a dense layer (fully connected) which reduces the matrix from $160$ values to $2$ with the
         activation function \textbf{softmax}. Then output (a $1$ in one of the two neurons), is mapped to the corresponding label (bipolar/not).
         
-\end{itemize}
+\end{enumerate}
+
+To make this model compatible with our second goal, we only need to change the number of neurons in the last layer to $3$ instead of $2$.
+After creating the model, we \textit{compile} it as a model that is ready to be trained, giving it a \textbf{loss function} and an \textbf{optimizer}.
+The loss function is the function that evaluates how well the model \textit{models} the given data \cite{loss_functions}, and the optimizer is the function that 
+attempts to lower the output of the loss function. 
+
+For both the first and the second goal, \textit{categorical crossentropy} calculates a probability over the 
+number of classes that are supplied (number of classes equals the number of neurons in the output layer). There are many different \textit{optimizers} available,
+but to keep things simple, we will use an optimizer called \textbf{Adam} for training all of our models. Using a different optimizer can make the 
+trained model perform differently. 
+
+To make the model work for our third goal, where we will predict the actual value for the participant's MADRS score, we have to change a few layers.
+After the \textit{GlobalAveragePooling1D} layer, this is instead applied:
+
+\begin{enumerate}
+      \setcounter{enumi}{7}
+      \item \textbf{Flatten}
+      \item \textbf{Dense}: A dense layer with $10$ neurons, and \textit{relu} as the activation function.
+      \item \textbf{Dense}: The output layer is a dense layer of size $1$, since we are predicting \textit{one} value. 
+            Also, the activation on this layer is going to be \textit{linear} instead of softmax.
+\end{enumerate}
+
+We compile this model with the loss function \textit{Mean Squared Error}, which is measured as the average (mean) 
+of squared difference between predictions and actual observations \cite{loss_functions}. The optimizer is the same as before.
 
 \subsection{Creating Input Data}
 \begin{table}

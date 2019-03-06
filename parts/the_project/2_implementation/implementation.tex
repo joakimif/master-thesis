@@ -1,5 +1,7 @@
 \section{Regression}
 
+TODO
+
 \section{1D Convolutional Neural Network}
 
 \subsection{Convolution}
@@ -63,8 +65,8 @@ attempts to lower the output of the loss function.
 
 For both the first and the second goal, \textit{categorical crossentropy} calculates a probability over the 
 number of classes that are supplied (number of classes equals the number of neurons in the output layer). There are many different \textit{optimizers} available,
-but to keep things simple, we will use an optimizer called \textbf{Adam} for training all of our models. Using a different optimizer can make the 
-trained model perform differently. 
+but to keep things simple, we will start out using an optimizer called \textbf{Adam} for training all of our models. Using a different optimizer can make the 
+model fit to the dataset faster or slower. 
 
 To make the model work for our third goal, where we will predict the actual value for the participant's MADRS score, we have to change a few layers.
 After the \textit{GlobalAveragePooling1D} layer, this is instead applied:
@@ -80,7 +82,7 @@ After the \textit{GlobalAveragePooling1D} layer, this is instead applied:
 We compile this model with the loss function \textit{Mean Squared Error}, which is measured as the average (mean) 
 of squared difference between predictions and actual observations \cite{loss_functions}. The optimizer is the same as before.
 
-\subsection{Creating Input Data}
+\subsection{Creating Input and Output Data}
 \begin{table}
   \begin{center}
     \begin{tabular}{| l | l |}
@@ -101,39 +103,76 @@ of squared difference between predictions and actual observations \cite{loss_fun
 \end{table}
 
 One function (\textit{create\_segments\_and\_labels()} \ref{code:reading_dataset}) is responsible of creating the data that is sent into the neural network. 
-It does the following:
+We start by defining a \textit{segment length} $L$, which is how much data (minutes) we want inside each segment. We will experiment with the value of $L$, 
+but let's say we use segments of 4 hours at a time ($L=4*60=240$). Next we need a value for how many values to step after each iteration, $S$. 
+We will keep this value at one hour, so $S=60$. 
 
 \begin{itemize}
   \item First we read the \textit{global} dataset, where we find each participant and whether they are bipolar or not. As there is no \textit{afftype} value
         for non-bipolar participants, we simply set this to 0. This is fine because the other possible values are 1, 2 and 3.
   \item Then we iterate over all participant activity data files:
   \begin{itemize}
-    \item Append a \textbf{segment} that is 60 minutes long to the list of segments (using default parameters in the
+    \item Append a \textbf{segment} that is of length $L$ to the list of segments (using default parameters in the
           \textit{create\_segments\_and\_labels} function \ref{code:reading_dataset}).
-    \item Append a 1 if the participant is bipolar, or a 0 if not to the list of labels.
-    \item Skip to the next hour, and repeat until we have added all segments.
+    \item Append the target value for the current goal, so:
+      \begin{itemize}
+            \item Append a $1$ or $0$ for classifying bipolar / not
+            \item Append a $0$, $1$ or $2$ for classifying depression class (normal / mild / moderate)
+            \item Append the MADRS score (after measurement period) when the goal is to predict MADRS score.
+      \end{itemize}  
+    \item Skip $S$ indexes, and repeat until we have added all segments.
   \end{itemize}
   \item Make the list of labels into a \textit{categorical} 2D matrix \ref{table:categorical_labels} with a \textbf{1} in only one of the columns,
         instead of a single-dimensional list.
-        This is needed for the \textbf{softmax} activation function, which we will describe later.
+        This is only needed in the first two goals, for the \textbf{softmax} activation function.
   \item Also we need the list of segments to be restructured. We do this with the \textbf{reshape} function, 
         and after this the data is ready to be passed into the neural network.
 \end{itemize}
 
 \noindent One last step is done before we can start training the model. We need to split the data in two parts; training and test data. This way we can calculate 
-the performance of the model after training has finished. The function \textbf{train\_test\_split} from the \textit{sklearn} package is useful here, 
-where you input the segments and labels, plus how large you want the training and test sets to be (number between 0 and 1, which determines the size of the 
+the performance of the model after training has finished, and also prevent overfitting by evaluating on data that is unseen to the model. 
+The function \textbf{train\_test\_split} from the \textit{sklearn} package is useful here, where you input the segments and labels, 
+plus how large you want the training and test sets to be (number between 0 and 1, which determines the size of the 
 test partition). The function also randomizes the data, so that the model won't accidentally learn something that is correct for two segments in a row that 
 also happen to be chronological.
 
 \section{Optimizing the model}
 
-Ideas: 
+\noindent Out of the box, we don't think that the model is going to perform perfectly. Therefore we need to experiment with each parameter that we pass to
+the model, and find the best ones. We have some ideas of what to change:
+
 \begin{itemize}
-    \item Increase segment length, 8 hours is best so far
-    \item Tweak other parameters
-    \item Switch to functional model, see how well each layer is performing
+    \item Use different segment lengths
+    \item Tweak hyper-parameters
 \end{itemize}
+
+\noindent The first idea, using different segment lengths, is the one we think is going to impact the results the most. Having more data inside each segment 
+will give the neural network more opportunities to learn features, and then be better at its job of either classifying or predicting something. 
+It will however take more time to train the model, since each layer has to go through more data. Is it worth waiting the training time 
+for increased segment lengths through, and is there one segment length that is optimal to use for shortest training time and best results?
+This question will be answered later, when we have gathered the results.
+
+Hyper-parameters are all the \textit{higher-order} parameters we compile/train the model with. They are different from the parameters learned by
+the model, and need to be fixed for one session of model training. Finding the perfect ones can be crucial for a well performing model. 
+Hyper-parameters that we use in our model include:
+
+\begin{itemize}
+    \item \textbf{Optimizer and learning rate}\\
+        The \textbf{optimizer} function (as said earlier) is important to lower the loss value when fitting the dataset to the model. 
+        Different optimizers have different input parameters, and the \textit{learning rate} is one that all optimizers use. 
+        Tweaking the learning rate can yield better results, 
+        but it's generally a good idea to start with default learning rate. % find source?
+    \item \textbf{Epochs}\\
+        Defines how many iterations of training that are to be executed, and in most cases more epochs yield better results, 
+        up to a certain point.
+    \item \textbf{Batch size}\\
+        This is how much data that is processed at the same time each epoch, and the best batch size to use can be completely different on 
+        two different models.  
+    \item \textbf{Train/test split size}\\
+        When building a neural network, we want as much data as possible to both train on and to test on afterwards. We can't use all the data 
+        in both cases, so the most balanced split size needs to be determined.
+\end{itemize}
+
 
 \newpage
 

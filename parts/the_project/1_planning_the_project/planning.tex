@@ -76,7 +76,7 @@ However as mentioned before, our data is one-dimensional, so a two-dimensional C
 \end{quote}
 
 To learn more about 1D CNNs, we followed a tutorial \cite{1d_cnn}, which used a dataset containing 
-time-sliced accelerometer data from a smartphone on the participants waists. The goal for this CNN is to predict what a given person is doing 
+accelerometer data from a smartphone on the participants waists. The goal for this CNN is to predict what a given person is doing 
 at the time, given the accelerometer data for that time slice. What the given person is doing is one of the following:
 \begin{itemize}
   \item Standing
@@ -149,6 +149,12 @@ Creating the output data for this goal is easier, we simply add the MADRS score 
 \textbf{scores[i] = [18]}
 
 \section{Performance Metrics}
+
+Metrics are important to use on machine learning models after training them. The most common and easy to understand metric is \textit{accuracy}. 
+Telling a friend that has no experience in machine learning or data science that you have made your computer able to predict something with 98\% accuracy
+is actually something that they would understand. Other metrics include \textit{confusion matrix}, \textit{precision}, \textit{Recall}, 
+\textit{specificity} and \textit{F1 score}, all of which we will describe below.
+
 \subsection{Confusion Matrix}
 
 \begin{table}
@@ -179,15 +185,15 @@ Creating the output data for this goal is easier, we simply add the MADRS score 
   \end{center}
 \end{table}
 
-Table \ref{table:confusion_matrix} shows a \textit{confusion matrix}. It is a very common and easy to understand metric for classification models in machine 
-learning, and is the basis for other of common performance metrics, which we will describe later in this section. It can tell you how well your model is performing, 
-by having correlation values for the different predicted classes. In our planned model for 
-predicting bipolar vs not bipolar, let's say we have 200 samples in our test data, a \textit{confusion matrix} for a good model would look like 
+Table \ref{table:confusion_matrix} shows a \textit{confusion matrix}. It is a visual metric for classification models in machine 
+learning, and is the basis for the other performance metrics. It can tell you how well your model is performing, 
+by having correlation values for the different classes. In our planned model for 
+classifying bipolar vs not bipolar, let's say we have 200 samples in our test data, a \textit{confusion matrix} for a good model would look like 
 table \ref{table:confusion_matrix_bipolar}, with highest numbers in \textbf{True Positive} and \textbf{True Negative} and as low numbers as possible in 
-\textbf{False Positive} and \textbf{False Negative}. Having a high number in \textbf{True Positive} means that the model is able to predict that a 
-participant is bipolar if he or she actually is bipolar, and having a high number in \textbf{True Negative} means that the model is able to predict 
+\textbf{False Positive} and \textbf{False Negative}. Having a high number in \textbf{True Positive} means that the model is able to classify that a 
+participant is bipolar if he or she actually is bipolar, and having a high number in \textbf{True Negative} means that the model is able to classify 
 that a participant is not bipolar if he or she actually isn't. The other cases, \textbf{False Positive} and \textbf{False Negative}, is where the model
-made a wrong prediction, and therefore as close these numbers are to zero the better our model is.
+made a wrong classification, and therefore as close these numbers are to zero the better our model is.
 
 \subsection{Accuracy}
 
@@ -204,7 +210,7 @@ Terrible use of the \textit{accuracy} metric would be when one of the classes st
 For example, if a model predicts \textbf{cancer} vs \textbf{no cancer}, and the samples contain 5 people with cancer and 
 the 95 remaining people do not. The model would be terrible at predicting cancer and have an \textit{accuracy} score of $ 95\% $ \cite{ml_metrics}.
 
-\subsection{Precision}
+\subsection{Precision} 
 
 This performance metric operates entirely on the predicted positives, and it tells us how many \textbf{true positives} there is among 
 \textbf{predicted positives} ($ \frac{TP}{TP + FP} $) \cite{ml_metrics}. 

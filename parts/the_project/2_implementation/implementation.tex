@@ -19,14 +19,19 @@ in the convolution. How many steps there are, is given by the length of the inpu
 
 
 \subsection{Creating the Model}
-Following the tutorial on 1D CNNs \cite{1d_cnn}, we came up with this model \ref{code:1d_conv_net}. 
-We used most of the same parameters, but we also had to tweak some of them to make the model work on our dataset.
+Following the tutorial on 1D CNNs \cite{1d_cnn}, we came up with two models. 
+One model for the first two goals was built for classification \ref{code:1d_conv_net_classifier}, and for the third goal we came up with another model built for 
+prediction \ref{code:1d_conv_net_predictor}. We built the models a lot like how it was in the tutorial, 
+but we also had to tweak some of the parameters to make the model work on our dataset.
 
 To make a convolutional neural network, you need some \textit{convolutional} and \textit{pooling} layers.
 Which layers you add in between and the ordering of them, together with the parameters you pass to the layers, 
 is what makes the model perform differently. This, of course, requires your input data to be well structured.
 
-The following model is used to achieve our first goal; classifying whether a participant belongs to the \textbf{control} or \textbf{condition} group.
+\subsubsection{Classification}
+The following model \ref{code:1d_conv_net_classifier} is used to achieve our first two goals; classifying whether a 
+participant belongs to the \textbf{control} or \textbf{condition} group, and classifying the participant's \textbf{depression class}.
+The only difference between these goals is the number of classes we are trying to classify, and therefore only the output layer needs to be changed.
 
 \begin{enumerate}
   \item We start by defining a \textbf{Sequential} model. This is an easy to understand and readable way of defining a model. 
@@ -47,34 +52,37 @@ The following model is used to achieve our first goal; classifying whether a par
   \item \textbf{MaxPooling1D}: Pooling is important in a convolutional neural network to reduce complexity \cite{1d_cnn}. 
         The basic idea of \textit{max pooling} is to reduce to only the maximum value for each \textit{window} of size $N \times N$. We are using 2 as 
         window size ($N$), resulting in matrix that is half the size of the input: $ \frac{X-10+1-10+1}{2} \times 100$. 
-        Pooling may also help reduce \textit{overfitting}, which is when the model learns its own data too well, and is worse on new unseen data.
+        Pooling may also help reduce \textit{overfitting}, which is when the model learns its own training data too well, and performs worse on unseen data.
   \item \textbf{Conv1D}: Two more convolutional layers are added, and after these the input to the next layer will be a matrix of size
         $ \left( \frac{X-10+1-10+1}{2}-10+1-10+1 \right) \times 160 $.
   \item \textbf{GlobalAveragePooling1D}: This is another pooling layer, and this one takes the average of weights within the network instead of the maximum.
         After doing this, the matrix will be of size $ 1 \times 160 $.
   \item \textbf{Dropout}: Dropout is used to reduce overfitting, by randomly ignoring units in the neural network. 
-  \item \textbf{Dense}: The final layer in the model is a dense layer (fully connected) which reduces the matrix from $160$ values to $2$ with the
-        activation function \textbf{softmax}. Then output (a $1$ in one of the two neurons), is mapped to the corresponding label (bipolar/not).
+  \item \textbf{Dense}: The final layer in the model is a dense layer (fully connected) which reduces the matrix from $160$ values to 
+        either $2$ or $3$ (for goal one and two), with the activation function \textbf{softmax}. 
+        Then the output (a $1$ in one of the neurons) is mapped to the corresponding label.
         
 \end{enumerate}
 
-To make this model compatible with our second goal, we only need to change the number of neurons in the last layer to $3$ instead of $2$.
-After creating the model, we \textit{compile} it as a model that is ready to be trained, giving it a \textbf{loss function} and an \textbf{optimizer}.
-The loss function is the function that evaluates how well the model \textit{models} the given data \cite{loss_functions}, and the optimizer is the function that 
-attempts to lower the output of the loss function. 
+After creating the model, we \textit{compile} it as a model that is ready to be \textit{fit} to the dataset, 
+giving it a \textbf{loss function} and an \textbf{optimizer}.The loss function is the function that evaluates how well the 
+model \textit{models} the given data \cite{loss_functions}, and the optimizer is the function that attempts to lower the output of the loss function. 
 
-For both the first and the second goal, \textit{categorical crossentropy} calculates a probability over the 
-number of classes that are supplied (number of classes equals the number of neurons in the output layer). There are many different \textit{optimizers} available,
+For the first two goals, the loss function \textit{categorical crossentropy} calculates a probability over the 
+number of classes that are supplied (number of classes equals the number of neurons in the output layer). 
+
+For the optimizer, there are many different choices available,
 but to keep things simple, we will start out using an optimizer called \textbf{Adam} for training all of our models. Using a different optimizer can make the 
 model fit to the dataset faster or slower. 
 
+\subsubsection{Prediction}
 To make the model work for our third goal, where we will predict the actual value for the participant's MADRS score, we have to change a few layers.
-After the \textit{GlobalAveragePooling1D} layer, this is instead applied:
+To simplify it a bit, we removed two of the \textit{Conv1D} layers, and after the \textit{GlobalAveragePooling1D} layer, this is applied:
 
 \begin{enumerate}
       \setcounter{enumi}{7}
-      \item \textbf{Flatten}
-      \item \textbf{Dense}: A dense layer with $10$ neurons, and \textit{relu} as the activation function.
+      \item \textbf{Flatten}: The matrix needs to be flat (one dimensional) before proceeding to the final layers.
+      \item \textbf{Dense}: A dense layer with $10$ neurons, and \textit{relu} as the activation function. 
       \item \textbf{Dense}: The output layer is a dense layer of size $1$, since we are predicting \textit{one} value. 
             Also, the activation on this layer is going to be \textit{linear} instead of softmax.
 \end{enumerate}
@@ -105,7 +113,9 @@ of squared difference between predictions and actual observations \cite{loss_fun
 One function (\textit{create\_segments\_and\_labels()} \ref{code:reading_dataset}) is responsible of creating the data that is sent into the neural network. 
 We start by defining a \textit{segment length} $L$, which is how much data (minutes) we want inside each segment. We will experiment with the value of $L$, 
 but let's say we use segments of 4 hours at a time ($L=4*60=240$). Next we need a value for how many values to step after each iteration, $S$. 
-We will keep this value at one hour, so $S=60$. 
+We will keep this value at one hour, meaning $S=60$. Between the different goals, this function will only be different in how it determines the output values.
+The code in the Source Code section \ref{code:reading_dataset} is simplified to only generate input and output for 
+classifying control / condition groups (goal one).
 
 \begin{itemize}
   \item First we read the \textit{global} dataset, where we find each participant and whether they are bipolar or not. As there is no \textit{afftype} value
@@ -116,8 +126,8 @@ We will keep this value at one hour, so $S=60$.
           \textit{create\_segments\_and\_labels} function \ref{code:reading_dataset}).
     \item Append the target value for the current goal, so:
       \begin{itemize}
-            \item Append a $1$ or $0$ for classifying bipolar / not
-            \item Append a $0$, $1$ or $2$ for classifying depression class (normal / mild / moderate)
+            \item Append a $1$ or $0$ for classifying control/condition group.
+            \item Append a $0$, $1$ or $2$ for classifying depression class \\(normal/mild/moderate).
             \item Append the MADRS score (after measurement period) when the goal is to predict MADRS score.
       \end{itemize}  
     \item Skip $S$ indexes, and repeat until we have added all segments.
@@ -129,12 +139,60 @@ We will keep this value at one hour, so $S=60$.
         and after this the data is ready to be passed into the neural network.
 \end{itemize}
 
-\noindent One last step is done before we can start training the model. We need to split the data in two parts; training and test data. This way we can calculate 
+\subsubsection{Train and test data}
+One last step is done before we can start training the model. We need to split the data in two parts; training and test data. This way we can calculate 
 the performance of the model after training has finished, and also prevent overfitting by evaluating on data that is unseen to the model. 
-The function \textbf{train\_test\_split} from the \textit{sklearn} package is useful here, where you input the segments and labels, 
-plus how large you want the training and test sets to be (number between 0 and 1, which determines the size of the 
-test partition). The function also randomizes the data, so that the model won't accidentally learn something that is correct for two segments in a row that 
-also happen to be chronological.
+
+The function \textit{train\_test\_split} from the \textit{sklearn} package is useful here, where you input the segments and labels, 
+plus how large you want the training and test sets to be (number between 0 and 1, which determines the size of the test partition). 
+The function also randomizes the data, preventing model to accidentally learn something that is correct for segments in a row that 
+also are chronologically in order. After calling the function \ref{code:sklearn_train_test_split}, you end up with two arrays for input data
+(\textit{X\_train, X\_test}), and two arrays for output data (\textit{y\_train, y\_test}). In this case the \textit{test\_size} is set to $0.4$, 
+meaning that the test sets contains $40\%$ of the total dataset and the remaining $60\%$ are in the training sets.
+
+\begin{code}
+    \caption{Sklearn train and test split}
+    \label{code:sklearn_train_test_split}
+    
+    \begin{minted}[linenos]{python}
+from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(segments, 
+                                                    labels, 
+                                                    test_size=0.4)
+    \end{minted}
+\end{code}
+
+\noindent Another option is to use something called \textit{K-fold cross-validation}. It works by splitting the dataset into $K$ train and test sets, 
+and for each of them, train the model on the training set and validate on the test set. This is a good way of checking if your model's performance 
+truly is independent on which data it trained on. The higher number of splits ($K$) means less data to train on, so you need to keep that in mind 
+(also applies to \textit{train\_test\_split} if you set the \textit{test\_size} too high). Sklearn has an implementation of \textit{K-fold} 
+splitting of data, called \textit{StratifiedKFold}. For example, code \ref{code:sklearn_k_fold} shows how you can use \textit{StratifiedKFold}
+to perform a 3-fold cross-validation in your project ($K = 3$). 
+
+\begin{code}
+    \caption{Sklearn K-Fold}
+    \label{code:sklearn_k_fold}
+    
+    \begin{minted}[linenos]{python}
+    from sklearn.model_selection import StratifiedKFold
+
+    segments, labels = create_segments_and_labels(...)
+
+    skf = StratifiedKFold(n_splits=3, shuffle=True)
+
+    for train_index, test_index in skf.split(segments, labels):
+        X_train, X_test = segments[train_index], segments[test_index]
+        y_train, y_test = labels[train_index], labels[test_index]
+
+        model = create_model(...)
+        model.fit(X_train, y_train, ...)
+        results = model.evaluate(X_test, y_test)
+
+        # do something with results...
+
+    \end{minted}
+\end{code}
 
 \section{Optimizing the model}
 
@@ -153,8 +211,8 @@ for increased segment lengths through, and is there one segment length that is o
 This question will be answered later, when we have gathered the results.
 
 Hyper-parameters are all the \textit{higher-order} parameters we compile/train the model with. They are different from the parameters learned by
-the model, and need to be fixed for one session of model training. Finding the perfect ones can be crucial for a well performing model. 
-Hyper-parameters that we use in our model include:
+training the model, and need to be fixed for one session of model training. Finding the perfect ones can be crucial for a well performing model. 
+Hyper-parameters that we use in our models include:
 
 \begin{itemize}
     \item \textbf{Optimizer and learning rate}\\
@@ -169,10 +227,9 @@ Hyper-parameters that we use in our model include:
         This is how much data that is processed at the same time each epoch, and the best batch size to use can be completely different on 
         two different models.  
     \item \textbf{Train/test split size}\\
-        When building a neural network, we want as much data as possible to both train on and to test on afterwards. We can't use all the data 
+        When building a neural network, we want as much data as possible to both train and to test on afterwards. We can't use all the data 
         in both cases, so the most balanced split size needs to be determined.
 \end{itemize}
-
 
 \newpage
 
@@ -181,5 +238,19 @@ Hyper-parameters that we use in our model include:
 \input{code/tex/create_segments_and_labels}
 
 \newpage
-\subsection{The Model}
+\subsection{The Models}
 \input{code/tex/1d_conv_net}
+
+\section{Training the models}
+
+The dataset is quite small (55 participants in total), so we decided to train the models on a PC with the GPU Nvidia GTX 1070. 
+
+
+\subsection{Control vs Condition Group}
+\subsubsection{Results}
+
+\subsection{Depression Classes}
+\subsubsection{Results}
+
+\subsection{MADRS Score}
+\subsubsection{Results}

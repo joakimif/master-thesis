@@ -1,9 +1,9 @@
 \begin{code}
-  \caption{Reading Dataset}
+  \caption{Read Dataset, Create Input Data}
   \label{code:reading_dataset}
   
   \begin{minted}[linenos]{python}
-  def create_segments_and_labels(segment_length=60, step=60):
+  def create_segments_and_labels(segment_length, output_classes=2, step=60):
     scores = pd.read_csv('scores.csv')
     scores['afftype'].fillna(0, inplace=True)
     
@@ -26,7 +26,7 @@
     segments = np.asarray(segments).reshape(-1, segment_length, 1)
     segments = segments.reshape(segments.shape[0], segment_length)
 
-    labels = to_categorical(np.asarray(labels), 2)
+    labels = to_categorical(np.asarray(labels), output_classes)
     
     return segments, labels
   \end{minted}

@@ -241,9 +241,17 @@ Hyper-parameters that we use in our models include:
 \subsection{The Models}
 \input{code/tex/1d_conv_net}
 
+% maybe move to other chapter?
+
 \section{Training the models}
 
-The dataset is quite small (55 participants in total), so we decided to train the models on a PC with the GPU Nvidia GTX 1070. 
+For training large neural networks you often need expensive hardware if you want to do it on your own. 
+The way to do it these days is to use cloud services such as Google or Amazon to run the machine learning once you have prepared the dataset and the model. 
+These services are often paid by the hour, but it's not expensive as long as you remember to shut it down after use, and only run it when you really need to.
+
+Our dataset, however, only contains 55 participants and only a few days of activity measurements for each participant, 
+so using a service to train the model would not be necessary. We decided to train them on one of our own personal computers, 
+with an Nvidia GTX 1070. Our guess is that this GPU will do the job just fine. 
 
 
 \subsection{Control vs Condition Group}

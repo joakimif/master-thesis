@@ -63,9 +63,12 @@ else:
 
         model = create_model(segment_length, num_sensors, input_shape, output_classes=output_classes, dropout=dropout)
 
-        callbacks = [
-            EarlyStopping(monitor='val_loss', patience=2),
-        ]
+        if early_stop:
+            callbacks = [
+                EarlyStopping(monitor='val_loss', patience=early_stop),
+            ]
+        else:
+            callbacks = []
 
         history = train(model, X_train, y_train, batch_size, epochs, callbacks, validation_split=0.4)
     else:

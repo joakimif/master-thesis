@@ -56,6 +56,11 @@ else:
 madrs = '-m' in sys.argv or '--madrs' in sys.argv
 verbose = '-v' in sys.argv or '--verbose' in sys.argv
 
+if '--early_stop' in sys.argv:
+    early_stop = int(sys.argv[sys.argv.index('--early_stop')+1])
+else:
+    early_stop = None
+
 _type = madrs and '-MADRS' or ''
 
 identifier = f'Conv1D{_type}_{timestamp}_{segment_length}_{step}_{epochs}_{batch_size}'

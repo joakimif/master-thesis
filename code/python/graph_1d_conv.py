@@ -57,7 +57,7 @@ metrics_reported = histories[0].columns
 historydf.columns = pd.MultiIndex.from_product([hours_list[:test_hours], metrics_reported], names=['hours', 'metric'])
 
 ax = plt.subplot(211)
-historydf.xs('loss', axis=1, level='metric').plot(ax=ax)
+historydf.xs('loss', axis=1, level='metric').plot(ax=ax, ylim=(0, 1))
 plt.title('Loss')
 
 ax = plt.subplot(212)
@@ -65,6 +65,7 @@ historydf.xs('acc', axis=1, level='metric').plot(ax=ax)
 plt.title('Accuracy')
 
 plt.xlabel('Epochs')
+plt.tight_layout()
 
 plt.savefig(f'{img_path}/plot.png')
 

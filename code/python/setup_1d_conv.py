@@ -38,7 +38,7 @@ if verbose:
 else:
     verbose = 0
 
-CATEGORIES = ['CONDITION', 'CONTROL']
+CATEGORIES = ['Condition', 'Control']
 LABELS = ['normal', 'bipolar']
 
 MADRS_LABLES = ['Normal', 'Mild', 'Moderate', 'Severe']

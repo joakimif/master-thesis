@@ -1,16 +1,16 @@
 from setup_1d_conv import *
 
-callbacks = [
-    EarlyStopping(monitor='val_loss', patience=2),
-]
+callbacks = early_stop and [EarlyStopping(monitor='val_loss', patience=early_stop)] or []
 
 output_classes = 2
 filename_prefix = 'Conv1D'
+CLASSES = CATEGORIES
 
 if madrs:
     create_segments_and_labels = create_segments_and_labels_madrs
     output_classes = 4
     filename_prefix = 'Conv1D-MADRS'
+    CLASSES = MADRS_LABLES
 
 img_path = f'../img/{filename_prefix}_{datetime.datetime.now().strftime("%m-%d-%YT%H:%M:%S")}'
 model_path = f'../models/{filename_prefix}_{datetime.datetime.now().strftime("%m-%d-%YT%H:%M:%S")}'
@@ -41,8 +41,8 @@ for hours in hours_list:
     make_confusion_matrix(max_y_test, max_y_pred_test, 
                             output_file=f'{img_path}/conf_{seg}_{step}_{epochs}_{batch_size}.png',
                             print_stdout=False, 
-                            xticklabels=MADRS_LABLES, 
-                            yticklabels=MADRS_LABLES)
+                            xticklabels=CLASSES, 
+                            yticklabels=CLASSES)
 
     histories.append(pd.DataFrame(h.history, index=h.epoch))
     loss_list.append(loss)

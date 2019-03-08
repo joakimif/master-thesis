@@ -23,6 +23,11 @@ if '--batch_size' in sys.argv:
 else:
     batch_size = 32
 
+if '--test_hours' in sys.argv:
+    test_hours = int(sys.argv[sys.argv.index('--test_hours')+1])
+else:
+    test_hours = None
+
 if '--k_folds' in sys.argv:
     k_folds = int(sys.argv[sys.argv.index('--k_folds')+1])
 else:

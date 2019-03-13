@@ -54,12 +54,17 @@ y = df[['madrs2']]
 X = X.values.astype('float32')
 y = y.values.astype('float32')
 
-print(X.shape)
-print(y.shape)
+np.random.seed(42)
+np.random.shuffle(X)
+np.random.shuffle(y)
 
-estimator = KerasRegressor(build_fn=regression_model, epochs=100, batch_size=5, verbose=1)
+print(pd.DataFrame(X).head())
+print(pd.DataFrame(y).head())
+"""
+estimator = KerasRegressor(build_fn=regression_model, epochs=100, batch_size=5, verbose=0)
 estimator.fit(X, y)
 
 prediction = estimator.predict(X)
 
 print(pd.DataFrame(prediction).describe())
+"""

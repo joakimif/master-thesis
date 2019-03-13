@@ -51,8 +51,8 @@ df['afftype'].replace([2.0, 3.0], 1.0, inplace=True)
 X = df[['number','gender', 'melanch', 'afftype', 'inpatient', 'age', 'edu', 'work', 'madrs1']]
 y = df[['madrs2']]
 
-X = X.values.astype('float32')
-y = y.values.astype('float32')
+#X = X.values.astype('float32')
+#y = y.values.astype('float32')
 
 np.random.seed(42)
 np.random.shuffle(X)

@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import seaborn as sns
 
 import os
 import sys
@@ -21,7 +20,6 @@ from tensorflow.keras.layers import Conv2D, MaxPooling2D, Conv1D, MaxPooling1D
 from tensorflow.keras.callbacks import TensorBoard, EarlyStopping, ModelCheckpoint
 from tensorflow.keras.wrappers.scikit_learn import KerasRegressor
 
-
 def regression_model():
 	model = Sequential()
 	model.add(Dense(8, input_dim=8, activation='relu'))
@@ -29,6 +27,7 @@ def regression_model():
 
 	model.compile(loss='mean_squared_error', optimizer='adam')
 	return model
+
 
 df = pd.read_csv('../datasets/scores.csv')
 
@@ -38,6 +37,7 @@ df['gender'] = df['gender'].apply(lambda x: x-1)
 df['melanch'] = df['melanch'].apply(lambda x: x-1)
 df['inpatient'] = df['inpatient'].apply(lambda x: x-1)
 df['work'] = df['work'].apply(lambda x: x-1)
+df['id'] = df.index
 
 df['afftype'].fillna(0, inplace=True)
 df['melanch'].fillna(0, inplace=True)
@@ -59,11 +59,13 @@ y = y.values.astype('float32')
 
 np.random.seed(42)
 np.random.shuffle(X)
+
+np.random.seed(42)
 np.random.shuffle(y)
 
 print(pd.DataFrame(X, columns=X_columns).head())
 print(pd.DataFrame(y, columns=y_columns).head())
-"""
+
 estimator = KerasRegressor(build_fn=regression_model, epochs=100, batch_size=5, verbose=0)
 estimator.fit(X, y)
 

@@ -21,6 +21,8 @@ from tensorflow.keras.layers import Conv2D, MaxPooling2D, Conv1D, MaxPooling1D
 from tensorflow.keras.callbacks import TensorBoard, EarlyStopping, ModelCheckpoint
 from tensorflow.keras.wrappers.scikit_learn import KerasRegressor
 
+from parse_args import *
+
 def regression_model():
 	model = Sequential()
 	model.add(Dense(100, input_dim=8, activation='relu'))
@@ -69,10 +71,10 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 # print(pd.DataFrame(X, columns=X_columns).head())
 # print(pd.DataFrame(y, columns=y_columns).head())
 
-if len(sys.argv) > 1 and sys.argv[1] == '--load':
+if do_load:
 	estimator = load_model('../models/kerasregressor.h5')
 else:
-	estimator = KerasRegressor(build_fn=regression_model, epochs=8000, batch_size=64, verbose=1)
+	estimator = KerasRegressor(build_fn=regression_model, epochs=epochs, batch_size=batch_size, verbose=1)
 	estimator.fit(X_train, y_train)
 	estimator.save('../models/kerasregressor.h5')
 

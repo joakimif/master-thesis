@@ -30,7 +30,6 @@ def regression_model():
 	model.compile(loss='mean_squared_error', optimizer='adam')
 	return model
 
-
 df = pd.read_csv('../datasets/scores.csv')
 df['age'] = df['age'].apply(lambda x: type(x) == str and x.split('-')[0] or x)
 df['edu'] = df['edu'].apply(lambda x: type(x) == str and x.split('-')[0] or x)
@@ -45,8 +44,10 @@ df['inpatient'].fillna(0, inplace=True)
 df['madrs2'].fillna(0, inplace=True)
 df['work'].fillna(1, inplace=True)
 
-X = df[['gender', 'afftype', 'melanch', 'inpatient', 'age', 'edu', 'work']]
-y = df[['madrs2']]
+df['afftype'].replace([2.0, 3.0], 1.0, inplace=True)
+
+X = df[['gender', 'melanch', 'inpatient', 'age', 'edu', 'work', 'madrs2']]
+y = df[['afftype']]
 
 X = X.values.astype('float32')
 y = y.values.astype('float32')

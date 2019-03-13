@@ -74,4 +74,4 @@ estimator.fit(X_train, y_train)
 
 prediction = pd.DataFrame([(pred, actual) for (pred, actual) in zip(estimator.predict(X_test), y_test)], columns=['Predicted', 'Actual'])
 
-print(prediction.describe())
+print(prediction.head())

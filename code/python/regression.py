@@ -38,6 +38,7 @@ df['gender'] = df['gender'].apply(lambda x: x-1)
 df['melanch'] = df['melanch'].apply(lambda x: x-1)
 df['inpatient'] = df['inpatient'].apply(lambda x: x-1)
 df['work'] = df['work'].apply(lambda x: x-1)
+df['id'] = df['number'].apply(lambda x: int(x[-1]))
 
 df['afftype'].fillna(0, inplace=True)
 df['melanch'].fillna(0, inplace=True)
@@ -48,11 +49,11 @@ df['work'].fillna(1, inplace=True)
 
 df['afftype'].replace([2.0, 3.0], 1.0, inplace=True)
 
-X = df[['number','gender', 'melanch', 'afftype', 'inpatient', 'age', 'edu', 'work', 'madrs1']]
+X = df[['id','gender', 'melanch', 'afftype', 'inpatient', 'age', 'edu', 'work', 'madrs1']]
 y = df[['madrs2']]
 
-#X = X.values.astype('float32')
-#y = y.values.astype('float32')
+X = X.values.astype('float32')
+y = y.values.astype('float32')
 
 np.random.seed(42)
 np.random.shuffle(X)

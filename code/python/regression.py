@@ -25,7 +25,7 @@ from tensorflow.keras.wrappers.scikit_learn import KerasRegressor
 def regression_model():
 	model = Sequential()
 	model.add(Dense(7, input_dim=7, activation='relu'))
-	model.add(Dense(1, activation='sigmoid'))
+	model.add(Dense(1))
 
 	model.compile(loss='mean_squared_error', optimizer='adam')
 	return model
@@ -58,6 +58,6 @@ print(y.shape)
 estimator = KerasRegressor(build_fn=regression_model, epochs=100, batch_size=5, verbose=1)
 estimator.fit(X, y)
 
-prediction = estimator.predict(X)
+prediction = estimator.predict(X).round()
 
 print(pd.DataFrame(prediction).describe())

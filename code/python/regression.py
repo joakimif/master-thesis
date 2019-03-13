@@ -66,7 +66,7 @@ np.random.shuffle(X)
 np.random.seed(seed)
 np.random.shuffle(y)
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
 
 # print(pd.DataFrame(X, columns=X_columns).head())
 # print(pd.DataFrame(y, columns=y_columns).head())

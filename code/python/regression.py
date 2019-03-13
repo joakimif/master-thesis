@@ -38,7 +38,6 @@ df['gender'] = df['gender'].apply(lambda x: x-1)
 df['melanch'] = df['melanch'].apply(lambda x: x-1)
 df['inpatient'] = df['inpatient'].apply(lambda x: x-1)
 df['work'] = df['work'].apply(lambda x: x-1)
-df['id'] = df['number'].apply(lambda x: int(x[-1]))
 
 df['afftype'].fillna(0, inplace=True)
 df['melanch'].fillna(0, inplace=True)
@@ -49,8 +48,11 @@ df['work'].fillna(1, inplace=True)
 
 df['afftype'].replace([2.0, 3.0], 1.0, inplace=True)
 
-X = df[['id','gender', 'melanch', 'afftype', 'inpatient', 'age', 'edu', 'work', 'madrs1']]
-y = df[['madrs2']]
+X_columns = ['gender', 'melanch', 'afftype', 'inpatient', 'age', 'edu', 'work', 'madrs1']
+y_columns = ['madrs2']
+
+X = df[X_columns]
+y = df[y_columns]
 
 X = X.values.astype('float32')
 y = y.values.astype('float32')
@@ -59,8 +61,8 @@ np.random.seed(42)
 np.random.shuffle(X)
 np.random.shuffle(y)
 
-print(pd.DataFrame(X).head())
-print(pd.DataFrame(y).head())
+print(pd.DataFrame(X, columns=X_columns).head())
+print(pd.DataFrame(y, columns=y_columns).head())
 """
 estimator = KerasRegressor(build_fn=regression_model, epochs=100, batch_size=5, verbose=0)
 estimator.fit(X, y)

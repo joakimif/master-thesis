@@ -76,7 +76,7 @@ if do_load:
 else:
 	estimator = KerasRegressor(build_fn=regression_model, epochs=epochs, batch_size=batch_size, verbose=1)
 	estimator.fit(X_train, y_train)
-	estimator.save('../models/kerasregressor.h5')
+	estimator.model.save('../models/kerasregressor.h5')
 
 prediction = pd.DataFrame(list(zip(estimator.predict(X_test).round(), [y[0] for y in y_test])), columns=['Predicted', 'Actual'])
 

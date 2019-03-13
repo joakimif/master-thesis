@@ -48,7 +48,7 @@ df['work'].fillna(1, inplace=True)
 
 df['afftype'].replace([2.0, 3.0], 1.0, inplace=True)
 
-X = df[['gender', 'melanch', 'afftype', 'inpatient', 'age', 'edu', 'work', 'madrs1']]
+X = df[['number','gender', 'melanch', 'afftype', 'inpatient', 'age', 'edu', 'work', 'madrs1']]
 y = df[['madrs2']]
 
 X = X.values.astype('float32')

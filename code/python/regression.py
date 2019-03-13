@@ -72,6 +72,6 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4)
 estimator = KerasRegressor(build_fn=regression_model, epochs=100, batch_size=5, verbose=0)
 estimator.fit(X_train, y_train)
 
-prediction = pd.DataFrame([(pred, actual) for (pred, actual) in zip(estimator.predict(X_test), y_test)], columns=['Predicted', 'Actual'])
+prediction = pd.DataFrame(zip(estimator.predict(X_test), [y for y in y_test]), columns=['Predicted', 'Actual'])
 
 print(prediction.head())

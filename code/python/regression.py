@@ -23,7 +23,7 @@ from tensorflow.keras.wrappers.scikit_learn import KerasRegressor
 
 def regression_model():
 	model = Sequential()
-	model.add(Dense(8, input_dim=8, activation='relu'))
+	model.add(Dense(100, input_dim=8, activation='relu'))
 	model.add(Dense(1))
 
 	model.compile(loss='mean_squared_error', optimizer='adam')

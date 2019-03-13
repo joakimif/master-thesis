@@ -59,19 +59,19 @@ X = X.values.astype('float32')
 y = y.values.astype('float32')
 
 seed = random.randint(1, 999) # same seed for X and y
-
 np.random.seed(seed)
 np.random.shuffle(X)
-
 np.random.seed(seed)
 np.random.shuffle(y)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4)
 
 # print(pd.DataFrame(X, columns=X_columns).head())
 # print(pd.DataFrame(y, columns=y_columns).head())
 
 estimator = KerasRegressor(build_fn=regression_model, epochs=100, batch_size=5, verbose=0)
-estimator.fit(X, y)
+estimator.fit(X_train, y_train)
 
-prediction = estimator.predict(X)
+prediction = pd.DataFrame([(pred, actual) for (pred, actual) in zip(estimator.predict(X_test), y_test)], columns=['Predicted', 'Actual'])
 
-print(pd.DataFrame(prediction).describe())
+print(prediction.describe())

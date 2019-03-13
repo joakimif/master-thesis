@@ -3,6 +3,7 @@ import pandas as pd
 
 import os
 import sys
+import random
 
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split, cross_val_score, KFold
@@ -57,14 +58,16 @@ y = df[y_columns]
 X = X.values.astype('float32')
 y = y.values.astype('float32')
 
-np.random.seed(42)
+seed = random.randint(1, 999) # same seed for X and y
+
+np.random.seed(seed)
 np.random.shuffle(X)
 
-np.random.seed(42)
+np.random.seed(seed)
 np.random.shuffle(y)
 
-print(pd.DataFrame(X, columns=X_columns).head())
-print(pd.DataFrame(y, columns=y_columns).head())
+# print(pd.DataFrame(X, columns=X_columns).head())
+# print(pd.DataFrame(y, columns=y_columns).head())
 
 estimator = KerasRegressor(build_fn=regression_model, epochs=100, batch_size=5, verbose=0)
 estimator.fit(X, y)

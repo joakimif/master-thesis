@@ -25,8 +25,8 @@ from parse_args import *
 
 def regression_model():
 	model = Sequential()
-	model.add(Dense(20, input_dim=6, activation='relu'))
-	model.add(Dense(10, activation='relu'))
+	model.add(Dense(1, input_dim=1, activation='relu'))
+	#model.add(Dense(10, activation='relu'))
 	model.add(Dense(1))
 
 	model.compile(loss='mse', optimizer='adam', metrics=['mse'])

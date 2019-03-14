@@ -89,7 +89,6 @@ for X_col in X_columns:
     plt.ylabel('MSE')
     plt.savefig(f'../img/kerasregressor_{X_col}.png')
     plt.clf()
-    break
 
 for res in results:
     print(f'Predict {y_col} based on ' + res['name'] + ':')

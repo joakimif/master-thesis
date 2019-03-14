@@ -25,7 +25,7 @@ from parse_args import *
 
 def regression_model():
 	model = Sequential()
-	model.add(Dense(5, input_dim=1, activation='relu'))
+	model.add(Dense(1, input_dim=1, activation='relu'))
 	#model.add(Dense(10, activation='relu'))
 	model.add(Dense(1))
 
@@ -72,14 +72,14 @@ for X_col in X_columns:
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
     if do_load:
-        estimator = load_model(f'../models/kerasregressor_{X_col}.h5')
+        regressor = load_model(f'../models/kerasregressor_{X_col}.h5')
     else:
-        estimator = KerasRegressor(build_fn=regression_model, epochs=epochs, batch_size=batch_size, verbose=1)
-        h = estimator.fit(X_train, y_train)
-        estimator.model.save(f'../models/kerasregressor_{X_col}.h5')
+        regressor = KerasRegressor(build_fn=regression_model, epochs=epochs, batch_size=batch_size, verbose=1)
+        h = regressor.fit(X_train, y_train)
+        regressor.model.save(f'../models/kerasregressor_{X_col}.h5')
 
-    #predictions = 
-    prediction_df = pd.DataFrame(list(zip(estimator.predict(X_test).round(), [y[0] for y in y_test])), columns=['Predicted', 'Actual'])
+    predictions = regressor.predict(X_test).round()
+    prediction_df = pd.DataFrame(list(zip(predictions, [y[0] for y in y_test])), columns=['Predicted', 'Actual'])
     
     results.append({'df': prediction_df, 'name': X_col, 'h': h})
 
@@ -93,3 +93,5 @@ for res in results:
     print('----------------')
     print(res['df'])
     print('----------------')
+
+prediction = pd.DataFrame(list(zip(estimator.predict(X_test).round(), [y[0] for y in y_test])), columns=['Predicted', 'Actual'])

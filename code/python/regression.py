@@ -25,8 +25,8 @@ from parse_args import *
 
 def regression_model():
 	model = Sequential()
-	model.add(Dense(1, input_dim=1, activation='relu'))
-	#model.add(Dense(10, activation='relu'))
+	model.add(Dense(20, input_dim=6, activation='relu'))
+	model.add(Dense(10, activation='relu'))
 	model.add(Dense(1))
 
 	model.compile(loss='mse', optimizer='adam', metrics=['mse'])
@@ -45,18 +45,16 @@ df['id'] = df.index
 
 df['afftype'].fillna(0, inplace=True)
 df['melanch'].fillna(0, inplace=True)
-df['inpatient'].fillna(0, inplace=True)
 df['madrs2'].fillna(0, inplace=True)
 df['madrs1'].fillna(0, inplace=True)
 df['work'].fillna(1, inplace=True)
 
 df['afftype'].replace([2.0, 3.0], 1.0, inplace=True)
 
-X_columns = ['gender', 'melanch', 'age', 'edu', 'work', 'madrs1', 'afftype']
+X_columns = ['gender', 'age', 'edu', 'work', 'madrs1', 'madrs2']
 y_columns = ['afftype']
 
-#X = df[X_columns]
-X = df['edu']
+X = df[X_columns]
 y = df[y_columns]
 
 X = X.values.astype('float32')

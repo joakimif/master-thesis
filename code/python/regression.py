@@ -52,13 +52,13 @@ df['work'].fillna(1, inplace=True)
 df['afftype'].replace([2.0, 3.0], 1.0, inplace=True)
 
 X_columns = ['gender', 'age', 'edu', 'work', 'madrs1', 'madrs2']
-y_columns = ['afftype']
+y_col = 'afftype'
 
-predictions = []
+results = []
 
 for X_col in X_columns:
     X = df[X_col]
-    y = df[y_columns]
+    y = df[y_col]
 
     X = X.values.astype('float32')
     y = y.values.astype('float32')
@@ -72,18 +72,24 @@ for X_col in X_columns:
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
     if do_load:
-        estimator = load_model('../models/kerasregressor.h5')
+        estimator = load_model(f'../models/kerasregressor_{X_col}.h5')
     else:
         estimator = KerasRegressor(build_fn=regression_model, epochs=epochs, batch_size=batch_size, verbose=1)
-        estimator.fit(X_train, y_train)
-        estimator.model.save('../models/kerasregressor.h5')
+        h = estimator.fit(X_train, y_train)
+        estimator.model.save(f'../models/kerasregressor_{X_col}.h5')
 
-    prediction = pd.DataFrame(list(zip(estimator.predict(X_test).round(), [y[0] for y in y_test])), columns=['Predicted', 'Actual'])
+    predictions = estimator.predict(X_test)
+    prediction_df = pd.DataFrame(list(zip(predictions.round(), [y[0] for y in y_test])), columns=['Predicted', 'Actual'])
     
-    predictions.append({'prediction': prediction, 'name': X_col})
+    results.append({'df': prediction_df, 'name': X_col, 'h': h})
 
-for pred in predictions:
-    print(pred['name'] + ':')
+    h.history.plot()
+    plt.savefig(f'../img/kerasregressor_{X_col}.png')
+    plt.clf()
+    break
+
+for res in results:
+    print(f'Predict {y_col} based on ' + res['name'] + ':')
     print('----------------')
-    print(pred['prediction'])
+    print(res['df'])
     print('----------------')

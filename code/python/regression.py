@@ -84,7 +84,7 @@ for X_col in X_columns:
     
     results.append({'df': prediction_df, 'name': X_col, 'h': h})
 
-    h.history.plot()
+    pd.DataFrame(h.history).plot()
     plt.savefig(f'../img/kerasregressor_{X_col}.png')
     plt.clf()
     break

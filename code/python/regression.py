@@ -25,7 +25,7 @@ from parse_args import *
 
 def regression_model():
 	model = Sequential()
-	model.add(Dense(20, input_dim=8, activation='relu'))
+	model.add(Dense(20, input_dim=7, activation='relu'))
 	model.add(Dense(10, activation='relu'))
 	model.add(Dense(1))
 

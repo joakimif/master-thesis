@@ -25,7 +25,7 @@ from parse_args import *
 
 def regression_model():
 	model = Sequential()
-	model.add(Dense(1, input_dim=1, activation='relu'))
+	model.add(Dense(5, input_dim=1, activation='relu'))
 	#model.add(Dense(10, activation='relu'))
 	model.add(Dense(1))
 
@@ -79,7 +79,8 @@ for X_col in X_columns:
         regressor.model.save(f'../models/kerasregressor_{X_col}.h5')
 
     predictions = regressor.predict(X_test).round()
-    prediction_df = pd.DataFrame(list(zip(predictions, [y[0] for y in y_test])), columns=['Predicted', 'Actual'])
+    predictions = list(zip(predictions, [y[0] for y in y_test]))
+    prediction_df = pd.DataFrame(predictions, columns=['Predicted', 'Actual'])
     
     results.append({'df': prediction_df, 'name': X_col, 'h': h})
 

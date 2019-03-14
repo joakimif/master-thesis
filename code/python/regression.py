@@ -52,8 +52,8 @@ df['work'].fillna(1, inplace=True)
 
 df['afftype'].replace([2.0, 3.0], 1.0, inplace=True)
 
-X_columns = ['gender', 'melanch', 'age', 'edu', 'work', 'madrs1', 'madrs2']
-y_columns = ['afftype']
+X_columns = ['gender', 'melanch', 'age', 'edu', 'work', 'madrs1', 'afftype']
+y_columns = ['madrs2']
 
 X = df[X_columns]
 y = df[y_columns]
@@ -67,7 +67,7 @@ np.random.shuffle(X)
 np.random.seed(seed)
 np.random.shuffle(y)
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
 # print(pd.DataFrame(X, columns=X_columns).head())
 # print(pd.DataFrame(y, columns=y_columns).head())

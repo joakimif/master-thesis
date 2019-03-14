@@ -85,6 +85,8 @@ for X_col in X_columns:
     results.append({'df': prediction_df, 'name': X_col, 'h': h})
 
     pd.DataFrame(h.history).plot()
+    plt.xlabel('Epoch')
+    plt.ylabel('MSE')
     plt.savefig(f'../img/kerasregressor_{X_col}.png')
     plt.clf()
     break
@@ -94,5 +96,3 @@ for res in results:
     print('----------------')
     print(res['df'])
     print('----------------')
-
-prediction = pd.DataFrame(list(zip(estimator.predict(X_test).round(), [y[0] for y in y_test])), columns=['Predicted', 'Actual'])

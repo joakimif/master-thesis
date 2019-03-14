@@ -74,7 +74,7 @@ for X_col in X_columns:
     if do_load:
         estimator = load_model('../models/kerasregressor.h5')
     else:
-        estimator = KerasRegressor(build_fn=regression_model, epochs=epochs, batch_size=batch_size, verbose=0)
+        estimator = KerasRegressor(build_fn=regression_model, epochs=epochs, batch_size=batch_size, verbose=1)
         estimator.fit(X_train, y_train)
         estimator.model.save('../models/kerasregressor.h5')
 

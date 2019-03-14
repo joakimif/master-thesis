@@ -56,7 +56,7 @@ X_columns = ['gender', 'melanch', 'age', 'edu', 'work', 'madrs1', 'afftype']
 y_columns = ['afftype']
 
 #X = df[X_columns]
-X = df['madrs2']
+X = df['edu']
 y = df[y_columns]
 
 X = X.values.astype('float32')

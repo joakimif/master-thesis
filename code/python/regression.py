@@ -51,38 +51,39 @@ df['work'].fillna(1, inplace=True)
 
 df['afftype'].replace([2.0, 3.0], 1.0, inplace=True)
 
-X_columns = ['gender', 'age', 'edu', 'work', 'madrs1', 'afftype']
-y_columns = ['madrs2']
+X_columns = ['gender', 'age', 'edu', 'work', 'madrs1', 'madrs2']
+y_columns = ['afftype']
 
-X = df[X_columns]
-y = df[y_columns]
+predictions = []
 
-X = X.values.astype('float32')
-y = y.values.astype('float32')
+for X_col in X_columns:
+    X = df[X_col]
+    y = df[y_columns]
 
-scaler = MinMaxScaler()
-scaler.fit(X)
-scaler.fit(y)
-X = scaler.transform(X)
-y = scaler.transform(y)
+    X = X.values.astype('float32')
+    y = y.values.astype('float32')
 
-seed = random.randint(1, 999) # same seed for X and y to make them index the same rows as before
-np.random.seed(seed)
-np.random.shuffle(X)
-np.random.seed(seed)
-np.random.shuffle(y)
+    seed = random.randint(1, 999) # same seed for X and y to make them index the same rows as before
+    np.random.seed(seed)
+    np.random.shuffle(X)
+    np.random.seed(seed)
+    np.random.shuffle(y)
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
-# print(pd.DataFrame(X, columns=X_columns).head())
-# print(pd.DataFrame(y, columns=y_columns).head())
+    if do_load:
+        estimator = load_model('../models/kerasregressor.h5')
+    else:
+        estimator = KerasRegressor(build_fn=regression_model, epochs=epochs, batch_size=batch_size, verbose=0)
+        estimator.fit(X_train, y_train)
+        estimator.model.save('../models/kerasregressor.h5')
 
-if do_load:
-	estimator = load_model('../models/kerasregressor.h5')
-else:
-	estimator = KerasRegressor(build_fn=regression_model, epochs=epochs, batch_size=batch_size, verbose=1)
-	estimator.fit(X_train, y_train)
-	estimator.model.save('../models/kerasregressor.h5')
+    prediction = pd.DataFrame(list(zip(estimator.predict(X_test).round(), [y[0] for y in y_test])), columns=['Predicted', 'Actual'])
+    
+    predictions.append({'prediction': prediction, 'name': X_col})
 
-prediction = pd.DataFrame(list(zip(estimator.predict(X_test), [y[0] for y in y_test])), columns=['Predicted', 'Actual'])
-print(prediction)
+for pred in predictions:
+    print(pred['name'] + ':')
+    print('----------------')
+    print(pred['prediction'])
+    print('----------------')

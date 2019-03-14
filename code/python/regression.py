@@ -61,6 +61,8 @@ X = X.values.astype('float32')
 y = y.values.astype('float32')
 
 scaler = MinMaxScaler()
+scaler.fit(X)
+scaler.fit(y)
 X = scaler.transform(X)
 y = scaler.transform(y)
 

@@ -84,14 +84,14 @@ for X_col in X_columns:
     
     results.append({'df': prediction_df, 'name': X_col, 'h': h})
 
-    pd.DataFrame(h.history).plot()
-    plt.xlabel('Epoch')
-    plt.ylabel('MSE')
-    plt.savefig(f'../img/kerasregressor_{X_col}.png')
-    plt.clf()
-
 for res in results:
     print(f'Predict {y_col} based on ' + res['name'] + ':')
     print('----------------')
     print(res['df'])
     print('----------------')
+
+    pd.DataFrame(res['h'].history).plot()
+
+plt.xlabel('Epoch')
+plt.ylabel('MSE')
+plt.savefig(f'../img/kerasregressor.png')

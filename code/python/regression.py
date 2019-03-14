@@ -79,7 +79,6 @@ for X_col in X_columns:
         regressor.model.save(f'../models/kerasregressor_{X_col}.h5')
 
     predictions = regressor.predict(X_test).round()
-    print(predictions, y_test)
     predictions = list(zip(predictions, y_test))
     prediction_df = pd.DataFrame(predictions, columns=['Predicted', 'Actual'])
     

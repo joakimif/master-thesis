@@ -53,7 +53,7 @@ df['work'].fillna(1, inplace=True)
 df['afftype'].replace([2.0, 3.0], 1.0, inplace=True)
 
 X_columns = ['gender', 'melanch', 'age', 'edu', 'work', 'madrs1', 'afftype']
-y_columns = ['madrs2']
+y_columns = ['afftype']
 
 #X = df[X_columns]
 X = df['madrs2']

@@ -25,8 +25,8 @@ from parse_args import *
 
 def regression_model():
 	model = Sequential()
-	model.add(Dense(20, input_dim=7, activation='relu'))
-	model.add(Dense(10, activation='relu'))
+	model.add(Dense(1, input_dim=1, activation='relu'))
+	#model.add(Dense(10, activation='relu'))
 	model.add(Dense(1))
 
 	model.compile(loss='mse', optimizer='adam', metrics=['mse'])
@@ -55,7 +55,8 @@ df['afftype'].replace([2.0, 3.0], 1.0, inplace=True)
 X_columns = ['gender', 'melanch', 'age', 'edu', 'work', 'madrs1', 'afftype']
 y_columns = ['madrs2']
 
-X = df[X_columns]
+#X = df[X_columns]
+X = df['madrs2']
 y = df[y_columns]
 
 X = X.values.astype('float32')

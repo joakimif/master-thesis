@@ -1,36 +1,26 @@
 \section{Regression}
 
+Regression is used a lot in statistics, where its main purpose is to predict a target value based on independent predictors and is useful to find cause and effect 
+relationships between variables[CITE]. One experiment that might be interesting is to do linear regression on some of the columns in the demographics dataset 
+\ref{figure:demographics}, in order to see whether there are columns that tell more about the participant's group (control or condition).  
 
+Not all of the columns are relevant though, for example, \textbf{number} is unique for each participant so it does not make sense to use. 
+The column \textbf{melanch} also does not make sense to use, as there is only one participant with Melancholia. 
+\textbf{Inpatient} cannot be used because the participants in the control group are not patients, and can't be either inpatient or outpatient. 
+The same goes for \textbf{edu}, \textbf{work} and \textbf{marriage}, but we don't have these data values for control group participants. 
+We don't have their \textbf{afftype} or any of the \textbf{MADRS} scores either, but we already know them: \textbf{afftype} should be 0 (not bipolar) 
+and both \textbf{MADRS} scores should be 0 (not depressed). 
 
-First and foremost, most values in this table are blank for participants in the \textit{control group}, so it does only make sense to predict within 
-the \textit{condition group}. 
+We used the \textbf{afftype} column as a target in the regression. This way we could classify whether a participant is in the control or the condition group, 
+by setting the \textbf{afftype} value to either 0 or 1 instead of 0, 1, 2 or 3 (values above 1 are reduced to 1), and run regression on all of the remaining 
+columns one by one:
 
-The columns \textbf{number} and \textbf{days} should be dropped, as they probably have nothing to do with the result. 
-The column \textbf{afftype} is be the column the regression model should guess, so it needed to be in a separate table (X = input table, y = output table).
-
-Both the \textit{age} and \textit{education} columns are strings with values that the actual value is within. For example the participant \textbf{condition\_1} 
-has age = \textbf{35-39} and edu = \textbf{6-10}. It would be better to change this to one value, and we decided to use the median of the two values.
-Also, we changed some other values to make more sense. \textit{Melanch, inpatient, marriage, work and gender} are \textbf{binary} values, 
-so we changed them to be either 0 or 1. We also changed \textit{afftype} (ternary value) to between 0 and 2 instead of between 1 and 3.
-
-After the changes, the table should be read the following way:
-
-X:
 \begin{itemize}
-  \item \textbf{gender}: 0 = male, 1 = female
-  \item \textbf{age}: Median value of age range
-  \item \textbf{melanch}: 0 = does not have melancholia, 1 = has melancholia
-  \item \textbf{inpatient}: 0 = outpatient, 1 = inpatient
-  \item \textbf{edu}: Median value of education range
-  \item \textbf{marriage}: 0 = single, 1 = married (or cohabiting)
-  \item \textbf{work}: 0 = not working, 1 = working
-  \item \textbf{madrs1}: MADRS score before activity measurements
-  \item \textbf{madrs2}: MADRS score after activity measurements
-\end{itemize}
-
-y:
-\begin{itemize}
-  \item \textbf{afftype}: 0 = bipolar II, 1 = unipolar depressive, 2 = bipolar I
+      \item \textbf{Gender}
+      \item \textbf{Age}
+      \item \textbf{Days}
+      \item \textbf{MADRS1}
+      \item \textbf{MADRS2}
 \end{itemize}
 
 \section{1D Convolutional Neural Network}

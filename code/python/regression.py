@@ -94,8 +94,8 @@ for res in results:
 
 historydf = pd.concat(histories, axis=1)
 historydf.columns = pd.MultiIndex.from_product([[r['name'] for r in results], histories[0].columns], names=['column_name', 'metric'])
-historydf.xs('loss', axis=1, level='metric').plot(ylim=(0, 1))
 
+historydf.xs('loss', axis=1, level='metric').plot(ylim=(0, 1))
 plt.xlabel('Epoch')
-plt.ylabel('MSE')
-plt.savefig(f'../img/kerasregressor.png')
+plt.ylabel('Mean Squared Error')
+plt.savefig(f'../img/results_kerasregressor_{epochs}_epochs_loss.png')

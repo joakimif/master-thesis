@@ -13,7 +13,7 @@ from matplotlib import pyplot as plt
 
 from tensorflow import keras
 from tensorflow.keras import backend as K
-from tensorflow.keras.optimizers import SGD, Nadam
+from tensorflow.keras.optimizers import SGD, Nadam, Adam
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import Input, Dense, Dropout, Flatten, Reshape, GlobalAveragePooling1D
@@ -29,7 +29,7 @@ def regression_model():
 	model.add(Dense(10, activation='relu'))
 	model.add(Dense(1))
 
-	model.compile(loss='mse', optimizer='adam', metrics=['mse'])
+	model.compile(loss='mse', optimizer=Adam(lr=0.0005), metrics=['mse'])
 	return model
 
 

@@ -78,8 +78,8 @@ for X_col in X_columns:
         h = estimator.fit(X_train, y_train)
         estimator.model.save(f'../models/kerasregressor_{X_col}.h5')
 
-    predictions = estimator.predict(X_test).round()
-    prediction_df = pd.DataFrame(list(zip(predictions, [y[0] for y in y_test])), columns=['Predicted', 'Actual'])
+    #predictions = 
+    prediction_df = pd.DataFrame(list(zip(estimator.predict(X_test).round(), [y[0] for y in y_test])), columns=['Predicted', 'Actual'])
     
     results.append({'df': prediction_df, 'name': X_col, 'h': h})
 

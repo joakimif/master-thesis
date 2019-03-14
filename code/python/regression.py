@@ -5,7 +5,7 @@ import os
 import sys
 import random
 
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler 
 from sklearn.model_selection import train_test_split, cross_val_score, KFold
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix 
 
@@ -29,7 +29,7 @@ def regression_model():
 	model.add(Dense(10, activation='relu'))
 	model.add(Dense(1))
 
-	model.compile(loss='mse', optimizer=Adam(lr=0.0005), metrics=['mse'])
+	model.compile(loss='mse', optimizer='adam', metrics=['mse'])
 	return model
 
 
@@ -51,14 +51,18 @@ df['work'].fillna(1, inplace=True)
 
 df['afftype'].replace([2.0, 3.0], 1.0, inplace=True)
 
-X_columns = ['gender', 'age', 'edu', 'work', 'madrs1', 'madrs2']
-y_columns = ['afftype']
+X_columns = ['gender', 'age', 'edu', 'work', 'madrs1', 'afftype']
+y_columns = ['madrs2']
 
 X = df[X_columns]
 y = df[y_columns]
 
 X = X.values.astype('float32')
 y = y.values.astype('float32')
+
+scaler = MinMaxScaler()
+X = scaler.transform(X)
+y = scaler.transform(y)
 
 seed = random.randint(1, 999) # same seed for X and y to make them index the same rows as before
 np.random.seed(seed)

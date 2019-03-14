@@ -84,7 +84,7 @@ for X_col in X_columns:
     prediction_df = pd.DataFrame(predictions, columns=['Predicted', 'Actual'])
     
     results.append({'df': prediction_df, 'name': X_col})
-    histories.append(h.history)
+    histories.append(pd.DataFrame(h.history, index=h.epoch))
 
 for res in results:
     print(f'Predict {y_col} based on ' + res['name'] + ':')
@@ -92,8 +92,8 @@ for res in results:
     print(res['df'])
     print('----------------')
 
+historydf = pd.concat(histories, axis=1)
 historydf.columns = pd.MultiIndex.from_product([[r['name'] for r in results], histories[0].columns], names=['column_name', 'metric'])
-
 historydf.xs('loss', axis=1, level='metric').plot()
 
 plt.xlabel('Epoch')

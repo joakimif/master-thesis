@@ -55,6 +55,7 @@ X_columns = ['gender', 'age', 'edu', 'work', 'madrs1', 'madrs2']
 y_col = 'afftype'
 
 results = []
+histories = []
 
 for X_col in X_columns:
     X = df[X_col]
@@ -82,7 +83,8 @@ for X_col in X_columns:
     predictions = list(zip(predictions, y_test))
     prediction_df = pd.DataFrame(predictions, columns=['Predicted', 'Actual'])
     
-    results.append({'df': prediction_df, 'name': X_col, 'h': h})
+    results.append({'df': prediction_df, 'name': X_col})
+    histories.append(h.history)
 
 for res in results:
     print(f'Predict {y_col} based on ' + res['name'] + ':')
@@ -90,7 +92,9 @@ for res in results:
     print(res['df'])
     print('----------------')
 
-    pd.DataFrame(res['h'].history).plot()
+historydf.columns = pd.MultiIndex.from_product([[r['name'] for r in results], histories[0].columns], names=['column_name', 'metric'])
+
+historydf.xs('loss', axis=1, level='metric').plot()
 
 plt.xlabel('Epoch')
 plt.ylabel('MSE')

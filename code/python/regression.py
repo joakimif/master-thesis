@@ -80,7 +80,7 @@ for X_col in X_columns:
 
     predictions = regressor.predict(X_test).round()
     print(predictions, y_test)
-    predictions = list(zip(predictions, [val[0] for val in y_test]))
+    predictions = list(zip(predictions, y_test))
     prediction_df = pd.DataFrame(predictions, columns=['Predicted', 'Actual'])
     
     results.append({'df': prediction_df, 'name': X_col, 'h': h})

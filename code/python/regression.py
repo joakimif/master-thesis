@@ -94,7 +94,7 @@ for res in results:
 
 historydf = pd.concat(histories, axis=1)
 historydf.columns = pd.MultiIndex.from_product([[r['name'] for r in results], histories[0].columns], names=['column_name', 'metric'])
-historydf.xs('loss', axis=1, level='metric').plot()
+historydf.xs('loss', axis=1, level='metric').plot(ylim=(0, 1))
 
 plt.xlabel('Epoch')
 plt.ylabel('MSE')

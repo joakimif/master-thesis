@@ -25,10 +25,11 @@ from parse_args import *
 
 def regression_model():
 	model = Sequential()
-	model.add(Dense(100, input_dim=8, activation='relu'))
+	model.add(Dense(20, input_dim=8, activation='relu'))
+	model.add(Dense(10, activation='relu'))
 	model.add(Dense(1))
 
-	model.compile(loss='mean_squared_error', optimizer='adam')
+	model.compile(loss='mse', optimizer='adam', metrics=['mse'])
 	return model
 
 
@@ -51,8 +52,8 @@ df['work'].fillna(1, inplace=True)
 
 df['afftype'].replace([2.0, 3.0], 1.0, inplace=True)
 
-X_columns = ['gender', 'melanch', 'afftype', 'inpatient', 'age', 'edu', 'work', 'madrs1']
-y_columns = ['madrs2']
+X_columns = ['gender', 'melanch', 'age', 'edu', 'work', 'madrs1', 'madrs2']
+y_columns = ['afftype']
 
 X = df[X_columns]
 y = df[y_columns]
@@ -60,7 +61,7 @@ y = df[y_columns]
 X = X.values.astype('float32')
 y = y.values.astype('float32')
 
-seed = random.randint(1, 999) # same seed for X and y
+seed = random.randint(1, 999) # same seed for X and y to make them index the same rows as before
 np.random.seed(seed)
 np.random.shuffle(X)
 np.random.seed(seed)

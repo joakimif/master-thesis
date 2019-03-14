@@ -2,6 +2,37 @@
 
 
 
+First and foremost, most values in this table are blank for participants in the \textit{control group}, so it does only make sense to predict within 
+the \textit{condition group}. 
+
+The columns \textbf{number} and \textbf{days} should be dropped, as they probably have nothing to do with the result. 
+The column \textbf{afftype} is be the column the regression model should guess, so it needed to be in a separate table (X = input table, y = output table).
+
+Both the \textit{age} and \textit{education} columns are strings with values that the actual value is within. For example the participant \textbf{condition\_1} 
+has age = \textbf{35-39} and edu = \textbf{6-10}. It would be better to change this to one value, and we decided to use the median of the two values.
+Also, we changed some other values to make more sense. \textit{Melanch, inpatient, marriage, work and gender} are \textbf{binary} values, 
+so we changed them to be either 0 or 1. We also changed \textit{afftype} (ternary value) to between 0 and 2 instead of between 1 and 3.
+
+After the changes, the table should be read the following way:
+
+X:
+\begin{itemize}
+  \item \textbf{gender}: 0 = male, 1 = female
+  \item \textbf{age}: Median value of age range
+  \item \textbf{melanch}: 0 = does not have melancholia, 1 = has melancholia
+  \item \textbf{inpatient}: 0 = outpatient, 1 = inpatient
+  \item \textbf{edu}: Median value of education range
+  \item \textbf{marriage}: 0 = single, 1 = married (or cohabiting)
+  \item \textbf{work}: 0 = not working, 1 = working
+  \item \textbf{madrs1}: MADRS score before activity measurements
+  \item \textbf{madrs2}: MADRS score after activity measurements
+\end{itemize}
+
+y:
+\begin{itemize}
+  \item \textbf{afftype}: 0 = bipolar II, 1 = unipolar depressive, 2 = bipolar I
+\end{itemize}
+
 \section{1D Convolutional Neural Network}
 
 \subsection{Convolution}

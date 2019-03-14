@@ -14,49 +14,12 @@ For the different goals, only the last few layers (preferably only the output la
 classifying \textbf{control} or \textbf{condition} group, the output data should be a matrix with two columns (\textbf{control}, \textbf{condition}), 
 with a $1$ in one of the columns and a $0$ in the other for each row.
 
-But first we wanted to see if this problem could be solved with simple regression. The idea was to simply throw in the columns from the 
+But first we wanted to see if these problems could be solved with simple regression. The idea was to simply throw in the columns from the 
 demographics dataset \ref{figure:demographics}. We did not expect much from this, as there are only 55 rows in the table. Anyone having a little bit experience 
 with machine learning will know that this is not nearly enough data. But we wanted to do it regardless, and see how a simple and stupid model performed.
-Doing this, we would also establish some sort of benchmark for performance; the Convolutional Neural Network model must do \textit{at least} better than this one.
+Doing this, we established some sort of benchmark for performance; the Convolutional Neural Network model had to \textit{at least} better than this one.
 
-\subsection{Regression} 
 
-We decided to use a regression classifier for the first idea. However the dataset is not structured in a way such that we can just throw it into Keras.
-First and foremost, most values in this table are blank for participants in the \textit{control group}, so it does only make sense to predict within 
-the \textit{condition group}. 
-
-The columns \textbf{number} and \textbf{days} should be dropped, as they probably have nothing to do with the result. 
-The column \textbf{afftype} is be the column the regression model should guess, so it needed to be in a separate table (X = input table, y = output table).
-
-Both the \textit{age} and \textit{education} columns are strings with values that the actual value is within. For example the participant \textbf{condition\_1} 
-has age = \textbf{35-39} and edu = \textbf{6-10}. It would be better to change this to one value, and we decided to use the median of the two values.
-Also, we changed some other values to make more sense. \textit{Melanch, inpatient, marriage, work and gender} are \textbf{binary} values, 
-so we changed them to be either 0 or 1. We also changed \textit{afftype} (ternary value) to between 0 and 2 instead of between 1 and 3.
-
-\newpage
-After the changes, the table should be read the following way:
-
-X:
-\begin{itemize}
-  \item \textbf{gender}: 0 = male, 1 = female
-  \item \textbf{age}: Median value of age range
-  \item \textbf{melanch}: 0 = does not have melancholia, 1 = has melancholia
-  \item \textbf{inpatient}: 0 = outpatient, 1 = inpatient
-  \item \textbf{edu}: Median value of education range
-  \item \textbf{marriage}: 0 = single, 1 = married (or cohabiting)
-  \item \textbf{work}: 0 = not working, 1 = working
-  \item \textbf{madrs1}: MADRS score before activity measurements
-  \item \textbf{madrs2}: MADRS score after activity measurements
-\end{itemize}
-
-y:
-\begin{itemize}
-  \item \textbf{afftype}: 0 = bipolar II, 1 = unipolar depressive, 2 = bipolar I
-\end{itemize}
-
-\section{Convolutional Neural Network}
-
-As we said before, we wanted to use a Convolutional Neural Network to achieve our goals. 
 
 \subsection{Learning experiments}
 
@@ -94,6 +57,8 @@ What if the dataset contained the current mental state of the bipolar patient? T
 whether they are normal, manic or depressive. However data collection for this kind of task would be difficult because we can't always know what the
 patient thinks, nor does the patient themselves. The "tutorial" dataset is different because it is easy to differentiate physical states of the body
 like standing or walking.
+
+\section{Preparing Input Data}
 
 \subsection{Input data}
 
@@ -150,10 +115,11 @@ Creating the output data for this goal is easier, we simply add the MADRS score 
 
 \section{Performance Metrics}
 
-Metrics are important to use on machine learning models after training them. The most common and easy to understand metric is \textit{accuracy}. 
-Telling a friend that has no experience in machine learning or data science that you have made your computer able to predict something with 98\% accuracy
-is actually something that they would understand. Other metrics include \textit{confusion matrix}, \textit{precision}, \textit{Recall}, 
-\textit{specificity} and \textit{F1 score}, all of which we will describe below.
+When you are done with a training session for a machine learning model, you need to use different metrics to be able to tell how the model performed based on some testing data. 
+To begin with, you will focus on one performance metric which is called accuracy. This one makes sense to the human brain; 
+telling a friend that has no experience in machine learning or data science that you have made your computer able to predict 
+something with 98\% accuracy is actually something that they would understand. Other metrics include \textit{confusion matrix}, \textit{precision}, \textit{Recall}, 
+\textit{specificity} and \textit{F1 score}.
 
 \subsection{Confusion Matrix}
 
@@ -175,24 +141,24 @@ is actually something that they would understand. Other metrics include \textit{
   \begin{center}
     \begin{tabular}{| l | l | l | l |}
       \hline
-                                      & \textbf{Actual: Not Bipolar} & \textbf{Actual: Bipolar} \\ \hline
-      \textbf{Predicted: Not Bipolar} & \textbf{95}                  & 5                        \\ \hline
-      \textbf{Predicted: Bipolar}     & 7                            & \textbf{93}              \\
+                                      & \textbf{Actual: Control group} & \textbf{Actual: Condition} \\ \hline
+      \textbf{Predicted: Control group} & \textbf{95}                  & 5                        \\ \hline
+      \textbf{Predicted: Condition}     & 7                            & \textbf{93}              \\
       \hline
     \end{tabular}
-    \caption{Confusion Matrix Example: Bipolar vs Not Bipolar}
+    \caption{Confusion Matrix Example: Control vs Condition group}
     \label{table:confusion_matrix_bipolar}
   \end{center}
 \end{table}
 
-Table \ref{table:confusion_matrix} shows a \textit{confusion matrix}. It is a visual metric for classification models in machine 
-learning, and is the basis for the other performance metrics. It can tell you how well your model is performing, 
-by having correlation values for the different classes. In our planned model for 
-classifying bipolar vs not bipolar, let's say we have 200 samples in our test data, a \textit{confusion matrix} for a good model would look like 
-table \ref{table:confusion_matrix_bipolar}, with highest numbers in \textbf{True Positive} and \textbf{True Negative} and as low numbers as possible in 
+Table \ref{table:confusion_matrix} shows a \textit{confusion matrix}. It is a visual metric for classification models in machine learning and is the basis for 
+the other performance metrics. It can tell you how well your model is performing by having correlation values for the different classes. 
+Let’s say we have 200 samples in our test data to use on our model that classifies control vs condition group. 
+A \textit{confusion matrix} for a good model would look like table \ref{table:confusion_matrix_bipolar}, 
+with high numbers in \textbf{True Positive} and \textbf{True Negative} and as low numbers as possible in 
 \textbf{False Positive} and \textbf{False Negative}. Having a high number in \textbf{True Positive} means that the model is able to classify that a 
-participant is bipolar if he or she actually is bipolar, and having a high number in \textbf{True Negative} means that the model is able to classify 
-that a participant is not bipolar if he or she actually isn't. The other cases, \textbf{False Positive} and \textbf{False Negative}, is where the model
+participant is in the condition group if he or she actually is, and having a high number in \textbf{True Negative} means that the model is able to classify 
+that a participant is in the control group if this is the case. The other cases, \textbf{False Positive} and \textbf{False Negative}, is where the model
 made a wrong classification, and therefore as close these numbers are to zero the better our model is.
 
 \subsection{Accuracy}
@@ -204,11 +170,11 @@ When calculating the \textit{accuracy}, we sum up the correct predictions and di
 For our example (\ref{table:confusion_matrix_bipolar}), the \textit{accuracy} would be 
 $ \frac{93 + 95}{93 + 95 + 5 + 7} = 94\% $. 
 It is a good metric to use for our example because the number of samples for each variable class is well balanced 
-($ 93+5=98 $ samples where \textbf{bipolar} was the correct option, and $ 7+95=102 $ samples where \textbf{not bipolar} was correct).
+($ 93+5=98 $ samples where \textbf{condition group} was the correct option, and $ 7+95=102 $ samples where \textbf{control group} was correct).
 
 Terrible use of the \textit{accuracy} metric would be when one of the classes strongly dominates the samples. 
 For example, if a model predicts \textbf{cancer} vs \textbf{no cancer}, and the samples contain 5 people with cancer and 
-the 95 remaining people do not. The model would be terrible at predicting cancer and have an \textit{accuracy} score of $ 95\% $ \cite{ml_metrics}.
+the 95 remaining people do not. The model would be terrible at predicting cancer and still have an accuracy score of $ 95\% $ \cite{ml_metrics}.
 
 \subsection{Precision} 
 
@@ -216,13 +182,13 @@ This performance metric operates entirely on the predicted positives, and it tel
 \textbf{predicted positives} ($ \frac{TP}{TP + FP} $) \cite{ml_metrics}. 
 
 Precision is better to use on \textit{unbalanced} classes than accuracy. The \textit{cancer vs no cancer} example, assuming it 
-predicts no-one to have \textbf{cancer}, would yield a precision score of $ \frac{5}{5+95} = 5\% $. And our \textit{bipolar vs not bipolar} example
+predicts no-one to have \textbf{cancer}, would yield a precision score of $ \frac{5}{5+95} = 5\% $. And our \textit{control vs not condition} example
 would result in a precision score of $ \frac{93}{93+7} = 93\% $.
 
 \subsection{Recall}
 
 \textit{Recall} is another useful performance metric. It tells us the relationship between \textbf{true positives} and \textbf{actual positives},
-for example how many predicted bipolar participants there were among total bipolar participants.
+for example how many participants classified to be in the condition group there were among total participants in the condition group.
 
 The calculation of recall is done by dividing \textbf{true positives} by \textbf{true positives + false negatives} ($ \frac{TP}{TP+FN} $), 
 which translates into $ \frac{93}{93+5} \approx 95\% $ for table \ref{table:confusion_matrix_bipolar}.
@@ -266,13 +232,13 @@ Simply import and use them like this:
   \begin{tabular}{| l | l | l | l | l |}
     \hline
                   & precision & recall  & f1-score & support \\ \hline
-    class 0       & 0.05      & 1.00    & 0.67    & 1        \\
-    class 1       & 0.00      & 0.00    & 0.00    & 1        \\
-    class 2       & 1.00      & 0.67    & 0.80    & 3        \\
-                  &           &         &         &          \\ 
-    micro avg     & 0.60      & 0.60    & 0.60    & 5        \\
-    macro avg     & 0.50      & 0.56    & 0.49    & 5        \\
-    weighted avg  & 0.60      & 0.60    & 0.60    & 5        \\
+    class 0       & 0.05      & 1.00    & 0.67     & 1       \\
+    class 1       & 0.00      & 0.00    & 0.00     & 1       \\
+    class 2       & 1.00      & 0.67    & 0.80     & 3       \\
+                  &           &         &          &         \\ 
+    micro avg     & 0.60      & 0.60    & 0.60     & 5       \\
+    macro avg     & 0.50      & 0.56    & 0.49     & 5       \\
+    weighted avg  & 0.60      & 0.60    & 0.60     & 5       \\
     \hline
   \end{tabular}
   \caption{Classification Report}
@@ -282,6 +248,3 @@ Simply import and use them like this:
 The classification report returns a matrix (see table \ref{table:classification_report}) with \textit{precision}, 
 \textit{recall}, \textit{F1 score} and another column called \textit{support} (simply how many samples of data there are for this class). 
 The rows describe each class used for prediction \cite{sklearn_classification_report}.
-
-\section{Benchmarks}
- 

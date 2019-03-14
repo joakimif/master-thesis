@@ -80,6 +80,7 @@ else:
 	estimator.fit(X_train, y_train)
 	estimator.model.save('../models/kerasregressor.h5')
 
-prediction = pd.DataFrame(list(zip(estimator.predict(X_test).round(), [y[0] for y in y_test])), columns=['Predicted', 'Actual'])
+#prediction = pd.DataFrame(list(zip(estimator.predict(X_test).round(), [y[0] for y in y_test])), columns=['Predicted', 'Actual'])
+#print(prediction.describe())
 
-print(prediction.describe())
+print(estimator.predict(X_test).round())

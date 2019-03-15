@@ -83,10 +83,7 @@ for X_col in X_columns:
     predictions = list(zip(predictions, y_test))
     prediction_df = pd.DataFrame(predictions, columns=['Predicted', 'Actual'])
 
-    max_y_pred_test = np.argmax(predictions, axis=1)
-    max_y_test = np.argmax(y_test)
-
-    make_confusion_matrix(max_y_test, max_y_pred_test, output_file=f'../img/confusion_matrix/kerasregressor_{X_col}.png', xticklabels=CATEGORIES, yticklabels=CATEGORIES)
+    make_confusion_matrix(y_test, predictions, output_file=f'../img/confusion_matrix/kerasregressor_{X_col}.png', xticklabels=CATEGORIES, yticklabels=CATEGORIES)
     
     results.append({'df': prediction_df, 'name': X_col})
 
@@ -99,10 +96,11 @@ for res in results:
     print(res['df'])
     print('----------------')
 
-historydf = pd.concat(histories, axis=1)
-historydf.columns = pd.MultiIndex.from_product([[r['name'] for r in results], histories[0].columns], names=['column_name', 'metric'])
+if not do_load:
+    historydf = pd.concat(histories, axis=1)
+    historydf.columns = pd.MultiIndex.from_product([[r['name'] for r in results], histories[0].columns], names=['column_name', 'metric'])
 
-historydf.xs('loss', axis=1, level='metric').plot(ylim=(0, 1))
-plt.xlabel('Epoch')
-plt.ylabel('Mean Squared Error')
-plt.savefig(f'../img/results_kerasregressor_{epochs}_epochs_loss.png')
+    historydf.xs('loss', axis=1, level='metric').plot(ylim=(0, 1))
+    plt.xlabel('Epoch')
+    plt.ylabel('Mean Squared Error')
+    plt.savefig(f'../img/results_kerasregressor_{epochs}_epochs_loss.png')

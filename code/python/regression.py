@@ -60,7 +60,7 @@ histories = []
 
 fig, axes = plt.subplots(3, 2)
 
-for X_col, ax in zip(X_columns, axes):
+for X_col, ax in zip(X_columns, axes.flat):
     X = df[X_col]
     y = df[y_col]
 
@@ -86,9 +86,7 @@ for X_col, ax in zip(X_columns, axes):
     predictions = list(zip(_predictions, y_test))
     prediction_df = pd.DataFrame(predictions, columns=['Predicted', 'Actual'])
 
-    matrix = confusion_matrix(y_test, _predictions) # output_file=f'../img/confusion_matrix/kerasregressor_{X_col}.png', xticklabels=CATEGORIES, yticklabels=CATEGORIES)
-    print(matrix)
-    exit()
+    matrix = confusion_matrix(y_test, _predictions)
     sns.heatmap(matrix,
                 cmap='coolwarm',
                 linecolor='white',

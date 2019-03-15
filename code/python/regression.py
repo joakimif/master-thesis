@@ -109,6 +109,8 @@ for res in results:
     print(res['df'])
     print('----------------')
 
+axes.flat[-1].set_visible(False)
+
 plt.tight_layout()
 plt.savefig('../img/confusion_matrix/kerasregressor_grouped.png')
 plt.clf()

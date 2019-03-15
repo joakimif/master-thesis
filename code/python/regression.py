@@ -89,7 +89,9 @@ for X_col in X_columns:
     make_confusion_matrix(max_y_test, max_y_pred_test, output_file=f'../img/confusion_matrix/kerasregressor_{X_col}.png', xticklabels=CATEGORIES, yticklabels=CATEGORIES)
     
     results.append({'df': prediction_df, 'name': X_col})
-    histories.append(pd.DataFrame(h.history, index=h.epoch))
+
+    if not do_load:
+        histories.append(pd.DataFrame(h.history, index=h.epoch))
 
 for res in results:
     print(f'Predict {y_col} based on ' + res['name'] + ':')

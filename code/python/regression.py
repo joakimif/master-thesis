@@ -111,7 +111,7 @@ for res in results:
 
 plt.tight_layout()
 plt.title('Confusion Matrixes for Regression')
-plt.savefig('../img/confusion_matrix_kerasregressor_grouped.png')
+plt.savefig('../img/confusion_matrix/kerasregressor_grouped.png')
 plt.clf()
 
 if not do_load:

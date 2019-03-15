@@ -28,9 +28,9 @@ def regression_model():
 	model.add(Dense(5, input_dim=1, activation='relu'))
 	model.add(Dense(1))
 
-	model.compile(loss='mse', optimizer='adam', metrics=['mse'])
+    model.compile(loss='mse', optimizer='adam', metrics=['mse'])
     print(model.summary())
-	return model
+    return model
 
 
 df = pd.read_csv('../datasets/scores.csv')

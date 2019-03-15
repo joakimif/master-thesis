@@ -26,10 +26,10 @@ from parse_args import *
 def regression_model():
 	model = Sequential()
 	model.add(Dense(5, input_dim=1, activation='relu'))
-	#model.add(Dense(10, activation='relu'))
 	model.add(Dense(1))
 
 	model.compile(loss='mse', optimizer='adam', metrics=['mse'])
+    print(model.summary())
 	return model
 
 
@@ -76,6 +76,7 @@ for X_col in X_columns:
         regressor = load_model(f'../models/kerasregressor_{X_col}.h5')
     else:
         regressor = KerasRegressor(build_fn=regression_model, epochs=epochs, batch_size=batch_size, verbose=1)
+        exit()
         h = regressor.fit(X_train, y_train)
         regressor.model.save(f'../models/kerasregressor_{X_col}.h5')
 

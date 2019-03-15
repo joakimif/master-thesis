@@ -1,7 +1,9 @@
+%\[BOLD\](.*?)\[/BOLD\] => \\textbf{$1}
+
 \section{Regression}
 
 Regression is used a lot in statistics, where its main purpose is to predict a target value based on independent predictors and is useful to find cause and effect 
-relationships between variables[CITE]. One experiment that might be interesting is to do linear regression on some of the columns in the demographics dataset 
+relationships between variables \cite{linear_regression_ml}. One experiment that might be interesting is to do linear regression on some of the columns in the demographics dataset 
 \ref{figure:demographics}, in order to see whether there are columns that tell more about the participant's group (control or condition).  
 
 Not all of the columns are relevant though, for example, \textbf{number} is unique for each participant so it does not make sense to use. 
@@ -22,6 +24,10 @@ columns one by one:
       \item \textbf{MADRS1}
       \item \textbf{MADRS2}
 \end{itemize}
+
+\input{code/tex/regression}
+
+The model for this task is really simple. We simply created a
 
 \section{1D Convolutional Neural Network}
 

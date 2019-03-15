@@ -1,4 +1,4 @@
-%\[BOLD\](.*?)\[/BOLD\] => \\textbf{$1}
+%\[B\](.*?)\[/B\] => \\textbf{$1}
 
 \section{Regression}
 
@@ -27,7 +27,19 @@ columns one by one:
 
 \input{code/tex/regression}
 
-The model for this task is really simple. We simply created a
+The model for this task is really simple. We created a sequential model \ref{code:regression_model} with one input layer and one output layer. 
+The input is a \textbf{dense} layer which takes one value (the value of the current column), activates using \textbf{relu} and outputs 5 neurons. 
+In the output layer, we simply activate using a \textbf{linear} function (default activation function when none are specified) and return one value: the prediction. 
+The model is compiled with the loss function \textbf{Mean Squared Error} and the optimizer \textbf{Adam}. More on loss functions and optimizers will be described later. 
+
+Since we were predicting the \textbf{afftype} of a participant, which is a binary value (0 or 1) and a prediction from the model yields a value between 0 and 1, 
+we simply rounded the prediction value to the nearest integer after running predictions on the test data. Doing it this way instead of making a classification model, 
+makes the \textbf{loss} value more useful as a metric while training rather than accuracy. 
+
+When testing the model, we wanted to achieve an accuracy of 100\% when using the \textbf{MADRS} scores. This is because of how easy it is using a simple check: 
+if the MADRS score is 0, then the participant is in the control group. If not, the participant is in the condition group. We didn't really need to use machine learning 
+on these columns but was interesting to train the model to find this relationship without telling it the simple rule. For the other columns, we didn't really know what to expect; 
+maybe there was a relationship, maybe not.
 
 \section{1D Convolutional Neural Network}
 
@@ -115,7 +127,8 @@ To simplify it a bit, we removed two of the \textit{Conv1D} layers, and after th
 \end{enumerate}
 
 We compile this model with the loss function \textit{Mean Squared Error}, which is measured as the average (mean) 
-of squared difference between predictions and actual observations \cite{loss_functions}. The optimizer is the same as before.
+of squared difference between predictions and actual observations ($ loss = \frac{\sum_{i=1}^{n}(y_i-\hat{y}_i)^2}{n} $) \cite{loss_functions}. 
+The optimizer is the same as before.
 
 \subsection{Creating Input and Output Data}
 \begin{table}
@@ -268,8 +281,6 @@ Hyper-parameters that we use in our models include:
 \subsection{The Models}
 \input{code/tex/1d_conv_net}
 
-% maybe move to other chapter?
-
 \section{Training the models}
 
 For training large neural networks you often need expensive hardware if you want to do it on your own. 
@@ -280,12 +291,21 @@ Our dataset, however, only contains 55 participants and only a few days of activ
 so using a service to train the model would not be necessary. We decided to train them on one of our own personal computers, 
 with an Nvidia GTX 1070. Our guess is that this GPU will do the job just fine. 
  
+\subsection{Regression}
+\begin{figure}
+      \includegraphics[height=9cm]{img/results_kerasregressor_1k_epochs.png}
+      \caption{Regression Training Loss by Epoch}
+      \label{figure:regression_training_loss}
+\end{figure}
+
+
 
 \subsection{Control vs Condition Group}
-\subsubsection{Results}
+
+
 
 \subsection{Depression Classes}
-\subsubsection{Results}
+
+
 
 \subsection{MADRS Score}
-\subsubsection{Results}

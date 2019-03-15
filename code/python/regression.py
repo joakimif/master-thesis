@@ -22,6 +22,7 @@ from tensorflow.keras.callbacks import TensorBoard, EarlyStopping, ModelCheckpoi
 from tensorflow.keras.wrappers.scikit_learn import KerasRegressor
 
 from parse_args import *
+from setup_1d_conv import make_confusion_matrix, CATEGORIES
 
 def regression_model():
     model = Sequential()
@@ -75,14 +76,17 @@ for X_col in X_columns:
         regressor = load_model(f'../models/kerasregressor_{X_col}.h5')
     else:
         regressor = KerasRegressor(build_fn=regression_model, epochs=epochs, batch_size=batch_size, verbose=1)
-        print(regression_model().summary())
-        exit()
         h = regressor.fit(X_train, y_train)
         regressor.model.save(f'../models/kerasregressor_{X_col}.h5')
 
     predictions = regressor.predict(X_test).round()
     predictions = list(zip(predictions, y_test))
     prediction_df = pd.DataFrame(predictions, columns=['Predicted', 'Actual'])
+
+    max_y_pred_test = np.argmax(predictions, axis=1)
+    max_y_test = np.argmax(y_test, axis=1)
+
+    make_confusion_matrix(max_y_test, max_y_pred_test, output_file=f'../img/confusion_matrix/kerasregressor_{X_col}.png', xticklabels=CATEGORIES, yticklabels=CATEGORIES)
     
     results.append({'df': prediction_df, 'name': X_col})
     histories.append(pd.DataFrame(h.history, index=h.epoch))

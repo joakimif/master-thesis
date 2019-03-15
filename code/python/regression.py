@@ -97,6 +97,8 @@ for X_col, ax in zip(X_columns, axes.flat):
                 fmt='d',
                 ax=ax)
     ax.set_title(f'{X_col}')
+    ax.set_ylabel("True Label")
+    ax.set_xlabel("Predicted Label")
     
     results.append({'df': prediction_df, 'name': X_col})
 

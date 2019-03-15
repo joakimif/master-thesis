@@ -84,7 +84,7 @@ for X_col in X_columns:
     prediction_df = pd.DataFrame(predictions, columns=['Predicted', 'Actual'])
 
     max_y_pred_test = np.argmax(predictions, axis=1)
-    max_y_test = np.argmax(y_test, axis=1)
+    max_y_test = np.argmax(y_test)
 
     make_confusion_matrix(max_y_test, max_y_pred_test, output_file=f'../img/confusion_matrix/kerasregressor_{X_col}.png', xticklabels=CATEGORIES, yticklabels=CATEGORIES)
     

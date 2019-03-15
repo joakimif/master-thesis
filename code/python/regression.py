@@ -87,6 +87,8 @@ for X_col, ax in zip(X_columns, axes):
     prediction_df = pd.DataFrame(predictions, columns=['Predicted', 'Actual'])
 
     matrix = confusion_matrix(y_test, _predictions) # output_file=f'../img/confusion_matrix/kerasregressor_{X_col}.png', xticklabels=CATEGORIES, yticklabels=CATEGORIES)
+    print(matrix)
+    exit()
     sns.heatmap(matrix,
                 cmap='coolwarm',
                 linecolor='white',
@@ -111,6 +113,7 @@ for res in results:
 
 plt.title('Confusion Matrixes for Regression')
 plt.savefig('../img/confusion_matrix_kerasregressor_grouped.png')
+plt.clf()
 
 if not do_load:
     historydf = pd.concat(histories, axis=1)

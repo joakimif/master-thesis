@@ -109,6 +109,7 @@ for res in results:
     print(res['df'])
     print('----------------')
 
+plt.tight_layout()
 plt.title('Confusion Matrixes for Regression')
 plt.savefig('../img/confusion_matrix_kerasregressor_grouped.png')
 plt.clf()

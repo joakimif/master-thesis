@@ -24,9 +24,9 @@ from tensorflow.keras.wrappers.scikit_learn import KerasRegressor
 from parse_args import *
 
 def regression_model():
-	model = Sequential()
-	model.add(Dense(5, input_dim=1, activation='relu'))
-	model.add(Dense(1))
+    model = Sequential()
+    model.add(Dense(5, input_dim=1, activation='relu'))
+    model.add(Dense(1))
 
     model.compile(loss='mse', optimizer='adam', metrics=['mse'])
     print(model.summary())

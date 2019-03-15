@@ -110,7 +110,6 @@ for res in results:
     print('----------------')
 
 plt.tight_layout()
-plt.title('Confusion Matrixes for Regression')
 plt.savefig('../img/confusion_matrix/kerasregressor_grouped.png')
 plt.clf()
 

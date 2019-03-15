@@ -79,11 +79,11 @@ for X_col in X_columns:
         h = regressor.fit(X_train, y_train)
         regressor.model.save(f'../models/kerasregressor_{X_col}.h5')
 
-    predictions = regressor.predict(X_test).round()
-    predictions = list(zip(predictions, y_test))
+    _predictions = regressor.predict(X_test).round()
+    predictions = list(zip(_predictions, y_test))
     prediction_df = pd.DataFrame(predictions, columns=['Predicted', 'Actual'])
 
-    make_confusion_matrix(y_test, predictions, output_file=f'../img/confusion_matrix/kerasregressor_{X_col}.png', xticklabels=CATEGORIES, yticklabels=CATEGORIES)
+    make_confusion_matrix(y_test, _predictions, output_file=f'../img/confusion_matrix/kerasregressor_{X_col}.png', xticklabels=CATEGORIES, yticklabels=CATEGORIES)
     
     results.append({'df': prediction_df, 'name': X_col})
 

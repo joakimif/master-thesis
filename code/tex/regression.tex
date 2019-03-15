@@ -1,0 +1,15 @@
+\begin{figure}
+  \begin{code}
+    \begin{minted}[linenos]{python}
+      def regression_model():
+        model = Sequential()
+        model.add(Dense(5, input_dim=1, activation='relu'))
+        model.add(Dense(1))
+
+        model.compile(loss='mse', optimizer='adam', metrics=['mse'])
+        return model
+    \end{minted}
+    \caption{Regression Model}
+    \label{code:regression_model}
+  \end{code}
+\end{figure}

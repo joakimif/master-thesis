@@ -236,19 +236,18 @@ to perform a 3-fold cross-validation in your project ($K = 3$).
 
 \section{Optimizing the model}
 
-\noindent Out of the box, we don't think that the model is going to perform perfectly. Therefore we need to experiment with each parameter that we pass to
-the model, and find the best ones. We have some ideas of what to change:
+\noindent Out of the box, we didn't think that the model was going to perform perfectly. Therefore we needed to experiment with each parameter that we passed to
+the model, and find the best ones. We had some ideas of what to change:
 
 \begin{itemize}
     \item Use different segment lengths
     \item Tweak hyper-parameters
 \end{itemize}
 
-\noindent The first idea, using different segment lengths, is the one we think is going to impact the results the most. Having more data inside each segment 
+\noindent The first idea, using different segment lengths, was the one we thought was going to impact the results the most. Having more data inside each segment 
 will give the neural network more opportunities to learn features, and then be better at its job of either classifying or predicting something. 
-It will however take more time to train the model, since each layer has to go through more data. Is it worth waiting the training time 
-for increased segment lengths through, and is there one segment length that is optimal to use for shortest training time and best results?
-This question will be answered later, when we have gathered the results.
+It each epoch of training took more time though, since each layer had to process more data. Whether it was worth waiting the extra training time 
+when increasing the segment length, and if it was one specific segment length that was superior to the others, is something to be discuss later in another section. 
 
 Hyper-parameters are all the \textit{higher-order} parameters we compile/train the model with. They are different from the parameters learned by
 training the model, and need to be fixed for one session of model training. Finding the perfect ones can be crucial for a well performing model. 
@@ -258,14 +257,13 @@ Hyper-parameters that we use in our models include:
     \item \textbf{Optimizer and learning rate}\\
         The \textbf{optimizer} function (as said earlier) is important to lower the loss value when fitting the dataset to the model. 
         Different optimizers have different input parameters, and the \textit{learning rate} is one that all optimizers use. 
-        Tweaking the learning rate can yield better results, 
-        but it's generally a good idea to start with default learning rate. % find source?
+        Tweaking the learning rate can yield better results, but the default learning rate for the chosen optimizer is always a good starting point because
+        it's what the author of the optimizer set as default.
     \item \textbf{Epochs}\\
-        Defines how many iterations of training that are to be executed, and in most cases more epochs yield better results, 
-        up to a certain point.
+        Defines how many iterations of training that are to be executed, and in most cases more epochs yield better results up to a certain point.
     \item \textbf{Batch size}\\
         This is how much data that is processed at the same time each epoch, and the best batch size to use can be completely different on 
-        two different models.  
+        two different models. 
     \item \textbf{Train/test split size}\\
         When building a neural network, we want as much data as possible to both train and to test on afterwards. We can't use all the data 
         in both cases, so the most balanced split size needs to be determined.
@@ -312,7 +310,9 @@ flawlessly based on the MADRS scores, and the loss results from training these a
 
 We used the \textbf{train\_test\_split} function to create training and testing data, and because of how few rows there are in this dataset, 
 we used an 80/20 split for training and testing data. 20\% of the dataset in the test data seemed to be good enough for this experiment 
-because we want as many rows as possible to train on. Note that the train and test splits are different for each column. 
+because we wanted as many rows as possible to train on. Note that the data elements that were in the test and train splits were different for each column. 
+
+\subsubsection{Results}
 
 The confusion matrices \ref{figure:regression_test_confusion} displays the results when running the prediction on the test data (and then using it as classification). 
 We said we wanted 100\% on all metrics for the MADRS score columns, and this is clearly achieved because the model guessed everything right. 
@@ -338,7 +338,7 @@ $ R = \frac{TP}{TP+FN} $
 \\\\
 - \textbf{Gender}: $\frac{7}{7+4} = 7/11 \approx 63\%$\\\\
 - \textbf{Age}: $\frac{6}{6+3} = 6/9 \approx 67\%$\\\\
-- \textbf{Days}: $\frac{5}{5+6} = 5/11 \approx 45\%$\\
+- \textbf{Days}: $\frac{5}{5+6} = 5/11 \approx 45\%$
 
 \subsubsection{Specificity}
 $ S = \frac{TN}{TN+FP} $
@@ -356,19 +356,19 @@ $ F1 = 2 \cdot \frac{P \cdot R}{P + R} $
 - \textbf{Age}: $2 \cdot \frac{0,86 \cdot 0,67}{0,86 + 0,67} \approx 75\%$\\\\
 - \textbf{Days}: $2 \cdot \frac{1 \cdot 0,45}{1 + 0,45} \approx 62\%$\\
 
-Looking away from the MADRS score predictions because they were obviously going to be correct, these performance scores tell us that the model is good at predicting 
-that someone is in the condition group (see precision). Other than that, we can't really learn that much from them. Also, we have undefined specificity for both 
-gender and days because we don't have any predictions for the values required to calculate them. 
+Looking away from the results of \textbf{madrs1} and \textbf{madrs2}, because they were obviously going to be good, these performance scores tell us that the model 
+is good at predicting that someone is in the condition group (see precision). Other than that, we can't really learn that much from them. 
+Also, we have undefined specificity for both gender and days because we don't have any predictions for the values required to calculate them. 
 
 However, we learned a lot about machine learning and regression doing this experiment, and we look at it more like a warmup for the more complex models that we built 
 for the next goals.
 
-\subsection{Control vs Condition Group}
+\subsection{1D CNN: Control vs Condition Group}
+
+Next up was our goal to classify whether a participant belongs to 
+
+\subsection{1D CNN: Depression Classes}
 
 
 
-\subsection{Depression Classes}
-
-
-
-\subsection{MADRS Score}
+\subsection{1D CNN: MADRS Score Prediction}

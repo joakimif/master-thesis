@@ -22,7 +22,8 @@ histories = []
 loss_list = []
 acc_list = []
 
-hours_list = [1, 2, 4, 8, 16, 24, 48, 96]
+#hours_list = [1, 2, 4, 8, 16, 24, 48, 96]
+hours_list = [48, 96]
 test_hours = test_hours or len(hours_list)
 
 for hours in hours_list:

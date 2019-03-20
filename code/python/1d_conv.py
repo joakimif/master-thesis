@@ -8,7 +8,7 @@ if madrs:
     create_segments_and_labels = create_segments_and_labels_madrs
 else:
     output_classes = 2
-    confusion_matrix_labels = LABELS
+    confusion_matrix_labels = CATEGORIES
 
 segments, labels, num_sensors, input_shape = create_segments_and_labels(1, segment_length, step, k_folds=k_folds)
 

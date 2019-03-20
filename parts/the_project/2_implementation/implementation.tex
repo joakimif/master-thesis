@@ -365,9 +365,55 @@ for the next goals.
 
 \subsection{1D CNN: Control vs Condition Group}
 
-Next up was our goal to classify whether a participant belongs to 
+
+\begin{figure}
+      \includegraphics[height=8cm]{img/control_condition/plot_acc_train.png}
+      \caption{Training accuracy (10 epochs) for different segment lengths}
+      \label{figure:control_condition_acc_train}
+
+      \includegraphics[height=8cm]{img/control_condition/plot_loss_train.png}
+      \caption{Training loss (10 epochs) for different segment lengths}
+      \label{figure:control_condition_loss_train}
+\end{figure}
+
+\begin{figure}
+      \includegraphics[height=8cm]{img/control_condition/plot_acc_eval.png}
+      \caption{Evaluation accuracy (10 epochs) for different segment lengths}
+      \label{figure:control_condition_acc_eval}
+
+      \includegraphics[height=8cm]{img/control_condition/plot_loss_eval.png}
+      \caption{Evaluation loss (10 epochs) for different segment lengths}
+      \label{figure:control_condition_loss_eval}
+\end{figure}
+
+\begin{figure}
+      \includegraphics[height=8cm]{img/control_condition/plot_acc_train_50e.png}
+      \caption{Training accuracy (50 epochs) for different segment lengths}
+      \label{figure:control_condition_acc_train_50e}
+
+      \includegraphics[height=8cm]{img/control_condition/plot_loss_train_50e.png}
+      \caption{Training loss (50 epochs) for different segment lengths}
+      \label{figure:control_condition_loss_train_50e}
+\end{figure}
+
+\begin{figure}
+      \includegraphics[height=8cm]{img/control_condition/conf_240_60_10_32.png}
+      \caption{Confusion Matrix: 4 hours (10 epochs)}
+      \label{figure:control_condition_confusion_matrix_4h}
+
+      \includegraphics[height=8cm]{img/control_condition/conf_2880_60_10_32.png}
+      \caption{Confusion Matrix: 48 hours (10 epochs)}
+      \label{figure:control_condition_confusion_matrix_48h}
+\end{figure}
+
+\begin{figure}
+      \includegraphics[height=8cm]{img/control_condition/conf_2880_60_50_32.png}
+      \caption{Confusion Matrix: 48 hours (50 epochs)}
+      \label{figure:control_condition_confusion_matrix_48h_50e}
+\end{figure}
 
 \subsection{1D CNN: Depression Classes}
+
 
 
 

@@ -33,17 +33,6 @@ if k_folds > 1:
         model = create_model(segment_length, num_sensors, input_shape, output_classes=output_classes, dropout=dropout, verbose=0)
         history = train(model, X_train, y_train, batch_size, epochs, callbacks=[], validation_data=(X_test, y_test), verbose=1)
         loss, acc = evaluate(model, X_test, y_test, verbose=0) 
-
-        if i == 0 or best_acc > acc:
-            print(f'New best acc: {acc}')
-            best_acc = acc
-            model.save(f'../models/{k_folds}_folds_{identifier}.h5')
-            max_y_test, max_y_pred_test = predict(model, X_test, y_test, verbose=0)
-            make_confusion_matrix(max_y_test, max_y_pred_test, 
-                                output_file=f'../img/confusion_matrix/{k_folds}_folds_{identifier}.png', 
-                                print_stdout=False,
-                                xticklabels=confusion_matrix_labels, 
-                                yticklabels=confusion_matrix_labels)
         
         models.append((model, history, (loss, acc)))
         

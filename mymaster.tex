@@ -14,6 +14,9 @@
 \usepackage{caption}
 \usepackage{multicol}
 
+\hbadness=99999
+\hfuzz=9999pt
+
 \hypersetup{
    colorlinks=false, %set true if you want colored links
    linktoc=all,     %set to all if you want both sections and subsections linked
@@ -60,12 +63,13 @@ long]
 
 \part{The project}
 \chapter{Planning and preparing data}
-
 \input{parts/the_project/1_planning_the_project/planning}
 
 \chapter{Implementing the project}
-
 \input{parts/the_project/2_implementation/implementation}
+
+\chapter{Training the models}
+\input{parts/the_project/3_training/training}
 
 \part{Conclusion}
 \chapter{Results} 

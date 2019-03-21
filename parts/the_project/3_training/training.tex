@@ -116,7 +116,7 @@ with scores above 99\% on all performance metrics previously discussed.
             \includegraphics[height=5cm]{img/control_condition/plot_acc_eval.png}
             \includegraphics[height=5cm]{img/control_condition/plot_loss_eval.png}
       \end{multicols}
-      \caption{Training (left) and Evaluation (right) results (10 epochs)}
+      \caption{Training (left) and testing (right) results (10 epochs)}
       \label{figure:control_condition_10e}
 \end{figure}
 
@@ -128,7 +128,7 @@ with scores above 99\% on all performance metrics previously discussed.
             \includegraphics[height=5cm]{img/control_condition/plot_acc_eval_50e.png}
             \includegraphics[height=5cm]{img/control_condition/plot_loss_eval_50e.png}
       \end{multicols}
-      \caption{Training (left) and Evaluation (right) results (50 epochs)}
+      \caption{Training (left) and testing (right) results (50 epochs)}
       \label{figure:control_condition_50e}
 \end{figure}
 
@@ -144,19 +144,21 @@ with scores above 99\% on all performance metrics previously discussed.
 %TP   FN   
 %FP   TN
 
+% \newpage IF NEEDED
+
 \subsection{Performance metrics}
 
 \subsubsection{Accuracy}
-$ A = \frac{TP+TN}{TP+TN+FN+FP} = \frac{3122+1577}{3122+1577+5+13} = 0,996184015 \approx 99,6\%$
+$ A = \frac{TP+TN}{TP+TN+FN+FP} = \frac{3122+1577}{3122+1577+5+13} \approx 99,6\%$
 
 \subsubsection{Precision}
-$ P = \frac{TP}{TP+FP} = \frac{3122}{3122+13} = 0,99585327 \approx 99,6\%$
+$ P = \frac{TP}{TP+FP} = \frac{3122}{3122+13} \approx 99,6\%$
 
 \subsubsection{Recall}
-$ R = \frac{TP}{TP+FN} = \frac{3122}{3122+5} = 0,998401023 \approx 99,8\%$
+$ R = \frac{TP}{TP+FN} = \frac{3122}{3122+5} \approx 99,8\%$
 
 \subsubsection{Specificity}
-$ S = \frac{TN}{TN+FP} = \frac{1577}{1577+13} = 0,991823899 \approx 99,2\%$
+$ S = \frac{TN}{TN+FP} = \frac{1577}{1577+13} \approx 99,2\%$
 
 \subsubsection{F1 Score}
 $ F1 = 2 \cdot \frac{P \cdot R}{P + R} = 2 \cdot \frac{0,996 \cdot 0,998}{0,996 + 0,998} \approx 99,7\% $

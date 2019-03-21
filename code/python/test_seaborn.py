@@ -21,3 +21,5 @@ def heatmap():
     plt.xlabel("Predicted Label")
 
     plt.savefig('seaborn.png')
+
+heatmap()

@@ -80,7 +80,7 @@ Also, we have undefined specificity for both gender and days because we don't ha
 However, we learned a lot about machine learning and regression doing this experiment, and we look at it more like a warmup for the more complex models that we built 
 for the next goals.
 
-\section{1D CNN: Control vs Condition Group}
+\section{1D CNN: Control vs Condition groups}
 
 Next up was our goal to classify whether a participant belongs to the control group or the condition group. 
 As we said in the section about optimizing the model, the segment length is what we thought was going to impact the result the most. 
@@ -90,20 +90,21 @@ The input data was split using \textbf{train\_test\_split} so that the training 
 testing after the training was complete. Of the training data, 40\% was set to be used as validation data, which is what the model uses in 
 each epoch to determine if the results are getting better or worse. 
 
-We did the training for each of the 8 sets for 10 epochs. The objective of this experiment was to find the best segment length to use, 
-and not to train the models to be perfect, so 10 epochs seemed fine for this purpose. Our guess before we started with the experiment was 
+We did the training for each of the 8 different input sets for 10 epochs. To keep it simple, we used a batch size of 16 and 
+the Adam optimizer with a default learning rate of 0,001 throughout this experiment. The main objective here was to find the best segment length to use, 
+and not to train the models to be perfect, so these hyper-parameters seemed fine for this purpose. Our guess before we started with the experiment was 
 that the more hours of data we used, the better, meaning that 96 hours of data in each segment was going to give us the best model 
-(from what was possible with only 10 epochs). To keep it simple, we used a batch size of 16 throughout this experiment.
+(from what was possible with only 10 epochs). 
 
-However, looking at the graphs for loss and accuracy \ref{figure:control_condition_10e} for how the training went epoch by epoch for each of the experiment's datasets, 
-we noticed that the results were better when increasing the number of hours up to around 48, and it did not seem to be any better for 96 hours. 
-It's even easier to see this in the evaluation graphs for loss and accuracy \ref{figure:control_condition_10e}, where there is a straight line after 48 hours. 
-We didn't know that this was true for better-trained models though, it could be that we needed to train for more epochs when the segments 
-are above this size, which made sense.
+Looking at the history graphs \ref{figure:control_condition_10e} for how the training went epoch by epoch for each of the experiment's datasets, 
+we noticed that the results were better when increasing the number of hours up to 48, and then it did not seem to be any better for 96 hours. 
+This was the case for both training and testing, as the evaluation graphs (results after testing the model with the test-split) to the right also show straight lines from 
+48 hours to 96 hours. The question was whether 48 hours was our magic number, or if we just needed to train it more.
 
-To really find the best segment length, we needed to experiment with more epochs. We ran the same experiment again for 50 epochs, with 48, 72 and 96 hour long segments. 
-However, from the results for that \ref{figure:control_condition_50e}, it's clear that nothing more was achieved with segments longer than 48 hours. 
-The classifications for the models trained to fit 48-hour segments you can see in the confusion matrices \ref{figure:control_condition_confusion_matrix_48h} 
+To really find the best segment length, we experimented with more epochs. We trained again for 50 epochs, with 48, 72 and 96 hour long segments. 
+From these results \ref{figure:control_condition_50e} it's clear that nothing more was achieved with segments longer than 48 hours. 
+
+Moving forward using 48 hours segment length, the classifications you can see in the confusion matrices \ref{figure:control_condition_confusion_matrix_48h} 
 are really close to perfect. The extra 40 epochs of training reduced the false positive classifications by a little bit, which was worth the time in our opinion as 
 you want the value of wrong classifications to be as close to 0 as possible. For a relatively small dataset, we are very happy with a classification model 
 with scores above 99\% on all performance metrics previously discussed. 
@@ -163,13 +164,18 @@ $ S = \frac{TN}{TN+FP} = \frac{1577}{1577+13} \approx 99,2\%$
 \subsubsection{F1 Score}
 $ F1 = 2 \cdot \frac{P \cdot R}{P + R} = 2 \cdot \frac{0,996 \cdot 0,998}{0,996 + 0,998} \approx 99,7\% $
 
-%\section{1D CNN: Depression Classes}
-%\subsection{Performance metrics}
-%\subsubsection{Accuracy}
-%\subsubsection{Precision}
-%\subsubsection{Recall}
-%\subsubsection{Specificity}
-%\subsubsection{F1 Score}
+\subsection{Cross-validation}
+TODO
+
+\section{1D CNN: Depression Classes}
+\subsection{Performance metrics}
+\subsubsection{Accuracy}
+\subsubsection{Precision}
+\subsubsection{Recall}
+\subsubsection{Specificity}
+\subsubsection{F1 Score}
+
+\subsection{Cross-validation}
 
 %\section{1D CNN: MADRS Score Prediction}
 %\subsection{Performance metrics}
@@ -178,3 +184,4 @@ $ F1 = 2 \cdot \frac{P \cdot R}{P + R} = 2 \cdot \frac{0,996 \cdot 0,998}{0,996 
 %\subsubsection{Recall}
 %\subsubsection{Specificity}
 %\subsubsection{F1 Score}
+%\subsection{Cross validation}

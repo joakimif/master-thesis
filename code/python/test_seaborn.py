@@ -19,3 +19,5 @@ def heatmap():
     plt.title("Confusion Matrix")
     plt.ylabel("True Label")
     plt.xlabel("Predicted Label")
+
+    plt.savefig('seaborn.png')

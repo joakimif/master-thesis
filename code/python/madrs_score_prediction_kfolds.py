@@ -55,29 +55,34 @@ labels = np.asarray(labels).astype('float32')
 
 """ Create model """
 
-if model_path:
-    model = load_model(model_path)
-else:
-    model = Sequential()
-    model.add(Reshape((SEGMENT_LENGTH, 1), input_shape=(input_shape,)))
-    model.add(Conv1D(128, 2, activation='relu', input_shape=(SEGMENT_LENGTH, 1)))
-    model.add(MaxPooling1D(pool_size=2, strides=1))
-    model.add(Conv1D(64, 2, activation='relu'))
-    model.add(GlobalAveragePooling1D())
-    model.add(Flatten())
-    model.add(Dense(10, activation='relu'))
-    model.add(Dense(1, activation='linear'))
+def create_model():
+    K.clear_session()
 
-    if optimizer == 'sgd':
-        if learning_rate:
-            optimizer = SGD(lr=learning_rate, nesterov=True)
-        else:
-            optimizer = SGD(nesterov=True)
-    elif optimizer == 'nadam':
-        if learning_rate:
-            optimizer = Nadam(lr=learning_rate)
+    if model_path:
+        model = load_model(model_path)
+    else:
+        model = Sequential()
+        model.add(Reshape((SEGMENT_LENGTH, 1), input_shape=(input_shape,)))
+        model.add(Conv1D(128, 2, activation='relu', input_shape=(SEGMENT_LENGTH, 1)))
+        model.add(MaxPooling1D(pool_size=2, strides=1))
+        model.add(Conv1D(64, 2, activation='relu'))
+        model.add(GlobalAveragePooling1D())
+        model.add(Flatten())
+        model.add(Dense(10, activation='relu'))
+        model.add(Dense(1, activation='linear'))
 
-    model.compile(loss='mean_squared_error', optimizer=optimizer, metrics=['mse'])
+        if optimizer == 'sgd':
+            if learning_rate:
+                optimizer = SGD(lr=learning_rate, nesterov=True)
+            else:
+                optimizer = SGD(nesterov=True)
+        elif optimizer == 'nadam':
+            if learning_rate:
+                optimizer = Nadam(lr=learning_rate)
+
+        model.compile(loss='mean_squared_error', optimizer=optimizer, metrics=['mse'])
+
+    return model
 
 """ Train model """
 
@@ -91,13 +96,11 @@ results = []
 
 for train_indexes, val_indexes in splits:
     print(f'Fold: {fold_i+1}/3')
-    #K.clear_session()
 
     X_train, X_val = segments_train[train_indexes], segments_train[val_indexes]
     y_train, y_val = labels_train[train_indexes], labels_train[val_indexes]
 
-    print(X_val, y_val)
-    
+    model = create_model()
     h = model.fit(X_train, y_train, batch_size=BATCH_SIZE, epochs=EPOCHS, callbacks=[], validation_data=(X_val, y_val), verbose=1)
 
     model.save(f'../models/madrs_score_{identifier}.h5')

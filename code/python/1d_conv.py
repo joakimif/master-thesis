@@ -34,7 +34,7 @@ if k_folds > 1:
         model = create_model(segment_length, num_sensors, input_shape, output_classes=output_classes, dropout=dropout, verbose=0)
         #history = train(model, X_train, y_train, batch_size, epochs, callbacks=[], validation_split=0.4, verbose=1)
         history = train(model, X_train, y_train, batch_size, epochs, callbacks=[], validation_data=(X_test, y_test), verbose=1)
-        loss, acc = evaluate(model, X_test, y_test, verbose=0) 
+        loss, acc = evaluate(model, X_test, y_test, verbose=1)
         
         models.append((model, history, (loss, acc)))
         

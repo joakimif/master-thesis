@@ -179,10 +179,11 @@ classifying control / condition groups (goal one).
         and after this the data is ready to be passed into the neural network.
 \end{itemize}
 
-\subsubsection{Train and test data}
+\subsection{Train and test data}
 One last step is done before we can start training the model. We need to split the data in two parts; training and test data. This way we can calculate 
 the performance of the model after training has finished, and also prevent overfitting by evaluating on data that is unseen to the model. 
 
+\subsubsection{train\_test\_split}
 The function \textit{train\_test\_split} from the \textit{sklearn} package is useful here, where you input the segments and labels, 
 plus how large you want the training and test sets to be (number between 0 and 1, which determines the size of the test partition). 
 The function also randomizes the data, preventing model to accidentally learn something that is correct for segments in a row that 
@@ -203,11 +204,12 @@ X_train, X_test, y_train, y_test = train_test_split(segments,
     \end{minted}
 \end{code}
 
-\noindent Another option is to use something called \textit{K-fold cross-validation}. It works by splitting the dataset into $K$ train and test sets, 
+\subsubsection{Cross-validation}
+Another option is to use something called \textit{K-fold cross-validation}. It works by splitting the dataset into $K$ train and test sets, 
 and for each of them, train the model on the training set and validate on the test set. This is a good way of checking if your model's performance 
-truly is independent on which data it trained on. The higher number of splits ($K$) means less data to train on, so you need to keep that in mind 
-(also applies to \textit{train\_test\_split} if you set the \textit{test\_size} too high). Sklearn has an implementation of \textit{K-fold} 
-splitting of data, called \textit{StratifiedKFold}. For example, code \ref{code:sklearn_k_fold} shows how you can use \textit{StratifiedKFold}
+truly is independent on which data samples it trained on. The higher number of splits ($K$) means less data to test on, so you need to keep that in mind 
+(the same for \textit{train\_test\_split} if you set the \textit{test\_size} too low). Sklearn has an implementation of \textit{K-fold}, 
+called \textit{StratifiedKFold}. For example, code \ref{code:sklearn_k_fold} shows how you can use \textit{StratifiedKFold}
 to perform a 3-fold cross-validation in your project ($K = 3$). 
 
 \begin{code}

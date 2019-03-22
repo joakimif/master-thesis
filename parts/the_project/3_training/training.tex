@@ -87,8 +87,8 @@ As we said in the section about optimizing the model, the segment length is what
 To test this theory, we trained the model to fit input data created with segment lengths of 1, 2, 4, 8, 16, 24, 48 and 96 hours. 
 
 The input data was split using \textbf{train\_test\_split} so that the training data was 80\% of the total and the rest was going to be used for 
-testing after the training was complete. Of the training data, 40\% was set to be used as validation data, which is what the model uses in 
-each epoch to determine if the results are getting better or worse. 
+testing after the training was complete. Of the training data, 40\% was set to be used as validation data, which made it easy for us to tell if the model was 
+learning from epoch to epoch or not.
 
 We did the training for each of the 8 different input sets for 10 epochs. To keep it simple, we used a batch size of 16 and 
 the Adam optimizer with a default learning rate of 0,001 throughout this experiment. The main objective here was to find the best segment length to use, 
@@ -166,13 +166,15 @@ $ F1 = 2 \cdot \frac{P \cdot R}{P + R} = 2 \cdot \frac{0,996 \cdot 0,998}{0,996 
 
 \subsection{Cross-validation}
 
-To ensure that our model isn't overfitting and didn't get lucky when classifying the samples from the testing set, we proceeded to use 5-fold cross-validation. 
-Five folds because the test splits would be 20\% of the dataset, which was the same as in the previous experiment. For each of the folds, 
-the model was trained to fit the inputs and then evaluated against the outputs. When evaluating the five different models, we looked at the mean evaluation accuracy and loss. 
-If the accuracy was high and the loss was low, the model would have a good chance of doing correct classifications on unseen data. 
-To make this process quick, we trained the model for each fold only for 5 epochs. The goal was to prove consistency in the model and not achieve high performance, 
-so it seemed good enough. As you can see in the cross-validation results \ref{figure:control_condition_5f_cv}, 
-we have a mean accuracy of $0.07467505026746155$ and a mean loss of $0.9762523818437382$, which is ...
+To ensure that our model isn't overfitting and didn't get lucky when classifying the samples from the testing set, we proceeded to use 3-fold cross-validation. 
+First, we split the dataset in two like before, into a train and test set (80/20 split here as well). Then we generated three folds containing training and validation parts, 
+where for each fold a model was trained to fit the inputs. Each epoch the model was validated against the validation split. After training a model for a fold, 
+we evaluated them by looking at the mean accuracy/loss against the global test split. If the accuracy was still high and the loss was still low, 
+the model would have a good chance of doing correct classifications on unseen data. 
+
+To make this process quick, we trained the model for each fold only for 10 epochs. The goal was to prove consistency in the model and not achieve high performance, 
+so it seemed enough. As you can see in the cross-validation results \ref{figure:control_condition_5f_cv}, we have a mean loss of $0.06$ and 
+a mean accuracy of $0.98$, which means that the model is very consistent and independent on which of the data samples it trained on.
 
 \begin{figure}
     \begin{center}
@@ -182,7 +184,7 @@ we have a mean accuracy of $0.07467505026746155$ and a mean loss of $0.976252381
             \csvreader[head to column names]{code/logs/control_vs_condition/5f_cv.csv}{}
             {\\\hline\fold & \loss & \accuracy}
             \\\hline
-            \bfseries Mean & \bfseries 0.07467505026746155 & \bfseries 0.9762523818437382
+            \bfseries Mean & \bfseries 0.0629539173937511 & \bfseries 0.9809907427163319
             \\\hline
         \end{tabular}
         \caption{5-Fold Cross validation loss and accuracy}

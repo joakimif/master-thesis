@@ -86,17 +86,18 @@ segments_train, segments_test, labels_train, labels_test = train_test_split(segm
 skf = StratifiedKFold(n_splits=3, shuffle=True)
 splits = skf.split(segments_train, labels_train)
 
-fold_i = 1
+fold_i = 0
 results = []
 
 for train_indexes, val_indexes in splits:
-    print(f'Fold: {fold_i}/3')
+    print(f'Fold: {fold_i+1}/3')
     K.clear_session()
 
     X_train, X_val = segments_train[train_indexes], segments_train[val_indexes]
     y_train, y_val = labels_train[train_indexes], labels_train[val_indexes]
     
-    h = model.fit(X_train, y_train, batch_size=BATCH_SIZE, epochs=EPOCHS, callbacks=[], validation_data=(X_val, y_val), verbose=1)
+    #h = model.fit(X_train, y_train, batch_size=BATCH_SIZE, epochs=EPOCHS, callbacks=[], validation_data=(X_val, y_val), verbose=1)
+    h = model.fit(X_train, y_train, batch_size=BATCH_SIZE, epochs=EPOCHS, callbacks=[], validation_data=(segments_test, labels_test), verbose=1)
 
     model.save(f'../models/madrs_score_{identifier}.h5')
 

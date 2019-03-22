@@ -105,9 +105,7 @@ for train_indexes, val_indexes in splits:
 
     model.save(f'../models/madrs_score_{identifier}.h5')
 
-    results.append(model.evaluate(segments_test, labels_test))
-
-    print(results[fold_i])
+    results.append(model.evaluate(segments_test, labels_test)[0])
 
     fold_i += 1
 

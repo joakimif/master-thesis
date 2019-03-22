@@ -4,12 +4,13 @@ import seaborn as sns
 
 import os
 import sys
-import random
 import time
+import random
+import logging
 import datetime
 
-from sklearn.model_selection import train_test_split, StratifiedKFold
 from sklearn.utils import shuffle
+from sklearn.model_selection import train_test_split, StratifiedKFold
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 
 from IPython.display import display
@@ -26,6 +27,7 @@ from tensorflow.keras.callbacks import TensorBoard, EarlyStopping, ModelCheckpoi
 
 from parse_args import *
 
+logging.getLogger('tensorflow').setLevel(logging.INFO)
 pd.options.mode.chained_assignment = None
 
 PROJECT_DIR = '..'

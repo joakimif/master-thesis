@@ -18,8 +18,6 @@ if k_folds > 1:
     best_acc = 0
     i = 0
 
-    labels = to_categorical(labels, output_classes)
-
     # set aside 20% for evaluation
     segments_train, segments_test, labels_train, labels_test = train_test_split(segments, labels, test_size=0.2)
     
@@ -29,8 +27,10 @@ if k_folds > 1:
     for train_indexes, val_indexes in splits:
         print(f'Fold: {i+1}/{k_folds}')
 
+        _labels = to_categorical(labels_train, output_classes)
+
         X_train, X_val = segments_train[train_indexes], segments_train[val_indexes]
-        y_train, y_val = labels_train[train_indexes], labels_train[val_indexes]
+        y_train, y_val = _labels[train_indexes], _labels[val_indexes]
 
         model = create_model(segment_length, num_sensors, input_shape, output_classes=output_classes, dropout=dropout, verbose=0)
         history = train(model, X_train, y_train, batch_size, epochs, callbacks=[], validation_data=(X_val, y_val), verbose=1)

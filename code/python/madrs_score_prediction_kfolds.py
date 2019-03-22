@@ -81,7 +81,7 @@ else:
 
 """ Train model """
 
-segments_train, segments_test, labels_train, labels_test = train_test_split(segments, labels, test_size=0.2)
+segments_train, segments_test, labels_train, labels_test = train_test_split(segments, labels, test_size=0.4)
 
 skf = StratifiedKFold(n_splits=3, shuffle=True)
 splits = skf.split(segments_train, labels_train)

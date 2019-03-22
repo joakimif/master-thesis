@@ -53,8 +53,6 @@ input_shape = segments.shape[1]
 segments = segments.reshape(segments.shape[0], input_shape).astype('float32')
 labels = np.asarray(labels).astype('float32')
 
-segments_train, segments_test, labels_train, labels_test = train_test_split(segments, labels, test_size=0.2)
-
 """ Create model """
 
 if model_path:
@@ -83,13 +81,16 @@ else:
 
 """ Train model """
 
+segments_train, segments_test, labels_train, labels_test = train_test_split(segments, labels, test_size=0.2)
+
 skf = StratifiedKFold(n_splits=3, shuffle=True)
 splits = skf.split(segments_train, labels_train)
 
-fold_i = 0
+fold_i = 1
 results = []
 
 for train_indexes, val_indexes in splits:
+    print(f'Fold: {fold_i}/3')
     K.clear_session()
 
     X_train, X_val = segments_train[train_indexes], segments_train[val_indexes]
@@ -99,9 +100,7 @@ for train_indexes, val_indexes in splits:
                     y_train,
                     batch_size=BATCH_SIZE,
                     epochs=EPOCHS,
-                    callbacks=[
-                        #ModelCheckpoint('../models/checkpoints/madrs_score_3-folds[' + str(fold_i) + ']_' + identifier + '_weights_{epoch:02d}-{val_loss:.2f}.hdf5', save_best_only=True)
-                    ],
+                    callbacks=[],
                     validation_data=(X_val, y_val),
                     verbose=1)
 
@@ -109,5 +108,7 @@ for train_indexes, val_indexes in splits:
 
     results.append(model.evaluate(segments_test, labels_test))
 
-df = pd.DataFrame(results, columns=['loss', 'acc'])
+    fold_i += 1
+
+df = pd.DataFrame(results, columns=['mse'])
 df.to_csv(f'../logs/result_3-folds_madrs-pred_{identifier}.csv')

@@ -19,10 +19,11 @@ if k_folds > 1:
     i = 0
 
     skf = StratifiedKFold(n_splits=k_folds, shuffle=True)
+    splits = skf.split(segments, labels)
 
-    print(labels.shape)
+    print(labels.shape, splits)
 
-    for train_index, test_index in skf.split(segments, labels):
+    for train_index, test_index in splits:
         print(f'Fold: {i+1}/{k_folds}')
 
         _labels = to_categorical(labels, output_classes)
@@ -59,7 +60,7 @@ else:
         else:
             callbacks = []
 
-        history = train(model, X_train, y_train, batch_size, epochs, callbacks, validation_split=0.4, dropout=dropout)
+        history = train(model, X_train, y_train, batch_size, epochs, callbacks, validation_split=0.4)
     else:
         if verbose:
             print(f'Loading model from {model_path}...')

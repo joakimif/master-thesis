@@ -6,7 +6,6 @@ import os
 import sys
 import time
 import random
-import logging
 import datetime
 
 from sklearn.utils import shuffle
@@ -27,8 +26,9 @@ from tensorflow.keras.callbacks import TensorBoard, EarlyStopping, ModelCheckpoi
 
 from parse_args import *
 
-logging.getLogger('tensorflow').setLevel(logging.INFO)
 pd.options.mode.chained_assignment = None
+
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
 
 PROJECT_DIR = '..'
 DATASET_DIR = f'{PROJECT_DIR}/datasets'

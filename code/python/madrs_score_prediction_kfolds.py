@@ -107,6 +107,8 @@ for train_indexes, val_indexes in splits:
 
     results.append(model.evaluate(segments_test, labels_test))
 
+    print(results[fold_i])
+
     fold_i += 1
 
 df = pd.DataFrame(results, columns=['mse'])

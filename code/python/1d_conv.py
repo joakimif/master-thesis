@@ -18,23 +18,23 @@ if k_folds > 1:
     best_acc = 0
     i = 0
 
+    labels = to_categorical(labels_train, output_classes)
+
+    # set aside 20% for evaluation
+    segments_train, segments_test, labels_train, labels_test = train_test_split(segments, labels, test_size=0.2)
+    
     skf = StratifiedKFold(n_splits=k_folds, shuffle=True)
-    splits = skf.split(segments, labels)
+    splits = skf.split(segments_train, labels_train)
 
-    # print(labels.shape, list(splits))
-
-    for train_index, test_index in splits:
+    for train_indexes, val_indexes in splits:
         print(f'Fold: {i+1}/{k_folds}')
 
-        _labels = to_categorical(labels, output_classes)
-
-        X_train, X_test = segments[train_index], segments[test_index]
-        y_train, y_test = _labels[train_index], _labels[test_index]
+        X_train, X_val = segments_train[train_indexes], segments_train[val_indexes]
+        y_train, y_val = labels_train[train_indexes], labels_train[val_indexes]
 
         model = create_model(segment_length, num_sensors, input_shape, output_classes=output_classes, dropout=dropout, verbose=0)
-        #history = train(model, X_train, y_train, batch_size, epochs, callbacks=[], validation_split=0.4, verbose=1)
-        history = train(model, X_train, y_train, batch_size, epochs, callbacks=[], validation_data=(X_test, y_test), verbose=1)
-        loss, acc = evaluate(model, X_test, y_test, verbose=1)
+        history = train(model, X_train, y_train, batch_size, epochs, callbacks=[], validation_data=(X_val, y_val), verbose=1)
+        loss, acc = evaluate(model, segments_test, labels_test, verbose=1)
         
         models.append((model, history, (loss, acc)))
         
@@ -43,7 +43,7 @@ if k_folds > 1:
     scores = [x[2] for x in models]
     df = pd.DataFrame(scores, columns=['loss', 'acc'])
 
-    df.to_csv(f'result_{k_folds}_folds_{identifier}.txt')
+    df.to_csv(f'../logs/result_{k_folds}_folds_{identifier}.csv')
 
 else:
     X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2)

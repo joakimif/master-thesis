@@ -165,7 +165,30 @@ $ S = \frac{TN}{TN+FP} = \frac{1577}{1577+13} \approx 99,2\%$
 $ F1 = 2 \cdot \frac{P \cdot R}{P + R} = 2 \cdot \frac{0,996 \cdot 0,998}{0,996 + 0,998} \approx 99,7\% $
 
 \subsection{Cross-validation}
-TODO
+
+To ensure that our model isn't overfitting and didn't get lucky when classifying the samples from the testing set, we proceeded to use 5-fold cross-validation. 
+Five folds because the test splits would be 20\% of the dataset, which was the same as in the previous experiment. For each of the folds, 
+the model was trained to fit the inputs and then evaluated against the outputs. When evaluating the five different models, we looked at the mean evaluation accuracy and loss. 
+If the accuracy was high and the loss was low, the model would have a good chance of doing correct classifications on unseen data. 
+To make this process quick, we trained the model for each fold only for 5 epochs. The goal was to prove consistency in the model and not achieve high performance, 
+so it seemed good enough. As you can see in the cross-validation results \ref{figure:control_condition_5f_cv}, 
+we have a mean accuracy of $0.07467505026746155$ and a mean loss of $0.9762523818437382$, which is ...
+
+\begin{figure}
+    \begin{center}
+        \begin{tabular}{|l|l|l|}
+            \hline
+            \bfseries Fold & \bfseries Loss & \bfseries Accuracy
+            \csvreader[head to column names]{code/logs/control_vs_condition/5f_cv.csv}{}
+            {\\\hline\fold & \loss & \accuracy}
+            \\\hline
+            \bfseries Mean & \bfseries 0.07467505026746155 & \bfseries 0.9762523818437382
+            \\\hline
+        \end{tabular}
+        \caption{5-Fold Cross validation loss and accuracy}
+        \label{figure:control_condition_5f_cv}
+    \end{center}
+\end{figure}
 
 \section{1D CNN: Depression Classes}
 \subsection{Performance metrics}

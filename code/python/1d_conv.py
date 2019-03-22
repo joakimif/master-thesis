@@ -59,7 +59,7 @@ else:
         else:
             callbacks = []
 
-        history = train(model, X_train, y_train, batch_size, epochs, callbacks, validation_split=0.4)
+        history = train(model, X_train, y_train, batch_size, epochs, callbacks, validation_split=0.4, dropout=dropout)
     else:
         if verbose:
             print(f'Loading model from {model_path}...')

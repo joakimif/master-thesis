@@ -32,7 +32,7 @@ for hours in hours_list:
     X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2)
     model = create_model(seg, num_sensors, input_shape, output_classes=output_classes)
     
-    h = train(model, X_train, y_train, batch_size, epochs, callbacks, validation_split=0.4)
+    h = train(model, X_train, y_train, batch_size, epochs, callbacks, validation_split=0.4, dropout=0.5)
     model.save(f'{model_path}/{seg}_{step}_{epochs}_{batch_size}.h5')
 
     loss, acc = model.evaluate(X_test, y_test)

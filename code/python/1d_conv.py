@@ -18,7 +18,7 @@ if k_folds > 1:
     best_acc = 0
     i = 0
 
-    labels = to_categorical(labels_train, output_classes)
+    labels = to_categorical(labels, output_classes)
 
     # set aside 20% for evaluation
     segments_train, segments_test, labels_train, labels_test = train_test_split(segments, labels, test_size=0.2)

@@ -20,6 +20,7 @@ if k_folds > 1:
 
     # set aside 20% for evaluation
     segments_train, segments_test, labels_train, labels_test = train_test_split(segments, labels, test_size=0.2)
+    _labels_test = to_categorical(labels_test, output_classes)
     
     skf = StratifiedKFold(n_splits=k_folds, shuffle=True)
     splits = skf.split(segments_train, labels_train)
@@ -34,7 +35,7 @@ if k_folds > 1:
 
         model = create_model(segment_length, num_sensors, input_shape, output_classes=output_classes, dropout=dropout, verbose=0)
         history = train(model, X_train, y_train, batch_size, epochs, callbacks=[], validation_data=(X_val, y_val), verbose=1)
-        loss, acc = evaluate(model, segments_test, labels_test, verbose=1)
+        loss, acc = evaluate(model, segments_test, _labels_test, verbose=1)
         
         models.append((model, history, (loss, acc)))
         

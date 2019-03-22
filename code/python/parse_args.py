@@ -56,7 +56,7 @@ else:
 if '--dropout' in sys.argv:
     dropout = float(sys.argv[sys.argv.index('--dropout')+1])
 else:
-    dropout = 0.5
+    dropout = None
 
 madrs = '-m' in sys.argv or '--madrs' in sys.argv
 verbose = '-v' in sys.argv or '--verbose' in sys.argv

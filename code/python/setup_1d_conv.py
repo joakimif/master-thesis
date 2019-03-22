@@ -302,7 +302,7 @@ def create_segments_and_labels(n_features, segment_length, step, k_folds=1):
     
     return segments, labels, num_sensors, input_shape
 
-def create_model(segment_length, num_sensors, input_shape, loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'], output_classes=2, dropout=0.5, verbose=1):
+def create_model(segment_length, num_sensors, input_shape, loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'], output_classes=2, dropout=None, verbose=1):
     global log
 
     K.clear_session()
@@ -316,7 +316,10 @@ def create_model(segment_length, num_sensors, input_shape, loss='categorical_cro
     model.add(Conv1D(160, 10, activation='relu'))
     model.add(Conv1D(160, 10, activation='relu'))
     model.add(GlobalAveragePooling1D())
-    model.add(Dropout(dropout))
+
+    if dropout:
+        model.add(Dropout(dropout))
+    
     model.add(Dense(output_classes, activation='softmax'))
 
     model.compile(loss=loss, optimizer=optimizer, metrics=metrics)

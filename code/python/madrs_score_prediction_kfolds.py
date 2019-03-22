@@ -55,15 +55,15 @@ labels = np.asarray(labels).astype('float32')
 
 """ Create model """
 
-def create_model():
+def create_model(optimizer='adam', learning_rate=0.05, model_path=None, segment_length=None, input_shape=None):
     K.clear_session()
 
     if model_path:
         model = load_model(model_path)
     else:
         model = Sequential()
-        model.add(Reshape((SEGMENT_LENGTH, 1), input_shape=(input_shape,)))
-        model.add(Conv1D(128, 2, activation='relu', input_shape=(SEGMENT_LENGTH, 1)))
+        model.add(Reshape((segment_length, 1), input_shape=(input_shape,)))
+        model.add(Conv1D(128, 2, activation='relu', input_shape=(segment_length, 1)))
         model.add(MaxPooling1D(pool_size=2, strides=1))
         model.add(Conv1D(64, 2, activation='relu'))
         model.add(GlobalAveragePooling1D())
@@ -100,7 +100,7 @@ for train_indexes, val_indexes in splits:
     X_train, X_val = segments_train[train_indexes], segments_train[val_indexes]
     y_train, y_val = labels_train[train_indexes], labels_train[val_indexes]
 
-    model = create_model()
+    model = create_model(optimizer=optimizer, learning_rate=learning_rate, model_path=model_path, segment_length=SEGMENT_LENGTH, input_shape=input_shape)
     h = model.fit(X_train, y_train, batch_size=BATCH_SIZE, epochs=EPOCHS, callbacks=[], validation_data=(X_val, y_val), verbose=1)
 
     model.save(f'../models/madrs_score_{identifier}.h5')

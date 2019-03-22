@@ -91,7 +91,7 @@ results = []
 
 for train_indexes, val_indexes in splits:
     print(f'Fold: {fold_i+1}/3')
-    K.clear_session()
+    #K.clear_session()
 
     X_train, X_val = segments_train[train_indexes], segments_train[val_indexes]
     y_train, y_val = labels_train[train_indexes], labels_train[val_indexes]

@@ -28,9 +28,6 @@ from parse_args import *
 
 pd.options.mode.chained_assignment = None
 
-# Disable tensorflow gpu logging
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
-
 PROJECT_DIR = '..'
 DATASET_DIR = f'{PROJECT_DIR}/datasets'
 SAVE_DIR = f'{PROJECT_DIR}/data'

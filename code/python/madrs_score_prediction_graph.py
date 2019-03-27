@@ -22,7 +22,6 @@ from tensorflow.keras.callbacks import TensorBoard, EarlyStopping, ModelCheckpoi
 from parse_args import *
 
 DATASET_DIR = '../datasets'
-SEGMENT_LENGTH = segment_length
 STEP = step
 EPOCHS = epochs
 BATCH_SIZE = batch_size

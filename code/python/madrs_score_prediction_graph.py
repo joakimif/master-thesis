@@ -117,7 +117,7 @@ metrics_reported = histories[0].columns
 historydf.columns = pd.MultiIndex.from_product([hours_list, metrics_reported], names=['hours', 'metric'])
 
 plt.clf()
-historydf.xs('loss', axis=1, level='metric').plot(ylim=(0, 1))
+historydf.xs('loss', axis=1, level='metric').plot()
 plt.title('Loss')
 plt.xlabel('Epochs')
 plt.savefig(f'{img_path}/plot_loss_train.png')

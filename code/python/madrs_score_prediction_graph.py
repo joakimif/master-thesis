@@ -27,6 +27,9 @@ EPOCHS = epochs
 BATCH_SIZE = batch_size
 filename_prefix = 'Conv1D-MADRS-pred'
 
+def timestamp():
+    return datetime.datetime.now().strftime("%m-%d-%YT%H:%M:%S")
+
 def create_model(segment_length, optimizer, learning_rate, input_shape):
     model = Sequential()
     model.add(Reshape((segment_length, 1), input_shape=(input_shape,)))
@@ -79,8 +82,8 @@ def create_segments_and_labels(segment_length, step):
     return segments, labels, input_shape
 
 
-img_path = f'../img/{filename_prefix}_{datetime.datetime.now().strftime("%m-%d-%YT%H:%M:%S")}'
-model_path = f'../models/{filename_prefix}_{datetime.datetime.now().strftime("%m-%d-%YT%H:%M:%S")}'
+img_path = f'../img/{filename_prefix}_{timestamp()}'
+model_path = f'../models/{filename_prefix}_{timestamp()}'
 
 os.mkdir(img_path)
 os.mkdir(model_path)
@@ -122,10 +125,10 @@ plt.clf()
 historydf.xs('loss', axis=1, level='metric').plot()
 plt.title('Loss')
 plt.xlabel('Epochs')
-plt.savefig(f'{img_path}/plot_loss_train.png')
+plt.savefig(f'{img_path}/{timestamp()}_plot_loss_train.png')
 
 plt.clf()
 plt.plot(hours_list, loss_list)
 plt.xlabel('Hours')
 plt.ylabel('Loss')
-plt.savefig(f'{img_path}/plot_loss_eval.png')
+plt.savefig(f'{img_path}/{timestamp()}_plot_loss_eval.png')

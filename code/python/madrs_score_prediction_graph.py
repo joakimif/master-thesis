@@ -102,7 +102,7 @@ for hours in hours_list:
                 batch_size=BATCH_SIZE,
                 epochs=EPOCHS,
                 validation_split=0.2,
-                verbose=1))
+                verbose=1)
 
     model.save(f'{model_path}/{seg}_{STEP}_{EPOCHS}_{BATCH_SIZE}.h5')
 

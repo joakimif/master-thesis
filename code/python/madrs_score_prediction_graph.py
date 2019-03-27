@@ -93,6 +93,8 @@ hours_list = [16, 24, 48, 72, 96]
 for hours in hours_list:
     seg = hours * 60
 
+    print(f'Segment length: {seg} ({hours} hours)')
+
     segments, labels, input_shape = create_segments_and_labels(seg, STEP)
     X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2)
     model = create_model(seg, optimizer, learning_rate, input_shape)

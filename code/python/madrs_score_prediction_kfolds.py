@@ -86,9 +86,9 @@ def create_model(optimizer='adam', learning_rate=0.05, model_path=None, segment_
 
 """ Train model """
 
-segments_train, segments_test, labels_train, labels_test = train_test_split(segments, labels, test_size=0.2)
+segments_train, segments_test, labels_train, labels_test = train_test_split(segments, labels, test_size=0.0)
 
-skf = StratifiedKFold(n_splits=3, shuffle=True)
+skf = StratifiedKFold(n_splits=10, shuffle=True)
 splits = skf.split(segments_train, labels_train)
 
 fold_i = 0

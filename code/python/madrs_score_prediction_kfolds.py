@@ -88,14 +88,14 @@ def create_model(optimizer='adam', learning_rate=0.05, model_path=None, segment_
 
 segments_train, segments_test, labels_train, labels_test = train_test_split(segments, labels, test_size=0.0)
 
-skf = StratifiedKFold(n_splits=10, shuffle=True)
+skf = StratifiedKFold(n_splits=k_folds, shuffle=True)
 splits = skf.split(segments_train, labels_train)
 
 fold_i = 0
 results = []
 
 for train_indexes, val_indexes in splits:
-    print(f'Fold: {fold_i+1}/3')
+    print(f'Fold: {fold_i+1}/{k_folds}')
 
     X_train, X_val = segments_train[train_indexes], segments_train[val_indexes]
     y_train, y_val = labels_train[train_indexes], labels_train[val_indexes]

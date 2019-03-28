@@ -63,14 +63,14 @@ plt.savefig(f'{img_path}/plot_acc_train.png')
 
 plt.clf()
 historydf.xs('loss', axis=1, level='metric').plot(ylim=(0, 1))
-plt.title('Loss')
+plt.title('Training Loss (Mean Squared Error)')
 plt.xlabel('Epochs')
 plt.savefig(f'{img_path}/plot_loss_train.png')
 
 plt.clf()
 plt.plot(hours_list[:test_hours], loss_list)
 plt.xlabel('Hours')
-plt.ylabel('Loss')
+plt.ylabel('Evaluation Loss (Mean Squared Error)')
 plt.savefig(f'{img_path}/plot_loss_eval.png')
 
 plt.clf()

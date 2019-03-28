@@ -124,7 +124,7 @@ for hours in hours_list:
 historydf = pd.concat(histories, axis=1)
 
 metrics_reported = histories[0].columns
-historydf.columns = pd.MultiIndex.from_product([optimizer_list, metrics_reported], names=['hours', 'metric'])
+historydf.columns = pd.MultiIndex.from_product([optimizer_list, metrics_reported], names=['optimizer', 'metric'])
 
 plt.clf()
 historydf.xs('loss', axis=1, level='metric').plot()

@@ -112,4 +112,4 @@ for train_indexes, val_indexes in splits:
     fold_i += 1
 
 df = pd.DataFrame(results, columns=['mse'])
-df.to_csv(f'../logs/result_3-folds_madrs-pred_{identifier}.csv')
+df.to_csv(f'../logs/result_3-folds_madrs-pred_{identifier}.txt')

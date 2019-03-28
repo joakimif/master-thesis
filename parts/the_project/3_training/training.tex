@@ -263,22 +263,27 @@ but you can read more on this later.
 \end{figure}
 
 \section{1D CNN: MADRS Score Prediction}
+Now that we have models for classifying both whether a participant belongs to the control group or the condition group and how depressed participants are, 
+we can get started on our last goal which is predicting the MADRS score of our participants. 
 
-\begin{figure}[h]
-      \begin{multicols}{2}
-            \includegraphics[height=5cm]{img/madrs_prediction/plot_loss_train.png}
-            \vfill
-            \includegraphics[height=5cm]{img/madrs_prediction/plot_loss_eval.png}
-      \end{multicols}
-      \caption{MADRS Prediction: Training (left) and evaluation (right) results (100 epochs)}
-      \label{figure:madrs_prediction_50e}
-\end{figure}
+Training a prediction model is significantly more computationally heavy than training a classification model. We noticed this as soon as we started 
+the training when the loss started on around 100 which is very high, and prediction on test data after a few epochs was poor. In classification, 
+we were used to training and validation loss between 1 and 0 and reaching a high accuracy after only a few epochs. 
+We had to train for some epochs to compare segment lengths, which would only show which are best in the first epochs.
 
-\begin{figure}[h]
-      \includegraphics[height=8cm]{img/madrs_prediction/plot_testset.png}
-      \caption{Predicting MADRS Scores from test-set}
-      \label{figure:madrs_prediction_testset}
-\end{figure}
+\subsection{Segment length}
+The plan was to perform 100 epochs of training for different segment lengths. We used the same segment lengths as we did for the previous model: 16, 24, 48, 72 and 96 hours. 
+Since the two classification experiments had a different optimal segment length, it was an interesting question whether this was the case for regression as well. 
+
+After finding the best segment length, we used the one with the most promising results to train the model for a more extended period. We wanted to see how good performance 
+we could achieve if we increased the number of epochs by a lot and let it learn overnight. 
+
+\subsection{Cross-validation}
+Before training the model to be as perfect as possible, we did cross-validation to check its consistency. Just as we had done before, we performed 3-fold cross-validation. 
+For each fold, we trained the model for 100 epochs to fit the corresponding training data and validated on the corresponding validation data. 
+Then, after a model had completed its training, it was evaluated against the global test data (same procedure as the two previous experiments). 
+Finally, the Mean Squared Error for each fold was saved and compared with other folds to see how they averaged. Table \ref{table:madrs_prediction_cv} 
+contains the cross-validation results, and it seems that the model is consistent.
 
 \begin{figure}[h]
 \begin{center}
@@ -297,9 +302,44 @@ but you can read more on this later.
 \end{figure}
 
 \begin{figure}[h]
-      \includegraphics[height=8cm]{img/madrs_prediction/optimizers.png}
+      \begin{multicols}{2}
+            \includegraphics[height=5cm]{img/madrs_prediction/plot_loss_train.png}
+            \vfill
+            \includegraphics[height=5cm]{img/madrs_prediction/plot_loss_eval.png}
+      \end{multicols}
+      \caption{MADRS Prediction: Training (left) and evaluation (right) results (100 epochs)}
+      \label{figure:madrs_prediction_50e}
+\end{figure}
+
+\subsection{Hyper-parameters}
+From the training and evaluation graphs \ref{figure:madrs_prediction_50e}, it seemed like the way to go was 48-hour segments. We don't know what's best for training 
+the model further, but this was what we settled on using. 
+
+Also, unlike the classification experiments, we experimented more with hyper-parameters. The Adam optimizer with default learning rate did the job for classification, 
+but now that we had to train for thousands of epochs, these parameters had the potential to affect the results by a lot. 
+We proceeded to compare three different optimizers: Adam, SGD, and Nadam. We had to change the learning rate to get SGD to work 
+(the default which is 0.01 \cite{keras_docs_optimizers} resulted in NAN MSE for some reason). All optimizers were set to use a learning rate of 0.0001. 
+The optimizer comparison graph \ref{figure:madrs_prediction_optimizers} shows that Adam was the best choice for prediction as well. 
+
+\begin{figure}
+      \includegraphics[height=7cm]{img/madrs_prediction/optimizers.png}
       \caption{Optimizer comparison (100 epochs)}
       \label{figure:madrs_prediction_optimizers}
+\end{figure}
+
+\subsection{Training the model}
+To summarize, this model was trained to fit segments of length 48 hours (2880 minutes). It was trained with the optimizer Adam using a learning rate of 0.0001. 
+We did not change the batch size; we kept this at 16. We split the dataset into 60\% training data and 40\% testing data. Based on the time it took to train 
+each of the 100-epoch experiments, we calculated that we had time for 5000 epochs training it from the evening until the next morning. 
+
+When we checked for results the next day, we could see the training had resulted in a mean squared error of 3.24, and predictions on the test data 
+\ref{figure:madrs_prediction_testset} looked very promising. This graph shows correct MADRS scores in the x-axis and the predicted MADRS scores in the y-axis. 
+Each blue dot is a prediction, and the dotted black line is a linear guideline for the perfect predictions (where the predicted and correct scores are the same). 
+
+\begin{figure}
+      \includegraphics[height=8cm]{img/madrs_prediction/plot_testset.png}
+      \caption{Predicting MADRS Scores from test-set}
+      \label{figure:madrs_prediction_testset}
 \end{figure}
 
 % \cite{keras_docs_optimizers}

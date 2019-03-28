@@ -174,7 +174,7 @@ After training a model for a fold, we evaluated them by looking at the mean accu
 and the loss was still low, the model would have a good chance of doing correct classifications on unseen data.
 
 To make this process quick, we trained the model for each fold only for ten epochs. The goal was to prove consistency in the model and not achieve high performance, 
-so it seemed enough. As you can see in the cross-validation results \ref{figure:control_condition_5f_cv}, we have a mean loss of $0.06$ and a mean accuracy of $0.98$, 
+so it seemed enough. As you can see in the cross-validation results \ref{table:control_condition_5f_cv}, we have a mean loss of $0.06$ and a mean accuracy of $0.98$, 
 which means that the model is consistently correct in most classifications.
 
 \begin{figure}
@@ -189,7 +189,7 @@ which means that the model is consistently correct in most classifications.
             \\\hline
         \end{tabular}
         \caption{3-Fold Cross validation}
-        \label{figure:control_condition_5f_cv}
+        \label{table:control_condition_5f_cv}
     \end{center}
 \end{figure}
 
@@ -239,7 +239,7 @@ then did three-fold cross-validation on the training set, just as before. If all
 at least for the 55 participants in the dataset. 
 
 We trained the three models for 15 epochs each. We knew that wasn't enough to give us 100\% accuracy (need around 50 epochs for that), 
-but we aimed for somewhere around 98-99\% for all folds. Looking at the cross-validation results \ref{figure:depression_class_cv}, we can see that the lowest 
+but we aimed for somewhere around 98-99\% for all folds. Looking at the cross-validation results \ref{table:depression_class_cv}, we can see that the lowest 
 accuracy was 98,5\% and the highest was 99,8\%. The mean accuracy for all three folds was 99\%, which is what we wanted to see. 
 
 The model is indeed perfect for classifying depression classes, at least for all the participants in the dataset. We know that the model won't 
@@ -258,7 +258,7 @@ but you can read more on this later.
             \\\hline
       \end{tabular}
       \caption{3-Fold Cross validation}
-      \label{figure:depression_class_cv}
+      \label{table:depression_class_cv}
 \end{center}
 \end{figure}
 
@@ -278,6 +278,22 @@ but you can read more on this later.
       \includegraphics[height=8cm]{img/madrs_prediction/plot_testset.png}
       \caption{Predicting MADRS Scores from test-set}
       \label{figure:madrs_prediction_testset}
+\end{figure}
+
+\begin{figure}[h]
+\begin{center}
+      \begin{tabular}{|l|l|l|}
+            \hline
+            \bfseries Fold & \bfseries Mean Squared Error
+            \csvreader[head to column names]{code/logs/madrs_prediction/cv.csv}{}
+            {\\\hline\fold & \mse}
+            \\\hline
+            \bfseries Mean & \bfseries 31.398445818687225
+            \\\hline
+      \end{tabular}
+      \caption{3-Fold Cross validation}
+      \label{table:madrs_prediction_cv}
+\end{center}
 \end{figure}
 
 %\subsection{Performance metrics}

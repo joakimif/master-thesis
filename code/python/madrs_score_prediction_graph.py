@@ -92,7 +92,9 @@ histories = []
 loss_list = []
 
 #hours_list = [16, 24, 48, 72, 96]
-hours_list = [24, 48]
+hours_list = [48]
+
+optimizer_list = ['adam', 'sgd', 'nadam']
 
 for hours in hours_list:
     seg = hours * 60
@@ -101,26 +103,28 @@ for hours in hours_list:
 
     segments, labels, input_shape = create_segments_and_labels(seg, STEP)
     X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2)
-    model = create_model(seg, optimizer, learning_rate, input_shape)
-    
-    h = model.fit(X_train,
-                y_train,
-                batch_size=BATCH_SIZE,
-                epochs=EPOCHS,
-                validation_split=0.2,
-                verbose=1)
 
-    model.save(f'{model_path}/{seg}_{STEP}_{EPOCHS}_{BATCH_SIZE}.h5')
+    for opt in optimizer_list:
+        model = create_model(seg, optimizer, learning_rate, input_shape)
+        
+        h = model.fit(X_train,
+                    y_train,
+                    batch_size=BATCH_SIZE,
+                    epochs=EPOCHS,
+                    validation_split=0.2,
+                    verbose=1)
 
-    loss = model.evaluate(X_test, y_test)[0]
+        model.save(f'{model_path}/{seg}_{STEP}_{EPOCHS}_{BATCH_SIZE}_{opt}.h5')
 
-    histories.append(pd.DataFrame(h.history, index=h.epoch))
-    loss_list.append(loss)
+        loss = model.evaluate(X_test, y_test)[0]
+
+        histories.append(pd.DataFrame(h.history, index=h.epoch))
+        loss_list.append(loss)
 
 historydf = pd.concat(histories, axis=1)
 
 metrics_reported = histories[0].columns
-historydf.columns = pd.MultiIndex.from_product([hours_list, metrics_reported], names=['hours', 'metric'])
+historydf.columns = pd.MultiIndex.from_product([optimizer_list, metrics_reported], names=['hours', 'metric'])
 
 plt.clf()
 historydf.xs('loss', axis=1, level='metric').plot()
@@ -129,7 +133,7 @@ plt.xlabel('Epochs')
 plt.savefig(f'{img_path}/{timestamp()}_plot_loss_train.png')
 
 plt.clf()
-plt.plot(hours_list, loss_list)
-plt.xlabel('Hours')
+plt.plot(optimizer_list, loss_list)
+plt.xlabel('Optimizer')
 plt.ylabel('Loss')
 plt.savefig(f'{img_path}/{timestamp()}_plot_loss_eval.png')

@@ -91,7 +91,8 @@ os.mkdir(model_path)
 histories = []
 loss_list = []
 
-hours_list = [16, 24, 48, 72, 96]
+#hours_list = [16, 24, 48, 72, 96]
+hours_list = [24, 48]
 
 for hours in hours_list:
     seg = hours * 60

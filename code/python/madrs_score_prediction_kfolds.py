@@ -106,7 +106,10 @@ for train_indexes, val_indexes in splits:
         h = model.fit(X_train, y_train, batch_size=BATCH_SIZE, epochs=EPOCHS, callbacks=[], validation_data=(X_val, y_val), verbose=1)
 
         model.save(f'../models/madrs_score_{identifier}.h5')
-        results.append(model.evaluate(segments_test, labels_test)[0])
+        
+        evaluation = model.evaluate(segments_test, labels_test)
+        print(evaluation)
+        results.append(evaluation[0])
 
     else:
         results.append(model.evaluate(X_val, y_val)[0])

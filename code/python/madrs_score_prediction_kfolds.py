@@ -101,9 +101,11 @@ for train_indexes, val_indexes in splits:
     y_train, y_val = labels_train[train_indexes], labels_train[val_indexes]
 
     model = create_model(optimizer=optimizer, learning_rate=learning_rate, model_path=model_path, segment_length=SEGMENT_LENGTH, input_shape=input_shape)
-    h = model.fit(X_train, y_train, batch_size=BATCH_SIZE, epochs=EPOCHS, callbacks=[], validation_data=(X_val, y_val), verbose=1)
 
-    model.save(f'../models/madrs_score_{identifier}.h5')
+    if not model_path:
+        h = model.fit(X_train, y_train, batch_size=BATCH_SIZE, epochs=EPOCHS, callbacks=[], validation_data=(X_val, y_val), verbose=1)
+
+        model.save(f'../models/madrs_score_{identifier}.h5')
 
     results.append(model.evaluate(segments_test, labels_test)[0])
 

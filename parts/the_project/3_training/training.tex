@@ -118,7 +118,7 @@ classification model with scores above 99\% on all performance metrics previousl
             \includegraphics[height=5cm]{img/control_condition/plot_acc_eval.png}
             \includegraphics[height=5cm]{img/control_condition/plot_loss_eval.png}
       \end{multicols}
-      \caption{Training (left) and testing (right) results (10 epochs)}
+      \caption{Training (left) and evaluation (right) results (10 epochs)}
       \label{figure:control_condition_10e}
 \end{figure}
 
@@ -130,7 +130,7 @@ classification model with scores above 99\% on all performance metrics previousl
             \includegraphics[height=5cm]{img/control_condition/plot_acc_eval_50e.png}
             \includegraphics[height=5cm]{img/control_condition/plot_loss_eval_50e.png}
       \end{multicols}
-      \caption{Training (left) and testing (right) results (50 epochs)}
+      \caption{Training (left) and evaluation (right) results (50 epochs)}
       \label{figure:control_condition_50e}
 \end{figure}
 
@@ -203,7 +203,7 @@ which means that the model is consistently correct in most classifications.
             \includegraphics[height=5cm]{img/depression_class/plot_acc_eval.png}
             \includegraphics[height=5cm]{img/depression_class/plot_loss_eval.png}
       \end{multicols}
-      \caption{Depression classes: Training (left) and testing (right) results (50 epochs)}
+      \caption{Depression classes: Training (left) and evaluation (right) results (50 epochs)}
       \label{figure:depression_class_50e}
 \end{figure}
 
@@ -264,13 +264,20 @@ but you can read more on this later.
 
 \section{1D CNN: MADRS Score Prediction}
 
-\begin{figure}
+\begin{figure}[h]
       \begin{multicols}{2}
             \includegraphics[height=5cm]{img/madrs_prediction/plot_loss_train.png}
+            \vfill
             \includegraphics[height=5cm]{img/madrs_prediction/plot_loss_eval.png}
       \end{multicols}
-      \caption{MADRS Prediction: Training (left) and testing (right) results (100 epochs)}
+      \caption{MADRS Prediction: Training (left) and evaluation (right) results (100 epochs)}
       \label{figure:madrs_prediction_50e}
+\end{figure}
+
+\begin{figure}[h]
+      \includegraphics[height=8cm]{img/madrs_prediction/plot_testset.png}
+      \caption{Predicting MADRS Scores from test-set}
+      \label{figure:madrs_prediction_testset}
 \end{figure}
 
 %\subsection{Performance metrics}

@@ -105,7 +105,7 @@ for hours in hours_list:
     X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2)
 
     for opt in optimizer_list:
-        model = create_model(seg, optimizer, learning_rate, input_shape)
+        model = create_model(seg, opt, learning_rate, input_shape)
         
         h = model.fit(X_train,
                     y_train,

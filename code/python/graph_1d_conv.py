@@ -30,7 +30,7 @@ for hours in hours_list:
 
     segments, labels, num_sensors, input_shape = create_segments_and_labels(1, seg, step)
     X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2)
-    model = create_model(seg, num_sensors, input_shape, output_classes=output_classes)
+    model = create_model(seg, num_sensors, input_shape, output_classes=output_classes, dropout=dropout)
     
     h = train(model, X_train, y_train, batch_size, epochs, callbacks, validation_split=0.4)
     model.save(f'{model_path}/{seg}_{step}_{epochs}_{batch_size}.h5')

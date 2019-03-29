@@ -98,7 +98,7 @@ model.save(f'../models/madrs_score_{identifier}.h5')
 
 """ Save history graph """
 historydf = pd.DataFrame(h.history, index=h.epoch)
-historydf.plot()
+historydf.xs('mean_squared_error', axis=1).plot()
 plt.title('Training Loss')
 plt.xlabel('Epochs')
 plt.ylabel('Mean Squared Error')

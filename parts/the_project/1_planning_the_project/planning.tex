@@ -1,6 +1,6 @@
 \section{Goals}
 
-Our goal in this thesis is to create machine learning models for three different tasks:
+Our goal in this thesis was to create machine learning models for three different tasks:
 
 \begin{itemize}
   \item Classify whether a participant belongs to the \textbf{control} group or \textbf{condition} group.
@@ -8,39 +8,26 @@ Our goal in this thesis is to create machine learning models for three different
   \item Predict a participant's MADRS score.
 \end{itemize}
 
-The model is going to be a One-Dimensional Convolutional Neural Network. 
-We will solve all these using each participant's activity data as input, and we will create a model that, with few changes, can be used for all three goals.
-For the different goals, only the last few layers (preferably only the output layer) should be changed. For the first goal, 
-classifying \textbf{control} or \textbf{condition} group, the output data should be a matrix with two columns (\textbf{control}, \textbf{condition}), 
-with a $1$ in one of the columns and a $0$ in the other for each row.
+The models were going to be One-Dimensional Convolutional Neural Networks. We solved all these using each participant's activity data as input, and we created a model that, with few changes, could be used for all three goals. For the different goals, only the last few layers needed to change. 
 
-But first we wanted to see if these problems could be solved with simple regression. The idea was to simply throw in the columns from the 
-demographics dataset \ref{figure:demographics}. We did not expect much from this, as there are only 55 rows in the table. Anyone having a little bit experience 
-with machine learning will know that this is not nearly enough data. But we wanted to do it regardless, and see how a simple and stupid model performed.
-Doing this, we established some sort of benchmark for performance; the Convolutional Neural Network model had to \textit{at least} better than this one.
+For the first goal, classifying \textbf{control} or \textbf{condition} group, the output data was a matrix with two columns (\textbf{control}, \textbf{condition}), with a $1$ in one of the columns and a $0$ in the other for each row. 
 
-
+However, first, we wanted to see if these problems were solvable with simple regression. The idea was to throw in the columns from the demographics dataset \ref{figure:demographics}. We did not expect much from this, as there are only 55 rows in the table. Anyone having a little bit of experience with machine learning will know that this is not nearly enough data. However, we wanted to do it regardless, and see how a simple and stupid model performed. Doing this, we established some benchmark for performance; the Convolutional Neural Network model had to \textit{at least} better than this one.
 
 \subsection{Learning experiments}
 
-We needed to learn more about CNNs. CNNs are used in image recognition, so we proceeded to implement one. We found a tutorial on how to make 
-a 2D CNN for classifying cats and dogs from images \cite{2d_cnn}, and thought it would be a good way to learn.
+We needed to learn more about convolutional neural networks, so we proceeded to implement an image recognition algorithm. We found a tutorial on how to make a 2D CNN for classifying cats and dogs from images \cite{2d_cnn} and thought it would be an excellent way to learn.
 
-It was both a fun and informative experience implementing this. Especially when we extended the script to allow an image url to predict on. 
-Then we could browse for any image of a cat or a dog, and find out if the model could handle it (in most cases it did!). 
-We even tried inputting images of humans to the model for fun. This experiment resulted in a lot of motivation for our task.
+It was both a fun and informative experience in implementing this. Especially when we extended the script to allow an image URL to predict on, we could browse for images of cats and dogs on the Internet, and find out if the model could classify them (in most cases it did). We even tried inputting images of humans to the model for fun, to see if they looked more like a dog or a cat.
 
-However as mentioned before, our data is one-dimensional, so a two-dimensional CNN would not be useful.
+However as mentioned before, the activity measurements are of one dimension, so we could not use this network.
 
 \begin{quote}
-  \textit{A 1D CNN is very effective when you expect to derive interesting features from shorter (fixed-length) segments of the overall data set 
-  and where the location of the feature within the segment is not of high relevance. This applies well to the analysis of time sequences of sensor data 
-  (such as gyroscope or accelerometer data).} \cite{1d_cnn}
+  \textit{A 1D CNN is very effective when you expect to derive interesting features from shorter (fixed-length) segments of the overall dataset and where the location of the feature within the segment is not of high relevance. This applies well to the analysis of time sequences of sensor data (such as data from gyroscopes or accelerometers).} \cite{1d_cnn}
 \end{quote}
 
-To learn more about 1D CNNs, we followed a tutorial \cite{1d_cnn}, which used a dataset containing 
-accelerometer data from a smartphone on the participants waists. The goal for this CNN is to predict what a given person is doing 
-at the time, given the accelerometer data for that time slice. What the given person is doing is one of the following:
+To learn more about one-dimensional convolutional neural networks, we followed a tutorial \cite{1d_cnn}, which used a dataset containing accelerometer data from a smartphone on the participant's waists. The goal here was to predict what a given person is doing at the time, given the accelerometer data for that time slice. What the given person is doing is one of the following:
+
 \begin{itemize}
   \item Standing
   \item Walking
@@ -50,20 +37,16 @@ at the time, given the accelerometer data for that time slice. What the given pe
   \item Downstairs
 \end{itemize}
 
-As we followed the tutorial and implemented the model, we learned a lot about how 1D CNNs work and how we should structure our own data. 
+As we followed the tutorial and implemented the model, we learned a lot about how one-dimensional convolutional neural networks work and how we should structure our data to make it work for our dataset.
 
-However, we also learned where our dataset could provide more data. 
-What if the dataset contained the current mental state of the bipolar patient? Then someone could make some automated system that always can tell a patient 
-whether they are normal, manic or depressive. However data collection for this kind of task would be difficult because we can't always know what the
-patient thinks, nor does the patient themselves. The "tutorial" dataset is different because it is easy to differentiate physical states of the body
-like standing or walking.
+We also got some ideas about where our dataset could provide more data. What if the dataset containing the current mental state of the bipolar patient? Then someone could make some automated system that always can tell a patient whether they are not depressed, manic or depressive. However data collection for this kind of task would be difficult because we cannot always know what the patient thinks, nor does the patient. The tutorial dataset is different because it is easy to differentiate physical states of the body like standing or walking.
 
 \section{Preparing Input Data}
 
 \subsection{Input data}
 
-As we said before, we wanted the input data to be exactly the same for each goal, since we wanted to use a similar model on all three.
-The tutorial \cite{1d_cnn} sliced up the measurements with overlap, and labelled the slices. We are also did this.
+As we said before, we wanted the input data to be the same for each goal, since we wanted to use a similar model on all three.
+The tutorial \cite{1d_cnn} sliced up the measurements with overlap, and labeled the slices. We also did this.
 
 We created a list where for each participant in the demographics table \ref{figure:demographics}, measurements for $N$ hours were grouped. 
 Another choice we learned from the tutorial was to overlap the sequences, so we made the next group of $N$ hours start \textit{$M$} hours after, 
@@ -75,32 +58,27 @@ where each element was a list of activity measurements for 4 hours:
 
 \subsection{Output data}
 
-A second list was created simultaneously, where the value here was different on each goal. 
+A second list was created simultaneously, where the value here was different for each goal. 
 
 \subsubsection{Classifying participant group}
-For classifying control / condition group, this list was built to contain the values \textbf{0} or \textbf{1} for the labels
-\textbf{[CONTROL]} and \textbf{[CONDITION]}, which was chosen according to the group the participants were in. Using a helper function from Keras, 
-\textbf{to\_categorical}, we transformed this list of labels into the matrix we described. Transforming the values to a
-categorical matrix is required for the neural network that we ended up building, to be able to select a \textit{category} for the result. 
-This list, which we called \textbf{labels}, can look like this: 
+
+For classifying control/condition group, this list was built to contain the values \textbf{0} or \textbf{1} for the labels \textbf{[CONTROL]} and \textbf{[CONDITION]}, which was chosen according to the group the participants were in. Using a helper function from Keras, \textbf{to\_categorical}, we transformed this list of labels into the matrix we described. We had to transform the values to a categorical matrix in order to be able to select a \textit{category} for classification. This list, which we called \textbf{labels}, looked like this: 
 
 \textbf{labels[i] = [0, 1]}
 
 \noindent Meaning that segment $i$ is labeled as \textbf{[CONDITION]}.
 
-\subsubsection{Classifying depression}
-Here we wanted to classify which depression class a participant belongs to, and as described in the background part about Bipolar Disorder, 
-we divide MADRS scores into some \textit{cutoff} points, which we will use as \textit{classes} in our prediction:
+\subsubsection{Depression Classes}
+Here we wanted to classify which depression class a participant belonged to, and as described in the earlier, we divide MADRS scores into some cutoff-points, which we used as \textit{classes} in our classification:
 
 \begin{itemize}
   \item 0-6: normal
   \item 7-19: mild depression
   \item 20-34: moderate depression
-  \item >34: severe depression
+  \item 34-60: severe depression
 \end{itemize}
 
-So instead of labelling the segments as \textbf{[CONTROL]} or \textbf{[CONDITION]}, we label them as 0, 1 or 2 (we ignore 3 as there is no participant with 
-MADRS score above 34). One element in \textbf{labels} in this case could be, after making it a categorical matrix:
+So instead of labelling the segments as \textbf{[CONTROL]} or \textbf{[CONDITION]}, we labeled them as 0, 1 or 2 (we ignored 3 as there are no participants with MADRS scores this high). One element in \textbf{labels} after making it a categorical matrix looked like this:
 
 \textbf{labels[i] = [0, 1, 0]}
 
@@ -108,18 +86,15 @@ MADRS score above 34). One element in \textbf{labels} in this case could be, aft
 
 \subsubsection{Predicting MADRS Score}
 
-Instead of classifying one of three or one of two classes which we have done earlier, this time we want to predict the actual MADRS score value. 
-Creating the output data for this goal is easier, we simply add the MADRS score for the corresponding participant to the list. For example:
+Instead of classifying one of three or one of two classes which we have done earlier, this time we wanted to predict the actual MADRS score value. Creating the output data for this goal is easier; we appended the MADRS score for the corresponding participant to the list. For example:
 
 \textbf{scores[i] = [18]}
 
 \section{Performance Metrics}
 
-When you are done with a training session for a machine learning model, you need to use different metrics to be able to tell how the model performed based on some testing data. 
-To begin with, you will focus on one performance metric which is called accuracy. This one makes sense to the human brain; 
-telling a friend that has no experience in machine learning or data science that you have made your computer able to predict 
-something with 98\% accuracy is actually something that they would understand. Other metrics include \textit{confusion matrix}, \textit{precision}, \textit{Recall}, 
-\textit{specificity} and \textit{F1 score}.
+When finishing with a training session for a machine learning model, we need to use different metrics to be able to tell how the model performed based on some testing data. For prediction models, we only consider the loss, but evaluating classification models happens differently. 
+
+To begin with, we will focus on one performance metric which is called accuracy. This one makes sense to the human brain; telling a friend that has no experience in machine learning or data science that we have made our computer able to classify something with 98\% accuracy is something that they would understand. Other metrics include \textit{confusion matrix}, \textit{precision}, \textit{Recall}, \textit{specificity} and \textit{F1 score}, which will be described below.
 
 \subsection{Confusion Matrix}
 
@@ -146,75 +121,48 @@ something with 98\% accuracy is actually something that they would understand. O
       \textbf{Predicted: Condition}     & 7                            & \textbf{93}              \\
       \hline
     \end{tabular}
-    \caption{Confusion Matrix Example: Control vs Condition group}
+    \caption{Confusion Matrix Example: Control vs. Condition group}
     \label{table:confusion_matrix_bipolar}
   \end{center}
 \end{table}
 
-Table \ref{table:confusion_matrix} shows a \textit{confusion matrix}. It is a visual metric for classification models in machine learning and is the basis for 
-the other performance metrics. It can tell you how well your model is performing by having correlation values for the different classes. 
-Let’s say we have 200 samples in our test data to use on our model that classifies control vs condition group. 
-A \textit{confusion matrix} for a good model would look like table \ref{table:confusion_matrix_bipolar}, 
-with high numbers in \textbf{True Positive} and \textbf{True Negative} and as low numbers as possible in 
-\textbf{False Positive} and \textbf{False Negative}. Having a high number in \textbf{True Positive} means that the model is able to classify that a 
-participant is in the condition group if he or she actually is, and having a high number in \textbf{True Negative} means that the model is able to classify 
-that a participant is in the control group if this is the case. The other cases, \textbf{False Positive} and \textbf{False Negative}, is where the model
-made a wrong classification, and therefore as close these numbers are to zero the better our model is.
+Table \ref{table:confusion_matrix} shows a \textit{confusion matrix}. It is a visual metric for classification models in machine learning and is the basis for the other performance metrics. It can tell how well our model is performing by having correlation values for the different classes. Let us say we have 200 samples in our test data to use on our model that classifies control vs. condition group. 
+
+A \textit{confusion matrix} for a good model would look like table \ref{table:confusion_matrix_bipolar}, with high numbers in \textbf{True Positive} and \textbf{True Negative} and as low numbers as possible in \textbf{False Positive} and \textbf{False Negative}. Having a high number in \textbf{True Positive} means that the model can classify that a participant is in the condition group if he or she is, and having a high number in \textbf{True Negative} means that the model can classify that a participant is in the control group if this is the case. The other cases, \textbf{False Positive} and \textbf{False Negative}, is where the model made a wrong classification, and therefore as close these numbers are to zero the better our model is.
 
 \subsection{Accuracy}
 
 \blockquote[\cite{ml_metrics}]{Accuracy is a good measure when the target variable classes in the data are nearly balanced.}
 
-When calculating the \textit{accuracy}, we sum up the correct predictions and divide that with the total number of predictions 
-($ \frac{TP + TN}{TP + TN + FN + FP} $).
-For our example (\ref{table:confusion_matrix_bipolar}), the \textit{accuracy} would be 
-$ \frac{93 + 95}{93 + 95 + 5 + 7} = 94\% $. 
-It is a good metric to use for our example because the number of samples for each variable class is well balanced 
-($ 93+5=98 $ samples where \textbf{condition group} was the correct option, and $ 7+95=102 $ samples where \textbf{control group} was correct).
+When calculating the \textit{accuracy}, we sum up the correct predictions and divide that with the total number of predictions ($ \frac{TP + TN}{TP + TN + FN + FP} $). For our example (\ref{table:confusion_matrix_bipolar}), the \textit{accuracy} would be $ \frac{93 + 95}{93 + 95 + 5 + 7} = 94\% $. It is a good metric to use for our example because the number of samples for each variable class is well balanced ($ 93+5=98 $ samples where \textbf{condition group} was the correct option, and $ 7+95=102 $ samples where \textbf{control group} was correct).
 
-Terrible use of the \textit{accuracy} metric would be when one of the classes strongly dominates the samples. 
-For example, if a model predicts \textbf{cancer} vs \textbf{no cancer}, and the samples contain 5 people with cancer and 
-the 95 remaining people do not. The model would be terrible at predicting cancer and still have an accuracy score of $ 95\% $ \cite{ml_metrics}.
+Terrible use of the \textit{accuracy} metric would be when one of the classes strongly dominates the samples. For example, if a model predicts \textbf{cancer} vs. \textbf{no cancer}, and the samples contain five people with cancer, and the 95 remaining people do not. The model would be terrible at predicting cancer and still have an accuracy score of $ 95\% $ \cite{ml_metrics}.
 
 \subsection{Precision} 
 
-This performance metric operates entirely on the predicted positives, and it tells us how many \textbf{true positives} there is among 
-\textbf{predicted positives} ($ \frac{TP}{TP + FP} $) \cite{ml_metrics}. 
+Precision operates entirely on the predicted positives, and it tells us how many \textbf{true positives} there is among \textbf{predicted positives} ($ \frac{TP}{TP + FP} $) \cite{ml_metrics}. 
 
-Precision is better to use on \textit{unbalanced} classes than accuracy. The \textit{cancer vs no cancer} example, assuming it 
-predicts no-one to have \textbf{cancer}, would yield a precision score of $ \frac{5}{5+95} = 5\% $. And our \textit{control vs condition} example
-would result in a precision score of $ \frac{93}{93+7} = 93\% $.
+This performance metric is better to use on \textit{unbalanced} classes than accuracy. The \textit{cancer vs no cancer} example, assuming it predicts no-one to have \textbf{cancer}, would yield a precision score of $ \frac{5}{5+95} = 5\% $. And our \textit{control vs condition} example would result in a precision score of $ \frac{93}{93+7} = 93\% $.
 
 \subsection{Recall}
 
-\textit{Recall} is another useful performance metric. It tells us the relationship between \textbf{true positives} and \textbf{actual positives},
-for example how many participants classified to be in the condition group there were among total participants in the condition group.
+\textit{Recall} is another useful performance metric. It tells us the relationship between \textbf{true positives} and \textbf{actual positives}, for example how many participants classified to be in the condition group there were among total participants in the condition group.
 
-The calculation of recall is done by dividing \textbf{true positives} by \textbf{true positives + false negatives} ($ \frac{TP}{TP+FN} $), 
-which translates into $ \frac{93}{93+5} \approx 95\% $ for table \ref{table:confusion_matrix_bipolar}.
+The calculation of recall is done by dividing \textbf{true positives} by \textbf{true positives + false negatives} ($ \frac{TP}{TP+FN} $), which translates into $ \frac{93}{93+5} \approx 95\% $ for table \ref{table:confusion_matrix_bipolar}.
 
-Choosing a metric to use from \textit{precision} or \textit{recall} depends on your goal. Try to achieve close to $ 100\% $ \textit{recall} 
-if you want to reduce \textbf{false negatives}, and likewise with \textit{precision} if you want to reduce \textbf{false positives} \cite{ml_metrics}.
+Choosing a metric to use from \textit{precision} or \textit{recall} depends on your goal. Try to achieve close to $ 100\% $ \textit{recall} if you want to reduce \textbf{false negatives}, and likewise with \textit{precision} if you want to reduce \textbf{false positives} \cite{ml_metrics}.
 
 \subsection{Specificity}
 
-As \textit{recall} operates on \textbf{actual positives}, \textit{specificity} is the exact opposite metric. It tells us the relationship between
-\textbf{true negatives} and \textbf{actual negatives}. So if your goal is to reduce \textbf{false positives}, specificity is a valid choice.
+As \textit{recall} operates on \textbf{actual positives}, \textit{specificity} is the exact opposite metric. It tells us the relationship between \textbf{true negatives} and \textbf{actual negatives}. So if your goal is to reduce \textbf{false positives}, specificity is a valid choice.
 
-\textit{Specificity} is calculated by dividing \textbf{true negatives} by \textbf{true negatives + false positives} ($ \frac{TN}{TN+FP} $). 
-For table \ref{table:confusion_matrix_bipolar}, the \textit{specificity} score equals $ \frac{95}{95+7} \approx 93\% $.
+\textit{Specificity} is calculated by dividing \textbf{true negatives} by \textbf{true negatives + false positives} ($ \frac{TN}{TN+FP} $). For table \ref{table:confusion_matrix_bipolar}, the \textit{specificity} score equals $ \frac{95}{95+7} \approx 93\% $.
 
 \subsection{F1 Score}
 
-The metrics that we have described in this section are all useful when determining whether your classification model is good enough. 
-But the relationship between \textit{recall} and \textit{precision} and knowing when to use which can be confusing, at least if the different classes
-are somewhere between completely unbalanced and perfectly balanced (for example a 35\% split). 
+The metrics that we have described in this section are all useful when determining whether our classification model is good enough. However, the relationship between \textit{recall} and \textit{precision} and knowing when to use which can be confusing, at least if the different classes are somewhere between entirely unbalanced and perfectly balanced (for example a 35\% split). 
 
-Therefore another metric called \textit{F1 Score} was created, which gives us a balanced value combining \textit{recall (R)} and \textit{precision (P)}.
-The basic idea is to return the \textit{mean} value of the two scores (F1 = $ \frac{P + R}{2} $), but that would not be balanced if one score is
-much lower than the other. F1 score actually uses something called \textit{harmonic mean} instead of the standard \textit{arithmetic mean}, 
-and is calculated as $ 2 \cdot \frac{P \cdot R}{P + R} $ \cite{ml_metrics}. 
-
+Therefore another metric called \textit{F1 Score} was created, which gives us a balanced value combining \textit{recall (R)} and \textit{precision (P)}. The basic idea is to return the \textit{mean} value of the two scores (F1 = $ \frac{P + R}{2} $), but that would not be balanced if one score is much lower than the other. F1 score actually uses something called \textit{harmonic mean} instead of the standard \textit{arithmetic mean}, and is calculated as $ 2 \cdot \frac{P \cdot R}{P + R} $ \cite{ml_metrics}. 
 Following this formula, the F1 score for confusion matrix \ref{table:confusion_matrix_bipolar} becomes:
 
 \[
@@ -223,8 +171,7 @@ Following this formula, the F1 score for confusion matrix \ref{table:confusion_m
 
 \subsection{Classification Report}
 
-A machine learning framework for Python, \textit{sklearn}, includes a package with functions to calculate most of these scores. 
-Simply import and use them like this: 
+A machine learning framework for Python, \textit{sklearn}, includes a package with functions to calculate most of these scores. Just import and use them like this: 
 
 \input{code/tex/sklearn_metrics}
 
@@ -245,6 +192,4 @@ Simply import and use them like this:
   \label{table:classification_report}
 \end{table}
 
-The classification report returns a matrix (see table \ref{table:classification_report}) with \textit{precision}, 
-\textit{recall}, \textit{F1 score} and another column called \textit{support} (simply how many samples of data there are for this class). 
-The rows describe each class used for prediction \cite{sklearn_classification_report}.
+The classification report returns a matrix (see table \ref{table:classification_report}) with \textit{precision}, \textit{recall}, \textit{F1 score} and another column called \textit{support} (simply how many samples of data there are for this class). The rows describe each class used for prediction \cite{sklearn_classification_report}.

@@ -1,142 +1,138 @@
 %%%%%% BACKGROUND %%%%%%
 \newpage
-\section{Bipolar disorder}
+\section{Depression}
+\subsection{Bipolar Disorder}
 
-Bipolar disorder is the disorder where you experience extreme mood swings. One day you can feel amazing and 
-everything is fine, but the next day you feel like you don't belong anywhere in this universe. 
-Mood swings in general is not something that you should be concerned about. It is however the extreme cases where 
-your mind turns 180 degrees from day to day that is the main symptom of bipolar disorder. 
-There is not really a specific type of people that get this; they can be of any age and any gender, 
-but most people that suffer from it find out (by having an experience or episode) around age 25 \cite{bipolar_statistics}. 
+Bipolar disorder is a disorder where a person experiences extreme mood swings. One day the person can feel amazing, and everything is fine, 
+but the next day they feel like they do not belong anywhere in this universe. In general, one should be concerned about mood swings. 
+It is, however, the extreme cases where the mind turns 180 degrees from day to day that is the main symptom of bipolar disorder. 
+There is not a specific type of people that get this; they can be of any age and any gender, but most people that suffer from it find out 
+(by having an experience or episode) around age 25 \cite{bipolar_statistics}. 
 
-When talking about bipolar disorder, we often separate between the states \emph{normal}, \emph{mania} 
-and \emph{depression}. The last two are the states we usually talk about, since a normal state isn't that interesting. 
-These two states are very different, but they have some similarities, for example sleeping problems. 
+When talking about bipolar disorder, we often separate between the states \emph{normal}, \emph{mania} and \emph{depression}. 
+The last two are the states we usually talk about since a normal state is not that interesting. These two states are very different, 
+but they have some similarities, for example sleeping problems. 
 
-When a bipolar person is in a manic state, he/she may do things that they never would have intended doing, 
-like spending a lot of money on items they really don't need, or abusing drugs/alcohol. 
-They may also feel really excited or powerful \cite{bipolar_overview}. 
+When a bipolar person is in a manic state, he/she may do things that they would never have intended doing, like spending much money on items they do 
+not need or abusing drugs/alcohol. They may also feel excited or powerful \cite{bipolar_overview}. 
 
-A bipolar patient is in a depressive state when he or she is in a bad mood swing. They can stop doing everything 
-they usually like to do, and lie down in bed all day with no motivation to do anything useful. 
-They may feel useless and that they don't belong here, or being guilty of something they may or may not have done. 
-In some cases, a depression may even end up with suicidality, where the person either just thinks of death, 
-or actually attempt suicide (actually 20\% of people diagnosed bipolar commit suicide \cite{bipolar_statistics}). % ???
+A bipolar patient is in a depressive state when he or she is in a bad mood swing. They can stop doing everything they usually like to do, 
+and lie down in bed all day with no motivation to do anything useful. They may feel useless and that they do not belong here, 
+or being guilty of something they may or may not have done. In some cases, depression may even end up with suicidality, 
+where the person either spends much time thinking of death, or attempt suicide.
 
-The frequency of these symptoms can vary. One year they can have these mood swings every day for several weeks at the time, 
-and the next they get them less frequent, like once every month. 
+The frequency of these symptoms can vary. One year they can have these mood swings every day for several weeks at the time, and the next they get them less frequent, 
+like once every month. We also separate between bipolar disorder type I and II, with the main difference being that the manic episodes are way 
+more aggressive in type I \cite{bipolar_types}. Statistics say that bipolarity is genetically inheritable, with 23\% chance of getting a child with bipolar 
+disorder if one parent is bipolar, and 66\% if both parents are \cite{bipolar_statistics}. 
 
-We also separate between bipolar disorder type I and II, with the main difference being that the manic episodes 
-are way more aggressive in type I \cite{bipolar_types}.
+\subsection{Depression Rating: MADRS} %https://www.researchgate.net/publication/224773098_A_New_Depression_Scale_Designed_to_be_Sensitive_to_Change
+Montgomery-Åsberg Depression Rating Scale, or MADRS for short, is a rating system for telling how depressed a patient is. Stuart A. Montgomery and Marie Åsberg 
+designed it in 1979, and it is more sensitive to changes than the Hamilton Rating Scale for Depression (HRS) for patients that go through antidepressant medication. 
+The process for calculating a MADRS rating contains ten statements about the patient's behavior, where the topics are \cite{madrs_paper}:
 
-Statistics say that bipolarity is genetically inheritable, with 23\% chance of getting a child with bipolar disorder 
-if one parent is bipolar, and 66\% if both parents are \cite{bipolar_statistics}. 
+\begin{itemize}
+    \item Apparent sadness
+    \item Reported sadness
+    \item Inner tension
+    \item Reduced sleep
+    \item Reduced appetite
+    \item Concentration difficulties
+    \item Lassitude
+    \item Inability to feel
+    \item Pessimistic thoughts
+    \item Suicidal thoughts
+\end{itemize}
 
-\subsection{MADRS Score}
-%Montgomery-Åsberg Depression Rating Scale, or MADRS for short, is 
-TODO
-
-%% Use stories from book?
+The person doing the rating answers each question with a number between 0 and 6, where the higher the number, the more relevant the statement is for the patient. 
+The numbers added together gives us the total MADRS score, which we split into four categories: normal/not depressed: 0-6, mild depression: 7-19, moderate depression: 
+20-34 and severe depression: 34-60 \cite{sunnybrook_stroke_study}. 
 
 \newpage
 \section{Machine learning}
-Machine learning is the field of computer science where you basically throw a lot of data into an algorithm
-and expect it to give you answers to whatever you prefer, with as little work as possible. 
-This was not the case in the early days of the technology, but nowadays it is a lot easier with all the different 
-frameworks and tools available.
+Machine learning is the field of computer science where we throw data into an algorithm and expect it to give answers to whatever the goal is, 
+with as little work as possible. The process of performing machine learning was not as simple in the early days of the technology, 
+but nowadays it is a lot easier with all the different frameworks and tools available.
 
-Machine learning is a great and almost `magical` technology, but only if you do it right.
-First you need to have enough data to feed into the algorithm, and to be efficient when training the model on a 
-large dataset, which you need to be if you want your result quickly, you need good hardware. You can get away with a 
-decent CPU if you just want to test it out on a small dataset, but if you really want to do machine learning,
-then you need a good GPU. The reason why GPUs are so much better than CPUs on this specific task, 
-is because the CPUs are designed for flexibility and general computing workloads. The GPUs on the other hand, 
-are designed to do the same instructions over and over again in parallel. This makes GPUs a lot more efficient for 
-machine learning, and especially for deep neural networks \cite{cpu_vs_gpu_ml}. 
+Machine learning is a tremendous and almost magical technology, but knowing how one should use it can be difficult without the experience. 
+The amount of data needed to make an algorithm learn something makes it difficult to get started, and to be efficient when training the model on a large dataset, 
+decent hardware is required. One can get away with using a CPU if they want to test machine learning on a small dataset, but if the goal is to build something useful, 
+too much time is saved using a GPU. 
 
-Now how do you do the actual machine learning? Well there are many different approaches to this, which I will discuss 
-in the next sections, but say you want to use a neural network for your task. Then your next step should be to 
-choose a framework. You can of course do everything yourself, but why reinvent the wheel when there are so many good 
-frameworks and tools already out there? 
+The reason why GPUs are so much better than CPUs on this specific task is that the design choices of a CPU are for flexibility and general computing workloads. 
+The GPU, on the other hand, is designed to do simple arithmetic instructions over and over again (easy to parallelize). These design choices make GPUs a lot more 
+efficient for machine learning, and especially for deep neural networks \cite{cpu_vs_gpu_ml}. Alternatively, if investing in a GPU is not the preferred choice, 
+there are many cloud services available to us today where we can pay a small sum in order to use a system that is a better fit for the task.
 
-The programming language \textbf{Python} is great for machine learning in my (and many other peoples) opinion. 
-It is structured in a way such that it really looks like pseudo-code, and this is perfect because we don't want to 
-spend time on weird syntax rules in another language. For Python, you have a popular framework called \textbf{TensorFlow} 
-which is developed by Google. This allows you to build models easily, and also execute the training and testing. 
-Before you get started with TensorFlow, do a quick google search to see if someone else has already done something 
-similar to what you are trying to achieve, and if you find something, odds are that your neural network model can be 
-similar, if not identical to it. If not, then you have to sit down and actually make the model yourself. 
+Now how do we make a machine learn? Well, there are many different approaches to this, which we will discuss in the next sections, but let us say we want to 
+use a neural network for achieving some goal. Then our next step should be to choose a framework. We can, of course, do everything from scratch, but why 
+reinvent the wheel when there are so many good frameworks and tools already out there? 
 
-For the model implementation part, whether you found a model online or want to build it yourself, you can of course do 
-it in TensorFlow, but there is an easier way. \textbf{Keras} is also a popular framework that is most commonly used 
-together with TensorFlow. On their documentation website \cite{keras_docs}, they see their framework as 
+Python is a programming language perfect for machine learning in our opinion. The language looks a lot like pseudo-code, and this is perfect because we do not 
+want to spend time on syntax rules in another language. A popular framework called \textbf{TensorFlow} is available to use in Python, and developers from Google have built it. 
+
+TensorFlow allows the programmer to build models quickly, and also execute the training and testing. Before we get started with TensorFlow, a smart choice 
+would be to do a quick search on the Internet to see if someone else has already done something similar to what we want to achieve, and if you find something, 
+the odds are that your neural network model can be similar, if not identical to it. If not, then we have to sit down and write the model by ourselves. 
+
+For the model implementation part, whether we found a model online or want to write it, we can, of course, use TensorFlow directly, but using \textbf{Keras} 
+as an abstraction layer above TensorFlow is a popular choice. On their documentation website \cite{keras_docs}, they see their framework as 
 \blockquote{A high-level neural networks API, written in Python and capable of running on top of TensorFlow, CNTK or Teano}.
 
-\newpage
-\noindent Following their `30 seconds to Keras` guide \cite{keras_docs}, you can create a `sequential` model with `dense` 
-layers, configure its learning process (compile), then fit, train, evaluate and predict with just a few lines of code: 
+Following their \textit{30 seconds to Keras} guide \cite{keras_docs}, you can create a \textit{sequential} model with \textit{dense}
+layers, configure its learning process (compile), then fit, train, evaluate and predict with just a few lines of code \ref{code:keras-guide}.
 
 \input{code/tex/keras_guide}
-
-\noindent So, as long as you know your theory, and can decide which model to use (and either find a good 
-implementation of that model or create it yourself), you can easily do machine learning. One important task 
-you have to do, is to make the dataset ready. This is the boring and tedious part of machine learning, 
-but it has to be done in order for making it possible to train the model on it. 
+One thing that Keras does not make any easier is structuring the dataset so that the model can fit it. There is a high chance that we have to write some 
+code ourselves to do this. Numpy is a package for Python built for math operations where everything happens optimally (Python by itself adds overhead to everything). 
+All machine learning assumes that the input data is Numpy arrays, so experience with Numpy can be advantageous when structuring the dataset.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Machine learning strategies}
-
-Picking the right machine learning model can be quite difficult, especially if you don't have any experience from earlier. 
-There are a couple of different \textit{strategies} you can choose from when deciding on a machine learning model.
-These are called \textit{Supervised and unsupervised learning}, and you need to look at your dataset and how it is structured to find out 
-which one to use. The following sections will be a description of the strategies, to make the decision easier.
+Picking the right machine learning model can be quite tricky, especially if inexperienced. There are a couple of different \textit{strategies} one can choose 
+from when deciding on a machine learning model. These are called \textit{supervised and unsupervised learning}, and we need to think about how the dataset is structured, 
+and what we want to achieve to find out which one to use. The following sections will be a description of the strategies, to make the decision easier.
 
 \subsection{Supervised learning}
-This is the machine learning strategy where both input and desired output data are provided \cite{supervised_learning_intro}. 
-You can use this if you want to train a model to classify letters in the alphabet, or anything else where you have a dataset 
-with both input and output data (for the alphabet, images of letters are input data and the actual letters are the output data).
-If you train this alphabet model, you will be able to input a completely new image of a letter, and the model will classify it to 
-the letter it most likely fits. This kind of supervised learning is called \textit{Classification}, and is 
-\textit{the problem of assigning new observations to the class they most likely belong, based on a classification model built from labeled training data} 
-\cite{machine_learning_for_humans_supervised_2}.
+Supervised learning is the machine learning strategy where we provide both input and correct output data to the algorithm \cite{supervised_learning_intro}. 
+We may use supervised learning if the goal is to train a model to classify letters in the alphabet, or something else where we have a dataset with both input 
+and output data (for the alphabet, images of letters are input data, and the actual letters are the output data). If we train this alphabet model, 
+we will be able to input an image (not seen before by the algorithm) of a letter, and the model will classify it to the letter it most likely fits. 
+This kind of supervised learning is called \textit{Classification} and is the problem of assigning new observations to the class they most likely belong, 
+based on a classification model built from labeled training data \cite{machine_learning_for_humans_supervised_2}.
 
-Another kind of supervised learning is called \textit{Regression}, and is all about predicting (or estimating) a value. 
-A classic example for regression learning is predicting income, using \textit{features} like home location, job title, field of study,  
-years of education and years of experience. We call these features \textit{categorical} (first three) and \textit{numerical} (last two) 
-\cite{machine_learning_for_humans_supervised_1}. 
+Another kind of supervised learning is called \textit{Regression} and is all about predicting (or estimating) a value. A classic example of regression 
+learning is predicting income, using \textit{features} like home, location, job title, the field of study,  years of education and years of experience. 
+We call these features \textit{categorical} (first three) and \textit{numerical} (last two) \cite{machine_learning_for_humans_supervised_1}. 
 
 \subsection{Unsupervised learning}
-Another strategy is \textit{Unsupervised learning}. This is what you want to use if you have a dataset without the same meaning 
-as in a dataset for supervised learning. The items may not have a fixed answer, like the letters in the alphabet are. 
-It is useful when you have \textit{unlabeled} data, and want to for instance group data together in what we call a \textit{cluster}.
-It may not be as commonly used as supervised learning, but unsupervised learning can also be very useful in some cases; like grouping addresses together
-in neighborhoods if you have a unsorted list of addresses as a dataset.
+Another strategy is unsupervised learning. We want to use this if we have a dataset without the same meaning as in a dataset for supervised learning. 
+The items may not have a fixed answer, like the letters in the alphabet are. It is useful when we have unlabeled data and want to for example group data 
+together in what we call a \textit{cluster}. Unsupervised learning may not be as common as supervised learning, but unsupervised learning can be quite 
+beneficial in some cases; for example when grouping addresses together in neighborhoods if we have an unsorted list of addresses as the dataset.
 
 \subsection{Semi-supervised learning}
-Now, you may not always want to use one of the strategies above. Looking at your dataset you may want something in between; 
-a combination of labeled and unlabeled data. This is when semi-supervised learning comes in handy. For example if you have 
-a lot of data to give labels to in your dataset, it can be simply too much work. We won't go deep into details about how this works, 
-but it is important to mention it because of its usefulness.
+Now, we may not always want to use one of the strategies above. Looking at the dataset, we may want something in between like a combination of labeled and unlabeled data. 
+Semi-supervised learning comes in handy when this is the case. For example, if we have many data samples to label in our dataset, it can be simply too much work. 
+We will not go deep into details about how this works, but it is important to mention it because of its usefulness.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Machine learning approaches}
-When you know whether you want to use supervised learning, unsupervised learning or something in between, you need to select an approach.
-We call them approaches because you use these regardless of the strategy you end up using; most of them (with the exception of \textit{reinforcement learning}, 
-which we will come back to) work in both supervised and unsupervised learning. There are a lot of diffent approaches available, and we will describe some of them,
-namely those we will use in the main parts of this thesis.
+When we know whether we want to use supervised learning, unsupervised learning or something in between, we need to select an approach. We call them 
+approaches because we use these regardless of the strategy that we end up using; most of them (except for reinforcement learning) work in both 
+supervised and unsupervised learning. There are a lot of different approaches available, and we will describe some of them.
 
 \subsection{Decision tree learning}
-In computer science, trees are data structures commonly used to describe something that \textit{branches out} based on different input. 
-For example a tree can be a representation of how the frequency of letters in the alphabet are distributed in a text file, so that the text file 
-can be compressed optimally. I won't go into details about how this works, but my point is that tree-structures are very common in most fields of 
-computer science. 
+In computer science, trees are data structures commonly used to describe something that \textit{branches out} based on different input. For example, 
+a tree can be a representation of how the frequency of letters in the alphabet are distributed in a text file so that the text file can be compressed optimally. 
+We will not go into details about how this works, but our point is that tree-structures are very common in most fields of computer science. 
 
-In machine learning, we can apply the tree-structures as \textit{decision tree learning}. And in this approach, we set up all the different outcomes
-(with the training data set) of a specific question in a tree. Let's say you want to predict whether or not a person will run outside on a specific day.
-Then it makes sense that the training set contains weather information. The different data in the training set is called attributes, and picking these 
-correctly is important for the quality of the prediction.
+In machine learning, we can apply the tree-structures as \textit{decision tree learning}. In this approach, we set up all the different outcomes 
+(with the training data set) of a specific question in a tree. Let us say we want to predict whether or not a person will run outside on a specific day. 
+Then it makes sense that the training set contains weather information. The different data in the training set is called attributes, and correctly picking 
+these is essential for the quality of the prediction.
 
 \begin{table}
     \begin{tabular}{| l | l | l | l | l | l |}
@@ -155,81 +151,63 @@ correctly is important for the quality of the prediction.
     \label{table:days_running}
 \end{table}
 
-%% is this table kinda random?
-
 Table \ref{table:days_running} contains data about whether a person went outside for a run or not for a week (just an example, not real data). 
-Here the first 4 (excluding "Day") columns (Temperature, Outlook, Humidity and Wind) is the "predictors" and the last column (Run) is the "target". 
-To use this table in decision tree learning, we need to view it as a tree, with one of the predictors as root node and the targets as leaf nodes. 
+Here the first 4 (excluding "Day") columns (Temperature, Outlook, Humidity, and Wind) is the "predictors" and the last column (Run) is the target. 
+To use this table in decision tree learning, we need to view it as a tree, with one of the predictors as the root node and the targets as leaf nodes. 
 
 How we choose the tree structure is critical to the performance of the machine learning, and we need to use a good tree building algorithm. 
-The most common algorithm to use in this situation, is the \textit{ID3} algorithm made by J. R. Quinlan. It is a top-down, 
-greedy search through the space of possible branches with no backtracking \cite{decision_tree}. The way this happens is by calculating \textit{Entropy} 
-and \textit{Information Gain}. The idea is to recursively choose the predictor that has the highest information gain and generate a tree structure.
-With an optimal tree, you can create decision rules by simply following the tree with new data.
+The most common algorithm to use in this situation is the \textit{ID3} algorithm made by J. R. Quinlan. It is a top-down, greedy search through the space 
+of possible branches with no backtracking \cite{decision_tree}. The way this happens is by calculating \textit{Entropy} and \textit{Information Gain}. 
+The idea is to recursively choose the predictor that has the highest information gain and generate a tree structure. With an optimal tree, 
+we can create decision rules by merely following the tree with new data.
 
 \subsubsection{Random Forest}
-One known problem with decision tree models, is that they often include a lot of \textit{Variance}. This means that an algorithm is sensitive to 
-small changes in the training set. One method to reduce the variance, is to use Random Forest. 
+One known problem with decision tree models is that they often include much \textit{variance}. Variance in an algorithm means that it is sensitive to small 
+changes in the training set. One method to reduce the variance is to use Random Forest. 
 
-Random Forest is a supervised machine learning strategy, which can be used for both classification and regression learning \cite{random_forest}. It essentially works
-by combining decision trees, where the tree building algorithm is heavily randomized for all trees. For example, if you want to get movie recommendations
-using machine learning, using one decision tree will most likely be insufficient. Just think what happens when you ask one friend for movies to watch.
-What that friend recommends is purely based on movies you like and what he has already watched. You might be lucky and find your next favorite movie,
-but most likely, asking multiple people for recommendations is going to give a better result. The same goes for machine learning, and decision trees 
-will most likely give a better answer if they are combined in a Random Forest.
+Random Forest is a supervised machine learning strategy, which can be useful for both classification and regression learning \cite{random_forest}. 
+It mainly works by combining decision trees, where the tree building algorithm is heavily randomized for all trees. 
+
+For example, if we want to get movie recommendations using machine learning, using one decision tree will most likely be insufficient. 
+Just think what happens when we ask a friend for movies to watch. What that friend recommends is purely based on movies we like ourselves and what the friend likes. 
+We might be lucky and find our next favorite movie, but most likely, asking multiple people for recommendations is going to yield better results. 
+The same goes for machine learning, and decision trees will most likely give a better answer if we combine them in a Random Forest.
 
 \subsection{Neural networks}
+
 \subsubsection{General idea}
-The general idea of machine learning with neural networks, is to make the computer think like a human; it is inspired by they way biological 
-neural networks in the human brain process information \cite{neural_networks_0}. There are a lot of different neural networks, but all of them 
-share the same underlying layer based architecture, where data is passed between layers where computation is done. The first layer is the input layer, 
-which simply passes the data to the next layer, which is the hidden layers. The number of hidden layers is completely up to the model and the programmer, 
-and this is where the intermediate processing/computation is done, before the data is passed to the output layer where we perform an activation function 
-to define the output \cite{neural_networks_1}.
+The general idea of machine learning with neural networks is to make the computer think like a human, inspired by the way biological neural networks in the human 
+brain process information \cite{neural_networks_0}. There are a lot of different neural networks, but all of them share the same underlying layer-based architecture, 
+where data get passed between layers where computation happens. The first layer is the input layer, which passes the data to the next layer, which is the hidden layers. 
+The number of hidden layers is entirely up to the model and the programmer, and this is where the intermediate processing/computation is done before the data get passed 
+to the output layer where we perform an activation function to define the output \cite{neural_networks_1}.
 
-If you have a lot of hidden layers in a neural network, we call it a \textit{deep} neural network. This 
-is commonly used, and there is a lot of different deep networks with a lot of different use cases. Two of the most common
-neural network models are \textit{Recurrent Neural Networks} and \textit{Convolutional Neural Networks}. These two have their own use cases, 
-which I will describe below.
-
-Figure \ref{figure:neural_net} is a visualization of a basic neural network with the input layer on the left,
-one hidden layer in the middle and the output layer on the right hand side. Every node in the input layer is connected with every node in the hidden layer,
-and every node in the hidden layer is connected to every node in the output layer.
-
-\subsubsection{Recurrent Neural Networks (RNN)}
-This type of neural network is good for predicting something based on a sequence of data, like for example predicting words in a sentence, which 
-can be especially useful for typing on a phone. Also doing predictions based on historical data, like a forecast, is something an RNN can do effectively, 
-which is something the dataset that I'm going to use in this thesis consist of. 
-
-One downside to regular Recurrent Neural Networks, is that if the sequence of data is long, the prediction will most likely be off if something that was for example 
-typed in the beginning of a long text is a dependency for a prediction four chapters later, like the location of the main character. The workaround for this
-is something called \textit{Long Short-Term Memory Recurrent Neural Network (LSTM RNN)}, and is the idea of having additional logic to avoid 
-the prediction model forgetting important facts.
-
-\subsubsection{Convolutional Neural Networks (CNN)}
-A Convolutional Neural Network, or \textit{CNN} for short, can be used for identifying patterns in data, which can be used for predictions.
-A common use case for a CNN is image recognition. This is where you train your model to be really good at identifying objects in images, 
-for example the difference between cats and dogs. Then you can input a completely different image to the model, and it will output whether the image is of 
-a cat or a dog. This type of CNN is two-dimensional because an input image is really a two-dimensional array of pixel values, and it is most common to have a 
-2D CNN. Another way of constructing a CNN, is one-dimensionally, which can be useful for \textit{one-dimensional} data, for example sensor data from
-gyroscopes or accelerometers \cite{1d_cnn}.
-
-\begin{figure}
-    \includegraphics[height=10cm]{neural_net.png}
-    \caption{Neural network}
-    \label{figure:neural_net}
+\begin{figure}[h]
+    \begin{center}
+        \includegraphics[height=10cm]{neural_net.png}
+        \caption{Neural network}
+        \label{figure:neural_net}
+    \end{center}
 \end{figure}
 
-\newpage
-\section{How can machine learning help people with bipolar disorder?}
-The usage of machine learning in the medical fields is growing exponentially these days. There are so many use cases of machine learning, and of course 
-it can help in the bipolar field too! Let's say bipolar patients had a device that measured their heart rate among other things 24 hours a day could 
-feed the data into a machine learning model that could give the user live feedback on which bipolar state they are currently in. I think that would be very 
-useful, for both the patients and doctors/nurses. Another use case could be if medical institutions could know in advance how many new bipolar patients to 
-expect the next day. 
+If we have a lot of hidden layers in a neural network, we call it a \textit{deep} neural network. Deep networks can be useful for anything, and only the programmer's creativity sets the limit. Two common ways to use neural networks are \textit{Recurrent Neural Networks} and \textit{Convolutional Neural Networks}. These two have their use cases, which we will describe below.
 
-I believe that using machine learning in this field of study could help a lot of people get through their depression or mania, and potentially get rid 
-of the condition completely.
+Figure \ref{figure:neural_net} is a visual representation of a shallow neural network with the input layer on the left, one hidden layer in the middle and the output layer on the right-hand side. For each layer, we have fully connected nodes, which means that each node has a connection to all nodes in the next layer.
+
+\subsubsection{Recurrent Neural Networks (RNN)}
+This type of neural network is useful for predicting something based on a sequence of data, like for example predicting words in a sentence, which can be especially useful for typing on the phone. Also making predictions based on historical data, like a forecast, is something an RNN can do effectively.
+
+One downside to Recurrent Neural Networks used on large sequences of data is that the prediction will most likely be off if a word written at the beginning of a long text is a dependency for a prediction four chapters later, for example, the home location of the main character. The workaround for this is something called \textit{Long Short-Term Memory Recurrent Neural Network (LSTM RNN)}, and is the idea of having additional logic to avoid the prediction model forgetting essential facts.
+
+\subsubsection{Convolutional Neural Networks (CNN)}
+A Convolutional Neural Network, or \textit{CNN} for short, can be used for identifying patterns in data, which then is the underlying calculations for either prediction or classification. A common use case for CNN's is image recognition. In image recognition, we train our models to be good at identifying objects in images, for example, the difference between cats and dogs. Then we can input a completely different image to the model, and it will output whether the image is of a cat or a dog. 
+
+This type of CNN is two-dimensional because an input image is a two-dimensional array of pixels, so the network also needs to have two dimensions in the convolutional layers. Another way of constructing a CNN is one-dimensionally, which can be useful for \textit{one-dimensional} data, for example, sensor data from gyroscopes or accelerometers \cite{1d_cnn}.
+
+\section{How can machine learning help people with bipolar disorder?}
+The use of machine learning in the medical fields is growing exponentially. There is no limit to the usefulness of machine learning, and it can certainly help in the medical/psychological field too. Let us say bipolar patients had a device that measured their heart rate among other things 24 hours a day could feed the data into a neural network that gave the user's bipolar state as output. That would be useful for both the patients and doctors/nurses. Another use case could be if medical institutions knew in advance how many new bipolar patients to expect the next day. 
+
+Using machine learning in this field of study could help many people get through their depression or mania, and potentially get rid of the condition altogether.
 
 \section{The dataset}
 
@@ -249,29 +227,30 @@ of the condition completely.
     \end{center}
 \end{figure}
 
-The dataset we will use in this project \cite{dataset} was collected for another study for motor activity in schizophrenia and major depression. 
-With the data about schizophrenia stripped out, this dataset is sufficient for my thesis. It contains activity level data for 23 bipolar and unipolar patients, 
-and 32 non-depressed contributors. From now on, I will refer to the bipolar/unipolar group as the \textit{condition group}, and the non-depressed group as 
-the \textit{control group}. This is also done in the dataset details \cite{dataset_details}.
+The dataset we will use in this project \cite{dataset} was collected for another study for motor activity in schizophrenia and major depression. With the data about schizophrenia stripped out, the dataset is sufficient for this thesis. It contains activity level data for 23 bipolar patients, one unipolar patient, and 32 non-depressed contributors. From now on, we will refer to the bipolar/unipolar group as the \textit{condition group}, and the non-depressed group as the \textit{control group}. The dataset details \cite{dataset_details} also follows this convention.
 
-The dataset is in two parts. One part includes the demographics of each participant \ref{figure:demographics}. For the control group this only includes the number of 
-days they were collecting data, their gender (1 for female and 2 for male) and age. For the condition group, it also includes their affliction type (1 for bipolar
-type II, 2 for unipolar depressive, 3 for bipolar type I), melanch (1 for melancholia, 2 for no melancholia), inpatient (1 for inpatient, 2 for outpatient),
-edu (education in years), marriage (1 for married / cohabiting, 2 for single), work (1 for working / studying, 2 for unemployed/sick/pension), madrs1 (MADRS score 
-when measurement started) and madrs2 (MADRS score when measurement stopped) \cite{dataset_details}. MADRS score (Montgomery-Asberg Depression Rating Scale) 
-is used to grade the current severity of an ongoing depression \cite{dataset_details}.
+The dataset is in two parts. One part includes the demographics of each participant \ref{figure:demographics}, where the fields are \cite{dataset_details}:
 
-The second part includes sensor data about the condition group and control group, as one file for each person \ref{figure:participant_activity}. 
-These files are in two folders: "condition" and "control" (for the two groups respectively), and one file for each person is inside the folders (filename 
-is "GROUP\_X.csv" where X is their id and GROUP is either condition or control. Inside the files, there is a list of activity measurements for every 
-minute of the data collection period.
+\begin{itemize}
+    \item \textbf{number}: a unique id for each participant
+    \item \textbf{days}: number of days of activity data collection 
+    \item \textbf{gender}: 1 for female and 2 for male
+    \item \textbf{age}: participant's age (grouped by four years)
+    \item \textbf{afftype}: affliction type, where 1 is for bipolar type II, 2 equals unipolar depressive, and 3 for participants with bipolar type I
+    \item \textbf{melanch}: 1 means a participant has melancholia, 2 means no melancholia
+    \item \textbf{inpatient}: whether the patient is inpatient (1) or outpatient (2)
+    \item \textbf{edu}: participant's education in years (grouped by four years)
+    \item \textbf{marriage}: married or cohabiting (1) or single (2)
+    \item \textbf{work}: whether the participant is working or studying (1) or not (2)
+    \item \textbf{madrs1}: MADRS score before activity measurement started
+    \item \textbf{madrs2}: MADRS score after activity measurements ended
+\end{itemize}
+
+The second part includes sensor data about the condition group and control group, as one file for each participant \ref{figure:participant_activity}. These files are in two folders for the two groups (control/condition) respectively, and one file for each person inside the folders (filename is "GROUP\_X.csv" where X is their id and GROUP is either condition or control. Inside the files, there is a list of activity measurements for every minute of the data collection period.
 
 
 \section{Challenges and ethical concerns}
-In most projects in the medical fields, there are going to be ethical concerns and challenges with privacy. What happens if someone that are not authorized for 
-the data gets access to it? What if the database gets hacked? With new regulations (GDPR), which basically means that users have the right to be "forgotten". 
-However, in this project all data is anonymized (only referenced by an id), so there will be no persons mentioned. If the dataset were not to be anonymized, 
-and the patient's names were in it, things could get problematic if it got into the wrong hands. 
+In most projects in the medical fields, there are going to be ethical concerns and challenges with privacy. What happens if someone unauthorized for the data gets access to it? What if the database gets hacked? With new regulations (GDPR), which means that users have the right to be forgotten or deleted. However, in this project, all data is anonymized (only referenced by an id), so there will be no persons mentioned. If the dataset were not to be anonymized, and the patient's names were in it, things could get problematic if it got into the wrong hands. 
 
 %\section{Related work}
 

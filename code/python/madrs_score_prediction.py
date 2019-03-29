@@ -96,11 +96,21 @@ h = model.fit(X_train,
 
 model.save(f'../models/madrs_score_{identifier}.h5')
 
+""" Save history graph """
+historydf = pd.DataFrame(h.history, index=h.epoch)
+historydf.plot()
+plt.title('Training Loss')
+plt.xlabel('Epochs')
+plt.ylabel('Mean Squared Error')
+plt.savefig(f'../img/madrs_score_{identifier}_train.png')
+
 print(model.evaluate(X_test, y_test))
 
+""" Save prediction graph """
 actual = y_test
 predictions = [x[0] for x in model.predict(X_test)]
 
+plt.clf()
 fig, ax = plt.subplots()
 
 ax.scatter(actual, predictions)
@@ -109,4 +119,4 @@ ax.set_xlabel('Correct')
 ax.set_ylabel('Predicted')
 
 plt.title('MADRS Score Prediction')
-plt.savefig(f'../img/madrs_score_{identifier}.png')
+plt.savefig(f'../img/madrs_score_{identifier}_pred.png')

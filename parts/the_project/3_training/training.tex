@@ -322,9 +322,11 @@ We proceeded to compare three different optimizers: Adam, SGD, and Nadam. We had
 The optimizer comparison graph \ref{figure:madrs_prediction_optimizers} shows that Adam was the best choice for prediction as well. 
 
 \begin{figure}
+\begin{center}
       \includegraphics[height=7cm]{img/madrs_prediction/optimizers.png}
       \caption{Optimizer comparison (100 epochs)}
       \label{figure:madrs_prediction_optimizers}
+\end{center}
 \end{figure}
 
 \subsection{Training the model}
@@ -337,9 +339,11 @@ When we checked for results the next day, we could see the training had resulted
 Each blue dot is a prediction, and the dotted black line is a linear guideline for the perfect predictions (where the predicted and correct scores are the same). 
 
 \begin{figure}
+\begin{center}
       \includegraphics[height=8cm]{img/madrs_prediction/plot_testset.png}
       \caption{Predicting MADRS Scores from test-set}
       \label{figure:madrs_prediction_testset}
+\end{center}
 \end{figure}
 
 % \cite{keras_docs_optimizers}

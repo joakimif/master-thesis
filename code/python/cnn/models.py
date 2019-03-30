@@ -23,6 +23,10 @@ RESULTS_DIR = '../results'
 def timestamp():
     return datetime.datetime.now().strftime("%m-%d-%YT%H:%M:%S")
 
+def save_epoch_number(epoch_num, directory):
+    with open(f'{directory}/epoch.txt', 'w') as f:
+        f.write(epoch_num)
+
 class Conv1DModel():
     history = None
     callbacks = []
@@ -87,6 +91,10 @@ class Conv1DModel():
 
         self.model = load_model(model_path)
 
+        if os.path.isfile(f'{self.directory}/epoch.txt'):
+            with open(f'{self.directory}/epoch.txt', 'r') as f:
+                self.epoch = int(f.read())
+
     def save_settings(self):
         settings = {
             'input_shape': self.input_shape,
@@ -132,14 +140,14 @@ class Conv1DModel():
         
     def longterm(self, monitor):
         self.enable_checkpoints(monitor, save_best_only=True)
-        self.add_callback(LambdaCallback(on_epoch_end=lambda epoch, logs: self.epoch = epoch))
+        self.add_callback(LambdaCallback(on_epoch_end=lambda epoch, logs: save_epoch_number(epoch, self.directory)))
 
     def fit(self, X, y, batch_size, epochs, validation_split=0.0, validation_data=None):
         self.history = self.model.fit(X, y, batch_size, epochs, 
                                     callbacks=self.callbacks, 
                                     validation_split=validation_split, 
                                     validation_data=validation_data, 
-                                    initial_epoch=self.initial_epoch,
+                                    initial_epoch=self.epoch,
                                     verbose=self.verbose)
 
     def evaluate(self, X_test, y_test):

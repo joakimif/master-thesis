@@ -197,8 +197,7 @@ class PredictionModel(Conv1DModel):
                     loss_function='mean_squared_error', 
                     metrics=['mse'],
                     identifier=identifier,
-                    verbose=verbose,
-                    old_path=old_path)
+                    verbose=verbose)
  
         self.add(Reshape((segment_length, 1), input_shape=(input_shape,)))
         self.add(Conv1D(128, 2, activation='relu', input_shape=(segment_length, 1)))

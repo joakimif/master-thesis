@@ -93,7 +93,10 @@ class Conv1DModel():
 
         if os.path.isfile(f'{self.directory}/epoch.txt'):
             with open(f'{self.directory}/epoch.txt', 'r') as f:
-                self.epoch = int(f.read())
+                try:
+                    self.epoch = int(f.read())+1
+                except: 
+                    pass
 
     def save_settings(self):
         settings = {

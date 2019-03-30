@@ -9,15 +9,17 @@ from cnn.utils import create_segments_and_labels_prediction
 
 from sklearn.model_selection import train_test_split
 
+from parse_args import *
+
 DATASET_DIR = '../datasets'
 
-step = 60
-segment_length = 2880
-optimizer = 'adam'
-learning_rate = 0.0001
-batch_size = 16
-epochs = 11
-verbose = 1
+# step = 60
+# segment_length = 2880
+# optimizer = 'adam'
+# learning_rate = 0.0001
+# batch_size = 16
+# epochs = 10000
+# verbose = 1
 
 segments, labels, input_shape = create_segments_and_labels_prediction(DATASET_DIR, segment_length, step)
 

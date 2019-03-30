@@ -29,7 +29,7 @@ def save_epoch(epoch_num, logs, directory):
     with open(f'{directory}/epoch.txt', 'w') as f:
         f.write(str(epoch_num))
 
-    losses.append(logs.get('loss'))
+    losses.append(logs.get('val_loss'))
 
     df = pd.DataFrame(losses)
     df.to_csv(f'{directory}/history.txt')

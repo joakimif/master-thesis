@@ -24,14 +24,14 @@ for person in scores['number']:
     filepath = os.path.join(DATASET_DIR, person.split('_')[0], f'{person}.csv')
     df_activity = pd.read_csv(filepath)
 
-    for i in range(0, len(df_activity) - SEGMENT_LENGTH, STEP):
-        segment = df_activity['activity'].values[i : i + SEGMENT_LENGTH]
+    for i in range(0, len(df_activity) - segment_length, step):
+        segment = df_activity['activity'].values[i : i + segment_length]
         
         segments.append([segment])
         labels.append(p['madrs2'].values[0])
 
 segments = np.asarray(segments)
-segments = segments.reshape(-1, SEGMENT_LENGTH, 1)
+segments = segments.reshape(-1, segment_length, 1)
 
 input_shape = segments.shape[1]
 segments = segments.reshape(segments.shape[0], input_shape).astype('float32')

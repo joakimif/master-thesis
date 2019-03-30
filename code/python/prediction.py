@@ -13,14 +13,6 @@ from parse_args import *
 
 DATASET_DIR = '../datasets'
 
-# step = 60
-# segment_length = 2880
-# optimizer = 'adam'
-# learning_rate = 0.0001
-# batch_size = 16
-# epochs = 10000
-# verbose = 1
-
 segments, labels, input_shape = create_segments_and_labels_prediction(DATASET_DIR, segment_length, step)
 
 X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2, random_state=834567654)

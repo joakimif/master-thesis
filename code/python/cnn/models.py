@@ -6,6 +6,8 @@ import datetime
 import numpy as np
 import pandas as pd
 
+from glob import glob
+
 from tensorflow import keras
 from tensorflow.keras import backend as K
 from tensorflow.keras.optimizers import SGD, Nadam
@@ -34,7 +36,7 @@ def save_epoch(epoch_num, logs, directory):
     losses.append(logs.get('val_loss'))
 
     df = pd.DataFrame(losses, columns=['loss'])
-    df.to_csv(f'{directory}/history/{START_TIME}.txt')
+    df.to_csv(f'{directory}/history/{START_TIME}.txt', index=False)
 
 class Conv1DModel():
     history = None
@@ -252,6 +254,11 @@ class PredictionModel(Conv1DModel):
 
         plt.clf()
         
+        history_files = glob(f'{self.directory}/history/*.txt')
+
+        if len(history_files) > 0:
+
+
         historydf = pd.DataFrame(self.history.history, index=self.history.epoch)
         historydf.xs(metric, axis=1).plot()
 

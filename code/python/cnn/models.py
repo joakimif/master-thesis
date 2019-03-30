@@ -223,7 +223,7 @@ class PredictionModel(Conv1DModel):
         self.compile()
 
 
-    def graph_history(self, metric='mean_squared_error', title='Training Loss', xlabel='Epoch', ylabel='Mean Squared Error'):
+    def graph_history(self, metric='val_loss', title='Training Loss', xlabel='Epoch', ylabel='Mean Squared Error'):
         assert self.history != None, 'Model must be fit before generating history graph.'
 
         plt.clf()

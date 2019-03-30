@@ -256,10 +256,16 @@ class PredictionModel(Conv1DModel):
         
         history_files = glob(f'{self.directory}/history/*.txt')
 
-        if len(history_files) > 0:
+        if len(history_files) > 1:
+            historydf = []
 
+            for history_file in history_files:
+                historydf += open(history_file, 'r').readlines()
 
-        historydf = pd.DataFrame(self.history.history, index=self.history.epoch)
+            historydf = pd.DataFrame(historydf)
+        else:
+            historydf = pd.DataFrame(self.history.history, index=self.history.epoch)
+        
         historydf.xs(metric, axis=1).plot()
 
         plt.title(title)

@@ -48,7 +48,6 @@ class Conv1DModel():
         self.loss_function = loss_function
         self.metrics = metrics
         self.optimizer = optimizer
-        self.dropout = dropout
         self.verbose = verbose
         
         if not path:

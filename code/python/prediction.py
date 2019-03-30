@@ -18,7 +18,7 @@ batch_size = 16
 epochs = 10
 verbose = 1
 
-segments, labels, input_shape = create_segments_and_labels_prediction(DATASET_DIR)
+segments, labels, input_shape = create_segments_and_labels_prediction(DATASET_DIR, segment_length, step)
 
 X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2, random_state=834567654)
 

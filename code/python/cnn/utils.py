@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 
 
-def create_segments_and_labels_prediction(dataset_dir):
+def create_segments_and_labels_prediction(dataset_dir, segment_length, step):
     scores = pd.read_csv(os.path.join(dataset_dir, 'scores.csv'))
     scores['madrs2'].fillna(0, inplace=True)
 

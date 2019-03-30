@@ -13,7 +13,7 @@ from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import Input, Dense, Dropout, Flatten, Reshape, GlobalAveragePooling1D
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Conv1D, MaxPooling1D
-from tensorflow.keras.callbacks import TensorBoard, EarlyStopping, ModelCheckpoint
+from tensorflow.keras.callbacks import TensorBoard, EarlyStopping, ModelCheckpoint, LambdaCallback
 
 from matplotlib import pyplot as plt
 
@@ -26,7 +26,7 @@ def timestamp():
 class Conv1DModel():
     history = None
     callbacks = []
-    initial_epoch = 0
+    epoch = 0
     model = Sequential()
 
     def __init__(self, input_shape=None, segment_length=None, step=None, n_output_classes=None, loss_function=None, metrics=None, optimizer='adam', identifier='Conv1D', verbose=0, old_path=None, path=None):
@@ -96,7 +96,8 @@ class Conv1DModel():
             'metrics': self.metrics,
             'optimizer': self.optimizer,
             'verbose': self.verbose,
-            'directory': self.directory
+            'directory': self.directory,
+            'epoch': self.epoch
         }
 
         with open(f'{self.directory}/settings.json', 'w') as f:
@@ -131,6 +132,7 @@ class Conv1DModel():
         
     def longterm(self, monitor):
         self.enable_checkpoints(monitor, save_best_only=True)
+        self.add_callback(LambdaCallback(on_epoch_end=lambda epoch, logs: self.epoch = epoch))
 
     def fit(self, X, y, batch_size, epochs, validation_split=0.0, validation_data=None):
         self.history = self.model.fit(X, y, batch_size, epochs, 

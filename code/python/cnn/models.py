@@ -27,8 +27,6 @@ class Conv1DModel():
     model = Sequential()
 
     def __init__(self, input_shape=None, segment_length=None, step=None, n_output_classes=None, loss_function=None, metrics=None, optimizer='adam', identifier='Conv1D', verbose=0, old_path=None, path=None):
-        print('input_shape', input_shape, 'segment_length', segment_length, 'step', step, 'n_output_classes', n_output_classes, 'loss_function', loss_function, 'metrics', metrics, 'optimizer', optimizer, 'identifier', identifier, 'verbose', verbose, 'path', path, 'old_path', old_path)
-
         if old_path:
             self.init_old(old_path)
         else:

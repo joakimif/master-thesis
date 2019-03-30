@@ -11,6 +11,7 @@ batch_size = 16
 epochs = 10
 
 verbose = 1
+DATASET_DIR = '../datasets'
 
 scores = pd.read_csv(os.path.join(DATASET_DIR, 'scores.csv'))
 scores['madrs2'].fillna(0, inplace=True)

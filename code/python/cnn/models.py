@@ -35,6 +35,7 @@ class Conv1DModel():
     def init_new(self, input_shape, segment_length, step, n_output_classes, loss_function, metrics, optimizer, identifier, verbose, path):
         assert input_shape != None
         assert segment_length != None
+        assert step != None
         assert n_output_classes != None
         assert loss_function != None
         assert metrics != None
@@ -42,6 +43,7 @@ class Conv1DModel():
 
         self.input_shape = input_shape
         self.segment_length = segment_length
+        self.step = step
         self.n_output_classes = n_output_classes
         self.loss_function = loss_function
         self.metrics = metrics
@@ -144,19 +146,19 @@ class Conv1DModel():
 
 
 class ClassificationModel(Conv1DModel):
-    def __init__(self, input_shape=None, segment_length=None, n_output_classes=None, optimizer='adam', dropout=None, verbose=0, old_path=None):
+    def __init__(self, input_shape=None, segment_length=None, step=None, n_output_classes=None, optimizer='adam', dropout=None, verbose=0, old_path=None):
         if old_path:
             self.init_old(old_path)
         else:
-            self.init_new(input_shape, segment_length, n_output_classes, optimizer, dropout, verbose)
+            self.init_new(input_shape, segment_length, step, n_output_classes, optimizer, dropout, verbose)
 
     def init_old(self, old_path):
         super().__init__(old_path=old_path)
 
-    def init_new(self, input_shape, segment_length, n_output_classes, optimizer, dropout, verbose):
+    def init_new(self, input_shape, segment_length, step, n_output_classes, optimizer, dropout, verbose):
         identifier = f'Conv1D_{n_output_classes}'
 
-        super().__init__(input_shape, segment_length, n_output_classes, 
+        super().__init__(input_shape, segment_length, step, n_output_classes, 
                     optimizer=optimizer, 
                     loss_function='categorical_crossentropy', 
                     metrics=['accuracy'], 
@@ -180,19 +182,19 @@ class ClassificationModel(Conv1DModel):
 
 
 class PredictionModel(Conv1DModel):
-    def __init__(self, input_shape=None, segment_length=None, optimizer='adam', learning_rate=None, verbose=0, old_path=None):
+    def __init__(self, input_shape=None, segment_length=None, step=None, optimizer='adam', learning_rate=None, verbose=0, old_path=None):
         if old_path:
             self.init_old(old_path)
         else:
-            self.init_new(input_shape, segment_length, optimizer, learning_rate, verbose)
+            self.init_new(input_shape, segment_length, step, optimizer, learning_rate, verbose)
 
     def init_old(self, old_path):
         super().__init__(old_path=old_path)
 
-    def init_new(self, input_shape, segment_length, optimizer, learning_rate, verbose):
+    def init_new(self, input_shape, segment_length, step, optimizer, learning_rate, verbose):
         identifier = f'Conv1D_pred'
 
-        super().__init__(input_shape, segment_length, 
+        super().__init__(input_shape, segment_length, step,
                     n_output_classes=1, 
                     loss_function='mean_squared_error', 
                     metrics=['mse'],

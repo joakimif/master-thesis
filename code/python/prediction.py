@@ -22,7 +22,11 @@ segments, labels, input_shape = create_segments_and_labels_prediction(DATASET_DI
 
 X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2, random_state=834567654)
 
-model = PredictionModel(input_shape=input_shape, segment_length=segment_length, step=step, learning_rate=learning_rate, optimizer=optimizer, verbose=verbose)
+if False:
+    model = PredictionModel(input_shape=input_shape, segment_length=segment_length, step=step, learning_rate=learning_rate, optimizer=optimizer, verbose=verbose)
+else:
+    model = PredictionModel(old_model='../results/Conv1D_pred_03-30-2019T15:17:22')
+
 model.longterm('val_loss')
 model.enable_tensorboard()
 model.fit(X_train, y_train, batch_size, epochs, validation_split=0.4)

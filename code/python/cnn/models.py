@@ -17,7 +17,7 @@ from tensorflow.keras.callbacks import TensorBoard, EarlyStopping, ModelCheckpoi
 
 from matplotlib import pyplot as plt
 
-
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
 RESULTS_DIR = '../results'
 
 def timestamp():
@@ -233,5 +233,5 @@ class PredictionModel(Conv1DModel):
         plt.title(title)
         plt.xlabel(xlabel)
         plt.ylabel(ylabel)
-        
+
         plt.savefig(f'{self.directory}/img/train_history{timestamp()}.png')

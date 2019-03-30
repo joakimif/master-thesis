@@ -22,7 +22,7 @@ segments, labels, input_shape = create_segments_and_labels_prediction(DATASET_DI
 
 X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=0.2, random_state=834567654)
 
-if False:
+if True:
     model = PredictionModel(input_shape=input_shape, segment_length=segment_length, step=step, learning_rate=learning_rate, optimizer=optimizer, verbose=verbose)
 else:
     model = PredictionModel(old_path='../results/Conv1D_pred_03-30-2019T15:17:22')

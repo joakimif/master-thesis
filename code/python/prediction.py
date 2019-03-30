@@ -25,7 +25,7 @@ X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=
 if False:
     model = PredictionModel(input_shape=input_shape, segment_length=segment_length, step=step, learning_rate=learning_rate, optimizer=optimizer, verbose=verbose)
 else:
-    model = PredictionModel(old_model='../results/Conv1D_pred_03-30-2019T15:17:22')
+    model = PredictionModel(old_path='../results/Conv1D_pred_03-30-2019T15:17:22')
 
 model.longterm('val_loss')
 model.enable_tensorboard()

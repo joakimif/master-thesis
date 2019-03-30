@@ -250,8 +250,6 @@ class PredictionModel(Conv1DModel):
 
 
     def graph_history(self, metric='loss', title='Training Loss', xlabel='Epoch', ylabel='Mean Squared Error'):
-        assert self.history != None and self.history.history != None, 'Model must be fit before generating history graph.'
-
         plt.clf()
         
         history_files = glob(f'{self.directory}/history/*.txt')
@@ -264,6 +262,8 @@ class PredictionModel(Conv1DModel):
 
             historydf = pd.DataFrame(historydf)
         else:
+            assert self.history != None and self.history.history != None, 'Model must be fit before generating history graph.'
+            
             historydf = pd.DataFrame(self.history.history, index=self.history.epoch)
         
         historydf.xs(metric, axis=1).plot()

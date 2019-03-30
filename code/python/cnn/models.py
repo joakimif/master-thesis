@@ -35,7 +35,7 @@ def save_epoch(epoch_num, logs, directory):
     df.to_csv(f'{directory}/history.txt')
 
 class Conv1DModel():
-    history = None
+    history = []
     callbacks = []
     epoch = 0
     model = Sequential()
@@ -161,7 +161,7 @@ class Conv1DModel():
                                     initial_epoch=self.epoch,
                                     verbose=self.verbose)
 
-        if self.history:
+        if len(self.history) > 0:
             self.history + history
         else:
             self.history = history

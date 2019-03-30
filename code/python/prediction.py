@@ -8,5 +8,5 @@ verbose = 1
 
 input_shape = (1,)
 
-model = PredictionModel(segment_length=segment_length, step=step, learning_rate=learning_rate, optimizer=optimizer, verbose=verbose)
+model = PredictionModel(input_shape=input_shape, segment_length=segment_length, step=step, learning_rate=learning_rate, optimizer=optimizer, verbose=verbose)
 

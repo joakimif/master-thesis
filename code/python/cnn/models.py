@@ -25,6 +25,8 @@ losses = []
 def timestamp():
     return datetime.datetime.now().strftime("%m-%d-%YT%H:%M:%S")
 
+START_TIME = timestamp()
+
 def save_epoch(epoch_num, logs, directory):
     with open(f'{directory}/epoch.txt', 'w') as f:
         f.write(str(epoch_num))
@@ -32,10 +34,10 @@ def save_epoch(epoch_num, logs, directory):
     losses.append(logs.get('val_loss'))
 
     df = pd.DataFrame(losses)
-    df.to_csv(f'{directory}/history.txt')
+    df.to_csv(f'{directory}/history/{START_TIME}.txt')
 
 class Conv1DModel():
-    history = []
+    history = None
     callbacks = []
     epoch = 0
     model = Sequential()
@@ -72,6 +74,7 @@ class Conv1DModel():
 
         os.mkdir(self.directory)
         os.mkdir(f'{self.directory}/checkpoints')
+        os.mkdir(f'{self.directory}/history')
         os.mkdir(f'{self.directory}/logs')
         os.mkdir(f'{self.directory}/img')
 
@@ -98,14 +101,12 @@ class Conv1DModel():
 
         self.model = load_model(model_path)
 
-        if os.path.isfile(f'{self.directory}/epoch.txt') and os.path.isfile(f'{self.directory}/history.txt'):
+        if os.path.isfile(f'{self.directory}/epoch.txt'):
             with open(f'{self.directory}/epoch.txt', 'r') as f:
                 try:
                     self.epoch = int(f.read())+1
                 except: 
                     pass
-
-            self.history = pd.read_csv(f'{self.directory}/history.txt')
 
     def save_settings(self):
         settings = {
@@ -161,10 +162,7 @@ class Conv1DModel():
                                     initial_epoch=self.epoch,
                                     verbose=self.verbose)
 
-        if len(self.history) > 0:
-            self.history + history.history
-        else:
-            self.history = history.history
+        self.history = history
 
     def evaluate(self, X_test, y_test):
         return self.model.evaluate(X_test, y_test)
@@ -250,11 +248,11 @@ class PredictionModel(Conv1DModel):
 
 
     def graph_history(self, metric='val_loss', title='Training Loss', xlabel='Epoch', ylabel='Mean Squared Error'):
-        assert len(self.history) > 0, 'Model must be fit before generating history graph.'
+        assert self.history != None, 'Model must be fit before generating history graph.'
 
         plt.clf()
         
-        historydf = pd.DataFrame(self.history)
+        historydf = pd.DataFrame(self.history.history, index=self.history.epoch)
         historydf.xs(metric, axis=1).plot()
 
         plt.title(title)

@@ -154,12 +154,15 @@ class Conv1DModel():
         self.add_callback(LambdaCallback(on_epoch_end=lambda epoch, logs: save_epoch(epoch, logs, self.directory)))
 
     def fit(self, X, y, batch_size, epochs, validation_split=0.0, validation_data=None):
-        self.history = self.model.fit(X, y, batch_size, epochs, 
+        history = self.model.fit(X, y, batch_size, epochs, 
                                     callbacks=self.callbacks, 
                                     validation_split=validation_split, 
                                     validation_data=validation_data, 
                                     initial_epoch=self.epoch,
                                     verbose=self.verbose)
+
+        if self.history:
+            self.history + history
 
     def evaluate(self, X_test, y_test):
         return self.model.evaluate(X_test, y_test)

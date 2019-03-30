@@ -15,7 +15,7 @@ segment_length = 2880
 optimizer = 'adam'
 learning_rate = 0.0001
 batch_size = 16
-epochs = 5
+epochs = 20
 verbose = 1
 
 segments, labels, input_shape = create_segments_and_labels_prediction(DATASET_DIR, segment_length, step)

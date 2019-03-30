@@ -25,7 +25,7 @@ def timestamp():
 
 def save_epoch_number(epoch_num, directory):
     with open(f'{directory}/epoch.txt', 'w') as f:
-        f.write(epoch_num)
+        f.write(str(epoch_num))
 
 class Conv1DModel():
     history = None

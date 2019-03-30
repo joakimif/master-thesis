@@ -263,8 +263,10 @@ class PredictionModel(Conv1DModel):
             historydf = pd.DataFrame(historydf)
         else:
             assert self.history != None and self.history.history != None, 'Model must be fit before generating history graph.'
-            
+
             historydf = pd.DataFrame(self.history.history, index=self.history.epoch)
+        
+        print(historydf.head())
         
         historydf.xs(metric, axis=1).plot()
 

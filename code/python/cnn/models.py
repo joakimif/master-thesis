@@ -163,6 +163,8 @@ class Conv1DModel():
 
         if self.history:
             self.history + history
+        else:
+            self.history = history
 
     def evaluate(self, X_test, y_test):
         return self.model.evaluate(X_test, y_test)

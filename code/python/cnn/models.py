@@ -225,11 +225,13 @@ class PredictionModel(Conv1DModel):
     def graph_history(self, metric='mean_squared_error', title='Training Loss', xlabel='Epoch', ylabel='Mean Squared Error'):
         assert self.history != None, 'Model must be fit before generating history graph.'
 
+        plt.clf()
+        
         historydf = pd.DataFrame(self.history.history, index=self.history.epoch)
         historydf.xs(metric, axis=1).plot()
 
-        plt.clf()
         plt.title(title)
         plt.xlabel(xlabel)
         plt.ylabel(ylabel)
+        
         plt.savefig(f'{self.directory}/img/train_history{timestamp()}.png')

@@ -24,5 +24,6 @@ X_train, X_test, y_train, y_test = train_test_split(segments, labels, test_size=
 
 model = PredictionModel(input_shape=input_shape, segment_length=segment_length, step=step, learning_rate=learning_rate, optimizer=optimizer, verbose=verbose)
 model.longterm('val_loss')
+model.enable_tensorboard()
 model.fit(X_train, y_train, batch_size, epochs, validation_split=0.4)
 model.graph_history()

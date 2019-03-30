@@ -33,7 +33,7 @@ def save_epoch(epoch_num, logs, directory):
 
     losses.append(logs.get('val_loss'))
 
-    df = pd.DataFrame(losses)
+    df = pd.DataFrame(losses, columns=['epoch', 'loss'])
     df.to_csv(f'{directory}/history/{START_TIME}.txt')
 
 class Conv1DModel():

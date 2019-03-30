@@ -4,8 +4,8 @@ import numpy as np
 import pandas as pd
 
 
-def create_segments_and_labels_prediction(scores_file):
-    scores = pd.read_csv(scores_file)
+def create_segments_and_labels_prediction(dataset_dir):
+    scores = pd.read_csv(os.path.join(dataset_dir, 'scores.csv'))
     scores['madrs2'].fillna(0, inplace=True)
 
     segments = []
@@ -13,7 +13,7 @@ def create_segments_and_labels_prediction(scores_file):
 
     for person in scores['number']:
         p = scores[scores['number'] == person]
-        filepath = os.path.join(DATASET_DIR, person.split('_')[0], f'{person}.csv')
+        filepath = os.path.join(dataset_dir, person.split('_')[0], f'{person}.csv')
         df_activity = pd.read_csv(filepath)
 
         for i in range(0, len(df_activity) - segment_length, step):

@@ -248,7 +248,7 @@ class PredictionModel(Conv1DModel):
 
 
     def graph_history(self, metric='val_loss', title='Training Loss', xlabel='Epoch', ylabel='Mean Squared Error'):
-        assert self.history != None, 'Model must be fit before generating history graph.'
+        assert self.history != None and self.history.history != None, 'Model must be fit before generating history graph.'
 
         plt.clf()
         

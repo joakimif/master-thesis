@@ -85,7 +85,7 @@ class Conv1DModel():
         
         assert os.path.isfile(model_path), f'Model at path {old_path} cannot to be restored.'
 
-        self.model = load_model()
+        self.model = load_model(model_path)
 
     def save_settings(self):
         settings = {

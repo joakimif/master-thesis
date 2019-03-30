@@ -16,7 +16,7 @@ segment_length = 2880
 optimizer = 'adam'
 learning_rate = 0.0001
 batch_size = 16
-epochs = 10
+epochs = 10000
 verbose = 1
 
 segments, labels, input_shape = create_segments_and_labels_prediction(DATASET_DIR, segment_length, step)
@@ -32,3 +32,4 @@ model.longterm('val_loss')
 model.enable_tensorboard()
 model.fit(X_train, y_train, batch_size, epochs, validation_split=0.4)
 model.graph_history()
+model.graph_predictions(X_test, y_test, title='MADRS Score Prediction')

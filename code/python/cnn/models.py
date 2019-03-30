@@ -248,7 +248,6 @@ class PredictionModel(Conv1DModel):
 
         self.compile()
 
-
     def graph_history(self, metric='loss', title='Training Loss', xlabel='Epoch', ylabel='Mean Squared Error'):
         plt.clf()
         
@@ -273,3 +272,17 @@ class PredictionModel(Conv1DModel):
         plt.ylabel(ylabel)
 
         plt.savefig(f'{self.directory}/img/train_history{timestamp()}.png')
+
+    def graph_predictions(self, X_test, y_test, title, xlabel='Correct', ylabel='Predicted'):
+        predictions = [x[0] for x in self.predict(X_test)]
+
+        plt.clf()
+        fig, ax = plt.subplots()
+
+        ax.scatter(y_test, predictions)
+        ax.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'k--', lw=4)
+        ax.set_xlabel(xlabel)
+        ax.set_ylabel(ylabel)
+
+        plt.title(title)
+        plt.savefig(f'{self.directory}/img/predictions.png')

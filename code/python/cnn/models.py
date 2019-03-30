@@ -162,9 +162,9 @@ class Conv1DModel():
                                     verbose=self.verbose)
 
         if len(self.history) > 0:
-            self.history + history
+            self.history + history.history
         else:
-            self.history = history
+            self.history = history.history
 
     def evaluate(self, X_test, y_test):
         return self.model.evaluate(X_test, y_test)
@@ -250,11 +250,11 @@ class PredictionModel(Conv1DModel):
 
 
     def graph_history(self, metric='val_loss', title='Training Loss', xlabel='Epoch', ylabel='Mean Squared Error'):
-        assert self.history != None, 'Model must be fit before generating history graph.'
+        assert len(self.history) > 0, 'Model must be fit before generating history graph.'
 
         plt.clf()
         
-        historydf = pd.DataFrame(self.history.history, index=self.history.epoch)
+        historydf = pd.DataFrame(self.history)
         historydf.xs(metric, axis=1).plot()
 
         plt.title(title)

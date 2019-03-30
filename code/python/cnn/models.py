@@ -148,14 +148,14 @@ class Conv1DModel():
 class ClassificationModel(Conv1DModel):
     def __init__(self, input_shape=None, segment_length=None, step=None, n_output_classes=None, optimizer='adam', dropout=None, verbose=0, old_path=None):
         if old_path:
-            self.init_old(old_path)
+            self.restore(old_path)
         else:
-            self.init_new(input_shape, segment_length, step, n_output_classes, optimizer, dropout, verbose)
+            self.create(input_shape, segment_length, step, n_output_classes, optimizer, dropout, verbose)
 
-    def init_old(self, old_path):
+    def restore(self, old_path):
         super().__init__(old_path=old_path)
 
-    def init_new(self, input_shape, segment_length, step, n_output_classes, optimizer, dropout, verbose):
+    def create(self, input_shape, segment_length, step, n_output_classes, optimizer, dropout, verbose):
         identifier = f'Conv1D_{n_output_classes}'
 
         super().__init__(input_shape, segment_length, step, n_output_classes, 
@@ -184,14 +184,14 @@ class ClassificationModel(Conv1DModel):
 class PredictionModel(Conv1DModel):
     def __init__(self, input_shape=None, segment_length=None, step=None, optimizer='adam', learning_rate=None, verbose=0, old_path=None):
         if old_path:
-            self.init_old(old_path)
+            self.restore(old_path)
         else:
-            self.init_new(input_shape, segment_length, step, optimizer, learning_rate, verbose)
+            self.create(input_shape, segment_length, step, optimizer, learning_rate, verbose)
 
-    def init_old(self, old_path):
+    def restore(self, old_path):
         super().__init__(old_path=old_path)
 
-    def init_new(self, input_shape, segment_length, step, optimizer, learning_rate, verbose):
+    def create(self, input_shape, segment_length, step, optimizer, learning_rate, verbose):
         identifier = f'Conv1D_pred'
 
         super().__init__(input_shape, segment_length, step,

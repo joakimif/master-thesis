@@ -118,7 +118,8 @@ class Conv1DModel():
         self.add_callback(TensorBoard(log_dir=f'{self.directory}/logs'))
 
         if self.verbose:
-            print(f'TensorBoard activated. Remember to run `tensorboard --logdir=/{self.directory}/logs`.')
+            fullpath = os.path.join(os.path.abspath('.'), self.directory)
+            print(f'TensorBoard activated. Remember to run `tensorboard --logdir={fullpath}`.')
 
     def enable_checkpoints(self, monitor, save_best_only=False, save_weights_only=False, mode='auto', period=1):
         filename = save_best_only and 'best_model' or '{epoch:02d}-{val_loss:.2f}'

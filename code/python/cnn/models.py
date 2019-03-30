@@ -93,7 +93,6 @@ class Conv1DModel():
             'loss_function': self.loss_function,
             'metrics': self.metrics,
             'optimizer': self.optimizer,
-            'dropout': self.dropout,
             'verbose': self.verbose,
             'directory': self.directory
         }

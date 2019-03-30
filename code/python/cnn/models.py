@@ -20,12 +20,19 @@ from matplotlib import pyplot as plt
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
 RESULTS_DIR = '../results'
 
+losses = []
+
 def timestamp():
     return datetime.datetime.now().strftime("%m-%d-%YT%H:%M:%S")
 
-def save_epoch_number(epoch_num, directory):
+def save_epoch(epoch_num, logs, directory):
     with open(f'{directory}/epoch.txt', 'w') as f:
         f.write(str(epoch_num))
+
+    losses.append(logs.get('loss'))
+
+    df = pd.DataFrame(losses)
+    pd.to_csv(f'{directory}/history.txt')
 
 class Conv1DModel():
     history = None
@@ -91,12 +98,14 @@ class Conv1DModel():
 
         self.model = load_model(model_path)
 
-        if os.path.isfile(f'{self.directory}/epoch.txt'):
+        if os.path.isfile(f'{self.directory}/epoch.txt') and os.path.isfile(f'{self.directory}/history.txt'):
             with open(f'{self.directory}/epoch.txt', 'r') as f:
                 try:
                     self.epoch = int(f.read())+1
                 except: 
                     pass
+
+            self.history = pd.read_csv(f'{self.directory}/history.txt')
 
     def save_settings(self):
         settings = {
@@ -107,8 +116,7 @@ class Conv1DModel():
             'metrics': self.metrics,
             'optimizer': self.optimizer,
             'verbose': self.verbose,
-            'directory': self.directory,
-            'epoch': self.epoch
+            'directory': self.directory
         }
 
         with open(f'{self.directory}/settings.json', 'w') as f:
@@ -143,7 +151,7 @@ class Conv1DModel():
         
     def longterm(self, monitor):
         self.enable_checkpoints(monitor, save_best_only=True)
-        self.add_callback(LambdaCallback(on_epoch_end=lambda epoch, logs: save_epoch_number(epoch, self.directory)))
+        self.add_callback(LambdaCallback(on_epoch_end=lambda epoch, logs: save_epoch(epoch, logs, self.directory)))
 
     def fit(self, X, y, batch_size, epochs, validation_split=0.0, validation_data=None):
         self.history = self.model.fit(X, y, batch_size, epochs, 

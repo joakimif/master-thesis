@@ -1,3 +1,6 @@
+import numpy as np
+import pandas as pd
+
 from cnn.models import PredictionModel
 
 step = 60

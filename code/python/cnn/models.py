@@ -258,7 +258,7 @@ class PredictionModel(Conv1DModel):
             historydf = []
 
             for history_file in history_files:
-                historydf += open(history_file, 'r').readlines()
+                historydf += open(history_file, 'r').readlines()[1:]
 
             historydf = pd.DataFrame(historydf)
         else:
@@ -267,8 +267,8 @@ class PredictionModel(Conv1DModel):
             historydf = pd.DataFrame(self.history.history, index=self.history.epoch)
         
         print(historydf.head())
-        
-        historydf.xs(metric, axis=1).plot()
+
+        historydf.plot()
 
         plt.title(title)
         plt.xlabel(xlabel)

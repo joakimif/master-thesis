@@ -260,17 +260,14 @@ class PredictionModel(Conv1DModel):
             for history_file in history_files:
                 historydf += open(history_file, 'r').readlines()[1:]
 
-            historydf = pd.DataFrame(historydf)
+            historydf = pd.DataFrame(historydf, columns=['loss'])
             historydf = historydf.astype(float)
         else:
             assert self.history != None and self.history.history != None, 'Training data is needed before generating history graph.'
 
             historydf = pd.DataFrame(self.history.history, index=self.history.epoch)
-        
-        print(historydf)
 
-        historydf.plot()
-
+        historydf.plot(legend=None)
         plt.title(title)
         plt.xlabel(xlabel)
         plt.ylabel(ylabel)

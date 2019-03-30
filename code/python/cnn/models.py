@@ -261,12 +261,13 @@ class PredictionModel(Conv1DModel):
                 historydf += open(history_file, 'r').readlines()[1:]
 
             historydf = pd.DataFrame(historydf)
+            historydf = historydf.astype(float)
         else:
-            assert self.history != None and self.history.history != None, 'Model must be fit before generating history graph.'
+            assert self.history != None and self.history.history != None, 'Training data is needed before generating history graph.'
 
             historydf = pd.DataFrame(self.history.history, index=self.history.epoch)
         
-        print(historydf.head())
+        print(historydf)
 
         historydf.plot()
 

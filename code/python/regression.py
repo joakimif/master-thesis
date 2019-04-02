@@ -114,7 +114,7 @@ for res in results:
 axes.flat[-1].set_visible(False)
 
 plt.tight_layout()
-plt.savefig('../img/confusion_matrix/kerasregressor_grouped.png')
+plt.savefig('../img/confusion_matrix/kerasregressor_grouped.pdf')
 plt.clf()
 
 if not do_load:
@@ -124,4 +124,4 @@ if not do_load:
     historydf.xs('loss', axis=1, level='metric').plot(ylim=(0, 1))
     plt.xlabel('Epoch')
     plt.ylabel('Mean Squared Error')
-    plt.savefig(f'../img/results_kerasregressor_{epochs}_epochs_loss.png')
+    plt.savefig(f'../img/results_kerasregressor_{epochs}_epochs_loss.pdf')

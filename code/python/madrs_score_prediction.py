@@ -101,7 +101,7 @@ historydf.xs('mean_squared_error', axis=1).plot()
 plt.title('Training Loss')
 plt.xlabel('Epochs')
 plt.ylabel('Mean Squared Error')
-plt.savefig(f'../img/madrs_score_{identifier}_train.png')
+plt.savefig(f'../img/madrs_score_{identifier}_train.pdf')
 
 print(model.evaluate(X_test, y_test))
 
@@ -118,4 +118,4 @@ ax.set_xlabel('Correct')
 ax.set_ylabel('Predicted')
 
 plt.title('MADRS Score Prediction')
-plt.savefig(f'../img/madrs_score_{identifier}_pred.png')
+plt.savefig(f'../img/madrs_score_{identifier}_pred.pdf')

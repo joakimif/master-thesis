@@ -272,18 +272,23 @@ The optimizer comparison graph \ref{figure:madrs_prediction_optimizers} shows th
 \end{figure}
 
 \subsection{Training the model}
-To summarize, this model was trained to fit segments of length 48 hours (2880 minutes). It was trained with the optimizer Adam using a learning rate of 0.0001. 
-We did not change the batch size; we kept this at 16. We split the dataset into 60\% training data and 40\% testing data. Based on the time it took to train 
-each of the 100-epoch experiments, we calculated that we had time for 5000 epochs training it from the evening until the next morning. 
+To summarize, this model was trained to fit segments of length 48 hours (2880 minutes). It was trained with the optimizer Adam using a learning rate of 0.0001. We did not change the batch size; we kept this at 16. We split the dataset into 60\% training data and 40\% testing data. Based on the time it took to train each of the 100-epoch experiments, we calculated that around 2700 epochs of training would be realistic.
 
-When we checked for results the next day, we could see the training had resulted in a mean squared error of 3.24, and predictions on the test data 
-\ref{figure:madrs_prediction_testset} looked very promising. This graph shows correct MADRS scores in the x-axis and the predicted MADRS scores in the y-axis. 
-Each blue dot is a prediction, and the dotted black line is a linear guideline for the perfect predictions (where the predicted and correct scores are the same). 
+When we checked for results the next day, we could see the training had resulted in a mean squared error around 4 (on validation data). The training graph \ref{figure:madrs_prediction_history} shows that further training would not necessarily give any better results. Predictions on the test data \ref{figure:madrs_prediction_testset} looked very promising. The graph shows correct MADRS scores in the x-axis and the predicted MADRS scores in the y-axis. Each blue dot is a prediction, and the dotted black line is a linear guideline for the perfect predictions (where the predicted and correct scores are the same). 
 
 \begin{figure}
 \begin{center}
-      \includegraphics[height=8cm]{img/madrs_prediction/plot_testset.png}
+      \includegraphics[height=8cm]{img/madrs_prediction/train_history.pdf}
+      \caption{MADRS Prediction: Training History}
+      \label{figure:madrs_prediction_history}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+      \includegraphics[height=8cm]{img/madrs_prediction/predictions.pdf}
       \caption{Predicting MADRS Scores from test-set}
       \label{figure:madrs_prediction_testset}
 \end{center}
 \end{figure}
+

@@ -22,6 +22,6 @@ def heatmap():
     plt.ylabel("True Label")
     plt.xlabel("Predicted Label")
 
-    plt.savefig('seaborn.png')
+    plt.savefig('seaborn.svg')
 
 heatmap()

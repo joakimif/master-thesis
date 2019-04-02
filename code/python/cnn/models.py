@@ -248,7 +248,7 @@ class PredictionModel(Conv1DModel):
 
         self.compile()
 
-    def graph_history(self, metric='loss', title='Training Loss', xlabel='Epoch', ylabel='Mean Squared Error'):
+    def graph_history(self, metric='loss', title='Training Loss', xlabel='Epoch', ylabel='Mean Squared Error', filetype='png'):
         plt.clf()
         
         history_files = glob(f'{self.directory}/history/*.txt')
@@ -271,9 +271,9 @@ class PredictionModel(Conv1DModel):
         plt.xlabel(xlabel)
         plt.ylabel(ylabel)
 
-        plt.savefig(f'{self.directory}/img/train_history{timestamp()}.png')
+        plt.savefig(f'{self.directory}/img/train_history{timestamp()}.{filetype}')
 
-    def graph_predictions(self, X_test, y_test, title, xlabel='Correct', ylabel='Predicted'):
+    def graph_predictions(self, X_test, y_test, title, xlabel='Correct', ylabel='Predicted', filetype='png'):
         predictions = [x[0] for x in self.predict(X_test)]
 
         plt.clf()
@@ -285,4 +285,4 @@ class PredictionModel(Conv1DModel):
         ax.set_ylabel(ylabel)
 
         plt.title(title)
-        plt.savefig(f'{self.directory}/img/predictions.png')
+        plt.savefig(f'{self.directory}/img/predictions.{filetype}')

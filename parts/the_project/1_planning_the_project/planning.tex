@@ -113,11 +113,11 @@ To begin with, we will focus on one performance metric which is called accuracy.
 \end{table}
 
 \begin{figure}[h]
-  \setlength\figureheight{8cm}
-  \setlength\figurewidth{8cm}
-  \include{img/conf_matrix.tikz}
-  \caption{Confusion Matrix Example: Control vs. Condition group}
-  \label{figure:confusion_matrix_bipolar}
+  \begin{center}
+    \includegraphics[height=8cm]{img/conf_matrix.pdf}
+    \caption{Confusion Matrix Example: Control vs. Condition group}
+    \label{figure:confusion_matrix_bipolar}
+  \end{center}
 \end{figure}
 
 %\begin{table}[h]
@@ -136,7 +136,7 @@ To begin with, we will focus on one performance metric which is called accuracy.
 
 Table \ref{table:confusion_matrix} shows a \textit{confusion matrix}. It is a visual metric for classification models in machine learning and is the basis for the other performance metrics. It can tell how well our model is performing by having correlation values for the different classes. Let us say we have 200 samples in our test data to use on our model that classifies control vs. condition group. 
 
-A \textit{confusion matrix} for a good model would look like table \ref{figure:confusion_matrix_bipolar}, with high numbers in \textbf{True Positive} and \textbf{True Negative} and as low numbers as possible in \textbf{False Positive} and \textbf{False Negative}. Having a high number in \textbf{True Positive} means that the model can classify that a participant is in the condition group if he or she is, and having a high number in \textbf{True Negative} means that the model can classify that a participant is in the control group if this is the case. The other cases, \textbf{False Positive} and \textbf{False Negative}, is where the model made a wrong classification, and therefore as close these numbers are to zero the better our model is.
+A \textit{confusion matrix} for a good model would look like the figure above (\ref{figure:confusion_matrix_bipolar}), with high numbers in \textbf{True Positive} and \textbf{True Negative} and as low numbers as possible in \textbf{False Positive} and \textbf{False Negative}. Having a high number in \textbf{True Positive} means that the model can classify that a participant is in the condition group if he or she is, and having a high number in \textbf{True Negative} means that the model can classify that a participant is in the control group if this is the case. The other cases, \textbf{False Positive} and \textbf{False Negative}, is where the model made a wrong classification, and therefore as close these numbers are to zero the better our model is.
 
 \subsection{Accuracy}
 

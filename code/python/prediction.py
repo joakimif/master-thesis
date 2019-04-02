@@ -25,5 +25,5 @@ else:
 model.longterm('val_loss')
 model.enable_tensorboard()
 model.fit(X_train, y_train, batch_size, epochs, validation_split=0.4)
-model.graph_history()
-model.graph_predictions(X_test, y_test, title='MADRS Score Prediction')
+model.graph_history(filetype='pdf')
+model.graph_predictions(X_test, y_test, title='MADRS Score Prediction', filetype='pdf')

@@ -23,7 +23,7 @@ def heatmap():
     plt.ylabel("True Label")
     plt.xlabel("Predicted Label")
 
-    tikz_save('conf_matrix.tikz', figureheight='\\figureheight', figurewidth='\\figurewidth')
-    #plt.savefig('conf_matrix.png')
+    # tikz_save('conf_matrix.tikz', figureheight='\\figureheight', figurewidth='\\figurewidth')
+    plt.savefig('conf_matrix.pdf')
 
 heatmap()

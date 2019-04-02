@@ -251,7 +251,7 @@ class PredictionModel(Conv1DModel):
     def graph_history(self, metric='loss', title='Training Loss', xlabel='Epoch', ylabel='Mean Squared Error', filetype='png'):
         plt.clf()
         
-        history_files = glob(f'{self.directory}/history/*.txt')[::-1]
+        history_files = sorted(glob(f'{self.directory}/history/*.txt'), key=os.path.getmtime)
 
         if len(history_files) > 1:
             historydf = []

@@ -98,7 +98,7 @@ To begin with, we will focus on one performance metric which is called accuracy.
 
 \subsection{Confusion Matrix}
 
-\begin{table}
+\begin{table}[h]
   \begin{center}
     \begin{tabular}{| l | l | l | l |}
       \hline
@@ -112,19 +112,23 @@ To begin with, we will focus on one performance metric which is called accuracy.
   \end{center}
 \end{table}
 
-\begin{table}
-  \begin{center}
-    \begin{tabular}{| l | l | l | l |}
-      \hline
-                                      & \textbf{Actual: Control group} & \textbf{Actual: Condition} \\ \hline
-      \textbf{Predicted: Control group} & \textbf{95}                  & 5                        \\ \hline
-      \textbf{Predicted: Condition}     & 7                            & \textbf{93}              \\
-      \hline
-    \end{tabular}
-    \caption{Confusion Matrix Example: Control vs. Condition group}
-    \label{table:confusion_matrix_bipolar}
-  \end{center}
-\end{table}
+\begin{figure}[h]
+  %\includegraphics[height=8cm]{img/.png}
+\end{figure}
+
+%\begin{table}[h]
+%  \begin{center}
+%    \begin{tabular}{| l | l | l | l |}
+%      \hline
+%                                      & \textbf{Actual: Control group} & \textbf{Actual: Condition} \\ \hline
+%      \textbf{Predicted: Control group} & \textbf{95}                  & 5                        \\ \hline
+%      \textbf{Predicted: Condition}     & 7                            & \textbf{93}              \\
+%      \hline
+%    \end{tabular}
+%    \caption{Confusion Matrix Example: Control vs. Condition group}
+%    \label{table:confusion_matrix_bipolar}
+%  \end{center}
+%\end{table}
 
 Table \ref{table:confusion_matrix} shows a \textit{confusion matrix}. It is a visual metric for classification models in machine learning and is the basis for the other performance metrics. It can tell how well our model is performing by having correlation values for the different classes. Let us say we have 200 samples in our test data to use on our model that classifies control vs. condition group. 
 

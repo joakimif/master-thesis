@@ -98,7 +98,7 @@ To begin with, we will focus on one performance metric which is called accuracy.
 
 \subsection{Confusion Matrix}
 
-\begin{table}
+\begin{table}[h]
   \begin{center}
     \begin{tabular}{| l | l | l | l |}
       \hline
@@ -112,29 +112,37 @@ To begin with, we will focus on one performance metric which is called accuracy.
   \end{center}
 \end{table}
 
-\begin{table}
+\begin{figure}[h]
   \begin{center}
-    \begin{tabular}{| l | l | l | l |}
-      \hline
-                                      & \textbf{Actual: Control group} & \textbf{Actual: Condition} \\ \hline
-      \textbf{Predicted: Control group} & \textbf{95}                  & 5                        \\ \hline
-      \textbf{Predicted: Condition}     & 7                            & \textbf{93}              \\
-      \hline
-    \end{tabular}
+    \includegraphics[height=8cm]{img/conf_matrix.pdf}
     \caption{Confusion Matrix Example: Control vs. Condition group}
-    \label{table:confusion_matrix_bipolar}
+    \label{figure:confusion_matrix_bipolar}
   \end{center}
-\end{table}
+\end{figure}
+
+%\begin{table}[h]
+%  \begin{center}
+%    \begin{tabular}{| l | l | l | l |}
+%      \hline
+%                                      & \textbf{Actual: Control group} & \textbf{Actual: Condition} \\ \hline
+%      \textbf{Predicted: Control group} & \textbf{95}                  & 5                        \\ \hline
+%      \textbf{Predicted: Condition}     & 7                            & \textbf{93}              \\
+%      \hline
+%    \end{tabular}
+%    \caption{Confusion Matrix Example: Control vs. Condition group}
+%    \label{table:confusion_matrix_bipolar}
+%  \end{center}
+%\end{table}
 
 Table \ref{table:confusion_matrix} shows a \textit{confusion matrix}. It is a visual metric for classification models in machine learning and is the basis for the other performance metrics. It can tell how well our model is performing by having correlation values for the different classes. Let us say we have 200 samples in our test data to use on our model that classifies control vs. condition group. 
 
-A \textit{confusion matrix} for a good model would look like table \ref{table:confusion_matrix_bipolar}, with high numbers in \textbf{True Positive} and \textbf{True Negative} and as low numbers as possible in \textbf{False Positive} and \textbf{False Negative}. Having a high number in \textbf{True Positive} means that the model can classify that a participant is in the condition group if he or she is, and having a high number in \textbf{True Negative} means that the model can classify that a participant is in the control group if this is the case. The other cases, \textbf{False Positive} and \textbf{False Negative}, is where the model made a wrong classification, and therefore as close these numbers are to zero the better our model is.
+A \textit{confusion matrix} for a good model would look like the figure above (\ref{figure:confusion_matrix_bipolar}), with high numbers in \textbf{True Positive} and \textbf{True Negative} and as low numbers as possible in \textbf{False Positive} and \textbf{False Negative}. Having a high number in \textbf{True Positive} means that the model can classify that a participant is in the condition group if he or she is, and having a high number in \textbf{True Negative} means that the model can classify that a participant is in the control group if this is the case. The other cases, \textbf{False Positive} and \textbf{False Negative}, is where the model made a wrong classification, and therefore as close these numbers are to zero the better our model is.
 
 \subsection{Accuracy}
 
 \blockquote[\cite{ml_metrics}]{Accuracy is a good measure when the target variable classes in the data are nearly balanced.}
 
-When calculating the \textit{accuracy}, we sum up the correct predictions and divide that with the total number of predictions ($ \frac{TP + TN}{TP + TN + FN + FP} $). For our example (\ref{table:confusion_matrix_bipolar}), the \textit{accuracy} would be $ \frac{93 + 95}{93 + 95 + 5 + 7} = 94\% $. It is a good metric to use for our example because the number of samples for each variable class is well balanced ($ 93+5=98 $ samples where \textbf{condition group} was the correct option, and $ 7+95=102 $ samples where \textbf{control group} was correct).
+When calculating the \textit{accuracy}, we sum up the correct predictions and divide that with the total number of predictions ($ \frac{TP + TN}{TP + TN + FN + FP} $). For our example (\ref{figure:confusion_matrix_bipolar}), the \textit{accuracy} would be $ \frac{93 + 95}{93 + 95 + 5 + 7} = 94\% $. It is a good metric to use for our example because the number of samples for each variable class is well balanced ($ 93+5=98 $ samples where \textbf{condition group} was the correct option, and $ 7+95=102 $ samples where \textbf{control group} was correct).
 
 Terrible use of the \textit{accuracy} metric would be when one of the classes strongly dominates the samples. For example, if a model predicts \textbf{cancer} vs. \textbf{no cancer}, and the samples contain five people with cancer, and the 95 remaining people do not. The model would be terrible at predicting cancer and still have an accuracy score of $ 95\% $ \cite{ml_metrics}.
 
@@ -148,7 +156,7 @@ This performance metric is better to use on \textit{unbalanced} classes than acc
 
 \textit{Recall} is another useful performance metric. It tells us the relationship between \textbf{true positives} and \textbf{actual positives}, for example how many participants classified to be in the condition group there were among total participants in the condition group.
 
-The calculation of recall is done by dividing \textbf{true positives} by \textbf{true positives + false negatives} ($ \frac{TP}{TP+FN} $), which translates into $ \frac{93}{93+5} \approx 95\% $ for table \ref{table:confusion_matrix_bipolar}.
+The calculation of recall is done by dividing \textbf{true positives} by \textbf{true positives + false negatives} ($ \frac{TP}{TP+FN} $), which translates into $ \frac{93}{93+5} \approx 95\% $ (using the confusion matrix) \ref{figure:confusion_matrix_bipolar}.
 
 Choosing a metric to use from \textit{precision} or \textit{recall} depends on your goal. Try to achieve close to $ 100\% $ \textit{recall} if you want to reduce \textbf{false negatives}, and likewise with \textit{precision} if you want to reduce \textbf{false positives} \cite{ml_metrics}.
 
@@ -156,14 +164,14 @@ Choosing a metric to use from \textit{precision} or \textit{recall} depends on y
 
 As \textit{recall} operates on \textbf{actual positives}, \textit{specificity} is the exact opposite metric. It tells us the relationship between \textbf{true negatives} and \textbf{actual negatives}. So if your goal is to reduce \textbf{false positives}, specificity is a valid choice.
 
-\textit{Specificity} is calculated by dividing \textbf{true negatives} by \textbf{true negatives + false positives} ($ \frac{TN}{TN+FP} $). For table \ref{table:confusion_matrix_bipolar}, the \textit{specificity} score equals $ \frac{95}{95+7} \approx 93\% $.
+\textit{Specificity} is calculated by dividing \textbf{true negatives} by \textbf{true negatives + false positives} ($ \frac{TN}{TN+FP} $). For the confusion matrix \ref{figure:confusion_matrix_bipolar}, the \textit{specificity} score equals $ \frac{95}{95+7} \approx 93\% $.
 
 \subsection{F1 Score}
 
 The metrics that we have described in this section are all useful when determining whether our classification model is good enough. However, the relationship between \textit{recall} and \textit{precision} and knowing when to use which can be confusing, at least if the different classes are somewhere between entirely unbalanced and perfectly balanced (for example a 35\% split). 
 
 Therefore another metric called \textit{F1 Score} was created, which gives us a balanced value combining \textit{recall (R)} and \textit{precision (P)}. The basic idea is to return the \textit{mean} value of the two scores (F1 = $ \frac{P + R}{2} $), but that would not be balanced if one score is much lower than the other. F1 score actually uses something called \textit{harmonic mean} instead of the standard \textit{arithmetic mean}, and is calculated as $ 2 \cdot \frac{P \cdot R}{P + R} $ \cite{ml_metrics}. 
-Following this formula, the F1 score for confusion matrix \ref{table:confusion_matrix_bipolar} becomes:
+Following this formula, the F1 score for confusion matrix \ref{figure:confusion_matrix_bipolar} becomes:
 
 \[
   F1 = 2 \cdot \frac{P \cdot R}{P + R} = 2 \cdot \frac{0,93 \cdot 0,95}{0,93 + 0,95} \approx 94\%

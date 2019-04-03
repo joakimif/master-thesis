@@ -1,12 +1,13 @@
 import numpy as np
 import seaborn as sns
 from matplotlib import pyplot as plt
+from matplotlib2tikz import save as tikz_save
 
 def heatmap():
-    true_positive = 1337
-    false_positive = 200
-    true_negative = 777
-    false_negative = 99
+    true_positive = 95
+    false_positive = 7
+    true_negative = 93
+    false_negative = 5
     
     matrix = np.array([[true_positive, false_negative], [false_positive, true_negative]])
     plt.figure(figsize=(6, 4))
@@ -22,6 +23,7 @@ def heatmap():
     plt.ylabel("True Label")
     plt.xlabel("Predicted Label")
 
-    plt.savefig('seaborn.png')
+    # tikz_save('conf_matrix.tikz', figureheight='\\figureheight', figurewidth='\\figurewidth')
+    plt.savefig('conf_matrix.pdf')
 
 heatmap()

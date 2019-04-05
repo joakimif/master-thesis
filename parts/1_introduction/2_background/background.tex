@@ -1,5 +1,3 @@
-%%%%%% BACKGROUND %%%%%%
-\newpage
 \section{Depression}
 \subsection{Bipolar Disorder}
 
@@ -250,4 +248,16 @@ The second part includes sensor data about the condition group and control group
 
 \section{Related work}
 
+In the field of Mental Health Monitoring Systems (MHMS), research has already been done by many. In this section, we will describe a few papers that are of importance to this thesis, namely those about depression/bipolar disorder, who also applied machine learning to their study. 
 
+E. Garcia-Ceja et al. surveyed some of the recent research works in machine learning for MHMS \cite{GarciaCeja2018_survey}. They gave the different works labels: study type (association/detection/forecasting), study duration (short-term or long term), and sensor types (wearable/external/software or social media). 
+
+Association studies were those who help understand the relationships between variables, and the methods include linear regression, correlation analysis, t-tests and analysis of variance. Detection studies have a goal to detect/recognize mental state, often using methods like classification models. Forecast studies aim to predict events about patients, for example, epileptic seizures. The wearable sensor types include smart-watches and smartphones, external sensors could, for example, be cameras or microphones installed in an institution where the participants were patients. Some studies, where the sensor type was software or social media used services like Instagram to collect their data \cite{GarciaCeja2018_survey}. 
+
+To find relevant work for this thesis, we had a look into some of the studies included, which studied depression and bipolar disorder. One study by O'Brien, J.T. et al. was an association study about depression, where the participants wore accelerometers on their wrists. Twenty-nine adults with depression and 30 healthy adults participated, and the goal was to study the possibility that physical activity has an impact on depression (referred to as Late Life Depressions in the paper). They found that the physical activity of participants with LLDs was significantly lower \cite{obrien_depression}, which is highly relevant for this thesis because our dataset contains physical activity data. 
+
+Grünerbl, A. et al. had a detection type study about bipolar disorder. The participants consisted of ten bipolar patients in Austria between 18 and 65 years old. In this study, the recorded data was phone calls and microphone data and achieved an average recognition accuracy of 76\% and precision and recall of over 97\% of bipolar state detection. They also used the accelerometer and GPS as input data and achieved a recognition accuracy of 70\% (accelerometer) and 80\% (GPS) \cite{grunerbl_smartphone_bipolar}.
+
+In a study by Maxhuni, A. et al., they used the same participants as the previous example. The difference was that in addition to using accelerometer and microphone data, they introduced questionnaires to the participants. For the results, they applied different machine learning algorithms, and their best average accuracy was 85.57\% \cite{maxhuni2016}.
+
+Faurholt-Jepsen, M. et al. had an association type study about bipolar disorder. The participants were 29 bipolar patients, and actions on their smartphones like daily usage, the number of incoming calls, the number of text messages sent and received. They found correlations between the mental state of the patients and the recorded information. \cite{faurholt_smartphone_bipolar}

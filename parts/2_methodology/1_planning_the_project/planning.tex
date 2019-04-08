@@ -98,45 +98,17 @@ To begin with, we will focus on one performance metric which is called accuracy.
 
 \subsection{Confusion Matrix}
 
-\begin{table}[h]
-  \begin{center}
-    \begin{tabular}{| l | l | l | l |}
-      \hline
-                                    & \textbf{Actual: Negative} & \textbf{Actual: Positive} \\ \hline
-      \textbf{Predicted: Negative}  & True Negative (TN)        & False Negative (FN)       \\ \hline
-      \textbf{Predicted: Positive}  & False Positive (FP)       & True Positive (TP)        \\
-      \hline
-    \end{tabular}
-    \caption{Confusion Matrix}
-    \label{table:confusion_matrix}
-  \end{center}
-\end{table}
-
 \begin{figure}[h]
   \begin{center}
     \includegraphics[height=8cm]{img/conf_matrix.pdf}
-    \caption{Confusion Matrix Example: Control vs. Condition group}
+    \caption{Confusion Matrix Example}
     \label{figure:confusion_matrix_bipolar}
   \end{center}
 \end{figure}
 
-%\begin{table}[h]
-%  \begin{center}
-%    \begin{tabular}{| l | l | l | l |}
-%      \hline
-%                                      & \textbf{Actual: Control group} & \textbf{Actual: Condition} \\ \hline
-%      \textbf{Predicted: Control group} & \textbf{95}                  & 5                        \\ \hline
-%      \textbf{Predicted: Condition}     & 7                            & \textbf{93}              \\
-%      \hline
-%    \end{tabular}
-%    \caption{Confusion Matrix Example: Control vs. Condition group}
-%    \label{table:confusion_matrix_bipolar}
-%  \end{center}
-%\end{table}
+Figure \ref{figure:confusion_matrix_bipolar} shows a \textit{confusion matrix}. It is a visual metric for classification models in machine learning and is the basis for the other performance metrics. It can tell how well our model is performing by having correlation values for the different classes. Let us say we have 200 samples in our test data to use on our model that classifies control vs. condition group. 
 
-Table \ref{table:confusion_matrix} shows a \textit{confusion matrix}. It is a visual metric for classification models in machine learning and is the basis for the other performance metrics. It can tell how well our model is performing by having correlation values for the different classes. Let us say we have 200 samples in our test data to use on our model that classifies control vs. condition group. 
-
-A \textit{confusion matrix} for a good model would look like the figure above (\ref{figure:confusion_matrix_bipolar}), with high numbers in \textbf{True Positive} and \textbf{True Negative} and as low numbers as possible in \textbf{False Positive} and \textbf{False Negative}. Having a high number in \textbf{True Positive} means that the model can classify that a participant is in the condition group if he or she is, and having a high number in \textbf{True Negative} means that the model can classify that a participant is in the control group if this is the case. The other cases, \textbf{False Positive} and \textbf{False Negative}, is where the model made a wrong classification, and therefore as close these numbers are to zero the better our model is.
+A \textit{confusion matrix} for a good model would look like figure \ref{figure:confusion_matrix_bipolar}, with high numbers in \textbf{True Positive} and \textbf{True Negative} and as low numbers as possible in \textbf{False Positive} and \textbf{False Negative}. Having a high number in \textbf{True Positive} means that the model can classify that a participant is in the condition group if he or she is, and having a high number in \textbf{True Negative} means that the model can classify that a participant is in the control group if this is the case. The other cases, \textbf{False Positive} and \textbf{False Negative}, is where the model made a wrong classification, and therefore as close these numbers are to zero the better our model is.
 
 \subsection{Accuracy}
 
@@ -162,9 +134,7 @@ Choosing a metric to use from \textit{precision} or \textit{recall} depends on y
 
 \subsection{Specificity}
 
-As \textit{recall} operates on \textbf{actual positives}, \textit{specificity} is the exact opposite metric. It tells us the relationship between \textbf{true negatives} and \textbf{actual negatives}. So if your goal is to reduce \textbf{false positives}, specificity is a valid choice.
-
-\textit{Specificity} is calculated by dividing \textbf{true negatives} by \textbf{true negatives + false positives} ($ \frac{TN}{TN+FP} $). For the confusion matrix \ref{figure:confusion_matrix_bipolar}, the \textit{specificity} score equals $ \frac{95}{95+7} \approx 93\% $.
+As \textit{recall} operates on \textbf{actual positives}, \textit{specificity} is the exact opposite metric. It tells us the relationship between \textbf{true negatives} and \textbf{actual negatives}. So if your goal is to reduce \textbf{false positives}, specificity is a valid choice. \textit{Specificity} is calculated by dividing \textbf{true negatives} by \textbf{true negatives + false positives} ($ \frac{TN}{TN+FP} $). For the confusion matrix \ref{figure:confusion_matrix_bipolar}, the \textit{specificity} score equals $ \frac{95}{95+7} \approx 93\% $.
 
 \subsection{F1 Score}
 
@@ -183,7 +153,8 @@ A machine learning framework for Python, \textit{sklearn}, includes a package wi
 
 \input{code/tex/sklearn_metrics}
 
-\begin{table}
+\begin{table}[h]
+\begin{center}
   \begin{tabular}{| l | l | l | l | l |}
     \hline
                   & precision & recall  & f1-score & support \\ \hline
@@ -196,8 +167,9 @@ A machine learning framework for Python, \textit{sklearn}, includes a package wi
     weighted avg  & 0.60      & 0.60    & 0.60     & 5       \\
     \hline
   \end{tabular}
-  \caption{Classification Report}
+  \caption{\textit{Classification Report from sklearn. It shows precision, recall and F1-score for each class.}}
   \label{table:classification_report}
+\end{center}
 \end{table}
 
 The classification report returns a matrix (see table \ref{table:classification_report}) with \textit{precision}, \textit{recall}, \textit{F1 score} and another column called \textit{support} (simply how many samples of data there are for this class). The rows describe each class used for prediction \cite{sklearn_classification_report}.

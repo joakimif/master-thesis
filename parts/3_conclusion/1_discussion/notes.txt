@@ -1,0 +1,5 @@
+- 1-d convnet can definitely be used to classify/predict depression
+- data from more participants necessary
+- compare to earlier classifications
+- usecases:
+    - 

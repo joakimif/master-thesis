@@ -81,11 +81,10 @@ Following their \textit{30 seconds to Keras} guide \cite{keras_docs}, you can c
 layers, configure its learning process (compile), then fit, train, evaluate and predict with just a few lines of code \ref{code:keras-guide}.
 
 \input{code/tex/keras_guide}
+
 One thing that Keras does not make any easier is structuring the dataset so that the model can fit it. There is a high chance that we have to write some 
 code ourselves to do this. Numpy is a package for Python built for math operations where everything happens optimally (Python by itself adds overhead to everything). 
 All machine learning assumes that the input data is Numpy arrays, so experience with Numpy can be advantageous when structuring the dataset.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Machine learning strategies}
 Picking the right machine learning model can be quite tricky, especially if inexperienced. There are a couple of different \textit{strategies} one can choose 
@@ -115,8 +114,6 @@ Now, we may not always want to use one of the strategies above. Looking at the d
 Semi-supervised learning comes in handy when this is the case. For example, if we have many data samples to label in our dataset, it can be simply too much work. 
 We will not go deep into details about how this works, but it is important to mention it because of its usefulness.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \section{Machine learning approaches}
 When we know whether we want to use supervised learning, unsupervised learning or something in between, we need to select an approach. We call them 
 approaches because we use these regardless of the strategy that we end up using; most of them (except for reinforcement learning) work in both 
@@ -145,7 +142,7 @@ these is essential for the quality of the prediction.
             7    & 12 C                 & Sun                & Medium             & Medium            & Yes \\
     \hline
     \end{tabular}
-    \caption{Training data set: days a person went out for a run}
+    \caption{Example training data set: days a person went out for a run}
     \label{table:days_running}
 \end{table}
 
@@ -183,7 +180,7 @@ to the output layer where we perform an activation function to define the output
 \begin{figure}[h]
     \begin{center}
         \includegraphics[height=10cm]{neural_net.png}
-        \caption{Neural network}
+        \caption{\textit{Neural network visualization. The inputs on the left side are passed into the neurons in the hidden layer in the middle, which passes the values to the output layer.}}
         \label{figure:neural_net}
     \end{center}
 \end{figure}
@@ -212,7 +209,7 @@ Using machine learning in this field of study could help many people get through
 \begin{figure}
     \begin{center}
         \includegraphics[height=3.5cm]{img/demographics.png}
-        \caption{Demographics about participants (5 first rows)}
+        \caption{\textit{5 first rows in demographic dataset (scores.csv).}}
         \label{figure:demographics}
     \end{center}
 \end{figure}
@@ -220,7 +217,7 @@ Using machine learning in this field of study could help many people get through
 \begin{figure}
     \begin{center}
         \includegraphics[height=3.5cm]{img/participant.png}
-        \caption{Activity measurements (5 first rows)}
+        \caption{\textit{5 first rows in activity measurements dataset for one participant (condition\_1.csv).}}
         \label{figure:participant_activity}
     \end{center}
 \end{figure}
@@ -248,6 +245,7 @@ The second part includes sensor data about the condition group and control group
 
 \section{Related work}
 
+\subsection{Mental Health}
 In the field of Mental Health Monitoring Systems (MHMS), research has already been done by many. In this section, we will describe a few papers that are of importance to this thesis, namely those about depression/bipolar disorder, who also applied machine learning to their study. 
 
 E. Garcia-Ceja et al. surveyed some of the recent research works in machine learning for MHMS \cite{GarciaCeja2018_survey}. They gave the different works labels: study type (association/detection/forecasting), study duration (short-term or long term), and sensor types (wearable/external/software or social media). 
@@ -261,3 +259,19 @@ Grünerbl, A. et al. had a detection type study about bipolar disorder. The part
 In a study by Maxhuni, A. et al., they used the same participants as the previous example. The difference was that in addition to using accelerometer and microphone data, they introduced questionnaires to the participants. For the results, they applied different machine learning algorithms, and their best average accuracy was 85.57\% \cite{maxhuni2016}.
 
 Faurholt-Jepsen, M. et al. had an association type study about bipolar disorder. The participants were 29 bipolar patients, and actions on their smartphones like daily usage, the number of incoming calls, the number of text messages sent and received. They found correlations between the mental state of the patients and the recorded information. \cite{faurholt_smartphone_bipolar}
+
+Andrew G. et al. applied machine learning to photos posted on Instagram. They had 166 participants, who posted a total of 43,950 photos. By extracting statistical features using colors analysis, metadata and face detection, they achieved models that outperformed the average practitioner's success rate when diagnosing depression (70\% of all depressed cases identified) \cite{instagram_depression}. Research on social media usage in the field of mental health is interesting because, for many, those are the platforms that they use to express their feelings. 
+
+Mowery, D. et al. did another study based on social media, but instead of Instagram, they used Twitter. For a tweet, they classified whether or not it contained evidence of depression, and there was evidence of depression, they classified one of three symptoms (mood, disturbed sleep or loss of energy). The features they extracted from each tweet included \textbf{syntax} (usage of first/third person pronouns), \textbf{emoticons} usage (happy/sad), and \textbf{sentiment} (whether the text was subjective/objective and positive/negative). They achieved the best performance when classifying that a tweet had no evidence of depression, and their other models performed significantly worse \cite{twitter_depression}. 
+
+The authors of the paper mentioned first surveying different machine learning research in MHMS, Garcia-Ceja, E. et al., also released a paper on motor activity based classification of depression in unipolar/bipolar patients. They applied machine learning for classifying depressed/nondepressed participants using Random Forest and a deep neural network (DNN). The dataset is the same as we used here in this thesis which we described in the previous section, and they achieved an F1-score of 0.73 with Random Forest and 0.7 with the DNN. Since one of our goals is to do the same classification as this paper, it was necessary to mention. 
+
+\subsection{Convolutional Neural Networks}
+
+In most of the papers previously mentioned, the complexity of the machine learning models has not been the area of focus, but rather comparing different simple algorithms like decision trees and Naïve Bayes. A study by Kiranyaz, S. et al. used a 1-d convolutional neural network on real-time patient-specific ECG (electrocardiogram) classification \cite{ecg_1d_conv}. While this paper is not in the field of mental health, we found exploring how others have created convolutional neural networks essential for us when building our models. 
+
+Kiranyaz, S. et al. achieved superior classification performance comparing it to most of the state-of-the-art methods, and concluded with the fact that after training a CNN dedicated to a patient, it can be solely responsible for classifying their ECG records \cite{ecg_1d_conv}. 
+
+Human activity recognition (HAR) is another field of study where machine learning has shown its value. Ronao, C. A. et al. presented a deep convolutional network for classifying human activity (walking, sitting, standing and laying) based on a 1-d time-series of measurements from smartphone sensors \cite{ronao_har_conv}. The accuracy they achieved on their test set (95.75\%) outperformed the previous state-of-the-art models. 
+
+The usage of convolutional networks is, of course, not limited to the medical field. Ince, T. et al. published a paper on real-time motor fault detection using a 1-d CNN. They used raw signal data as input to the model, and a model that only has to be trained once for each motor they achieved an accuracy of detecting motor faults above 97\% \cite{motor_fault_conv}.

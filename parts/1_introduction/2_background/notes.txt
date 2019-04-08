@@ -36,8 +36,8 @@
 - Maxhuni, A. et al.
 	- Detection - bipolar disorder
    	- 12 weeks
-    	- Wearable (smartphone) - accelerometer, microphone, questionnaires
-    	- 10 bipolar patients (18-68 years)
+	- Wearable (smartphone) - accelerometer, microphone, questionnaires
+	- 10 bipolar patients (18-68 years)
 	- 85% classification accuracy with Bagging
 
 - Andrew G. et al.

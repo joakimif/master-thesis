@@ -29,9 +29,11 @@ When testing the model, we wanted to achieve an accuracy of 100\% when using the
 \subsection{Convolution}
 
 \begin{figure}[h]
+\begin{center}
     \includegraphics[height=2.5cm]{img/feature_detector.png}
-    \caption{Feature Detector / Filter "sliding" over input data}
+    \caption{\textit{Feature Detector / Filter "sliding" over input data}}
     \label{figure:feature_detector}
+\end{center}
 \end{figure}
 
 \noindent The main ingredient in a CNN is the \textit{convolutional} layer. It is responsible for the convolution, which in mathematics is a function derived from two given functions by integration which expresses how the shape of one is modified by the other \cite{convolution_definition}. 
@@ -97,7 +99,7 @@ We compile this model with the loss function \textit{Mean Squared Error}, which 
   \begin{center}
     \begin{tabular}{| l | l |}
       \hline
-      \textbf{Not bipolar} & \textbf{Bipolar}  \\ \hline
+      \textbf{Control group} & \textbf{Condition group}  \\ \hline
       0                    &  1                \\ \hline
       1                    &  0                \\ \hline
       0                    &  1                \\ \hline
@@ -107,7 +109,7 @@ We compile this model with the loss function \textit{Mean Squared Error}, which 
       0                    &  1                \\ \hline
       1                    &  0                \\ \hline
     \end{tabular}
-    \caption{Categorical Labels}
+    \caption{\textit{Categorical Labels. A 0 and a 1 (first row) means that the participant is in the condition group.}}
     \label{table:categorical_labels}
   \end{center}
 \end{table}
@@ -148,9 +150,6 @@ After calling the function \ref{code:sklearn_train_test_split}, you end up with 
 
 \begin{figure}
 \begin{code}
-    \caption{Sklearn train and test split}
-    \label{code:sklearn_train_test_split}
-    
     \begin{minted}[linenos]{python}
 from sklearn.model_selection import train_test_split
 
@@ -158,6 +157,8 @@ X_train, X_test, y_train, y_test = train_test_split(segments,
                                                     labels, 
                                                     test_size=0.4)
     \end{minted}
+    \caption{\textit{Sklearn train and test split. After calling this function we end up with training and testing sets for both inputs and outputs.}}
+    \label{code:sklearn_train_test_split}
 \end{code}
 \end{figure}
 
@@ -167,10 +168,7 @@ Another option is to use something called \textit{K-fold cross-validation}. It w
 \newpage
 
 \begin{figure}
-\begin{code}
-    \caption{Sklearn K-Fold}
-    \label{code:sklearn_k_fold}
-    
+\begin{code}    
     \begin{minted}[linenos]{python}
     from sklearn.model_selection import StratifiedKFold
 
@@ -189,6 +187,8 @@ Another option is to use something called \textit{K-fold cross-validation}. It w
         # do something with results...
 
     \end{minted}
+    \caption{\textit{Sklearn StratifiedKFold. The dataset is split in 3 parts (n\_splits on line 5), then training and evaluation happens for each of the parts.}}
+    \label{code:sklearn_k_fold}
 \end{code}
 \end{figure}
 

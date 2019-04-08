@@ -1,7 +1,4 @@
 \begin{code}
-  \caption{1D CNN Model for Classification}
-  \label{code:1d_conv_net_classifier}
-  
   \begin{minted}[linenos]{python}
   def create_classification_model(segment_length, output_layers):
     model = Sequential()
@@ -22,12 +19,11 @@
 
     return model
   \end{minted}
+  \caption{\textit{1D CNN Model for Classification. A total of four convolutional layers together with pooling compiled with Categorical Crossentropy enables the model to classify.}}
+  \label{code:1d_conv_net_classifier}
 \end{code}
 
 \begin{code}
-  \caption{1D CNN Model for Prediction}
-  \label{code:1d_conv_net_predictor}
-  
   \begin{minted}[linenos]{python}
   def create_prediction_model(segment_length):
     model = Sequential()
@@ -47,4 +43,6 @@
 
     return model
   \end{minted}
+  \caption{1D CNN Model for Prediction}
+  \label{code:1d_conv_net_predictor}
 \end{code}

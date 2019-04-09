@@ -41,7 +41,46 @@ As we followed the tutorial and implemented the model, we learned a lot about ho
 
 We also got some ideas about where our dataset could provide more data. What if the dataset containing the current mental state of the bipolar patient? Then someone could make some automated system that always can tell a patient whether they are not depressed, manic or depressive. However data collection for this kind of task would be difficult because we cannot always know what the patient thinks, nor does the patient. The tutorial dataset is different because it is easy to differentiate physical states of the body like standing or walking.
 
-\section{Preparing Input Data}
+\section{The dataset}
+
+\begin{figure}
+    \begin{center}
+        \includegraphics[height=3.5cm]{img/demographics.png}
+        \caption{\textit{5 first rows in demographic dataset (scores.csv).}}
+        \label{figure:demographics}
+    \end{center}
+\end{figure}
+
+\begin{figure}
+    \begin{center}
+        \includegraphics[height=3.5cm]{img/participant.png}
+        \caption{\textit{5 first rows in activity measurements dataset for one participant (condition\_1.csv).}}
+        \label{figure:participant_activity}
+    \end{center}
+\end{figure}
+
+The dataset we will use in this project \cite{dataset} was collected for another study for motor activity in schizophrenia and major depression. With the data about schizophrenia stripped out, the dataset is sufficient for this thesis. It contains activity level data for 23 bipolar patients, one unipolar patient, and 32 non-depressed contributors. From now on, we will refer to the bipolar/unipolar group as the \textit{condition group}, and the non-depressed group as the \textit{control group}. The dataset details \cite{dataset_details} also follows this convention.
+
+The dataset is in two parts. One part includes the demographics of each participant \ref{figure:demographics}, where the fields are \cite{dataset_details}:
+
+\begin{itemize}
+    \item \textbf{number}: a unique id for each participant
+    \item \textbf{days}: number of days of activity data collection 
+    \item \textbf{gender}: 1 for female and 2 for male
+    \item \textbf{age}: participant's age (grouped by four years)
+    \item \textbf{afftype}: affliction type, where 1 is for bipolar type II, 2 equals unipolar depressive, and 3 for participants with bipolar type I
+    \item \textbf{melanch}: 1 means a participant has melancholia, 2 means no melancholia
+    \item \textbf{inpatient}: whether the patient is inpatient (1) or outpatient (2)
+    \item \textbf{edu}: participant's education in years (grouped by four years)
+    \item \textbf{marriage}: married or cohabiting (1) or single (2)
+    \item \textbf{work}: whether the participant is working or studying (1) or not (2)
+    \item \textbf{madrs1}: MADRS score before activity measurement started
+    \item \textbf{madrs2}: MADRS score after activity measurements ended
+\end{itemize}
+
+The second part includes sensor data about the condition group and control group, as one file for each participant \ref{figure:participant_activity}. These files are in two folders for the two groups (control/condition) respectively, and one file for each person inside the folders (filename is "GROUP\_X.csv" where X is their id and GROUP is either condition or control. Inside the files, there is a list of activity measurements for every minute of the data collection period.
+
+\section{Data Preprocessing}
 
 \subsection{Input data}
 
@@ -90,18 +129,64 @@ Instead of classifying one of three or one of two classes which we have done ear
 
 \textbf{scores[i] = [18]}
 
+\subsection{Creating Segments and Labels}
+\textit{create\_segments\_and\_labels()} \ref{code:reading_dataset} was responsible of creating the data that is sent into the neural network. We started by defining a \textit{segment length} $L$, which is how much data (minutes) we want inside each segment. We will experiment with the value of $L$, but let's say we use segments of 4 hours at a time ($L=4*60=240$). Next, we need a value for how many values to step after each iteration, $S$. We will keep this value at one hour, meaning $S=60$. Between the different goals, this function will only be different in how it determines the output values. The code in the Source Code section \ref{code:reading_dataset} is simplified to only generate input and output for classifying control/condition groups (goal one).
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{| l | l |}
+      \hline
+      \textbf{Control group} & \textbf{Condition group}  \\ \hline
+      0                    &  1                \\ \hline
+      1                    &  0                \\ \hline
+      0                    &  1                \\ \hline
+      1                    &  0                \\ \hline
+      1                    &  0                \\ \hline
+      0                    &  1                \\ \hline
+      0                    &  1                \\ \hline
+      1                    &  0                \\ \hline
+    \end{tabular}
+    \caption{\textit{Categorical Labels. A 0 and a 1 (first row) means that the participant is in the condition group.}}
+    \label{table:categorical_labels}
+  \end{center}
+\end{table}
+
+\begin{itemize}
+      \item First we read the \textit{global} dataset, where we find each participant and whether they are bipolar or not. As there is no \textit{afftype} value
+            for non-bipolar participants, we simply set this to 0. This is fine because the other possible values are 1, 2 and 3.
+      \item Then we iterate over all participant activity data files:
+
+      \begin{itemize}
+        \item Append a \textbf{segment} that is of length $L$ to the list of segments (using default parameters in the
+              \textit{create\_segments\_and\_labels} function \ref{code:reading_dataset}).
+        \item Append the target value for the current goal, so:
+          \begin{itemize}
+                \item Append a $1$ or $0$ for classifying control/condition group.
+                \item Append a $0$, $1$ or $2$ for classifying depression class \\(normal/mild/moderate).
+                \item Append the MADRS score (after measurement period) when the goal is to predict MADRS score.
+          \end{itemize}  
+        \item Skip $S$ indexes, and repeat until we have added all segments.
+      \end{itemize}
+
+      \item Make the list of labels into a \textit{categorical} 2D matrix \ref{table:categorical_labels} with a \textbf{1} in only one of the columns,
+            instead of a single-dimensional list.
+            This is only needed in the first two goals, for the \textbf{softmax} activation function.
+      \item Also we need the list of segments to be restructured. We do this with the \textbf{reshape} function, 
+            and after this, the data is ready to be passed into the neural network.
+\end{itemize}
+
 \section{Performance Metrics}
 
 When finishing with a training session for a machine learning model, we need to use different metrics to be able to tell how the model performed based on some testing data. For prediction models, we only consider the loss, but evaluating classification models happens differently. 
 
-To begin with, we will focus on one performance metric which is called accuracy. This one makes sense to the human brain; telling a friend that has no experience in machine learning or data science that we have made our computer able to classify something with 98\% accuracy is something that they would understand. Other metrics include \textit{confusion matrix}, \textit{precision}, \textit{Recall}, \textit{specificity} and \textit{F1 score}, which will be described below.
+To begin with, we will focus on one performance metric which is called accuracy. This one makes sense to the human brain; telling a friend that has no experience in machine learning or data science that we have made our computer able to classify something with 98\% accuracy is something that they would understand. Other metrics include \textit{confusion matrix}, \textit{precision}, \textit{recall}, \textit{specificity} and \textit{F1 score}, which will be described below.
 
 \subsection{Confusion Matrix}
 
 \begin{figure}[h]
   \begin{center}
     \includegraphics[height=8cm]{img/conf_matrix.pdf}
-    \caption{Confusion Matrix Example}
+    \caption{\textit{Confusion Matrix Example: 95 True Positives, 93 True Negatives, 7 False Positives and 5 False Negatives}}
     \label{figure:confusion_matrix_bipolar}
   \end{center}
 \end{figure}

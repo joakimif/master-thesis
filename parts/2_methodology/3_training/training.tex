@@ -160,7 +160,7 @@ To make this process quick, we trained the model for each fold only for ten epoc
 
 \section{1D CNN: Depression Classes}
 
-\begin{figure}
+\begin{figure}[h]
       \begin{multicols}{2}
             \includegraphics[height=5cm]{img/depression_class/plot_acc_train.png}
             \includegraphics[height=5cm]{img/depression_class/plot_loss_train.png}
@@ -172,7 +172,7 @@ To make this process quick, we trained the model for each fold only for ten epoc
       \label{figure:depression_class_50e}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[h]
       \includegraphics[height=8cm]{img/depression_class/conf_5760_60_50_32.png}
       \caption{50 epochs for 96 hour segments}
       \label{figure:depression_class_confusion_matrix_96h}
@@ -191,13 +191,7 @@ We experimented the same way as before, except that we went straight for 50 epoc
 
 \subsection{Cross-validation}
 
-To make sure this was not just lucky, we needed to cross-validate here as well. We split the dataset into a training and testing set (80\%/20\%), then did three-fold cross-validation on the training set, just as before. If all three folds had similar accuracy and loss, and the mean values were good (close to 1.0 for accuracy and close to zero for loss), we had achieved a consistent model, and the model would be fit perfectly, at least for the 55 participants in the dataset. 
-
-We trained the three models for 15 epochs each. We knew that was not enough to give us 100\% accuracy (need around 50 epochs for that), but we aimed for somewhere around 98-99\% for all folds. Looking at the cross-validation results \ref{table:depression_class_cv}, we can see that the lowest accuracy was 98,5\% and the highest was 99,8\%. The mean accuracy for all three folds was 99\%, which is what we wanted to see. 
-
-The model is indeed perfect for classifying depression classes, at least for all the participants in the dataset. We know that the model will not classify with 100\% accuracy on data outside the participants in the dataset since 55 persons cannot possibly tell everything about human activity behavior, but we will go more in-depth on this later.
-
-\begin{figure}
+\begin{figure}[h]
 \begin{center}
       \begin{tabular}{|l|l|l|}
             \hline
@@ -212,6 +206,12 @@ The model is indeed perfect for classifying depression classes, at least for all
       \label{table:depression_class_cv}
 \end{center}
 \end{figure}
+
+To make sure this was not just lucky, we needed to cross-validate here as well. We split the dataset into a training and testing set (80\%/20\%), then did three-fold cross-validation on the training set, just as before. If all three folds had similar accuracy and loss, and the mean values were good (close to 1.0 for accuracy and close to zero for loss), we had achieved a consistent model, and the model would be fit perfectly, at least for the 55 participants in the dataset. 
+
+We trained the three models for 15 epochs each. We knew that was not enough to give us 100\% accuracy (need around 50 epochs for that), but we aimed for somewhere around 98-99\% for all folds. Looking at the cross-validation results \ref{table:depression_class_cv}, we can see that the lowest accuracy was 98,5\% and the highest was 99,8\%. The mean accuracy for all three folds was 99\%, which is what we wanted to see. 
+
+The model is indeed perfect for classifying depression classes, at least for all the participants in the dataset. We know that the model will not classify with 100\% accuracy on data outside the participants in the dataset since 55 persons cannot possibly tell everything about human activity behavior, but we will go more in-depth on this later.
 
 \section{1D CNN: MADRS Score Prediction}
 Now that we have models for classifying both whether a participant belongs to the control group or the condition group and how depressed participants are, we can get started on our last goal which is predicting the MADRS score of our participants. 

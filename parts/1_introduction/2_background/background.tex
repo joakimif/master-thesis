@@ -204,45 +204,6 @@ The use of machine learning in the medical fields is growing exponentially. Ther
 
 Using machine learning in this field of study could help many people get through their depression or mania, and potentially get rid of the condition altogether.
 
-\section{The dataset}
-
-\begin{figure}
-    \begin{center}
-        \includegraphics[height=3.5cm]{img/demographics.png}
-        \caption{\textit{5 first rows in demographic dataset (scores.csv).}}
-        \label{figure:demographics}
-    \end{center}
-\end{figure}
-
-\begin{figure}
-    \begin{center}
-        \includegraphics[height=3.5cm]{img/participant.png}
-        \caption{\textit{5 first rows in activity measurements dataset for one participant (condition\_1.csv).}}
-        \label{figure:participant_activity}
-    \end{center}
-\end{figure}
-
-The dataset we will use in this project \cite{dataset} was collected for another study for motor activity in schizophrenia and major depression. With the data about schizophrenia stripped out, the dataset is sufficient for this thesis. It contains activity level data for 23 bipolar patients, one unipolar patient, and 32 non-depressed contributors. From now on, we will refer to the bipolar/unipolar group as the \textit{condition group}, and the non-depressed group as the \textit{control group}. The dataset details \cite{dataset_details} also follows this convention.
-
-The dataset is in two parts. One part includes the demographics of each participant \ref{figure:demographics}, where the fields are \cite{dataset_details}:
-
-\begin{itemize}
-    \item \textbf{number}: a unique id for each participant
-    \item \textbf{days}: number of days of activity data collection 
-    \item \textbf{gender}: 1 for female and 2 for male
-    \item \textbf{age}: participant's age (grouped by four years)
-    \item \textbf{afftype}: affliction type, where 1 is for bipolar type II, 2 equals unipolar depressive, and 3 for participants with bipolar type I
-    \item \textbf{melanch}: 1 means a participant has melancholia, 2 means no melancholia
-    \item \textbf{inpatient}: whether the patient is inpatient (1) or outpatient (2)
-    \item \textbf{edu}: participant's education in years (grouped by four years)
-    \item \textbf{marriage}: married or cohabiting (1) or single (2)
-    \item \textbf{work}: whether the participant is working or studying (1) or not (2)
-    \item \textbf{madrs1}: MADRS score before activity measurement started
-    \item \textbf{madrs2}: MADRS score after activity measurements ended
-\end{itemize}
-
-The second part includes sensor data about the condition group and control group, as one file for each participant \ref{figure:participant_activity}. These files are in two folders for the two groups (control/condition) respectively, and one file for each person inside the folders (filename is "GROUP\_X.csv" where X is their id and GROUP is either condition or control. Inside the files, there is a list of activity measurements for every minute of the data collection period.
-
 \section{Related work}
 
 \subsection{Mental Health}
@@ -264,7 +225,7 @@ Andrew G. et al. applied machine learning to photos posted on Instagram. They ha
 
 Mowery, D. et al. did another study based on social media, but instead of Instagram, they used Twitter. For a tweet, they classified whether or not it contained evidence of depression, and there was evidence of depression, they classified one of three symptoms (mood, disturbed sleep or loss of energy). The features they extracted from each tweet included \textbf{syntax} (usage of first/third person pronouns), \textbf{emoticons} usage (happy/sad), and \textbf{sentiment} (whether the text was subjective/objective and positive/negative). They achieved the best performance when classifying that a tweet had no evidence of depression, and their other models performed significantly worse \cite{twitter_depression}. 
 
-The authors of the paper mentioned first surveying different machine learning research in MHMS, Garcia-Ceja, E. et al., also released a paper on motor activity based classification of depression in unipolar/bipolar patients. They applied machine learning for classifying depressed/nondepressed participants using Random Forest and a deep neural network (DNN). The dataset is the same as we used here in this thesis which we described in the previous section, and they achieved an F1-score of 0.73 with Random Forest and 0.7 with the DNN. Since one of our goals is to do the same classification as this paper, it was necessary to mention. 
+The authors of the paper mentioned first surveying different machine learning research in MHMS, Garcia-Ceja, E. et al., also released a paper on motor activity based classification of depression in unipolar/bipolar patients. They applied machine learning for classifying depressed/nondepressed participants using Random Forest and a deep neural network (DNN). The dataset is the same as we used here in this thesis (described in detail in the next chapter), and they achieved an F1-score of 0.73 with Random Forest and 0.7 with the DNN. Since one of our goals is to do the same classification as this paper, it worth mentioning.
 
 \subsection{Convolutional Neural Networks}
 

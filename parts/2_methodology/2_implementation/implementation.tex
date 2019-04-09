@@ -1,5 +1,3 @@
-%\[B\](.*?)\[/B\] => \\textbf{$1}
-
 \section{Regression}
 
 Regression is used a lot in statistics, where its primary purpose is to predict a target value based on independent predictors and is useful to find cause and effect relationships between variables \cite{linear_regression_ml}. One experiment that might be interesting is to perform linear regression on some of the columns in the demographics dataset \ref{figure:demographics}, in order to see whether there are columns that tell more about the participant's group (control or condition).  
@@ -93,52 +91,6 @@ To make the model work for our third goal, where we will predict the actual valu
 \end{enumerate}
 
 We compile this model with the loss function \textit{Mean Squared Error}, which is measured as the average (mean) of squared difference between predictions and actual observations ($ loss = \frac{\sum_{i=1}^{n}(y_i-\hat{y}_i)^2}{n} $) \cite{loss_functions}. The optimizer is the same as before.
-
-\subsection{Creating Input and Output Data}
-\begin{table}
-  \begin{center}
-    \begin{tabular}{| l | l |}
-      \hline
-      \textbf{Control group} & \textbf{Condition group}  \\ \hline
-      0                    &  1                \\ \hline
-      1                    &  0                \\ \hline
-      0                    &  1                \\ \hline
-      1                    &  0                \\ \hline
-      1                    &  0                \\ \hline
-      0                    &  1                \\ \hline
-      0                    &  1                \\ \hline
-      1                    &  0                \\ \hline
-    \end{tabular}
-    \caption{\textit{Categorical Labels. A 0 and a 1 (first row) means that the participant is in the condition group.}}
-    \label{table:categorical_labels}
-  \end{center}
-\end{table}
-
-One function (\textit{create\_segments\_and\_labels()} \ref{code:reading_dataset}) is responsible of creating the data that is sent into the neural network. We start by defining a \textit{segment length} $L$, which is how much data (minutes) we want inside each segment. We will experiment with the value of $L$, but let's say we use segments of 4 hours at a time ($L=4*60=240$). Next, we need a value for how many values to step after each iteration, $S$. We will keep this value at one hour, meaning $S=60$. Between the different goals, this function will only be different in how it determines the output values. The code in the Source Code section \ref{code:reading_dataset} is simplified to only generate input and output for classifying control/condition groups (goal one).
-
-\begin{itemize}
-      \item First we read the \textit{global} dataset, where we find each participant and whether they are bipolar or not. As there is no \textit{afftype} value
-            for non-bipolar participants, we simply set this to 0. This is fine because the other possible values are 1, 2 and 3.
-      \item Then we iterate over all participant activity data files:
-
-      \begin{itemize}
-        \item Append a \textbf{segment} that is of length $L$ to the list of segments (using default parameters in the
-              \textit{create\_segments\_and\_labels} function \ref{code:reading_dataset}).
-        \item Append the target value for the current goal, so:
-          \begin{itemize}
-                \item Append a $1$ or $0$ for classifying control/condition group.
-                \item Append a $0$, $1$ or $2$ for classifying depression class \\(normal/mild/moderate).
-                \item Append the MADRS score (after measurement period) when the goal is to predict MADRS score.
-          \end{itemize}  
-        \item Skip $S$ indexes, and repeat until we have added all segments.
-      \end{itemize}
-
-      \item Make the list of labels into a \textit{categorical} 2D matrix \ref{table:categorical_labels} with a \textbf{1} in only one of the columns,
-            instead of a single-dimensional list.
-            This is only needed in the first two goals, for the \textbf{softmax} activation function.
-      \item Also we need the list of segments to be restructured. We do this with the \textbf{reshape} function, 
-            and after this, the data is ready to be passed into the neural network.
-\end{itemize}
 
 \subsection{Train and test data}
 We did one last step before we started training the model. We needed to split the data ion two parts; training and test data. This way we can calculate the performance of the model after training has finished, and also prevent overfitting by evaluating data that is unseen to the model. 

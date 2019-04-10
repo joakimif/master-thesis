@@ -173,10 +173,13 @@ class Conv1DModel():
         return self.model.predict(X_test)
 
     def majority_voting_prediction(self, X_test):
-        _max = list(np.argmax(self.predict(X_test), axis=1))
+        votes = list(np.argmax(self.predict(X_test), axis=1))
+        most_voted = max(set(votes), key=votes.count)
 
-        most_voted = max(set(_max), key=_max.count)
-        return most_voted, _max.count(most_voted), len(_max)
+        return most_voted, votes.count(most_voted), len(votes)
+    
+    def clear(self):
+        self.model = None
 
 
 class ClassificationModel(Conv1DModel):

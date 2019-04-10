@@ -25,8 +25,6 @@ for i in range(0, 56):
     model.fit(segments, labels, batch_size, epochs)
     prediction = model.majority_voting_prediction(left_out_segments)
 
-    #print(f'Prediction: {prediction[0]} (votes: {prediction[1]}/{prediction[2]})')
-    #print('Correct:', left_out_group)
     print(f'{i+1},{left_out_group},{prediction[0]},{prediction[1]},{prediction[2]}')
 
-    del model
+    model.clear()

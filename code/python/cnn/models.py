@@ -204,7 +204,7 @@ class ClassificationModel(Conv1DModel):
         if dropout:
             self.add(Dropout(dropout))
         
-        self.add(Dense(output_classes, activation='softmax'))
+        self.add(Dense(n_output_classes, activation='softmax'))
 
         self.compile()
 

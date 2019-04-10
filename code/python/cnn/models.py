@@ -169,11 +169,14 @@ class Conv1DModel():
     def evaluate(self, X_test, y_test):
         return self.model.evaluate(X_test, y_test)
 
-    def predict(self, X_test, do_arg_max=False):
-        if do_arg_max:
-            return np.argmax(self.model.predict(X_test), axis=1)
-            
+    def predict(self, X_test):
         return self.model.predict(X_test)
+
+    def majority_voting_prediction(self, X_test):
+        _max = np.argmax(self.predict(X_test), axis=1)
+
+        most_voted = max(set(_max), key=_max.count)
+        return most_voted, _max.count(most_voted) 
 
 
 class ClassificationModel(Conv1DModel):

@@ -14,8 +14,7 @@ def create_segments_and_labels_loo(dataset_dir, segment_length, step, n_output_c
     labels = []
 
     left_out_segments = []
-    left_out_labels = []
-    left_out_id = None
+    left_out_correct = []
 
     r = random.randint(0, len(scores['number']))
 
@@ -25,23 +24,19 @@ def create_segments_and_labels_loo(dataset_dir, segment_length, step, n_output_c
         df_activity = pd.read_csv(filepath)
 
         if i == r:
-            left_out_id = p['number']
+            left_out_correct = p['afftype'] == 0 and 0 or 1
 
         for j in range(0, len(df_activity) - segment_length, step):
             segment = df_activity['activity'].values[j : j + segment_length]
             
             if i == r:
                 left_out_segments.append([segment])
-                left_out_labels.append(p['afftype'].values[0] == 0 and 0 or 1)
             else:
                 segments.append([segment])
                 labels.append(p['afftype'].values[0] == 0 and 0 or 1)
 
     labels = np.asarray(labels).astype('float32')
-    left_out_labels = np.asarray(left_out_labels).astype('float32')
-    
     labels = to_categorical(labels, n_output_classes)
-    left_out_labels = to_categorical(left_out_labels, n_output_classes)
 
     segments = np.asarray(segments).reshape(-1, segment_length, 1)
     left_out_segments = np.asarray(left_out_segments).reshape(-1, segment_length, 1)
@@ -52,7 +47,7 @@ def create_segments_and_labels_loo(dataset_dir, segment_length, step, n_output_c
     segments = segments.reshape(segments.shape[0], input_shape).astype('float32')
     left_out_segments = left_out_segments.reshape(left_out_segments.shape[0], input_shape).astype('float32')
     
-    return segments, labels, left_out_segments, left_out_labels, input_shape
+    return segments, labels, left_out_segments, left_out_correct, input_shape
 
 
 def create_segments_and_labels(dataset_dir, segment_length, step, n_output_classes=2):

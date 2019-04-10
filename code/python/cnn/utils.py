@@ -50,6 +50,7 @@ def create_segments_and_labels_loo(dataset_dir, segment_length, step, n_output_c
     input_shape = num_time_periods * num_sensors
 
     segments = segments.reshape(segments.shape[0], input_shape).astype('float32')
+    left_out_segments = left_out_segments.reshape(left_out_segments.shape[0], input_shape).astype('float32')
     
     return segments, labels, left_out_segments, left_out_labels, input_shape
 

@@ -169,7 +169,10 @@ class Conv1DModel():
     def evaluate(self, X_test, y_test):
         return self.model.evaluate(X_test, y_test)
 
-    def predict(self, X_test):
+    def predict(self, X_test, do_arg_max=False):
+        if do_arg_max:
+            return np.argmax(self.model.predict(X_test), axis=1)
+            
         return self.model.predict(X_test)
 
 

@@ -18,5 +18,5 @@ model = ClassificationModel(input_shape=input_shape, segment_length=segment_leng
 
 model.fit(segments, labels, batch_size, epochs)
 
-print(model.predict(left_out_segments))
+print(model.predict(left_out_segments, do_arg_max=True))
 print('Correct:', left_out_labels[0])

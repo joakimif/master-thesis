@@ -12,7 +12,7 @@ from parse_args import *
 
 DATASET_DIR = '../datasets'
 
-print('Correct,Prediction,Votes,Total')
+print('Participant,Correct,Prediction,Votes,Total')
 
 for i in range(0, 56):
     segments, labels, left_out_segments, left_out_group, input_shape = create_segments_and_labels_loo(DATASET_DIR, segment_length, step, leave_out_id=i)
@@ -23,4 +23,4 @@ for i in range(0, 56):
 
     #print(f'Prediction: {prediction[0]} (votes: {prediction[1]}/{prediction[2]})')
     #print('Correct:', left_out_group)
-    print(f'{left_out_group},{prediction[0]},{prediction[1]},{prediction[2]}')
+    print(f'{i+1},{left_out_group},{prediction[0]},{prediction[1]},{prediction[2]}')

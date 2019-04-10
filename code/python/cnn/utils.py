@@ -6,7 +6,7 @@ import pandas as pd
 
 from tensorflow.keras.utils import to_categorical
 
-def create_segments_and_labels_loo(dataset_dir, segment_length, step, n_output_classes=2):
+def create_segments_and_labels_loo(dataset_dir, segment_length, step, n_output_classes=2, leave_out_id=None):
     scores = pd.read_csv(os.path.join(dataset_dir, 'scores.csv'))
     scores['afftype'].fillna(0, inplace=True)
     
@@ -16,20 +16,21 @@ def create_segments_and_labels_loo(dataset_dir, segment_length, step, n_output_c
     left_out_segments = []
     left_out_correct = []
 
-    r = random.randint(0, len(scores['number']))
+    if leave_out_id == None:
+        leave_out_id = random.randint(0, len(scores['number']))
 
     for i, person in enumerate(scores['number']):
         p = scores[scores['number'] == person]
         filepath = os.path.join(dataset_dir, person.split('_')[0], f'{person}.csv')
         df_activity = pd.read_csv(filepath)
 
-        if i == r:
+        if i == leave_out_id:
             left_out_correct = p['afftype'].values[0] == 0 and 0 or 1
 
         for j in range(0, len(df_activity) - segment_length, step):
             segment = df_activity['activity'].values[j : j + segment_length]
             
-            if i == r:
+            if i == leave_out_id:
                 left_out_segments.append([segment])
             else:
                 segments.append([segment])

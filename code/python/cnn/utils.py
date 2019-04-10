@@ -4,7 +4,7 @@ import random
 import numpy as np
 import pandas as pd
 
-def create_segments_and_labels_loo(dataset_dir, segment_length, step):
+def create_segments_and_labels_loo(dataset_dir, segment_length, step, n_output_classes=2):
     scores = pd.read_csv(os.path.join(dataset_dir, 'scores.csv'))
     scores['afftype'].fillna(0, inplace=True)
     
@@ -37,6 +37,9 @@ def create_segments_and_labels_loo(dataset_dir, segment_length, step):
 
     labels = np.asarray(labels).astype('float32')
     left_out_labels = np.asarray(left_out_labels).astype('float32')
+    
+    labels = to_categorical(labels, n_output_classes)
+    left_out_labels = to_categorical(left_out_labels, n_output_classes)
 
     segments = np.asarray(segments).reshape(-1, segment_length, 1)
     left_out_segments = np.asarray(left_out_segments).reshape(-1, segment_length, 1)
@@ -49,7 +52,7 @@ def create_segments_and_labels_loo(dataset_dir, segment_length, step):
     return segments, labels, left_out_segments, left_out_labels, input_shape
 
 
-def create_segments_and_labels(dataset_dir, segment_length, step):
+def create_segments_and_labels(dataset_dir, segment_length, step, n_output_classes=2):
     scores = pd.read_csv(os.path.join(dataset_dir, 'scores.csv'))
     scores['afftype'].fillna(0, inplace=True)
     
@@ -71,6 +74,7 @@ def create_segments_and_labels(dataset_dir, segment_length, step):
                 labels.append(1)
 
     labels = np.asarray(labels).astype('float32')
+    labels = to_categorical(labels, n_output_classes)
     
     segments = np.asarray(segments).reshape(-1, segment_length, 1)
 

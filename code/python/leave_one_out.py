@@ -26,5 +26,3 @@ for i in range(0, 56):
     prediction = model.majority_voting_prediction(left_out_segments)
 
     print(f'{i+1},{left_out_group},{prediction[0]},{prediction[1]},{prediction[2]}')
-
-    model.clear()

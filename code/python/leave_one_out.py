@@ -17,6 +17,7 @@ DATASET_DIR = '../datasets'
 print('Participant,Correct,Prediction,Votes,Total,Confidence')
 
 start_i = 0
+N = 55
 
 loo_results_filepath = 'leave_one_out_predictions.txt'
 loo_filepath = 'leave_one_out.txt'
@@ -25,7 +26,12 @@ if os.path.isfile(loo_filepath):
     with open(loo_filepath, 'r') as f:
         start_i = int(f.read())+1
 
-for i in range(start_i, 55):
+_range = range(start_i, N)
+
+if '--reversed' in sys.argv:
+    _range = reversed(_range)
+
+for i in _range:
     print(f'Leaving out {i}')
 
     segments, labels, left_out_segments, left_out_group, input_shape = create_segments_and_labels_loo(DATASET_DIR, segment_length, step, leave_out_id=i)

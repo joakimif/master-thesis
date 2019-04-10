@@ -18,7 +18,7 @@ print('Participant,Correct,Prediction,Votes,Total')
 
 for i in range(0, 56):
     K.clear_session()
-    model = None
+    del model
     
     segments, labels, left_out_segments, left_out_group, input_shape = create_segments_and_labels_loo(DATASET_DIR, segment_length, step, leave_out_id=i)
 

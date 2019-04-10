@@ -25,7 +25,10 @@ def create_segments_and_labels_loo(dataset_dir, segment_length, step, n_output_c
         df_activity = pd.read_csv(filepath)
 
         if i == leave_out_id:
-            left_out_correct = p['afftype'].values[0] == 0 and 0 or 1
+            if p['afftype'].values[0] == 0:
+                left_out_correct = 0
+            else:
+                left_out_correct = 1
 
         for j in range(0, len(df_activity) - segment_length, step):
             segment = df_activity['activity'].values[j : j + segment_length]
@@ -34,8 +37,11 @@ def create_segments_and_labels_loo(dataset_dir, segment_length, step, n_output_c
                 left_out_segments.append([segment])
             else:
                 segments.append([segment])
-                print(p['afftype'].values[0])
-                labels.append(p['afftype'].values[0] == 0 and 0 or 1)
+                
+                if p['afftype'].values[0] == 0: 
+                    labels.append(0)
+                else:
+                    labels.append(1)
 
     labels = np.asarray(labels).astype('float32')
     labels = to_categorical(labels, n_output_classes)

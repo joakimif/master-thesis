@@ -4,6 +4,8 @@ import random
 import numpy as np
 import pandas as pd
 
+from tensorflow.keras.utils import to_categorical
+
 def create_segments_and_labels_loo(dataset_dir, segment_length, step, n_output_classes=2):
     scores = pd.read_csv(os.path.join(dataset_dir, 'scores.csv'))
     scores['afftype'].fillna(0, inplace=True)

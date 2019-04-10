@@ -18,5 +18,6 @@ model = ClassificationModel(input_shape=input_shape, segment_length=segment_leng
 
 model.fit(segments, labels, batch_size, epochs)
 
-print(model.majority_voting_prediction(left_out_segments))
+prediction = model.majority_voting_prediction(left_out_segments)
+print(f'Prediction: {prediction[0]} (votes: {prediction[1]}/{prediction[2]})')
 print('Correct:', left_out_group)

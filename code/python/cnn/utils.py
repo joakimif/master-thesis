@@ -24,7 +24,7 @@ def create_segments_and_labels_loo(dataset_dir, segment_length, step, n_output_c
         df_activity = pd.read_csv(filepath)
 
         if i == r:
-            left_out_correct = p['afftype'] == 0 and 0 or 1
+            left_out_correct = p['afftype'].values[0] == 0 and 0 or 1
 
         for j in range(0, len(df_activity) - segment_length, step):
             segment = df_activity['activity'].values[j : j + segment_length]

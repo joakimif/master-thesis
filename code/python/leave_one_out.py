@@ -5,7 +5,7 @@ import random
 import numpy as np
 import pandas as pd
 
-#from cnn.models import ClassificationModel
+from cnn.models import ClassificationModel
 from cnn.utils import create_segments_and_labels_loo
 
 from parse_args import *

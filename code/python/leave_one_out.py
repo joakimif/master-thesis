@@ -18,7 +18,6 @@ print('Participant,Correct,Prediction,Votes,Total')
 
 for i in range(0, 56):
     K.clear_session()
-    del model
     
     segments, labels, left_out_segments, left_out_group, input_shape = create_segments_and_labels_loo(DATASET_DIR, segment_length, step, leave_out_id=i)
 
@@ -29,3 +28,5 @@ for i in range(0, 56):
     #print(f'Prediction: {prediction[0]} (votes: {prediction[1]}/{prediction[2]})')
     #print('Correct:', left_out_group)
     print(f'{i+1},{left_out_group},{prediction[0]},{prediction[1]},{prediction[2]}')
+
+    del model

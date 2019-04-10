@@ -34,7 +34,7 @@ for i in range(start_i, 55):
     prediction = model.majority_voting_prediction(left_out_segments)
 
     with open(loo_results_filepath, 'a') as f:
-        f.write(f'{i+1},{left_out_group},{prediction[0]},{prediction[1]},{prediction[2]}')
+        f.write(f'{i+1},{left_out_group},{prediction[0]},{prediction[1]},{prediction[2]}\n')
 
     with open(loo_filepath, 'w') as f:
         f.write(str(i))

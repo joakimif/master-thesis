@@ -34,6 +34,7 @@ def create_segments_and_labels_loo(dataset_dir, segment_length, step, n_output_c
                 left_out_segments.append([segment])
             else:
                 segments.append([segment])
+                print(p['afftype'].values[0])
                 labels.append(p['afftype'].values[0] == 0 and 0 or 1)
 
     labels = np.asarray(labels).astype('float32')

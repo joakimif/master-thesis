@@ -96,10 +96,15 @@ def create_segments_and_labels_madrs_loo(dataset_dir, segment_length, step, n_ou
             else:
                 segments.append([segment])
 
+                f = False
                 for i in range(classes):
                     if p['madrs2'].values[0] >= MADRS_VALUES[classes - i - 1]:
                         labels.append(classes - i - 1)
+                        f = True
                         break
+
+                if f == False:
+                    print(p)
     
     
     labels = np.asarray(labels).astype('float32')

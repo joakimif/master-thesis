@@ -87,9 +87,7 @@ def create_segments_and_labels_madrs_loo(dataset_dir, segment_length, step, n_ou
                 p_label = classes - i - 1
                 break
 
-        if p_label == None:
-            print('Could not get target label:', p)
-            exit()
+        assert p_label != None, f'Could not get target label: {p}'
 
         # For the participant that we are leaving out
         if i == leave_out_id:
@@ -104,6 +102,8 @@ def create_segments_and_labels_madrs_loo(dataset_dir, segment_length, step, n_ou
             else:
                 segments.append([segment])
                 labels.append(p_label)
+
+    assert left_out_correct != None, 'Did not set left_out_correct'
     
     labels = np.asarray(labels).astype('float32')
     labels = to_categorical(labels, n_output_classes)

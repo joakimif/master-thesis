@@ -82,9 +82,9 @@ def create_segments_and_labels_madrs_loo(dataset_dir, segment_length, step, n_ou
 
         p_label = None
 
-        for i in range(classes):
-            if p['madrs2'].values[0] >= MADRS_VALUES[classes - i - 1]:
-                p_label = classes - i - 1
+        for j in range(classes):
+            if p['madrs2'].values[0] >= MADRS_VALUES[classes - j - 1]:
+                p_label = classes - j - 1
                 break
 
         assert p_label != None, f'Could not get target label: {p}'
@@ -103,7 +103,7 @@ def create_segments_and_labels_madrs_loo(dataset_dir, segment_length, step, n_ou
                 segments.append([segment])
                 labels.append(p_label)
 
-    assert left_out_correct != None, f'Did not set left_out_correct for participant {leave_out_id}'
+    assert left_out_correct != None and len(left_out_segments) > 0, f'Did not set data for left out participant {leave_out_id}'
     
     labels = np.asarray(labels).astype('float32')
     labels = to_categorical(labels, n_output_classes)

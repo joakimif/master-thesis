@@ -216,7 +216,6 @@ class ClassificationModel(Conv1DModel):
 
     def majority_voting_prediction(self, X_test):
             pred = self.predict(X_test)
-            print(pred)
             votes = list(np.argmax(pred, axis=1))
             most_voted = max(set(votes), key=votes.count)
 

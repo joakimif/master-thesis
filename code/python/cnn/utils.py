@@ -103,7 +103,7 @@ def create_segments_and_labels_madrs_loo(dataset_dir, segment_length, step, n_ou
                 segments.append([segment])
                 labels.append(p_label)
 
-    assert left_out_correct != None, 'Did not set left_out_correct'
+    assert left_out_correct != None, f'Did not set left_out_correct for participant {leave_out_id}'
     
     labels = np.asarray(labels).astype('float32')
     labels = to_categorical(labels, n_output_classes)

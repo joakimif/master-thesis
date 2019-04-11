@@ -64,7 +64,7 @@ def create_segments_and_labels_loo(dataset_dir, segment_length, step, n_output_c
 
 def create_segments_and_labels_madrs_loo(dataset_dir, segment_length, step, n_output_classes=3, leave_out_id=None):
     scores = pd.read_csv(os.path.join(dataset_dir, 'scores.csv'))
-    scores['afftype'].fillna(0, inplace=True)
+    scores['madrs2'].fillna(0, inplace=True)
     
     segments = []
     labels = []

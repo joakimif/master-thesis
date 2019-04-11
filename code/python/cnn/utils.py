@@ -70,7 +70,7 @@ def create_segments_and_labels_madrs_loo(dataset_dir, segment_length, step, n_ou
     labels = []
 
     left_out_segments = []
-    left_out_correct = []
+    left_out_correct = None
 
     if leave_out_id == None:
         leave_out_id = random.randint(0, len(scores['number']))
@@ -80,12 +80,20 @@ def create_segments_and_labels_madrs_loo(dataset_dir, segment_length, step, n_ou
         filepath = os.path.join(dataset_dir, person.split('_')[0], f'{person}.csv')
         df_activity = pd.read_csv(filepath)
 
+        p_label = None
+
+        for i in range(classes):
+            if p['madrs2'].values[0] >= MADRS_VALUES[classes - i - 1]:
+                p_label = classes - i - 1
+                break
+
+        if p_label == None:
+            print(p)
+            exit()
+
         # For the participant that we are leaving out
         if i == leave_out_id:
-            for i in range(classes):
-                if p['madrs2'].values[0] >= MADRS_VALUES[classes - i - 1]:
-                    left_out_correct = classes - i - 1
-                    break
+            left_out_correct = p_label
 
         for j in range(0, len(df_activity) - segment_length, step):
             segment = df_activity['activity'].values[j : j + segment_length]
@@ -95,17 +103,7 @@ def create_segments_and_labels_madrs_loo(dataset_dir, segment_length, step, n_ou
                 left_out_segments.append([segment])
             else:
                 segments.append([segment])
-
-                f = False
-                for i in range(classes):
-                    if p['madrs2'].values[0] >= MADRS_VALUES[classes - i - 1]:
-                        labels.append(classes - i - 1)
-                        f = True
-                        break
-
-                if f == False:
-                    print(p)
-    
+                labels.append(p_label)
     
     labels = np.asarray(labels).astype('float32')
     labels = to_categorical(labels, n_output_classes)

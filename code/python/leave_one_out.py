@@ -8,7 +8,7 @@ import pandas as pd
 from tensorflow.keras import backend as K
 
 from cnn.models import ClassificationModel
-from cnn.utils import create_segments_and_labels_loo
+from cnn.utils import create_segments_and_labels_loo, create_segments_and_labels_madrs_loo
 
 from parse_args import *
 
@@ -34,8 +34,8 @@ if '--reversed' in sys.argv:
 for i in _range:
     print(f'Leaving out {i}')
 
-    segments, labels, left_out_segments, left_out_group, input_shape = create_segments_and_labels_loo(DATASET_DIR, segment_length, step, leave_out_id=i)
-    model = ClassificationModel(input_shape=input_shape, segment_length=segment_length, step=step, optimizer=optimizer, verbose=verbose, dropout=0.5, n_output_classes=2)
+    segments, labels, left_out_segments, left_out_group, input_shape = create_segments_and_labels_madrs_loo(DATASET_DIR, segment_length, step, leave_out_id=i)
+    model = ClassificationModel(input_shape=input_shape, segment_length=segment_length, step=step, optimizer=optimizer, verbose=verbose, dropout=0.5, n_output_classes=3)
     model.fit(segments, labels, batch_size, epochs)
     prediction = model.majority_voting_prediction(left_out_segments)
 

@@ -175,13 +175,6 @@ class Conv1DModel():
     def predict(self, X_test):
         return self.model.predict(X_test)
 
-    def majority_voting_prediction(self, X_test):
-        pred = self.predict(X_test)
-        votes = list(np.argmax(pred, axis=1))
-        most_voted = max(set(votes), key=votes.count)
-
-        return most_voted, votes.count(most_voted), len(votes)
-    
     def clear(self):
         self.model = None
 
@@ -221,6 +214,14 @@ class ClassificationModel(Conv1DModel):
 
         self.compile()
 
+    def majority_voting_prediction(self, X_test):
+            pred = self.predict(X_test)
+            print(pred)
+            votes = list(np.argmax(pred, axis=1))
+            most_voted = max(set(votes), key=votes.count)
+
+            return most_voted, votes.count(most_voted), len(votes)
+        
 
 class PredictionModel(Conv1DModel):
     def __init__(self, input_shape=None, segment_length=None, step=None, optimizer='adam', learning_rate=None, verbose=0, old_path=None):

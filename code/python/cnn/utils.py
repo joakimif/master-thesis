@@ -82,12 +82,12 @@ def create_segments_and_labels_madrs_loo(dataset_dir, segment_length, step, n_ou
 
         # For the participant that we are leaving out
         if i == leave_out_id:
-            madrs = p['madrs2'].values[0]
-
             for i in range(classes):
-                if madrs >= MADRS_VALUES[classes - i - 1]:
+                if p['madrs2'].values[0] >= MADRS_VALUES[classes - i - 1]:
                     left_out_correct = classes - i - 1
                     break
+
+            print('Left out class:', left_out_correct)
 
         for j in range(0, len(df_activity) - segment_length, step):
             segment = df_activity['activity'].values[j : j + segment_length]
@@ -98,10 +98,8 @@ def create_segments_and_labels_madrs_loo(dataset_dir, segment_length, step, n_ou
             else:
                 segments.append([segment])
 
-                madrs = p['madrs2'].values[0]
-
                 for i in range(classes):
-                    if madrs >= MADRS_VALUES[classes - i - 1]:
+                    if p['madrs2'].values[0] >= MADRS_VALUES[classes - i - 1]:
                         labels.append(classes - i - 1)
                         break
     

@@ -3,13 +3,16 @@ import pandas as pd
 
 from heatmap import heatmap
 
-df = pd.read_csv('leave_one_out_predictions.txt', names=['Participant','Correct','Prediction','Votes','Total','Confidence'])
+df = pd.read_csv('../logs/control_vs_condition/leave_one_out_predictions.txt', names=['Participant','Correct','Prediction','Votes','Total','Confidence'])
 
-true_positives = len(df.query('Correct == 1 and Prediction == 1'))
-false_positives = len(df.query('Correct == 0 and Prediction == 1'))
-true_negatives = len(df.query('Correct == 0 and Prediction == 0'))
-false_negatives = len(df.query('Correct == 1 and Prediction == 0'))
+TP = len(df.query('Correct == 1 and Prediction == 1'))
+FP = len(df.query('Correct == 0 and Prediction == 1'))
+TN = len(df.query('Correct == 0 and Prediction == 0'))
+FN = len(df.query('Correct == 1 and Prediction == 0'))
 
-matrix = np.array([[true_positives, false_negatives], [false_positives, true_negatives]])
+matrix = np.array([[TP, FN], [FP, TN]])
 
-heatmap(matrix, xticklabels=['Condition', 'Control'], yticklabels=['Condition', 'Control'], filename='leave_one_out.pdf')
+#heatmap(matrix, xticklabels=['Condition', 'Control'], yticklabels=['Condition', 'Control'], filename='leave_one_out.pdf')
+
+acc = (TP + TN) / (TP + TN + FN + FP)
+prec = TP / (TP + FP)

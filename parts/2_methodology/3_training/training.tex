@@ -142,7 +142,23 @@ To ensure that our model is not overfitting and did not get lucky when classifyi
 
 To make this process quick, we trained the model for each fold only for ten epochs. The goal was to prove consistency in the model and not achieve high performance, so it seemed enough. As one can see in the cross-validation results \ref{table:control_condition_5f_cv}, we have a mean loss of $0.06$ and a mean accuracy of $0.98$, which means that the model is consistently correct in most classifications.
 
-\begin{figure}
+However, the above results were for each segment and label, and not specific to any participant. Even though we reduced the chance of overfitting by keeping aside randomized training and testing data, there is a high chance that the training data contains samples from all participants. Garcia-Ceja, E. et al. did \textit{leave one participant out validation} in their paper \cite{GarciaCeja2018_classification_bipolar}, which means that for each participant in the dataset, keep them outside the training data, train on the rest of the participants, then make predictions on the participant that was left out. Each prediction for the left out participant can be different, so to determine the final label they used majority voting (using the most common predicted label). 
+
+We proceeded to do the same experiment as Garcia-Ceja, E. et al., as it would be a good way of comparing our work. For each participant, we generated input data that did not contain any activity data from the participant. Then we created a model and trained it to fit the input data for ten epochs (any more would take too much time), and made predictions using majority voting. 
+
+\begin{figure}[h]
+\begin{center}
+      \includegraphics[height=8cm]{img/control_condition/leave_one_out.pdf}
+      \caption{\textit{Confusion matrix containing detected classes after leave one participant out experiment. The model was able to classify true negatives (control group) better than anything else.}}
+      \label{figure:confusion_matrix_leave_one_out}
+\end{center}
+\end{figure}
+
+Earlier results were almost perfect, so we expected the results of this experiment to be better than what we can see above. Detecting that a participant belongs to the condition group was not that 
+
+It is interesting that the model detects non-depressed participants better than depressed. 
+
+\begin{figure}[h]
     \begin{center}
         \begin{tabular}{|l|l|l|}
             \hline

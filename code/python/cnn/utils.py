@@ -87,8 +87,6 @@ def create_segments_and_labels_madrs_loo(dataset_dir, segment_length, step, n_ou
                     left_out_correct = classes - i - 1
                     break
 
-            print('Left out class:', left_out_correct)
-
         for j in range(0, len(df_activity) - segment_length, step):
             segment = df_activity['activity'].values[j : j + segment_length]
             
@@ -102,6 +100,8 @@ def create_segments_and_labels_madrs_loo(dataset_dir, segment_length, step, n_ou
                     if p['madrs2'].values[0] >= MADRS_VALUES[classes - i - 1]:
                         labels.append(classes - i - 1)
                         break
+    
+    print(labels)
     
     labels = np.asarray(labels).astype('float32')
     labels = to_categorical(labels, n_output_classes)

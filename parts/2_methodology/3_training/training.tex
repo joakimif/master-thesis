@@ -158,7 +158,7 @@ To ensure that our model is not overfitting and did not get lucky when classifyi
 
 To make this process quick, we trained the model for each fold only for ten epochs. The goal was to prove consistency in the model and not achieve high performance, so it seemed enough. As one can see in the cross-validation results \ref{table:control_condition_5f_cv}, we have a mean loss of $0.06$ and a mean accuracy of $0.98$, which means that the model is consistently correct in most classifications.
 
-\subsection{Leave One Participant Out}
+\subsection{Leaving one participant out}
 
 However, the above results were for each segment and label, and not specific to any participant. Even though we reduced the chance of overfitting by keeping aside randomized training and testing data, there is a high chance that the training data contains samples from all participants. Garcia-Ceja, E. et al. did \textit{leave one participant out validation} in their paper \cite{GarciaCeja2018_classification_bipolar}, which means that for each participant in the dataset, keep them outside the training data, train on the rest of the participants, then make predictions on the participant that was left out. Each prediction for the left out participant can be different, so to determine the final label they used majority voting (using the most common predicted label). 
 
@@ -167,22 +167,19 @@ We proceeded to do the same experiment as Garcia-Ceja, E. et al., as it would be
 \begin{figure}[h]
 \begin{center}
       \includegraphics[height=8cm]{img/control_condition/leave_one_out.pdf}
-      \caption{\textit{Confusion matrix containing detected classes after leave one participant out experiment. The model was able to classify true negatives (control group) best (highest specificity).}}
+      \caption{\textit{Confusion matrix containing detected classes after leave one participant out experiment. The model was best at classifying participants in the control group }}
       \label{figure:control_condition_conf_loo}
 \end{center}
 \end{figure}
 
 \begin{table}[h]
 \begin{center}
-      \begin{tabular}{|l|l|}
+      \begin{tabular}{|l|l|l|l|l|l|}
             \hline
-            \bfseries Performance Metric & \bfseries Score \\\hline
-            Accuracy & 0.71 \\\hline
-            Precision & 0.67 \\\hline
-            Recall & 0.61 \\\hline
-            Specificity & 0.78 \\\hline
-            F1 & 0.64
-            \\\hline
+            \bfseries Label & \bfseries Accuracy & \bfseries Precision & \bfseries Recall & \bfseries Specificity & \bfseries F1 \\\hline
+            Control & 0.71 & 0.74 & 0.78 & 0.61 & 0.76 \\\hline
+            Condition & 0.71 & 0.67 & 0.61 & 0.78 & 0.64 \\\hline
+            \bfseries Mean & \bfseries 0.71 & \bfseries 0.71 & \bfseries 0.70 & \bfseries 0.70 & \bfseries 0.70 \\\hline
       \end{tabular}
       \caption{\textit{Performance metrics for leave one participant out experiment.}}
       \label{table:control_condition_performance_loo}
@@ -206,9 +203,11 @@ Earlier results were almost perfect, so we expected the results of this experime
 \end{figure}
 
 \begin{figure}[h]
+\begin{center}
       \includegraphics[height=8cm]{img/depression_class/conf_5760_60_50_32.png}
       \caption{50 epochs for 96 hour segments}
       \label{figure:depression_class_confusion_matrix_96h}
+\end{center}
 \end{figure}
 
 \subsection{Training and finding the optimal segment length}
@@ -221,7 +220,7 @@ Using what we previously discovered from classifying control vs. condition group
 In the previous experiment, there was a clear threshold after segment lengths of 24 hours where the performance did not improve that much if increased more \ref{figure:control_condition_10e}. The results were just a little bit better for 48 than 24 hours and worse for longer segments. The question was whether the threshold existed for depression classes also, or if we could use longer segments to achieve better results.
 
 We experimented the same way as before, except that we went straight for 50 epochs and skipped the shortest segments of 1, 2, 4 and 8 hours, as we were positive these segments would not be any good. We proceeded to train segment lengths of 16, 24, 48, 72 and 96 hours. Looking at the training and testing graphs \ref{figure:depression_class_50e}, we can see that the results for 96-hour segments were outstanding. We achieved an accuracy of 100\% on the testing set. The confusion matrix \ref{figure:depression_class_confusion_matrix_96h} shows not a single error in classification. 
-
+ 
 \subsection{Cross-validation}
 
 \begin{table}[h]
@@ -244,7 +243,32 @@ To make sure this was not just lucky, we needed to cross-validate here as well. 
 
 We trained the three models for 15 epochs each. We knew that was not enough to give us 100\% accuracy (need around 50 epochs for that), but we aimed for somewhere around 98-99\% for all folds. Looking at the cross-validation results \ref{table:depression_class_cv}, we can see that the lowest accuracy was 98,5\% and the highest was 99,8\%. The mean accuracy for all three folds was 99\%, which is what we wanted to see. 
 
-The model is indeed perfect for classifying depression classes, at least for all the participants in the dataset. We know that the model will not classify with 100\% accuracy on data outside the participants in the dataset since 55 persons cannot possibly tell everything about human activity behavior, but we will go more in-depth on this later.
+\subsection{Leaving one participant out}
+
+\begin{figure}[h]
+\begin{center}
+      \includegraphics[height=8cm]{img/depression_class/leave_one_out.pdf}
+      \caption{\textit{Confusion matrix containing detected classes after leave one participant out experiment. The model was only good for detecting normal participants.}}
+      \label{figure:depression_class_conf_loo}
+\end{center}
+\end{figure}
+
+\begin{table}[h]
+\begin{center}
+      \begin{tabular}{|l|l|l|l|l|l|}
+            \hline
+            \bfseries Label & \bfseries Accuracy & \bfseries Precision & \bfseries Recall & \bfseries Specificity & \bfseries F1 \\\hline
+            Normal & 0.69 & 0.66 & 0.97 & 0.30 & 0.79 \\\hline
+            Mild & 0.70 & 0.14 & 0.09 & 0.86 & 0.11 \\\hline
+            Moderate & 0.76 & 0.0 & 0.0 & 0.98 &  \\\hline
+            \bfseries Mean & \bfseries 0.72 & \bfseries 0.30 & \bfseries 0.35 & \bfseries 0.71 & \bfseries 0.30 \\\hline
+      \end{tabular}
+      \caption{\textit{Performance metrics for leave one participant out experiment.}}
+      \label{table:depression_class_performance_loo}
+\end{center}
+\end{table}
+We repeated the same experiment from the end of the previous goal, where we trained on all participants except one that we left for testing afterward. Looking at the confusion matrix \ref{figure:depression_class_conf_loo}, the model seemed to be good at detecting non-depressed participants (F1-score of 0.79), and terrible at everything else (F1-score of 0.11 for mild depression and the model did not detect any participant with moderate depression). Overall, we calculated a mean F1-score of 0.30 for this model (see table \ref{table:depression_class_performance_loo}). 
+
 
 \section{1D CNN: MADRS Score Prediction}
 Now that we have models for classifying both whether a participant belongs to the control group or the condition group and how depressed participants are, we can get started on our last goal which is predicting the MADRS score of our participants. 
@@ -294,7 +318,7 @@ Also, unlike the classification experiments, we experimented more with hyper-par
 but now that we had to train for thousands of epochs, these parameters had the potential to affect the results by a lot. 
 We proceeded to compare three different optimizers: Adam, SGD, and Nadam. We had to change the learning rate to get SGD to work 
 (the default which is 0.01 \cite{keras_docs_optimizers} resulted in NAN MSE for some reason). All optimizers were set to use a learning rate of 0.0001. 
-The optimizer comparison graph \ref{figure:madrs_prediction_optimizers} shows that Adam was the best choice for prediction as well. 
+The optimizer comparison graph \ref{figure:madrs_prediction_optimizers} shows that Adam was the best choice for MADRS prediction as well. 
 
 \begin{figure}
 \begin{center}
@@ -305,7 +329,7 @@ The optimizer comparison graph \ref{figure:madrs_prediction_optimizers} shows th
 \end{figure}
 
 \subsection{Training the model}
-To summarize, this model was trained to fit segments of length 48 hours (2880 minutes). It was trained with the optimizer Adam using a learning rate of 0.0001. We did not change the batch size; we kept this at 16. We split the dataset into 60\% training data and 40\% testing data. Based on the time it took to train each of the 100-epoch experiments, we calculated that around 2700 epochs of training would be realistic.
+To summarize, this model was trained to fit segments of length 48 hours (2880 minutes). It was trained with the optimizer Adam using a learning rate of 0.0001. We did not change the batch size; we kept this at 16. We split the dataset into 60\% training data and 40\% testing data. Based on the time it took to train each of the 100-epoch experiments, we calculated that around 2700 epochs of training would be a realistic amount.
 
 When we checked for results the next day, we could see the training had resulted in a mean squared error around 4 (on validation data). The training graph \ref{figure:madrs_prediction_history} shows that further training would not necessarily give any better results. Predictions on the test data \ref{figure:madrs_prediction_testset} looked very promising. The graph shows correct MADRS scores in the x-axis and the predicted MADRS scores in the y-axis. Each blue dot is a prediction, and the dotted black line is a linear guideline for the perfect predictions (where the predicted and correct scores are the same). 
 

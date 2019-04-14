@@ -20,11 +20,11 @@ def heatmap(matrix, title='Confusion Matrix', ylabel='True Label', xlabel='Predi
 
 
 if __name__ == '__main__':
-    true_positive = 95
-    false_positive = 7
-    true_negative = 93
+    true_positive = 3122
+    false_positive = 13
+    true_negative = 1677
     false_negative = 5
     
     matrix = np.array([[true_positive, false_negative], [false_positive, true_negative]])
 
-    heatmap(matrix)
+    heatmap(matrix, xticklabels=['Control', 'Condition'], yticklabels=['Control', 'Condition'], filename='10ep.pdf')

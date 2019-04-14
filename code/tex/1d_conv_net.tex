@@ -1,3 +1,4 @@
+\begin{figure}[h]
 \begin{code}
   \begin{minted}[linenos]{python}
   def create_classification_model(segment_length, output_layers):
@@ -19,10 +20,12 @@
 
     return model
   \end{minted}
-  \caption{\textit{1D CNN Model for Classification. A total of four convolutional layers together with pooling compiled with Categorical Crossentropy enables the model to classify.}}
+  \caption{1D CNN Model for Classification. A total of four convolutional layers together with pooling compiled with Categorical Crossentropy enables the model to classify.}
   \label{code:1d_conv_net_classifier}
 \end{code}
+\end{figure}
 
+\begin{figure}[h]
 \begin{code}
   \begin{minted}[linenos]{python}
   def create_prediction_model(segment_length):
@@ -43,6 +46,7 @@
 
     return model
   \end{minted}
-  \caption{\textit{1D CNN Model for Prediction. The layers are changed to be able to predict a value instead of performing classification. The model is compiled with the loss function Mean Squared Error, and uses the optimizer Adam}}
+  \caption{1D CNN Model for Prediction. The layers are changed to be able to predict a value instead of performing classification. The model is compiled with the loss function Mean Squared Error, and uses the optimizer Adam}
   \label{code:1d_conv_net_predictor}
 \end{code}
+\end{figure}

@@ -29,7 +29,7 @@ When testing the model, we wanted to achieve an accuracy of 100\% when using the
 \begin{figure}[h]
 \begin{center}
     \includegraphics[height=2.5cm]{img/feature_detector.png}
-    \caption{\textit{Feature Detector / Filter "sliding" over input data}}
+    \caption{Feature Detector / Filter "sliding" over input data}
     \label{figure:feature_detector}
 \end{center}
 \end{figure}
@@ -109,7 +109,7 @@ X_train, X_test, y_train, y_test = train_test_split(segments,
                                                     labels, 
                                                     test_size=0.4)
     \end{minted}
-    \caption{\textit{Sklearn train and test split. After calling this function we end up with training and testing sets for both inputs and outputs.}}
+    \caption{Sklearn train and test split. After calling this function we end up with training and testing sets for both inputs and outputs.}
     \label{code:sklearn_train_test_split}
 \end{code}
 \end{figure}
@@ -139,7 +139,7 @@ Another option is to use something called \textit{K-fold cross-validation}. It w
         # do something with results...
 
     \end{minted}
-    \caption{\textit{Sklearn StratifiedKFold. The dataset is split in 3 parts (n\_splits on line 5), then training and evaluation happens for each of the parts.}}
+    \caption{Sklearn StratifiedKFold. The dataset is split in 3 parts (n\_splits on line 5), then training and evaluation happens for each of the parts.}
     \label{code:sklearn_k_fold}
 \end{code}
 \end{figure}
@@ -170,13 +170,11 @@ Hyper-parameters are all the \textit{higher-order} parameters we compile/train t
           This is how much data that is processed at the same time each epoch, and the best batch size to use can be completely different on two different models. 
       \item \textbf{Train/test split size}\\
           When building a neural network, we want as much data as possible to both train and to test on afterward. We can't use all the data in both cases, so the most balanced split needs to be determined.
-  \end{itemize}
+\end{itemize}
+
 \newpage
 
 \section{Source Code}
-\subsection{Create Input Data}
 \input{code/tex/create_segments_and_labels}
 
-\newpage
-\subsection{The Models}
 \input{code/tex/1d_conv_net}

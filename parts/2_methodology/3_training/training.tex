@@ -6,13 +6,13 @@ Our dataset, however, only contains 55 participants and only a few days of activ
 
 \begin{figure}
       \includegraphics[height=9cm]{img/regression/results_kerasregressor_1k_epochs.png}
-      \caption{Regression Training Loss (MSE) by Epoch}
+      \caption{Regression Training Loss (MSE) by Epoch. The MADRS scores of participants tell more about their condition than gender, age and days.}
       \label{figure:regression_training_loss}
 \end{figure}
 
 \begin{figure}
       \includegraphics[height=8cm]{img/regression/confusion_kerasregressor_grouped.png}
-      \caption{Confusion Matrices for Regression}
+      \caption{Confusion Matrices for Regression. For both MADRS1 and MADRS2, predictions were perfect.}
       \label{figure:regression_test_confusion}
 \end{figure}
 
@@ -81,7 +81,7 @@ Looking at the history graphs \ref{figure:control_condition_10e} for how the tra
 
 To find the best segment length, we needed to experiment with more epochs. We reran the same experiment for 50 epochs, with 48, 72 and 96 hour long segments. However, from the results for that \ref{figure:control_condition_50e}, it is clear that nothing more was achieved with segments longer than 48 hours. 
 
-The classifications for the models trained to fit 48-hour segments you can see in the confusion matrices \ref{figure:control_condition_confusion_matrix_48h} are close to perfect. The additional 40 epochs of training reduced the false positive classifications by a little bit, which was worth the time in our opinion as we want the value of wrong classifications to be as close to 0 as possible. For this relatively small dataset, we are happy with a classification model with scores above 99\% on all performance metrics previously discussed. 
+The classifications for the models trained to fit 48-hour segments you can see in the confusion matrices \ref{figure:control_condition_confusion_matrix_48h} are close to perfect. The additional 40 epochs of training reduced the false negative classifications by a little bit, which was worth the time in our opinion as we want the value of wrong classifications to be as close to 0 as possible. For this relatively small dataset, we are happy with a classification model with scores above 99\% on all performance metrics previously discussed. 
 
 \begin{figure}
       \begin{multicols}{2}
@@ -91,7 +91,7 @@ The classifications for the models trained to fit 48-hour segments you can see i
             \includegraphics[height=5cm]{img/control_condition/plot_acc_eval.png}
             \includegraphics[height=5cm]{img/control_condition/plot_loss_eval.png}
       \end{multicols}
-      \caption{Training (left) and evaluation (right) results (10 epochs)}
+      \caption{Training loss and accuracy is shown on the left side, where we can see that the model performs better with longer segments up to 48 hours. Evaluation results are on the right side, which shows the same improvements but after training is done. The models were trained for 10 epochs.}
       \label{figure:control_condition_10e}
 \end{figure}
 
@@ -103,17 +103,16 @@ The classifications for the models trained to fit 48-hour segments you can see i
             \includegraphics[height=5cm]{img/control_condition/plot_acc_eval_50e.png}
             \includegraphics[height=5cm]{img/control_condition/plot_loss_eval_50e.png}
       \end{multicols}
-      \caption{Training (left) and evaluation (right) results (50 epochs)}
+      \caption{Training the models for 50 epochs to find the best segment length. 48 hours was the overall winner with evaluation accuracy very close to 1.0.}
       \label{figure:control_condition_50e}
 \end{figure}
 
 \begin{figure}
-      \begin{multicols}{2}
-            \includegraphics[height=4.5cm]{img/control_condition/conf_2880_60_10_32.png}
-            \includegraphics[height=4.5cm]{img/control_condition/conf_2880_60_50_32.png}
-      \end{multicols}
-      \caption{10 epochs (left) and 50 epochs (right) for 48 hour segments}
+\begin{center}
+      \includegraphics[height=8cm]{img/control_condition/50ep.pdf}
+      \caption{Confusion matrix for running the classifier on unseen data. After training the model for 50 epochs, it was able to correctly classify 3122 control group and 1677 condition group segments.}
       \label{figure:control_condition_confusion_matrix_48h}
+\end{center}
 \end{figure}
 
 %TP   FN   
@@ -151,7 +150,7 @@ To ensure that our model is not overfitting and did not get lucky when classifyi
               \bfseries Mean & \bfseries 0.0629539173937511 & \bfseries 0.9809907427163319
               \\\hline
           \end{tabular}
-          \caption{3-Fold Cross validation}
+          \caption{3-Fold Cross validation. Overall accuracy was 0.98 and loss 0.06.}
           \label{table:control_condition_5f_cv}
       \end{center}
 \end{table}
@@ -167,7 +166,7 @@ We proceeded to do the same experiment as Garcia-Ceja, E. et al., as it would be
 \begin{figure}[h]
 \begin{center}
       \includegraphics[height=8cm]{img/control_condition/leave_one_out.pdf}
-      \caption{\textit{Confusion matrix containing detected classes after leave one participant out experiment. The model was best at classifying participants in the control group }}
+      \caption{Confusion matrix containing detected classes after leave one participant out experiment. The model was best at classifying participants in the control group.}
       \label{figure:control_condition_conf_loo}
 \end{center}
 \end{figure}
@@ -181,7 +180,7 @@ We proceeded to do the same experiment as Garcia-Ceja, E. et al., as it would be
             Condition & 0.71 & 0.67 & 0.61 & 0.78 & 0.64 \\\hline
             \bfseries Mean & \bfseries 0.71 & \bfseries 0.71 & \bfseries 0.70 & \bfseries 0.70 & \bfseries 0.70 \\\hline
       \end{tabular}
-      \caption{\textit{Performance metrics for leave one participant out experiment.}}
+      \caption{Performance metrics for leave one participant out experiment.}
       \label{table:control_condition_performance_loo}
 \end{center}
 \end{table}
@@ -198,14 +197,14 @@ Earlier results were almost perfect, so we expected the results of this experime
             \includegraphics[height=5cm]{img/depression_class/plot_acc_eval.png}
             \includegraphics[height=5cm]{img/depression_class/plot_loss_eval.png}
       \end{multicols}
-      \caption{Depression classes: Training (left) and evaluation (right) results (50 epochs)}
+      \caption{Experimenting with segment lengths for classifying depression classes. After 50 epochs we can see that loss and accuracy continues to be better with longer segments.}
       \label{figure:depression_class_50e}
 \end{figure}
 
 \begin{figure}[h]
 \begin{center}
       \includegraphics[height=8cm]{img/depression_class/conf_5760_60_50_32.png}
-      \caption{50 epochs for 96 hour segments}
+      \caption{After training the model on 96 hour long segments for 50 epochs, classification on test-data segments is perfect.}
       \label{figure:depression_class_confusion_matrix_96h}
 \end{center}
 \end{figure}
@@ -234,7 +233,7 @@ We experimented the same way as before, except that we went straight for 50 epoc
             \bfseries Mean & \bfseries 0.032561721418313254 & \bfseries 0.990689902124612
             \\\hline
       \end{tabular}
-      \caption{3-Fold Cross validation}
+      \caption{3-Fold Cross validation for this experiment to verify consistency of the model. All three folds perform well.}
       \label{table:depression_class_cv}
 \end{center}
 \end{table}
@@ -248,7 +247,7 @@ We trained the three models for 15 epochs each. We knew that was not enough to g
 \begin{figure}[h]
 \begin{center}
       \includegraphics[height=8cm]{img/depression_class/leave_one_out.pdf}
-      \caption{\textit{Confusion matrix containing detected classes after leave one participant out experiment. The model was only good for detecting normal participants.}}
+      \caption{Confusion matrix containing detected classes after leave one participant out experiment. The model was only good for detecting normal participants.}
       \label{figure:depression_class_conf_loo}
 \end{center}
 \end{figure}
@@ -263,7 +262,7 @@ We trained the three models for 15 epochs each. We knew that was not enough to g
             Moderate & 0.76 & 0.0 & 0.0 & 0.98 &  \\\hline
             \bfseries Mean & \bfseries 0.72 & \bfseries 0.30 & \bfseries 0.35 & \bfseries 0.71 & \bfseries 0.30 \\\hline
       \end{tabular}
-      \caption{\textit{Performance metrics for leave one participant out experiment.}}
+      \caption{Performance metrics for leave one participant out experiment.}
       \label{table:depression_class_performance_loo}
 \end{center}
 \end{table}
@@ -295,7 +294,7 @@ Before training the model to be as perfect as possible, we did cross-validation 
             \bfseries Mean & \bfseries 31.398445818687225
             \\\hline
       \end{tabular}
-      \caption{3-Fold Cross validation}
+      \caption{3-Fold Cross validation for the prediction model. Only small variation between the folds tells us that the model is consistent enough.}
       \label{table:madrs_prediction_cv}
 \end{center}
 \end{table}
@@ -306,12 +305,20 @@ Before training the model to be as perfect as possible, we did cross-validation 
             \vfill
             \includegraphics[height=5cm]{img/madrs_prediction/plot_loss_eval.png}
       \end{multicols}
-      \caption{MADRS Prediction: Training (left) and evaluation (right) results (100 epochs)}
+      \caption{Training the MADRS prediction model for 100 epochs with different segment lengths. The model trained on 48-hour segments performed best.}
       \label{figure:madrs_prediction_50e}
 \end{figure}
 
 \subsection{Hyper-parameters}
-From the training and evaluation graphs \ref{figure:madrs_prediction_50e}, it seemed like the way to go was 48-hour segments. We don't know what's best for training 
+\begin{figure}[h]
+\begin{center}
+      \includegraphics[height=7cm]{img/madrs_prediction/optimizers.png}
+      \caption{Training the models with 48-hour segments for 100 epochs, comparing different optimizers. The Adam optimizer performed significantly better than SGD and Nadam.}
+      \label{figure:madrs_prediction_optimizers}
+\end{center}
+\end{figure}
+
+\noindent From the training and evaluation graphs \ref{figure:madrs_prediction_50e}, it seemed like the way to go was 48-hour segments. We don't know what's best for training 
 the model further, but this was what we settled on using. 
 
 Also, unlike the classification experiments, we experimented more with hyper-parameters. The Adam optimizer with default learning rate did the job for classification, 
@@ -320,31 +327,24 @@ We proceeded to compare three different optimizers: Adam, SGD, and Nadam. We had
 (the default which is 0.01 \cite{keras_docs_optimizers} resulted in NAN MSE for some reason). All optimizers were set to use a learning rate of 0.0001. 
 The optimizer comparison graph \ref{figure:madrs_prediction_optimizers} shows that Adam was the best choice for MADRS prediction as well. 
 
-\begin{figure}
-\begin{center}
-      \includegraphics[height=7cm]{img/madrs_prediction/optimizers.png}
-      \caption{Optimizer comparison (100 epochs)}
-      \label{figure:madrs_prediction_optimizers}
-\end{center}
-\end{figure}
 
 \subsection{Training the model}
 To summarize, this model was trained to fit segments of length 48 hours (2880 minutes). It was trained with the optimizer Adam using a learning rate of 0.0001. We did not change the batch size; we kept this at 16. We split the dataset into 60\% training data and 40\% testing data. Based on the time it took to train each of the 100-epoch experiments, we calculated that around 2700 epochs of training would be a realistic amount.
 
-When we checked for results the next day, we could see the training had resulted in a mean squared error around 4 (on validation data). The training graph \ref{figure:madrs_prediction_history} shows that further training would not necessarily give any better results. Predictions on the test data \ref{figure:madrs_prediction_testset} looked very promising. The graph shows correct MADRS scores in the x-axis and the predicted MADRS scores in the y-axis. Each blue dot is a prediction, and the dotted black line is a linear guideline for the perfect predictions (where the predicted and correct scores are the same). 
+When we checked for results the next day, we could see the training had resulted in a mean squared error approximately at 4.0 (on validation data). The training graph \ref{figure:madrs_prediction_history} shows that further training would not necessarily give any better results. Predictions on the test data \ref{figure:madrs_prediction_testset} looked very promising. The graph shows correct MADRS scores in the x-axis and the predicted MADRS scores in the y-axis. Each blue dot is a prediction, and the dotted black line is a linear guideline for the perfect predictions (where the predicted and correct scores are the same). 
 
-\begin{figure}
+\begin{figure}[h]
 \begin{center}
       \includegraphics[height=8cm]{img/madrs_prediction/train_history.pdf}
-      \caption{MADRS Prediction: Training History}
+      \caption{MADRS Prediction: Training history throughout 2700 epochs. The MSE is approximately 4.0 after 2000 epochs.}
       \label{figure:madrs_prediction_history}
 \end{center}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[h]
 \begin{center}
       \includegraphics[height=8cm]{img/madrs_prediction/predictions.pdf}
-      \caption{Predicting MADRS Scores from test-set}
+      \caption{Running the MADRS prediction model on unseen segments. The predictions are not perfect, but they somewhat follow the black dotted line (where predictions and correct MADRS scores are the same).}
       \label{figure:madrs_prediction_testset}
 \end{center}
 \end{figure}

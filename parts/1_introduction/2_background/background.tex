@@ -1,7 +1,7 @@
 \section{Depression}
 \subsection{Bipolar Disorder}
 
-Bipolar disorder is a disorder where a person experiences extreme mood swings. One day the person can feel amazing, and everything is fine, 
+Bipolar disorder is the syndrome with extreme mood swings, referred to as \emph{mania} and \emph{depression} \cite{bipolar_disorder}. One day the person can feel amazing, and everything is fine, 
 but the next day they feel like they do not belong anywhere in this universe. In general, one should be concerned about mood swings. 
 It is, however, the extreme cases where the mind turns 180 degrees from day to day that is the main symptom of bipolar disorder. 
 There is not a specific type of people that get this; they can be of any age and any gender, but most people that suffer from it find out 
@@ -9,10 +9,8 @@ There is not a specific type of people that get this; they can be of any age and
 
 When talking about bipolar disorder, we often separate between the states \emph{normal}, \emph{mania} and \emph{depression}. 
 The last two are the states we usually talk about since a normal state is not that interesting. These two states are very different, 
-but they have some similarities, for example sleeping problems. 
-
-When a bipolar person is in a manic state, he/she may do things that they would never have intended doing, like spending much money on items they do 
-not need or abusing drugs/alcohol. They may also feel excited or powerful \cite{bipolar_overview}. 
+but they have some similarities, for example sleeping problems. When a bipolar person is in a manic state, he/she may feel so excited and powerful that they do things that they would never have intended doing, like spending much money on items they do 
+not need \cite{bipolar_disorder}.
 
 A bipolar patient is in a depressive state when he or she is in a bad mood swing. They can stop doing everything they usually like to do, 
 and lie down in bed all day with no motivation to do anything useful. They may feel useless and that they do not belong here, 
@@ -92,27 +90,27 @@ from when deciding on a machine learning model. These are called \textit{supervi
 and what we want to achieve to find out which one to use. The following sections will be a description of the strategies, to make the decision easier.
 
 \subsection{Supervised learning}
-Supervised learning is the machine learning strategy where we provide both input and correct output data to the algorithm \cite{supervised_learning_intro}. 
+Supervised learning is the machine learning strategy where we provide both input and correct output data to the algorithm \cite{supervised_learning}. 
 We may use supervised learning if the goal is to train a model to classify letters in the alphabet, or something else where we have a dataset with both input 
 and output data (for the alphabet, images of letters are input data, and the actual letters are the output data). If we train this alphabet model, 
 we will be able to input an image (not seen before by the algorithm) of a letter, and the model will classify it to the letter it most likely fits. 
 This kind of supervised learning is called \textit{Classification} and is the problem of assigning new observations to the class they most likely belong, 
-based on a classification model built from labeled training data \cite{machine_learning_for_humans_supervised_2}.
+based on a classification model built from labeled training data \cite{supervised_learning}.
 
 Another kind of supervised learning is called \textit{Regression} and is all about predicting (or estimating) a value. A classic example of regression 
 learning is predicting income, using \textit{features} like home, location, job title, the field of study,  years of education and years of experience. 
-We call these features \textit{categorical} (first three) and \textit{numerical} (last two) \cite{machine_learning_for_humans_supervised_1}. 
+We call these features \textit{categorical} (first three) and \textit{numerical} (last two) \cite{supervised_learning}. 
 
 \subsection{Unsupervised learning}
 Another strategy is unsupervised learning. We want to use this if we have a dataset without the same meaning as in a dataset for supervised learning. 
 The items may not have a fixed answer, like the letters in the alphabet are. It is useful when we have unlabeled data and want to for example group data 
 together in what we call a \textit{cluster}. Unsupervised learning may not be as common as supervised learning, but unsupervised learning can be quite 
-beneficial in some cases; for example when grouping addresses together in neighborhoods if we have an unsorted list of addresses as the dataset.
+beneficial in some cases; for example when grouping addresses together in neighborhoods if we have an unsorted list of addresses as the dataset. Patterns are given to the algorithm, but no \textit{answers} are provided \cite{unsupervised_learning}. 
 
 \subsection{Semi-supervised learning}
 Now, we may not always want to use one of the strategies above. Looking at the dataset, we may want something in between like a combination of labeled and unlabeled data. 
 Semi-supervised learning comes in handy when this is the case. For example, if we have many data samples to label in our dataset, it can be simply too much work. 
-We will not go deep into details about how this works, but it is important to mention it because of its usefulness.
+We will not go deep into details about how this works, but it is important to mention it because of its usefulness. The goal of semi-supervised learning is to understand how combining labeled and unlabeled data may change the learning behavior, and design algorithms that take advantage of such a combination \cite{semisupervised_learning}.
 
 \section{Machine learning approaches}
 When we know whether we want to use supervised learning, unsupervised learning or something in between, we need to select an approach. We call them 
@@ -124,8 +122,8 @@ In computer science, trees are data structures commonly used to describe somethi
 a tree can be a representation of how the frequency of letters in the alphabet are distributed in a text file so that the text file can be compressed optimally. 
 We will not go into details about how this works, but our point is that tree-structures are very common in most fields of computer science. 
 
-In machine learning, we can apply the tree-structures as \textit{decision tree learning}. In this approach, we set up all the different outcomes 
-(with the training data set) of a specific question in a tree. Let us say we want to predict whether or not a person will run outside on a specific day. 
+In machine learning, we can apply the tree-structures as \textit{decision tree learning}. Decision trees are trees that classify instances by sorting them based on feature values, and each \textit{node} represents a feature. Each branch represent a value that the node can assume \cite{supervised_learning}.
+In this approach, we set up all the different outcomes (with the training data set) of a specific question in a tree. Let us say we want to predict whether or not a person will run outside on a specific day. 
 Then it makes sense that the training set contains weather information. The different data in the training set is called attributes, and correctly picking 
 these is essential for the quality of the prediction.
 
@@ -160,22 +158,22 @@ we can create decision rules by merely following the tree with new data.
 One known problem with decision tree models is that they often include much \textit{variance}. Variance in an algorithm means that it is sensitive to small 
 changes in the training set. One method to reduce the variance is to use Random Forest. 
 
-Random Forest is a supervised machine learning strategy, which can be useful for both classification and regression learning \cite{random_forest}. 
-It mainly works by combining decision trees, where the tree building algorithm is heavily randomized for all trees. 
+Random forests are a combination of tree predictors such that each tree depends on the values of a
+random vector sampled independently and with the same distribution for all trees in the forest \cite{random_forest}. 
+It is a supervised machine learning strategy and can be useful for both classification and regression learning.
 
 For example, if we want to get movie recommendations using machine learning, using one decision tree will most likely be insufficient. 
 Just think what happens when we ask a friend for movies to watch. What that friend recommends is purely based on movies we like ourselves and what the friend likes. 
 We might be lucky and find our next favorite movie, but most likely, asking multiple people for recommendations is going to yield better results. 
 The same goes for machine learning, and decision trees will most likely give a better answer if we combine them in a Random Forest.
 
-\subsection{Neural networks}
+\subsection{Deep Neural Networks}
 
-\subsubsection{General idea}
 The general idea of machine learning with neural networks is to make the computer think like a human, inspired by the way biological neural networks in the human 
-brain process information \cite{neural_networks_0}. There are a lot of different neural networks, but all of them share the same underlying layer-based architecture, 
+brain process information \cite{deep_learning}. There are a lot of different neural networks, but all of them share the same underlying layer-based architecture, 
 where data get passed between layers where computation happens. The first layer is the input layer, which passes the data to the next layer, which is the hidden layers. 
 The number of hidden layers is entirely up to the model and the programmer, and this is where the intermediate processing/computation is done before the data get passed 
-to the output layer where we perform an activation function to define the output \cite{neural_networks_1}.
+to the output layer where we perform an activation function to define the output \cite{deep_learning}.
 
 \begin{figure}[h]
     \begin{center}
@@ -190,14 +188,14 @@ If we have a lot of hidden layers in a neural network, we call it a \textit{deep
 Figure \ref{figure:neural_net} is a visual representation of a shallow neural network with the input layer on the left, one hidden layer in the middle and the output layer on the right-hand side. For each layer, we have fully connected nodes, which means that each node has a connection to all nodes in the next layer.
 
 \subsubsection{Recurrent Neural Networks (RNN)}
-This type of neural network is useful for predicting something based on a sequence of data, like for example predicting words in a sentence, which can be especially useful for typing on the phone. Also making predictions based on historical data, like a forecast, is something an RNN can do effectively.
+Recurrent Neural Networks are useful for predicting something based on a sequence of data, like for example predicting words in a sentence, which can be especially useful for typing on the phone. Also making predictions based on historical data, speech and language, are tasks an RNN can do effectively \cite{deep_learning}.
 
-One downside to Recurrent Neural Networks used on large sequences of data is that the prediction will most likely be off if a word written at the beginning of a long text is a dependency for a prediction four chapters later, for example, the home location of the main character. The workaround for this is something called \textit{Long Short-Term Memory Recurrent Neural Network (LSTM RNN)}, and is the idea of having additional logic to avoid the prediction model forgetting essential facts.
+One downside to Recurrent Neural Networks used on large sequences of data is that the prediction will most likely be off if a word written at the beginning of a long text is a dependency for a prediction four chapters later, for example, the home location of the main character. The workaround for this is something called \textit{Long Short-Term Memory Recurrent Neural Network (LSTM RNN)}, and is the idea of having additional logic to avoid the prediction model forgetting essential facts \cite{deep_learning}.
 
 \subsubsection{Convolutional Neural Networks (CNN)}
-A Convolutional Neural Network, or \textit{CNN} for short, can be used for identifying patterns in data, which then is the underlying calculations for either prediction or classification. A common use case for CNN's is image recognition. In image recognition, we train our models to be good at identifying objects in images, for example, the difference between cats and dogs. Then we can input a completely different image to the model, and it will output whether the image is of a cat or a dog. 
+A Convolutional Neural Network, or \textit{CNN} for short, can be used for identifying patterns in data, which then is the underlying calculations for either prediction or classification. They are designed to process data in different array shapes \cite{deep_learning}. A common use case for CNN's is image recognition. In image recognition, we train our models to be good at identifying objects in images, for example, the difference between cats and dogs. Then we can input a completely different image to the model, and it will output whether the image is of a cat or a dog. 
 
-This type of CNN is two-dimensional because an input image is a two-dimensional array of pixels, so the network also needs to have two dimensions in the convolutional layers. Another way of constructing a CNN is one-dimensionally, which can be useful for \textit{one-dimensional} data, for example, sensor data from gyroscopes or accelerometers \cite{1d_cnn}.
+This type of CNN is two-dimensional because an input image is a two-dimensional array of pixels, so the network also needs to have two dimensions in the convolutional layers. Another way of constructing a CNN is one-dimensionally, which can be useful for \textit{one-dimensional} data, for example, sensor data from gyroscopes or accelerometers \cite{deep_learning}.
 
 \section{How can machine learning help people with bipolar disorder?}
 The use of machine learning in the medical fields is growing exponentially. There is no limit to the usefulness of machine learning, and it can certainly help in the medical/psychological field too. Let us say bipolar patients had a device that measured their heart rate among other things 24 hours a day could feed the data into a neural network that gave the user's bipolar state as output. That would be useful for both the patients and doctors/nurses. Another use case could be if medical institutions knew in advance how many new bipolar patients to expect the next day. 

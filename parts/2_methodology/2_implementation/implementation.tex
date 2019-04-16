@@ -1,6 +1,6 @@
 \section{Regression}
 
-Regression is used a lot in statistics, where its primary purpose is to predict a target value based on independent predictors and is useful to find cause and effect relationships between variables \cite{linear_regression_ml}. One experiment that might be interesting is to perform linear regression on some of the columns in the demographics dataset \ref{figure:demographics}, in order to see whether there are columns that tell more about the participant's group (control or condition).  
+Regression is used a lot in statistics, where its primary purpose is to predict a target value based on independent predictors and is useful to find cause and effect relationships between variables \cite{linear_regression}. One experiment that might be interesting is to perform linear regression on some of the columns in the demographics dataset \ref{figure:demographics}, in order to see whether there are columns that tell more about the participant's group (control or condition).  
 
 Not all of the columns are relevant though, for example, \textbf{number} is unique for each participant, so it does not make sense to use. The column \textbf{melanch} also does not make sense to use, as there is only one participant with Melancholia. \textbf{Inpatient} cannot be used because the participants in the control group are not patients, and cannot be either inpatient or outpatient. The same goes for \textbf{edu}, \textbf{work} and \textbf{marriage}, but we don't have these data values for control group participants. We don't have their \textbf{afftype} or any of the \textbf{MADRS} scores either, but we already know them: \textbf{afftype} should be 0 (not bipolar) and both \textbf{MADRS} scores should be 0 (not depressed). 
 
@@ -34,14 +34,14 @@ When testing the model, we wanted to achieve an accuracy of 100\% when using the
 \end{center}
 \end{figure}
 
-\noindent The main ingredient in a CNN is the \textit{convolutional} layer. It is responsible for the convolution, which in mathematics is a function derived from two given functions by integration which expresses how the shape of one is modified by the other \cite{convolution_definition}. 
+\noindent The main ingredients in a CNN are \textit{convolutional} layers and \textit{pooling layers} \cite{deep_learning}. The convolutional layers are responsible for the convolution process, which in mathematics is a function derived from two given functions by integration which expresses how the shape of one is modified by the other \cite{convolution_definition}. 
 
 The convolutional layer in machine learning consists of \textit{filters} \ref{figure:feature_detector}, which are the sliding windows that go through the input data.  They are also called \textit{feature detectors}, and using 100 of them means that the layer can detect 100 features. The size of a filter is called \textit{kernel size}. The output of the convolutional layer is a matrix with one column for each filter, and one row for each step in the convolution. How many steps there are, is given by the length of the input data (also called \textit{height}) minus the kernel size plus 1.
 
 \subsection{Creating the Model}
-Following the tutorial on 1D Convolutional Neural Networks \cite{1d_cnn}, we came up with two models. One model for the first two goals was built for classification \ref{code:1d_conv_net_classifier}, and for the third goal we came up with another model built for prediction \ref{code:1d_conv_net_predictor}. We built the models a lot like how it was in the tutorial, but we also had to tweak some of the parameters to make the model work on our dataset.
+We built two convolutional neural network models. One model for the first two goals was built for classification \ref{code:1d_conv_net_classifier}, and for the third goal we came up with another model built for prediction \ref{code:1d_conv_net_predictor}.
 
-To make a convolutional neural network, you need some \textit{convolutional} and \textit{pooling} layers. Which layers that added in between and the ordering of them, together with the parameters passed to the layers, is what makes the model perform differently. 
+To make a convolutional neural network, you need some \textit{convolutional} and \textit{pooling} layers. Which layers added in between and the ordering of them, together with the parameters passed to the layers, is what makes the model perform differently. 
 
 \subsubsection{Classification}
 The following model \ref{code:1d_conv_net_classifier} is used to achieve our first two goals; classifying whether a participant belongs to the \textbf{control} or \textbf{condition} group, and classifying the participant's \textbf{depression class}. The only difference between these two goals is the number of classes we are trying to classify, and therefore only the output layer needs to be changed.
@@ -51,18 +51,18 @@ The following model \ref{code:1d_conv_net_classifier} is used to achieve our fir
       
       \item \textbf{Reshape}: In the first layer we needed to reshape the input data so that it becomes an $X$ by 1 matrix, where $X$ is the length of each segment. The reason for the reshape step is because the next layer (\textbf{Conv1D}) requires the input to contain the parameters \textit{batch, steps and channels}. \textit{Batch} will be set to \textbf{None}, \textit{steps} will be the segments, and \textit{channels} will be $1$ (because we only have one measurement value for each minute).
       
-      \item \textbf{Conv1D}: This is the first \textit{convolutional} layer, where the required parameters are how many \textit{filters} wanted, and how big the \textit{kernel} should be. As in the tutorial, we also used 100 filters and a kernel size of 10. Having less or more filters might have an impact on the performance, but we did not want to over-complicate the model yet. There are many different parameters that we can use on a layer like this, for example, \textit{padding} and \textit{strides}, but using the default values was a good choice for now. The output of this layer results in a $(X-10+1) \times 100$ matrix, where $X$ is the length of each segment here as well. The activation function for all convolutional layers in this model is \textit{ReLU} (Rectified Linear Unit). 
+      \item \textbf{Conv1D}: This is the first \textit{convolutional} layer, where the required parameters are how many \textit{filters} wanted, and how big the \textit{kernel} should be. We used 100 filters and a kernel size of 10. Having less or more filters might have an impact on the performance, but we did not want to over-complicate the model yet. There are many different parameters that we can use on a layer like this, for example, \textit{padding} and \textit{strides}, but using the default values was a good choice for now. The output of this layer results in a $(X-10+1) \times 100$ matrix, where $X$ is the length of each segment here as well. The activation function for all convolutional layers in this model is \textit{ReLU} (Rectified Linear Unit). 
 
       \item \textbf{Conv1D}: The second convolutional layer looks exactly like the first one, and the output is a $(X-10+1-10+1) \times 100$ matrix. 
-      \item \textbf{MaxPooling1D}: Pooling is important in a convolutional neural network to reduce complexity \cite{1d_cnn}. 
-            The basic idea of \textit{max pooling} is to reduce to only the maximum value for each \textit{window} of size $N \times N$. We are using 2 as 
+      \item \textbf{MaxPooling1D}: Pooling is important in a convolutional neural network to reduce complexity, and its role is to merge semantically similar features into one \cite{deep_learning}. 
+            \textit{Max pooling} works by reducing to only the maximum value for each \textit{window} of size $N \times N$. We are using 2 as 
             window size ($N$), resulting in matrix that is half the size of the input: $ \frac{X-10+1-10+1}{2} \times 100$. 
             Pooling may also help reduce \textit{overfitting}, which is when the model learns its training data too well and performs worse on unseen data.
       \item \textbf{Conv1D}: Two more convolutional layers are added, and after these, the input to the next layer will be a matrix of size
             $ \left( \frac{X-10+1-10+1}{2}-10+1-10+1 \right) \times 160 $.
-      \item \textbf{GlobalAveragePooling1D}: This is another pooling layer, and this one takes the average of weights within the network instead of the maximum.
+      \item \textbf{GlobalAveragePooling1D}: This is another pooling layer, which one takes the average of weights within the network instead of the maximum.
             After doing this, the matrix will be of size $ 1 \times 160 $.
-      \item \textbf{Dropout}: Dropout is used to reduce overfitting, by randomly ignoring units in the neural network. 
+      \item \textbf{Dropout}: Dropout is used to reduce overfitting, by randomly ignoring units in the neural network \cite{dropout}. 
       \item \textbf{Dense}: The final layer in the model is a dense layer (fully connected) which reduces the matrix from $160$ values to 
             either $2$ or $3$ (for goal one and two), with the activation function \textbf{softmax}. 
             Then the output (a $1$ in one of the neurons) is mapped to the corresponding label.
@@ -72,7 +72,7 @@ After creating the model, we \textit{compile} it as a model that is ready to be 
 giving it a \textbf{loss function} and an \textbf{optimizer}.The loss function is the function that evaluates how well the 
 model \textit{models} the given data \cite{loss_functions}, and the optimizer is the function that attempts to lower the output of the loss function. 
 
-For the first two goals, the loss function \textit{categorical crossentropy} calculates a probability over the 
+For the first two goals in this thesis, we used the loss function \textit{categorical crossentropy}, which calculates a probability over the 
 number of classes that are supplied (number of classes equals the number of neurons in the output layer). 
 
 For the optimizer, there are many different choices available,
@@ -95,7 +95,6 @@ We compile this model with the loss function \textit{Mean Squared Error}, which 
 \subsection{Train and test data}
 We did one last step before we started training the model. We needed to split the data ion two parts; training and test data. This way we can calculate the performance of the model after training has finished, and also prevent overfitting by evaluating data that is unseen to the model. 
 
-\subsubsection{train\_test\_split}
 The function \textit{train\_test\_split} from the \textit{sklearn} package was useful here; we input the segments and labels, plus how large we want the training and test sets to be (number between 0 and 1, which determines the size of the test partition). The function also randomizes the data, preventing model to accidentally learn something correct for segments in a row that also are chronologically in order.
 
 After calling the function \ref{code:sklearn_train_test_split}, you end up with two arrays for input data (\textit{X\_train, X\_test}), and two arrays for output data (\textit{y\_train, y\_test}). In this case the \textit{test\_size} is set to $0.4$, meaning that the test sets contains $40\%$ of the total dataset and the remaining $60\%$ are in the training sets.
@@ -139,7 +138,7 @@ Another option is to use something called \textit{K-fold cross-validation}. It w
         # do something with results...
 
     \end{minted}
-    \caption{Sklearn StratifiedKFold. The dataset is split in 3 parts (n\_splits on line 5), then training and evaluation happens for each of the parts.}
+    \caption{StratifiedKFold from sklearn. The dataset is split in 3 parts (n\_splits on line 5), then training and evaluation happens for each of the parts.}
     \label{code:sklearn_k_fold}
 \end{code}
 \end{figure}
@@ -157,7 +156,7 @@ Another option is to use something called \textit{K-fold cross-validation}. It w
 
 However, this also means that each epoch of training would take more time since each layer had to process more data. Whether it was worth waiting the extra time when increasing the segment length, and if it was one specific segment length that was superior to the others, is something to be discussed later in another section. 
 
-Hyper-parameters are all the \textit{higher-order} parameters we compile/train the model with. They are different from the parameters learned by training the model and need to be fixed for one session of model training. Finding the perfect ones can be crucial for a well-performing model. Hyper-parameters that we use in our models include:
+Hyper-parameters are all the \textit{higher-order} parameters we compile/train the model with. These are the bells and whistles of the learning algorithm \cite{hyperparameters}, and they are different from the parameters learned by training the model and need to be fixed for one session of model training. Finding the perfect ones can be crucial for a well-performing model. Hyper-parameters that we use in our models include:
 
 \begin{itemize}
       \item \textbf{Optimizer and learning rate}\\

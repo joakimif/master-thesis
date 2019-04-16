@@ -18,7 +18,7 @@
 
 \newlength\figureheight
 \newlength\figurewidth
-\pgfplotsset{compat=1.13}
+\pgfplotsset{compat=1.13} 
 
 \hbadness=99999
 \hfuzz=9999pt
@@ -31,7 +31,8 @@
 
 \newenvironment{code}{\captionsetup{type=listing}}{}
 \SetupFloatingEnvironment{listing}{name=Code}
-\newcommand{\problemStatement}{1D Convolutional Neural Networks for Biploar Disorder Classification and Prediction based on Motor Activity}
+%\newcommand{\problemStatement}{1D Convolutional Neural Networks for Biploar Disorder Classification and Prediction based on Motor Activity}
+\newcommand{\problemStatement}{1D Convolutional Neural Networks for Classifying and Predicting Depression with Motor Activity Measurements}
 
 \title{\problemStatement}
 \subtitle{
@@ -49,6 +50,7 @@ long]
 
 \frontmatter{}
 \chapter*{Abstract}
+\input{parts/0_Pre/0_Abstract}
 
 \tableofcontents{} 
 \listoffigures{}

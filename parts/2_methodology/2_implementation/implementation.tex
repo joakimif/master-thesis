@@ -92,56 +92,6 @@ To make the model work for our third goal, where we will predict the actual valu
 
 We compile this model with the loss function \textit{Mean Squared Error}, which is measured as the average (mean) of squared difference between predictions and actual observations ($ loss = \frac{\sum_{i=1}^{n}(y_i-\hat{y}_i)^2}{n} $) \cite{loss_functions}. The optimizer is the same as before.
 
-\subsection{Train and test data}
-We did one last step before we started training the model. We needed to split the data ion two parts; training and test data. This way we can calculate the performance of the model after training has finished, and also prevent overfitting by evaluating data that is unseen to the model. 
-
-The function \textit{train\_test\_split} from the \textit{sklearn} package was useful here; we input the segments and labels, plus how large we want the training and test sets to be (number between 0 and 1, which determines the size of the test partition). The function also randomizes the data, preventing model to accidentally learn something correct for segments in a row that also are chronologically in order.
-
-After calling the function \ref{code:sklearn_train_test_split}, you end up with two arrays for input data (\textit{X\_train, X\_test}), and two arrays for output data (\textit{y\_train, y\_test}). In this case the \textit{test\_size} is set to $0.4$, meaning that the test sets contains $40\%$ of the total dataset and the remaining $60\%$ are in the training sets.
-
-\begin{figure}
-\begin{code}
-    \begin{minted}[linenos]{python}
-from sklearn.model_selection import train_test_split
-
-X_train, X_test, y_train, y_test = train_test_split(segments, 
-                                                    labels, 
-                                                    test_size=0.4)
-    \end{minted}
-    \caption{Sklearn train and test split. After calling this function we end up with training and testing sets for both inputs and outputs.}
-    \label{code:sklearn_train_test_split}
-\end{code}
-\end{figure}
-
-\subsubsection{Cross-validation}
-Another option is to use something called \textit{K-fold cross-validation}. It works by splitting the dataset into $K$ train and test sets, and for each of them, train the model on the training set and validate on the test set. Cross-validation is a good way of checking if your model's performance truly is independent on which data samples it trained on. The higher number of splits ($K$) means fewer data samples to test on, so you need to keep that in mind (the same for \textit{train\_test\_split} if you set the \textit{test\_size} too low). Sklearn has an implementation of \textit{K-fold}, called \textit{StratifiedKFold}. For example, code \ref{code:sklearn_k_fold} shows how you can use \textit{StratifiedKFold} to perform a 3-fold cross-validation in your project ($K = 3$). 
-
-\newpage
-
-\begin{figure}
-\begin{code}    
-    \begin{minted}[linenos]{python}
-    from sklearn.model_selection import StratifiedKFold
-
-    segments, labels = create_segments_and_labels(...)
-
-    skf = StratifiedKFold(n_splits=3, shuffle=True)
-
-    for train_index, test_index in skf.split(segments, labels):
-        X_train, X_test = segments[train_index], segments[test_index]
-        y_train, y_test = labels[train_index], labels[test_index]
-
-        model = create_model(...)
-        model.fit(X_train, y_train, ...)
-        results = model.evaluate(X_test, y_test)
-
-        # do something with results...
-
-    \end{minted}
-    \caption{StratifiedKFold from sklearn. The dataset is split in 3 parts (n\_splits on line 5), then training and evaluation happens for each of the parts.}
-    \label{code:sklearn_k_fold}
-\end{code}
-\end{figure}
 
 \section{Optimizing the models}
 

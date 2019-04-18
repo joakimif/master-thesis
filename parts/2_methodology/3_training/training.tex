@@ -16,7 +16,7 @@ Our dataset, however, only contains 55 participants and only a few days of activ
       \label{figure:regression_test_confusion}
 \end{figure}
 
-We ended up training the regression model \ref{code:regression_model} for 1000 epochs using a batch size of 16. Because of the simplicity of the model, a thousand epochs did not take that much time, and the training loss graph (figure \ref{figure:regression_training_loss}) shows that more epochs will not yield any better results. The loss does not reduce any more after the first 100 epochs for any of the columns. As we said earlier, we wanted the model to predict flawlessly based on the MADRS scores, and the loss results from training these are better than for the other columns. 
+We ended up training the regression model for 1000 epochs using a batch size of 16. Because of the simplicity of the model, a thousand epochs did not take that much time, and the training loss graph (figure \ref{figure:regression_training_loss}) shows that more epochs will not yield any better results. The loss does not reduce any more after the first 100 epochs for any of the columns. As we said earlier, we wanted the model to predict flawlessly based on the MADRS scores, and the loss results from training these are better than for the other columns. 
 
 We used the \textbf{train\_test\_split} function to create training and testing data, and because of how few rows there are in this dataset, 
 we used an 80/20 split for training and testing data. 20\% of the dataset in the test data seemed to be good enough for this experiment because we wanted to train on as many rows as possible. Note that the data elements that were in the test and train splits were different for each column. 
@@ -81,7 +81,7 @@ Looking at the history graphs (figure \ref{figure:control_condition_10e}) for ho
 
 To find the best segment length, we needed to experiment with more epochs. We reran the same experiment for 50 epochs, with 48, 72 and 96 hour long segments. However, from the results for that (figure \ref{figure:control_condition_50e}), it is clear that nothing more was achieved with segments longer than 48 hours. 
 
-The classifications for the models trained to fit 48-hour segments you can see in the confusion matrices (figure \ref{figure:control_condition_confusion_matrix_48h}) are close to perfect. The additional 40 epochs of training reduced the false negative classifications by a little bit, which was worth the time in our opinion as we want the value of wrong classifications to be as close to 0 as possible. For this relatively small dataset, we are happy with a classification model with scores above 99\% on all performance metrics previously discussed. 
+The classifications for the models trained to fit 48-hour segments you can see in the confusion matrices (figure \ref{figure:control_condition_confusion_matrix_48h}) are close to perfect. The additional 40 epochs of training reduced the false negative classifications by a little bit, which was worth the time in our opinion as we want the value of wrong classifications to be as close to 0 as possible. For this relatively small dataset, we are happy with a classification model with scores above 0.99 on all performance metrics previously discussed (table \ref{table:control_condition_performance}). 
 
 \begin{figure}
       \begin{multicols}{2}
@@ -118,22 +118,19 @@ The classifications for the models trained to fit 48-hour segments you can see i
 %TP   FN   
 %FP   TN
 
-\subsection{Performance metrics}
+\begin{table}[h]
+\begin{center}
+      \begin{tabular}{|l|l|l|l|l|}
+            \hline
+            \bfseries Accuracy & \bfseries Precision & \bfseries Recall & \bfseries Specificity & \bfseries F1 \\\hline
+            0.996 & 0.996 & 0.998 & 0.992 & 0.997 \\\hline
+      \end{tabular}
+      \caption{Performance metrics for control vs condition group classifier.}
+      \label{table:control_condition_performance}
+\end{center}
+\end{table}
 
-\subsubsection{Accuracy}
-$ A = \frac{TP+TN}{TP+TN+FN+FP} = \frac{3122+1577}{3122+1577+5+13} \approx 99,6\%$
-
-\subsubsection{Precision}
-$ P = \frac{TP}{TP+FP} = \frac{3122}{3122+13} \approx 0.996$
-
-\subsubsection{Recall}
-$ R = \frac{TP}{TP+FN} = \frac{3122}{3122+5} \approx 0.998$
-
-\subsubsection{Specificity}
-$ S = \frac{TN}{TN+FP} = \frac{1577}{1577+13} \approx 0.992$
-
-\subsubsection{F1 Score}
-$ F1 = 2 \cdot \frac{P \cdot R}{P + R} = 2 \cdot \frac{0,996 \cdot 0,998}{0,996 + 0,998} \approx 0.997 $
+\vfill
 
 \subsection{Cross-validation}
 
@@ -147,7 +144,7 @@ To ensure that our model is not overfitting and did not get lucky when classifyi
               \csvreader[head to column names]{code/logs/control_vs_condition/5f_cv.csv}{}
               {\\\hline\fold & \loss & \accuracy}
               \\\hline
-              \bfseries Mean & \bfseries 0.0629539173937511 & \bfseries 0.9809907427163319
+              \bfseries Mean & \bfseries 0.063 & \bfseries 0.98
               \\\hline
           \end{tabular}
           \caption{3-Fold Cross validation. Overall accuracy was 0.98 and loss 0.06.}
@@ -230,7 +227,7 @@ We experimented the same way as before, except that we went straight for 50 epoc
             \csvreader[head to column names]{code/logs/depression_class/cv.csv}{}
             {\\\hline\fold & \loss & \accuracy}
             \\\hline
-            \bfseries Mean & \bfseries 0.032561721418313254 & \bfseries 0.990689902124612
+            \bfseries Mean & \bfseries 0.033 & \bfseries 0.991
             \\\hline
       \end{tabular}
       \caption{3-Fold Cross validation for this experiment to verify consistency of the model. All three folds perform well.}
@@ -266,7 +263,7 @@ We trained the three models for 15 epochs each. We knew that was not enough to g
       \label{table:depression_class_performance_loo}
 \end{center}
 \end{table}
-We repeated the same experiment from the end of the previous goal, where we trained on all participants except one that we left for testing afterward. Looking at the confusion matrix \ref{figure:depression_class_conf_loo}, the model seemed to be good at detecting non-depressed participants (F1-score of 0.79), and terrible at everything else (F1-score of 0.11 for mild depression and the model did not detect any participant with moderate depression). Overall, we calculated a mean F1-score of 0.30 for this model (see table \ref{table:depression_class_performance_loo}). 
+We repeated the same experiment from the end of the previous goal, where we trained on all participants except one that we left for testing afterward. Looking at the confusion matrix (figure \ref{figure:depression_class_conf_loo}), the model seemed to be good at detecting non-depressed participants (F1-score of 0.79), and terrible at everything else (F1-score of 0.11 for mild depression and the model did not detect any participant with moderate depression). Overall, we calculated a mean F1-score of 0.30 for this model (see table \ref{table:depression_class_performance_loo}). 
 
 
 \section{1D CNN: MADRS Score Prediction}

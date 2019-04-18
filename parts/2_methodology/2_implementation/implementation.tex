@@ -44,7 +44,7 @@ We built two convolutional neural network models. One model for the first two go
 To make a convolutional neural network, you need some \textit{convolutional} and \textit{pooling} layers. Which layers added in between and the ordering of them, together with the parameters passed to the layers, is what makes the model perform differently. 
 
 \subsubsection{Classification}
-The following model \ref{code:1d_conv_net_classifier} is used to achieve our first two goals; classifying whether a participant belongs to the \textbf{control} or \textbf{condition} group, and classifying the participant's \textbf{depression class}. The only difference between these two goals is the number of classes we are trying to classify, and therefore only the output layer needs to be changed.
+The following model was used to achieve our first two goals; classifying whether a participant belongs to the \textbf{control} or \textbf{condition} group, and classifying the participant's \textbf{depression class}. The only difference between these two goals is the number of classes we are trying to classify, and therefore only the output layer needs to be changed. Full source code can be found in the source code section \ref{code:1d_conv_net_classifier}.
 
 \begin{enumerate}
       \item We started by defining a \textbf{Sequential} model. This is easy to understand and readable way of defining a model. Alternatively, we could have used a \textbf{functional} model, which would give more control of inputs and outputs of the layers. A \textbf{functional} model would also be useful if we wanted to debug and optimize each layer within the model. 
@@ -55,43 +55,39 @@ The following model \ref{code:1d_conv_net_classifier} is used to achieve our fir
 
       \item \textbf{Conv1D}: The second convolutional layer looks exactly like the first one, and the output is a $(X-10+1-10+1) \times 100$ matrix. 
       \item \textbf{MaxPooling1D}: Pooling is important in a convolutional neural network to reduce complexity, and its role is to merge semantically similar features into one \cite{deep_learning}. 
-            \textit{Max pooling} works by reducing to only the maximum value for each \textit{window} of size $N \times N$. We are using 2 as 
+            \textit{Max pooling} works by reducing to only the maximum value for each \textit{window} of size $N \times N$. We used 2 as 
             window size ($N$), resulting in matrix that is half the size of the input: $ \frac{X-10+1-10+1}{2} \times 100$. 
             Pooling may also help reduce \textit{overfitting}, which is when the model learns its training data too well and performs worse on unseen data.
-      \item \textbf{Conv1D}: Two more convolutional layers are added, and after these, the input to the next layer will be a matrix of size
+      \item \textbf{Conv1D}: Two more convolutional layers were added, and after these, the input to the next layer will be a matrix of size
             $ \left( \frac{X-10+1-10+1}{2}-10+1-10+1 \right) \times 160 $.
-      \item \textbf{GlobalAveragePooling1D}: This is another pooling layer, which one takes the average of weights within the network instead of the maximum.
-            After doing this, the matrix will be of size $ 1 \times 160 $.
-      \item \textbf{Dropout}: Dropout is used to reduce overfitting, by randomly ignoring units in the neural network \cite{dropout}. 
+      \item \textbf{GlobalAveragePooling1D}: Another type of pooling layer was added, which takes the average of weights within the network instead of the maximum.
+            The output of the \textit{global average pooling} layer is a matrix of size $ 1 \times 160 $.
+      \item \textbf{Dropout}: A dropout layer is used to reduce overfitting, by randomly ignoring units in the neural network \cite{dropout}. 
       \item \textbf{Dense}: The final layer in the model is a dense layer (fully connected) which reduces the matrix from $160$ values to 
             either $2$ or $3$ (for goal one and two), with the activation function \textbf{softmax}. 
             Then the output (a $1$ in one of the neurons) is mapped to the corresponding label.
 \end{enumerate}
 
-After creating the model, we \textit{compile} it as a model that is ready to be \textit{fit} to the dataset, 
-giving it a \textbf{loss function} and an \textbf{optimizer}.The loss function is the function that evaluates how well the 
-model \textit{models} the given data \cite{loss_functions}, and the optimizer is the function that attempts to lower the output of the loss function. 
+After defining the model, we \textit{compiled} it so that it was ready to be \textit{fit} to the dataset. Compiling a model requires a \textit{loss function} and an \textit{optimizer}. The loss function is the function that evaluates how well the model \textit{models} the given data \cite{loss_functions}, and the optimizer is the function that attempts to lower the output of the loss function. 
 
-For the first two goals in this thesis, we used the loss function \textit{categorical crossentropy}, which calculates a probability over the 
-number of classes that are supplied (number of classes equals the number of neurons in the output layer). 
+For the first two goals in this thesis, we used the loss function \textit{categorical crossentropy}, which calculates a probability over the number of classes that are supplied (number of classes equals the number of neurons in the output layer). 
 
-For the optimizer, there are many different choices available,
-but to keep things simple, we will start out using an optimizer called \textbf{Adam} for training all of our models. Using a different optimizer can make the 
-model fit to the dataset faster or slower. 
+For the optimizer, there are many different choices available, but to keep things simple, we will start out using an optimizer called \textit{Adam} for training all of our models. Using a different optimizer can make the model fit to the dataset faster or slower. 
 
 \subsubsection{Prediction}
-To make the model work for our third goal, where we will predict the actual value for the participant's MADRS score, we have to change a few layers. To simplify it a bit, we removed two of the \textit{Conv1D} layers and applied this after the \textit{GlobalAveragePooling1D} layer:
+To make the model work for our third goal, where we predicted the value of participant's MADRS score, we had to change a few layers. We removed two of the \textit{Conv1D} layers and applied the following after the global average pooling layer:
 
 \begin{enumerate}
       \setcounter{enumi}{7}
-      \item \textbf{Flatten}: The matrix needs to be flat (one dimensional) before proceeding to the final layers.
-      \item \textbf{Dense}: A dense layer with $10$ neurons, and \textit{relu} as the activation function. 
-      \item \textbf{Dense}: The output layer is a dense layer of size $1$, since we are predicting \textit{one} value. 
-            Also, the activation on this layer is going to be \textit{linear} instead of softmax.
+      \item \textbf{Flatten}: The matrix was required to be flat (one dimensional) before proceeding to the final layers.
+      \item \textbf{Dense}: A dense layer with $10$ neurons was added, with \textit{ReLU} as the activation function. 
+      \item \textbf{Dense}: The output layer is a dense layer of size $1$, because we are predicting \textit{one} value. 
+            Also, the activation function is \textit{linear} instead of \textit{softmax}.
 \end{enumerate}
 
-We compile this model with the loss function \textit{Mean Squared Error}, which is measured as the average (mean) of squared difference between predictions and actual observations ($ loss = \frac{\sum_{i=1}^{n}(y_i-\hat{y}_i)^2}{n} $) \cite{loss_functions}. The optimizer is the same as before.
+We compiled this model with the loss function \textit{Mean Squared Error}, which is measured as the average (mean) of squared difference between predictions and actual observations ($ loss = \frac{\sum_{i=1}^{n}(y_i-\hat{y}_i)^2}{n} $) \cite{loss_functions}. Full code for this model can also be found in the source code section \ref{code:1d_conv_net_predictor}.
 
+\vfill
 
 \section{Optimizing the models}
 
@@ -120,8 +116,6 @@ Hyper-parameters are all the \textit{higher-order} parameters we compile/train t
       \item \textbf{Train/test split size}\\
           When building a neural network, we want as much data as possible to both train and to test on afterward. We can't use all the data in both cases, so the most balanced split needs to be determined.
 \end{itemize}
-
-\newpage
 
 \section{Source Code}
 \input{code/tex/create_segments_and_labels}

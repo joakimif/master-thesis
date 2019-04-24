@@ -1,27 +1,35 @@
-\section{Goals}
-
-Our goal in this thesis was to create machine learning models for three different tasks:
-
-\begin{itemize}
-  \item Classify whether a participant belongs to the \textbf{control} group or \textbf{condition} group.
-  \item Classify a participant's depression class (by MADRS score).
-  \item Predict a participant's MADRS score.
-\end{itemize}
-
-
-\begin{quote}
-  \textit{A 1D CNN is very effective when you expect to derive interesting features from shorter (fixed-length) segments of the overall dataset and where the location of the feature within the segment is not of high relevance. This applies well to the analysis of time sequences of sensor data (such as data from gyroscopes or accelerometers).} \cite{1d_cnn}
-\end{quote}
-
-We decided on using One-Dimensional Convolutional Neural Networks. We solved all these using each participant's activity data as input, and we created a model that, with few changes, could be used for all three goals. For the different goals, only the last few layers needed to change. 
-
-For the first goal, classifying \textbf{control} or \textbf{condition} group, the output data was a matrix with two columns (\textbf{control}, \textbf{condition}), with a $1$ in one of the columns and a $0$ in the other for each row. 
-
-However, before getting started on convolutional neural networks, we wanted to see if these problems were solvable with simple regression. The idea was to throw in the columns from the demographics dataset \ref{figure:demographics}. We did not expect much from this, as there are only 55 rows in the table. Anyone having a little bit of experience with machine learning will know that this is not nearly enough data. However, we wanted to do it regardless, and see how a simple and shallow model performed. By doing this, we established some benchmark for performance; the Convolutional Neural Network model had to \textit{at least} better than this one.
-
-%\input{parts/2_methodology/1_planning_the_project/learning_experiments}
-
 \section{The dataset}
+
+\begin{figure}[h]
+  \begin{center}
+      \includegraphics[height=3.5cm]{img/demographics.png}
+      \caption{The 5 first rows in demographic dataset (scores.csv). The displayed participants are from the condition group.}
+      \label{figure:demographics}
+  \end{center}
+\end{figure}
+
+\begin{figure}[h]
+  \begin{center}
+      \includegraphics[height=3.5cm]{img/demographics_control.png}
+      \caption{The 5 last rows in demographic dataset (scores.csv). The displayed participants are from the control group.}
+      \label{figure:demographics_control}
+  \end{center}
+\end{figure}
+
+\begin{figure}[h]
+  \begin{center}
+      \includegraphics[height=6cm]{img/activity_condition_1.pdf}
+      \caption{Motor activity measurements for a participant in the condition group. The participant is a male between 39 and 39 years old, diagnosed with unipolar depression. The number on the X-axis corresponds to the minute throughout the measurement period, and the number on the Y-axis is the activity levels.}
+      \label{figure:participant_activity}
+  \end{center}
+\end{figure}
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[height=6cm]{img/activity_control_1.pdf}
+    \caption{Motor activity measurements for a participant in the control group. The participant is a female between 45 and 49 years old. The number on the X-axis corresponds to the minute throughout the measurement period, and the number on the Y-axis is the activity levels.}
+    \label{figure:participant_activity_control}
+  \end{center}
+\end{figure}
 
 In this thesis, we used a dataset containing motor activity measurements from participants wearing an Actiwatch (model AW4 from Cambridge Neurotechnology Ltd, England). The dataset was collected originally for a study about behavioral patterns in schizophrenia vs. major depression \cite{Berle2010}. The participants we focus on are 23 bipolar/unipolar patients and 32 non-depressed contributors, removing the participants with schizophrenia. From now on, we will refer to the bipolar/unipolar group as the \textit{condition group}, and the non-depressed group as the \textit{control group}. Garcia-Ceja et al. also follows this convention in their work \cite{GarciaCeja2018_classification_bipolar}.
 
@@ -42,37 +50,39 @@ The dataset is in two parts. One part includes the demographics of each particip
     \item \textbf{madrs2}: MADRS score after activity measurements ended
 \end{itemize}
 
-\begin{figure}[h]
-  \begin{center}
-      \includegraphics[height=3.5cm]{img/demographics.png}
-      \caption{5 first rows in demographic dataset (scores.csv).}
-      \label{figure:demographics}
-  \end{center}
-\end{figure}
 
-\begin{figure}[h]
-  \begin{center}
-      \includegraphics[height=4cm]{img/participant.png}
-      \caption{5 first rows in activity measurements dataset for one participant (condition\_1.csv).}
-      \label{figure:participant_activity}
-  \end{center}
-\end{figure}
 
-The second part includes sensor data about the condition group and control group, as one file for each participant (see figure \ref{figure:participant_activity}). These files are in two folders for the two groups (control/condition) respectively, and one file for each person inside the folders (filename is "GROUP\_X.csv" where X is their id and GROUP is either condition or control. Inside the files, there is a list of activity measurements for every minute of the data collection period.
+The second part of the dataset includes motor activity measurements about participants in the condition group and control group, as one file for each participant. These files are placed in two folders for the two groups respectively, and there is one file for each participant with filename as "GROUP\_X.csv" where X is their id and GROUP is either condition or control. Inside each file, we can find a list of motor activity measurements for every minute of the data collection period.
+
+Looking at example participants from both groups (figures \ref{figure:participant_activity} and \ref{figure:participant_activity_control}), we can not immediately tell that they are different with our eyes. However, by feeding the data into a convolutional neural network, we aim to find patterns that are specific to the two groups. 
+
+\section{Objectives}
+
+As described in the introduction, our objectives in this thesis is creating convolutional neural network models for three different tasks:
+
+\begin{itemize}
+  \item Classify whether a participant belongs to the \textbf{control} group or \textbf{condition} group.
+  \item Classify a participant's depression class (by MADRS score).
+  \item Predict a participant's MADRS score.
+\end{itemize}
+
+We implemented One-Dimensional Convolutional Neural Networks that were able to take each participant's activity data as input. Also, we wanted the neural network models to be as similar as possible. With few changes in the layers (preferably only the last few layers), one model could be \textit{translated} to another objective. It was, however, only possible for the first two objectives, as they are both about classification and we only changed the number of units in the output layer. We changed more layers for the third objective, and we will describe all neural network models in depth in chapter \ref{chapter:models}.
+
+Before getting started on convolutional neural networks, we wanted to see if these problems were solvable with linear regression. The idea was to use the columns from the demographics dataset (see figure \ref{figure:demographics}). We did not expect much from this, as there are only 55 rows of participants. Anyone having a little bit of experience with machine learning will know that this is not nearly enough data. We wanted to do it regardless, to see how a linear regression model performed.
 
 \section{Data Preprocessing}
 
-We wrote a function \textit{create\_segments\_and\_labels()} (source code \ref{code:reading_dataset}), which was responsible of creating the data that is sent into the neural network. We started by defining a \textit{segment length} ($L$), which is how much data (minutes) we want inside each segment. We experimented with the value of $L$ in the chapter about training the models. Next, we needed a value for how many indexes to step after each iteration, $S$. We kept this value at one hour, meaning $S=60$. Between the different goals, this function will only be different in how it yields the \textit{labels}.
+We wrote a function \textit{create\_segments\_and\_labels()} (source code \ref{code:reading_dataset}), which was responsible of creating the data that is sent into the neural network. We started by defining a \textit{segment length} ($L$), which is how much data (minutes) we want inside each segment. We experimented with the value of $L$ in the chapter about training the models. Next, we needed a value for how many indexes to step after each iteration, $S$. We kept this value at one hour, meaning $S=60$. Between the different objectives, this function will only be different in how it yields the \textit{labels}.
 
 \begin{itemize}
-  \item First we read the \textit{global} dataset, where we find each participant and whether they are bipolar or not. As there is no \textit{afftype} value for non-bipolar participants, we set this to 0. Other possible values are 1, 2 and 3. We do the same for the \textit{madrs2} column.
+  \item First we read the \textit{global} dataset, where we find each participant and whether they are in the control or condition group. As there is no \textit{afftype} value for non-depressed participants, we set this to 0. Other possible values are 1, 2 and 3. We do the same for the \textit{madrs2} column.
   \item Then we iterate over the participants:
 
   \begin{itemize}
     \item Build segments and labels arrays for current participant:
     \begin{itemize}
       \item Append a \textbf{segment} that is of length $L$ to the list of segments. 
-      \item Append a value to labels depending on the goal (see the subsection about output data).
+      \item Append a value to labels depending on the objective (see the subsection about output data).
       \item Increase the index by $S$, then repeat until we have added all segments for the current participant.
     \end{itemize}
     \item Example element in segments and labels for a participant in the condition group: \\
@@ -80,7 +90,7 @@ We wrote a function \textit{create\_segments\_and\_labels()} (source code \ref{c
     \textbf{labels[i] = [[1], [1], [1], [1], [1], [1], [1], [1]]}
   \end{itemize}
   
-  \item Make the list of labels into a \textit{categorical} 2D matrix (see table \ref{table:categorical_labels}) with a \textbf{1} in only one of the columns, instead of a single-dimensional list. This is only needed in the first two goals.
+  \item Make the list of labels into a \textit{categorical} 2D matrix (see table \ref{table:categorical_labels}) with a \textbf{1} in only one of the columns, instead of a single-dimensional list. This is only needed in the first two objectives.
 \end{itemize}
 
 \subsection{Output data}
@@ -104,7 +114,7 @@ We wrote a function \textit{create\_segments\_and\_labels()} (source code \ref{c
   \end{center}
 \end{table}
 
-The output data was an array with a value for each segment, corresponding to the goal and the participant. After creating it, we used a helper function from Keras called \textit{to\_categorical} to transform the array into a categorical matrix instead of a list of labels. Table \ref{table:categorical_labels} is an example of how a categorical matrix looks. The value we used to build this array was based on the goal:
+The output data was an array with a value for each segment, corresponding to the objective and the participant. After creating it, we used a helper function from Keras called \textit{to\_categorical} to transform the array into a categorical matrix instead of a list of labels. Table \ref{table:categorical_labels} is an example of how a categorical matrix looks. The value we used to build this array was based on the objective:
 
 \begin{itemize}
   \item For classifying control/condition group, this list was built to contain the values \textbf{0} or \textbf{1} for the labels \textbf{CONTROL} and \textbf{CONDITION}, which was chosen according to the group the participants were in. For example, \textbf{labels[i] = [0, 1]}, meaning that segment $i$ is labeled as \textbf{CONDITION} group. 
@@ -116,7 +126,7 @@ The output data was an array with a value for each segment, corresponding to the
     \item 20-34: moderate depression
     \item 34-60: severe depression
   \end{itemize}
-  So instead of labelling the segments as \textbf{CONTROL} or \textbf{CONDITION}, we labeled them as \textbf{NORMAL}, \textbf{MILD} and \textbf{MODERATE} (we ignored severe depression as there are no participants with MADRS scores this high). An example element in this array after applying \textit{to\_categorical()} is \textbf{labels[i] = [0, 1, 0]}, which means that segment $i$ is labelled as \textbf{MILD} depression.
+  So instead of labelling the segments as \textbf{CONTROL} or \textbf{CONDITION}, we labeled them as \textbf{NORMAL}, \textbf{MILD} and \textbf{MODERATE} (we ignored severe depression as there are no participants with MADRS scores this high). An example element in this array after applying \textit{to\_categorical()} is \textbf{labels[i] = [0, 1, 0]}, which means that segment $i$ is labeled as \textbf{MILD} depression.
   \item For predicting MADRS scores, we built the array of the MADRS score of the participants. Example: \textbf{scores[i] = [18]}.
 \end{itemize}
 

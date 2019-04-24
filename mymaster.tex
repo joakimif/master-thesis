@@ -15,6 +15,7 @@
 \usepackage{multicol}
 \usepackage{csvsimple}
 \usepackage{pgfplots}
+\usepackage[toc,page]{appendix}
 
 \newlength\figureheight
 \newlength\figurewidth
@@ -31,8 +32,7 @@
 
 \newenvironment{code}{\captionsetup{type=listing}}{}
 \SetupFloatingEnvironment{listing}{name=Code}
-%\newcommand{\problemStatement}{1D Convolutional Neural Networks for Biploar Disorder Classification and Prediction based on Motor Activity}
-\newcommand{\problemStatement}{1D Convolutional Neural Networks for Classifying and Predicting Depression with Motor Activity Measurements}
+\newcommand{\problemStatement}{1-D Convolutional Neural Networks for Detecting Depression with Motor Activity Measurements}
 
 \title{\problemStatement}
 \subtitle{
@@ -63,29 +63,43 @@ long]
 \part{Introduction}
 
 \chapter{Introduction}
+\label{chapter:introduction}
 \input{parts/1_introduction/1_Introduction/introduction}
 
 \chapter{Background}
+\label{chapter:background}
 \input{parts/1_introduction/2_Background/background}
-
 
 \part{Methodology}
 \chapter{Planning and Preparing Data}
+\label{chapter:planning}
 \input{parts/2_methodology/1_planning_the_project/planning}
 
 \chapter{Model implementations}
+\label{chapter:models}
 \input{parts/2_methodology/2_implementation/implementation}
 
 \chapter{Training the models}
+\label{chapter:training}
 \input{parts/2_methodology/3_training/training}
 
 \part{Conclusion}
 \chapter{Discussion}
+\label{chapter:discussion}
 \input{parts/3_conclusion/1_discussion/discussion.tex}
 
 \chapter{Conclusion and Future work}
+\label{chapter:conclusion}
 \input{parts/3_conclusion/2_conclusion/conclusion.tex}
 
 \backmatter{}
 \printbibliography
+
+\begin{appendices}
+\chapter{Source code}
+%\ref{appendix:source_code}
+\label{appendix:source_code}
+The source code of this thesis can be found at ...
+\end{appendices}
+
 \end{document}

@@ -1,5 +1,14 @@
-\section{Depression}
-In this thesis, participants in the condition group are either diagnosed with bipolar disorder or unipolar depression. The difference between the conditions is that bipolar disorder is more than just depression; they also experience what is called \textit{mania}. This section is an introduction to bipolar disorder and a rating for depression: MADRS. 
+
+The fields of studies for this thesis are both mental health and machine learning, and this chapter contains background information and previous research within both of them. We start with mental health, where we describe mental issues, depression, and bipolar disorder. Then we dive into the topic of machine learning, where we provide a technical introduction.
+
+\section{Mental health}
+Mental health problems are not known very well by the public. Jorm et al. performed research \cite{jorm1997mental} where they displayed vignettes of one patient suffering from major depression and one from schizophrenia to the people of the Australian public. Of the participants, only 39\% correctly guessed depression, and 27\% correctly guessed schizophrenia. Another study has shown that schizophrenia is often confused with multiple personalities \cite{angermeyer1999social}. Such poor public knowledge about mental health problems can be problematic, as people may have a condition without knowing anything about it. When this is the case, professional help use more time to establish their diagnosis. 
+
+\subsection{Depression Rating: MADRS}
+Montgomery-Åsberg Depression Rating Scale, or MADRS for short, is a rating system for telling how depressed a patient is. Stuart A. Montgomery and Marie Åsberg designed it in 1979, and it is more sensitive to changes than the Hamilton Rating Scale for Depression (HRS) for patients that go through antidepressant medication. The process for calculating a MADRS rating contains ten statements about the patient's behavior, where the topics are: apparent sadness, reported sadness, inner tension, reduced sleep, reduced appetite, concentration difficulties, lassitude, inability to feel, pessimistic thoughts, suicidal thoughts \cite{madrs_paper}.
+
+
+The person doing the rating answers each question with a number between 0 and 6, where the higher the number, the more relevant the statement is for the patient. The numbers added together gives us the total MADRS score, which we split into four categories: normal/not depressed: 0-6, mild depression: 7-19, moderate depression: 20-34 and severe depression: 34-60 \cite{sunnybrook_stroke_study}. 
 
 \subsection{Bipolar Disorder}
 
@@ -24,29 +33,6 @@ like once every month. We also separate between bipolar disorder type I and II, 
 more aggressive in type I \cite{bipolar_types}. Statistics say that bipolarity is genetically inheritable, with 23\% chance of getting a child with bipolar 
 disorder if one parent is bipolar, and 66\% if both parents are \cite{bipolar_statistics}. 
 
-\subsection{Depression Rating: MADRS} %https://www.researchgate.net/publication/224773098_A_New_Depression_Scale_Designed_to_be_Sensitive_to_Change
-Montgomery-Åsberg Depression Rating Scale, or MADRS for short, is a rating system for telling how depressed a patient is. Stuart A. Montgomery and Marie Åsberg 
-designed it in 1979, and it is more sensitive to changes than the Hamilton Rating Scale for Depression (HRS) for patients that go through antidepressant medication. 
-The process for calculating a MADRS rating contains ten statements about the patient's behavior, where the topics are \cite{madrs_paper}:
-
-\begin{itemize}
-    \item Apparent sadness
-    \item Reported sadness
-    \item Inner tension
-    \item Reduced sleep
-    \item Reduced appetite
-    \item Concentration difficulties
-    \item Lassitude
-    \item Inability to feel
-    \item Pessimistic thoughts
-    \item Suicidal thoughts
-\end{itemize}
-
-The person doing the rating answers each question with a number between 0 and 6, where the higher the number, the more relevant the statement is for the patient. 
-The numbers added together gives us the total MADRS score, which we split into four categories: normal/not depressed: 0-6, mild depression: 7-19, moderate depression: 
-20-34 and severe depression: 34-60 \cite{sunnybrook_stroke_study}. 
-
-\newpage
 \section{Machine learning}
 Machine learning is the field of computer science where we throw data into an algorithm and expect it to give answers to whatever the goal is, 
 with as little work as possible. The process of performing machine learning was not as simple in the early days of the technology, 
@@ -69,13 +55,7 @@ reinvent the wheel when there are so many good frameworks and tools already out 
 Python is a programming language perfect for machine learning in our opinion. The language looks a lot like pseudo-code, and this is perfect because we do not 
 want to spend time on syntax rules in another language. A popular framework called \textbf{TensorFlow} is available to use in Python, and developers from Google have built it. 
 
-TensorFlow allows the programmer to build models quickly, and also execute the training and testing. Before we get started with TensorFlow, a smart choice 
-would be to do a quick search on the Internet to see if someone else has already done something similar to what we want to achieve, and if you find something, 
-the odds are that your neural network model can be similar, if not identical to it. If not, then we have to sit down and write the model by ourselves. 
-
-For the model implementation part, whether we found a model online or want to write it, we can, of course, use TensorFlow directly, but using \textbf{Keras} 
-as an abstraction layer above TensorFlow is a popular choice. On their documentation website \cite{keras_docs}, they see their framework as 
-\blockquote{A high-level neural networks API, written in Python and capable of running on top of TensorFlow, CNTK or Teano}.
+TensorFlow allows the programmer to build models quickly, and also execute the training and testing. TensorFlow can be used directly, but using \textbf{Keras} as an abstraction layer above it is a popular choice, which we did when implementing the neural networks for our objectives. On their documentation website \cite{keras_docs}, they describe their framework as \blockquote{A high-level neural networks API, written in Python and capable of running on top of TensorFlow, CNTK or Teano}.
 
 Following their \textit{30 seconds to Keras} guide \cite{keras_docs}, you can create a \textit{sequential} model with \textit{dense}
 layers, configure its learning process (compile), then fit, train, evaluate and predict with just a few lines of code \ref{code:keras-guide}.
@@ -120,16 +100,7 @@ approaches because we use these regardless of the strategy that we end up using;
 supervised and unsupervised learning. There are a lot of different approaches available, and we will describe some of them.
 
 \subsection{Decision tree learning}
-In computer science, trees are data structures commonly used to describe something that \textit{branches out} based on different input. For example, 
-a tree can be a representation of how the frequency of letters in the alphabet are distributed in a text file so that the text file can be compressed optimally. 
-We will not go into details about how this works, but our point is that tree-structures are very common in most fields of computer science. 
-
-In machine learning, we can apply the tree-structures as \textit{decision tree learning}. Decision trees are trees that classify instances by sorting them based on feature values, and each \textit{node} represents a feature. Each branch represent a value that the node can assume \cite{supervised_learning}.
-In this approach, we set up all the different outcomes (with the training data set) of a specific question in a tree. Let us say we want to predict whether or not a person will run outside on a specific day. 
-Then it makes sense that the training set contains weather information. The different data in the training set is called attributes, and correctly picking 
-these is essential for the quality of the prediction.
-
-\begin{table}
+\begin{table}[h]
     \begin{tabular}{| l | l | l | l | l | l |}
     \hline
     \textbf{Day} & \textbf{Temperature} & \textbf{Outlook}   & \textbf{Humidity}  & \textbf{Wind}     & \textbf{Run} \\ \hline
@@ -145,6 +116,15 @@ these is essential for the quality of the prediction.
     \caption{Example training data set: days a person went out for a run}
     \label{table:days_running}
 \end{table}
+
+In computer science, trees are data structures commonly used to describe something that \textit{branches out} based on different input. For example, 
+a tree can be a representation of how the frequency of letters in the alphabet are distributed in a text file so that the text file can be compressed optimally. 
+We will not go into details about how this works, but our point is that tree-structures are very common in most fields of computer science. 
+
+In machine learning, we can apply the tree-structures as \textit{decision tree learning}. Decision trees are trees that classify instances by sorting them based on feature values, and each \textit{node} represents a feature. Each branch represent a value that the node can assume \cite{supervised_learning}.
+In this approach, we set up all the different outcomes (with the training data set) of a specific question in a tree. Let us say we want to predict whether or not a person will run outside on a specific day. 
+Then it makes sense that the training set contains weather information. The different data in the training set is called attributes, and correctly picking 
+these is essential for the quality of the prediction.
 
 Table \ref{table:days_running} contains data about whether a person went outside for a run or not for a week (just an example, not real data). 
 Here the first 4 (excluding "Day") columns (Temperature, Outlook, Humidity, and Wind) is the "predictors" and the last column (Run) is the target. 
@@ -187,7 +167,7 @@ to the output layer where we perform an activation function to define the output
 
 If we have a lot of hidden layers in a neural network, we call it a \textit{deep} neural network. Deep networks can be useful for anything, and only the programmer's creativity sets the limit. Two common ways to use neural networks are \textit{Recurrent Neural Networks} and \textit{Convolutional Neural Networks}. These two have their use cases, which we will describe below.
 
-Figure \ref{figure:neural_net} is a visual representation of a shallow neural network with the input layer on the left, one hidden layer in the middle and the output layer on the right-hand side. For each layer, we have fully connected nodes, which means that each node has a connection to all nodes in the next layer.
+Figure \ref{figure:neural_net} is a visual representation of a neural network with the input layer on the left, one hidden layer in the middle and the output layer on the right-hand side. For each layer, we have fully connected nodes, which means that each node has a connection to all nodes in the next layer.
 
 \subsubsection{Recurrent Neural Networks (RNN)}
 Recurrent Neural Networks are useful for predicting something based on a sequence of data, like for example predicting words in a sentence, which can be especially useful for typing on the phone. Also making predictions based on historical data, speech and language, are tasks an RNN can do effectively \cite{deep_learning}.
@@ -195,40 +175,48 @@ Recurrent Neural Networks are useful for predicting something based on a sequenc
 One downside to Recurrent Neural Networks used on large sequences of data is that the prediction will most likely be off if a word written at the beginning of a long text is a dependency for a prediction four chapters later, for example, the home location of the main character. The workaround for this is something called \textit{Long Short-Term Memory Recurrent Neural Network (LSTM RNN)}, and is the idea of having additional logic to avoid the prediction model forgetting essential facts \cite{deep_learning}.
 
 \subsubsection{Convolutional Neural Networks (CNN)}
-A Convolutional Neural Network, or \textit{CNN} for short, can be used for identifying patterns in data, which then is the underlying calculations for either prediction or classification. They are designed to process data in different array shapes \cite{deep_learning}. A common use case for CNN's is image recognition. In image recognition, we train our models to be good at identifying objects in images, for example, the difference between cats and dogs. Then we can input a completely different image to the model, and it will output whether the image is of a cat or a dog. 
+A Convolutional Neural Network, or \textit{CNN} for short, can be used for identifying patterns in data, which then is the underlying calculations for either prediction or classification. They are designed to process data in different array shapes \cite{deep_learning}. A common use case for CNNs is image recognition. In image recognition, we train our models to be good at identifying objects in images, for example, the difference between cats and dogs. Then we can input a completely different image to the model, and it will output whether the image is of a cat or a dog. 
 
 This type of CNN is two-dimensional because an input image is a two-dimensional array of pixels, so the network also needs to have two dimensions in the convolutional layers. Another way of constructing a CNN is one-dimensionally, which can be useful for \textit{one-dimensional} data, for example, sensor data from gyroscopes or accelerometers \cite{deep_learning}.
 
+\begin{quote}
+\textit{A 1D CNN is very effective when you expect to derive interesting features from shorter (fixed-length) segments of the overall dataset and where the location of the feature within the segment is not of high relevance. This applies well to the analysis of time sequences of sensor data (such as data from gyroscopes or accelerometers).} \cite{1d_cnn}
+\end{quote}
+
+For this reason, we decided on implementing one-dimensional convolutional neural networks to achieve the objectives of our goal. Also, the results are important, as no researchers have applied convolutional neural networks on motor activity measurements in the field of mental health yet to our knowledge. 
+
 \section{Related work}
-We split related work in two: mental health and convolutional neural networks. In this section, we mention several research papers that are related to these two topics. 
+In this section, we mention several research papers that are related to these two topics Mental Health Monitoring Systems and Convolutional Neural Networks.
 
 \subsection{Mental Health}
-In the field of Mental Health Monitoring Systems (MHMS), research has already been done by many. In this section, we will describe a few papers that are of importance to this thesis, namely those about depression/bipolar disorder, who also applied machine learning to their study. 
+In the field of Mental Health Monitoring Systems (MHMS), research has already been done by many. In this subsection, we describe some earlier research about depression/bipolar disorder, where they also applied machine learning to their study. 
 
 E. Garcia-Ceja et al. surveyed some of the recent research works in machine learning for MHMS \cite{GarciaCeja2018_survey}. They gave the different works labels: study type (association/detection/forecasting), study duration (short-term or long term), and sensor types (wearable/external/software or social media). 
 
-Association studies were those who help understand the relationships between variables, and the methods include linear regression, correlation analysis, t-tests and analysis of variance. Detection studies have a goal to detect/recognize mental state, often using methods like classification models. Forecast studies aim to predict events about patients, for example, epileptic seizures. The wearable sensor types include smart-watches and smartphones, external sensors could, for example, be cameras or microphones installed in an institution where the participants were patients. Some studies, where the sensor type was software or social media used services like Instagram to collect their data \cite{GarciaCeja2018_survey}. 
+Association studies were those who help understand the relationships between variables, and the methods include linear regression, correlation analysis, t-tests and analysis of variance. Detection studies have a goal to detect/recognize the mental state, often using methods like classification models. Forecast studies aim to predict events about patients, for example, epileptic seizures. The wearable sensor types include smart-watches and smartphones, external sensors could, for example, be cameras or microphones installed in an institution where the participants were patients. Some studies, where the sensor type was software or social media used services like Instagram to collect their data \cite{GarciaCeja2018_survey}. 
 
-To find relevant work for this thesis, we had a look into some of the studies included, which studied depression and bipolar disorder. One study by O'Brien, J.T. et al. was an association study about depression, where the participants wore accelerometers on their wrists. Twenty-nine adults with depression and 30 healthy adults participated, and the goal was to study the possibility that physical activity has an impact on depression (referred to as Late Life Depressions in the paper). They found that the physical activity of participants with LLDs was significantly lower \cite{obrien_depression}, which is highly relevant for this thesis because our dataset contains physical activity data. 
+To find relevant work for this thesis, we had a look into some of the studies included, which studied depression and bipolar disorder. One study by O'Brien, J.T. et al. \cite{obrien_depression} was an association study about depression, where the participants wore accelerometers on their wrists. Twenty-nine adults with depression and 30 healthy adults participated, and the goal was to study the possibility that physical activity has an impact on depression (referred to as Late Life Depressions in the paper). They found that the physical activity of participants with LLDs was significantly lower, which is highly relevant for this thesis because our dataset contains physical activity data. 
 
-Grünerbl, A. et al. had a detection type study about bipolar disorder. The participants consisted of ten bipolar patients in Austria between 18 and 65 years old. In this study, the recorded data was phone calls and microphone data and achieved an average recognition accuracy of 76\% and precision and recall of over 97\% of bipolar state detection. They also used the accelerometer and GPS as input data and achieved a recognition accuracy of 70\% (accelerometer) and 80\% (GPS) \cite{grunerbl_smartphone_bipolar}.
+Grünerbl, A. et al. had a detection type study about bipolar disorder \cite{grunerbl_smartphone_bipolar}. The participants consisted of ten bipolar patients in Austria between 18 and 65 years old. In this study, the recorded data was phone calls and microphone data and achieved average recognition accuracy of 76\% and precision and recall of over 97\% of bipolar state detection. They also used the accelerometer and GPS as input data and achieved recognition accuracy of 70\% (accelerometer) and 80\% (GPS).
 
-In a study by Maxhuni, A. et al., they used the same participants as the previous example. The difference was that in addition to using accelerometer and microphone data, they introduced questionnaires to the participants. For the results, they applied different machine learning algorithms, and their best average accuracy was 85.57\% \cite{maxhuni2016}.
+In a study by Maxhuni, A. et al. \cite{maxhuni2016}, they used the same participants as the previous example. The difference was that in addition to using accelerometer and microphone data, they introduced questionnaires to the participants. For the results, they applied different machine learning algorithms, and their best average accuracy was 85.57\%.
 
-Faurholt-Jepsen, M. et al. had an association type study about bipolar disorder. The participants were 29 bipolar patients, and actions on their smartphones like daily usage, the number of incoming calls, the number of text messages sent and received. They found correlations between the mental state of the patients and the recorded information. \cite{faurholt_smartphone_bipolar}
+Faurholt-Jepsen, M. et al. had an association type study about bipolar disorder \cite{faurholt_smartphone_bipolar}. The participants were 29 bipolar patients, and actions on their smartphones like daily usage, the number of incoming calls, the number of text messages sent and received. They found correlations between the mental state of the patients and the recorded information. 
 
-Andrew G. et al. applied machine learning to photos posted on Instagram. They had 166 participants, who posted a total of 43,950 photos. By extracting statistical features using colors analysis, metadata and face detection, they achieved models that outperformed the average practitioner's success rate when diagnosing depression (70\% of all depressed cases identified) \cite{instagram_depression}. Research on social media usage in the field of mental health is interesting because, for many, those are the platforms that they use to express their feelings. 
+Andrew G. et al. applied machine learning to photos posted on Instagram \cite{instagram_depression}. They had 166 participants, who posted a total of 43,950 photos. By extracting statistical features using colors analysis, metadata and face detection, they achieved models that outperformed the average practitioner's success rate when diagnosing depression (70\% of all depressed cases identified). Research on social media usage in the field of mental health is interesting because, for many, those are the platforms that they use to express their feelings. 
 
-Mowery, D. et al. did another study based on social media, but instead of Instagram, they used Twitter. For a tweet, they classified whether or not it contained evidence of depression, and there was evidence of depression, they classified one of three symptoms (mood, disturbed sleep or loss of energy). The features they extracted from each tweet included \textbf{syntax} (usage of first/third person pronouns), \textbf{emoticons} usage (happy/sad), and \textbf{sentiment} (whether the text was subjective/objective and positive/negative). They achieved the best performance when classifying that a tweet had no evidence of depression, and their other models performed significantly worse \cite{twitter_depression}. 
+Mowery, D. et al. did another study based on social media \cite{twitter_depression}, but instead of Instagram, they used Twitter. For a tweet, they classified whether or not it contained evidence of depression, and there was evidence of depression, they classified one of three symptoms (mood, disturbed sleep or loss of energy). The features they extracted from each tweet included \textbf{syntax} (usage of first/third person pronouns), \textbf{emoticons} usage (happy/sad), and \textbf{sentiment} (whether the text was subjective/objective and positive/negative). They achieved the best performance when classifying that a tweet had no evidence of depression, and their other models performed significantly worse. 
 
-The authors of the paper mentioned first surveying different machine learning research in MHMS, Garcia-Ceja, E. et al., also released a paper on motor activity based classification of depression in unipolar/bipolar patients. They applied machine learning for classifying depressed/nondepressed participants using Random Forest and a deep neural network (DNN). The dataset is the same as we used here in this thesis (described in detail in the next chapter), and they achieved an F1-score of 0.73 with Random Forest and 0.7 with the DNN. Since one of our goals is to do the same classification as this paper, it worth mentioning.
+The authors of the paper mentioned first surveying different machine learning research in MHMS, Garcia-Ceja, E. et al., also released a paper on motor activity based classification of depression in unipolar/bipolar patients \cite{GarciaCeja2018_classification_bipolar}. They applied machine learning for classifying depressed/non-depressed participants using Random Forest and a deep neural network (DNN). The dataset is the same as we used here in this thesis (described in detail in the next chapter), and they achieved an F1-score of 0.73 with Random Forest and 0.7 with the DNN. Since one of our objectives is to do the same classification as in this paper, it was worth mentioning.
+
+The main difference between earlier research within MHMS and our work is that we aim to apply a convolutional neural network to achieve our goal. CNN is a type of machine learning that is more sophisticated than the ones used in the mentioned research papers. We know that motor activity measurements can be related to mental health issues (from Garcia-Ceja, E. et al. \cite{GarciaCeja2018_classification_bipolar}). However, the best methods for extracting this type of knowledge is not known. With our research, we want to find if CNNs can do this job effectively.
 
 \subsection{Convolutional Neural Networks}
 
-In most of the papers previously mentioned, the complexity of the machine learning models has not been the area of focus, but rather comparing different simple algorithms like decision trees and Naïve Bayes. A study by Kiranyaz, S. et al. used a 1-d convolutional neural network on real-time patient-specific ECG (electrocardiogram) classification \cite{ecg_1d_conv}. While this paper is not in the field of mental health, we found exploring how others have created convolutional neural networks essential for us when building our models. 
+In most of the papers previously mentioned, the complexity of the machine learning models has not been the area of focus, but rather comparing different algorithms like decision trees and Naïve Bayes. A study by Kiranyaz, S. et al. used a 1-D convolutional neural network on real-time patient-specific ECG (electrocardiogram) classification \cite{ecg_1d_conv}. While this paper is not in the field of mental health, we found exploring how others have created convolutional neural networks helpful for us when building our models. Kiranyaz, S. et al. achieved superior classification performance comparing it to most of the state-of-the-art methods, and concluded with the fact that after training a CNN dedicated to a patient, it can be solely responsible for classifying their ECG records.
 
-Kiranyaz, S. et al. achieved superior classification performance comparing it to most of the state-of-the-art methods, and concluded with the fact that after training a CNN dedicated to a patient, it can be solely responsible for classifying their ECG records \cite{ecg_1d_conv}. 
+Human activity recognition (HAR) is another field of study where machine learning has shown its value. Ronao, C. A. et al. presented a deep convolutional network \cite{ronao_har_conv} for classifying human activity (walking, sitting, standing and laying) based on a 1-D time-series of measurements from smartphone sensors. The accuracy they achieved on their test set (95.75\%) outperformed the previous state-of-the-art models. 
 
-Human activity recognition (HAR) is another field of study where machine learning has shown its value. Ronao, C. A. et al. presented a deep convolutional network for classifying human activity (walking, sitting, standing and laying) based on a 1-d time-series of measurements from smartphone sensors \cite{ronao_har_conv}. The accuracy they achieved on their test set (95.75\%) outperformed the previous state-of-the-art models. 
+The usage of convolutional networks is, of course, not limited to the medical field. Ince, T. et al. published a paper on real-time motor fault detection using a 1-D CNN \cite{motor_fault_conv}. They used raw signal data as input to the model, and a model that only has to be trained once for each motor they achieved an accuracy of detecting motor faults above 97\%.
 
-The usage of convolutional networks is, of course, not limited to the medical field. Ince, T. et al. published a paper on real-time motor fault detection using a 1-d CNN. They used raw signal data as input to the model, and a model that only has to be trained once for each motor they achieved an accuracy of detecting motor faults above 97\% \cite{motor_fault_conv}.
+All of the mentioned convolutional neural networks have high performance, which is a promising indication for our results. The type of data that we apply our CNN to is very similar to the HAR study by Ronao, C. A. et al., but we use it in the detection of mental health issues instead of human activity. 

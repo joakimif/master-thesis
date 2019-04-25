@@ -1,18 +1,18 @@
 \begin{figure}[h]
 \begin{code}
   \begin{minted}[linenos]{python}
-  def create_classification_model(segment_length, output_layers):
+  def create_classification_model(L, n_output_layers):
     model = Sequential()
 
-    model.add(Reshape((segment_length, 1), input_shape=(segment_length,)))
-    model.add(Conv1D(100, 10, activation='relu', input_shape=(segment_length, 1)))
+    model.add(Reshape((L, 1), input_shape=(L,)))
+    model.add(Conv1D(100, 10, activation='relu', input_shape=(L, 1)))
     model.add(Conv1D(100, 10, activation='relu'))
     model.add(MaxPooling1D(2))
     model.add(Conv1D(160, 10, activation='relu'))
     model.add(Conv1D(160, 10, activation='relu'))
     model.add(GlobalAveragePooling1D())
     model.add(Dropout(0.5))
-    model.add(Dense(output_layers, activation='softmax'))
+    model.add(Dense(n_output_layers, activation='softmax'))
 
     model.compile(loss='categorical_crossentropy', 
                   optimizer='adam', 
@@ -28,11 +28,11 @@
 \begin{figure}[h]
 \begin{code}
   \begin{minted}[linenos]{python}
-  def create_prediction_model(segment_length):
+  def create_prediction_model(L):
     model = Sequential()
 
-    model.add(Reshape((segment_length, 1), input_shape=(input_shape,)))
-    model.add(Conv1D(128, 2, activation='relu', input_shape=(segment_length, 1)))
+    model.add(Reshape((L, 1), input_shape=(input_shape,)))
+    model.add(Conv1D(128, 2, activation='relu', input_shape=(L, 1)))
     model.add(MaxPooling1D(pool_size=2, strides=1))
     model.add(Conv1D(64, 2, activation='relu'))
     model.add(GlobalAveragePooling1D())

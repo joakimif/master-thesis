@@ -1,6 +1,6 @@
 \section{Linear Regression}
 
-Linear Regression is used a lot in statistics, where its primary purpose is to predict a target value based on independent predictors and is useful to find cause and effect relationships between variables \cite{linear_regression}. One experiment that might be interesting is to perform linear regression on some of the columns in the demographics dataset \ref{figure:demographics}, in order to see whether there are columns that tell more about the participant's group (control or condition).  
+Linear Regression is used a lot in statistics, where its primary purpose is to predict a target value based on independent predictors and is useful to find cause and effect relationships between variables \cite{linear_regression}. Before getting started on convolutional neural networks, we wanted to see if these problems were solvable with linear regression. The idea was to use the columns from the demographics dataset (see figure \ref{figure:demographics}). We did not expect high performance from this, as there are only 55 rows of participants. Anyone having a little bit of experience with machine learning will know that this is not nearly enough data. We wanted to do it regardless, to see how a linear regression model performed.
 
 Not all of the columns are relevant though, for example, \textbf{number} is unique for each participant, so it does not make sense to use. The column \textbf{melanch} also does not make sense to use, as there is only one participant with Melancholia. \textbf{Inpatient} cannot be used because the participants in the control group are not patients, and cannot be either inpatient or outpatient. The same goes for \textbf{edu}, \textbf{work} and \textbf{marriage}, but we don't have these data values for control group participants. We don't have their \textbf{afftype} or any of the \textbf{MADRS} scores either, but we already know them: \textbf{afftype} should be 0 (not bipolar) and both \textbf{MADRS} scores should be 0 (not depressed). 
 
@@ -39,12 +39,10 @@ When testing the model, we wanted to achieve an accuracy of 100\% when using the
 The convolutional layer in machine learning consists of \textit{filters} \ref{figure:feature_detector}, which are the sliding windows that go through the input data.  They are also called \textit{feature detectors}, and using 100 of them means that the layer can detect 100 features. The size of a filter is called \textit{kernel size}. The output of the convolutional layer is a matrix with one column for each filter, and one row for each step in the convolution. How many steps there are, is given by the length of the input data (also called \textit{height}) minus the kernel size plus 1.
 
 \subsection{Creating the Model}
-We built two convolutional neural network models. One model for the first two goals was built for classification \ref{code:1d_conv_net_classifier}, and for the third goal we came up with another model built for prediction \ref{code:1d_conv_net_predictor}.
-
-To make a convolutional neural network, you need some \textit{convolutional} and \textit{pooling} layers. Which layers added in between and the ordering of them, together with the parameters passed to the layers, is what makes the model perform differently. 
+We built two convolutional neural network models. One model for the first two objectives was built for classification, and for the third objective we came up with another model built for prediction. To make a convolutional neural network, you need some \textit{convolutional} and \textit{pooling} layers. Which layers added in between and the ordering of them, together with the parameters passed to the layers, is what makes the model perform differently. 
 
 \subsubsection{Classification}
-The following model was used to achieve our first two goals; classifying whether a participant belongs to the \textbf{control} or \textbf{condition} group, and classifying the participant's \textbf{depression class}. The only difference between these two goals is the number of classes we are trying to classify, and therefore only the output layer needs to be changed. Full source code can be found in the source code section \ref{code:1d_conv_net_classifier}.
+The following model was used to achieve our first two objectives; classifying whether a participant belongs to the \textbf{control} or \textbf{condition} group, and classifying the participant's \textbf{depression class}. The only difference between these two objectives is the number of classes we are trying to classify, and therefore only the output layer needs to be changed. Full source code can be found in the appendix (\ref{code:1d_conv_net_classifier}).
 
 \begin{enumerate}
       \item We started by defining a \textbf{Sequential} model. This is easy to understand and readable way of defining a model. Alternatively, we could have used a \textbf{functional} model, which would give more control of inputs and outputs of the layers. A \textbf{functional} model would also be useful if we wanted to debug and optimize each layer within the model. 
@@ -64,18 +62,18 @@ The following model was used to achieve our first two goals; classifying whether
             The output of the \textit{global average pooling} layer is a matrix of size $ 1 \times 160 $.
       \item \textbf{Dropout}: A dropout layer is used to reduce overfitting, by randomly ignoring units in the neural network \cite{dropout}. 
       \item \textbf{Dense}: The final layer in the model is a dense layer (fully connected) which reduces the matrix from $160$ values to 
-            either $2$ or $3$ (for goal one and two), with the activation function \textbf{softmax}. 
+            either $2$ or $3$ (for objective one and two), with the activation function \textbf{softmax}. 
             Then the output (a $1$ in one of the neurons) is mapped to the corresponding label.
 \end{enumerate}
 
 After defining the model, we \textit{compiled} it so that it was ready to be \textit{fit} to the dataset. Compiling a model requires a \textit{loss function} and an \textit{optimizer}. The loss function is the function that evaluates how well the model \textit{models} the given data \cite{loss_functions}, and the optimizer is the function that attempts to lower the output of the loss function. 
 
-For the first two goals in this thesis, we used the loss function \textit{categorical crossentropy}, which calculates a probability over the number of classes that are supplied (number of classes equals the number of neurons in the output layer). 
+For the first two objectives in this thesis, we used the loss function \textit{categorical crossentropy}, which calculates a probability over the number of classes that are supplied (number of classes equals the number of neurons in the output layer). 
 
-For the optimizer, there are many different choices available, but to keep things simple, we will start out using an optimizer called \textit{Adam} for training all of our models. Using a different optimizer can make the model fit to the dataset faster or slower. 
+For choosing the optimizer, there are many different options, and we chose an optimizer called \textit{Adam} for training all of our models. Using a different optimizer can make the model fit the dataset faster or slower, which we experiment with in chapter \ref{chapter:training} (only for the third objective).
 
 \subsubsection{Prediction}
-To make the model work for our third goal, where we predicted the value of participant's MADRS score, we had to change a few layers. We removed two of the \textit{Conv1D} layers and applied the following after the global average pooling layer:
+To make the model work for our third objective, where we predicted the value of participant's MADRS score, we had to change a few layers. We removed two of the \textit{Conv1D} layers and applied the following after the global average pooling layer:
 
 \begin{enumerate}
       \setcounter{enumi}{7}
@@ -85,39 +83,30 @@ To make the model work for our third goal, where we predicted the value of parti
             Also, the activation function is \textit{linear} instead of \textit{softmax}.
 \end{enumerate}
 
-We compiled this model with the loss function \textit{Mean Squared Error}, which is measured as the average (mean) of squared difference between predictions and actual observations ($ loss = \frac{\sum_{i=1}^{n}(y_i-\hat{y}_i)^2}{n} $) \cite{loss_functions}. Full code for this model can also be found in the source code section \ref{code:1d_conv_net_predictor}.
-
-\vfill
+We compiled this model with the loss function \textit{Mean Squared Error}, which is measured as the average (mean) of squared difference between predictions and actual observations ($ loss = \frac{\sum_{i=1}^{n}(y_i-\hat{y}_i)^2}{n} $) \cite{loss_functions}. Source code for this model can also be found in the appendix (\ref{code:1d_conv_net_predictor}).
 
 \section{Optimizing the models}
 
-\noindent Out of the box, we didn't think that the models were going to perform perfectly. Therefore we needed to experiment with each parameter that we passed to the models and find the best ones. We had some ideas of what to change:
+\noindent Out of the box, we did not think that the models were going to perform perfectly. Therefore we needed to experiment with each parameter that we passed to the models and find the best ones. We had some ideas of what to change:
 
 \begin{itemize}
     \item Use different segment lengths
     \item Tweak hyper-parameters
 \end{itemize}
 
-\noindent The first idea, using different segment lengths, was the one we thought was going to impact the results the most. Having more data inside each segment will give the neural network more opportunities to learn features, and then be better at its job of either classifying or predicting something. 
-
-However, this also means that each epoch of training would take more time since each layer had to process more data. Whether it was worth waiting the extra time when increasing the segment length, and if it was one specific segment length that was superior to the others, is something to be discussed later in another section. 
+\noindent The first idea, using different segment lengths, was the one we thought was going to impact the results the most. Having more data inside each segment will give the neural network more opportunities to learn features, and then be better at its job of either classifying or predicting the outcome. Having longer segments also means that each epoch of training would take more time because each layer has to process more data. In chapter \ref{chapter:training}, we describe the process of finding the optimal segment lengths for each objective.
 
 Hyper-parameters are all the \textit{higher-order} parameters we compile/train the model with. These are the bells and whistles of the learning algorithm \cite{hyperparameters}, and they are different from the parameters learned by training the model and need to be fixed for one session of model training. Finding the perfect ones can be crucial for a well-performing model. Hyper-parameters that we use in our models include:
 
 \begin{itemize}
       \item \textbf{Optimizer and learning rate}\\
-          The \textbf{optimizer} function (as said earlier) is essential to lower the loss value when fitting the dataset to the model. 
+          The \textbf{optimizer} function (as discussed earlier) is essential to lower the loss value when fitting the dataset to the model. 
           Different optimizers have different input parameters, and the \textit{learning rate} is one that all optimizers use. 
-          Tweaking the learning rate can yield better results, but the default learning rate for the chosen optimizer is always a good starting point because it's what the author of the optimizer set as default.
+          Tweaking the learning rate can yield better results, but the default learning rate for the chosen optimizer is always a good starting point because it is what the author of the optimizer set as default.
       \item \textbf{Epochs}\\
           Defines how many iterations of training that are to be executed, and in most cases more epochs yield better results up to a certain point.
       \item \textbf{Batch size}\\
           This is how much data that is processed at the same time each epoch, and the best batch size to use can be completely different on two different models. 
       \item \textbf{Train/test split size}\\
-          When building a neural network, we want as much data as possible to both train and to test on afterward. We can't use all the data in both cases, so the most balanced split needs to be determined.
+          When building a neural network, we want as much data as possible to both train and to test on afterward. We cannot use all the data in both cases, so the most balanced split needs to be determined.
 \end{itemize}
-
-\section{Source Code}
-\input{code/tex/create_segments_and_labels}
-
-\input{code/tex/1d_conv_net}

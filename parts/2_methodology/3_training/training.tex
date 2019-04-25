@@ -5,15 +5,19 @@ Our dataset, however, only contains 55 participants and only a few days of activ
 \section{Linear Regression}
 
 \begin{figure}
+\begin{center}
       \includegraphics[height=9cm]{img/regression/results_kerasregressor_1k_epochs.png}
       \caption{Regression Training Loss (MSE) by Epoch. The MADRS scores of participants tell more about their condition than gender, age and days.}
       \label{figure:regression_training_loss}
+\end{center}
 \end{figure}
 
 \begin{figure}
-      \includegraphics[height=8cm]{img/regression/confusion_kerasregressor_grouped.png}
+\begin{center}
+      \includegraphics[height=12cm]{img/regression/confusion_kerasregressor_grouped.png}
       \caption{Confusion Matrices for Regression. For both MADRS1 and MADRS2, predictions were perfect.}
       \label{figure:regression_test_confusion}
+\end{center}
 \end{figure}
 
 We ended up training the regression model for 1000 epochs using a batch size of 16. Because of the simplicity of the model, a thousand epochs did not take that much time, and the training loss graph (figure \ref{figure:regression_training_loss}) shows that more epochs will not yield any better results. The loss does not reduce any more after the first 100 epochs for any of the columns. As we said earlier, we wanted the model to predict flawlessly based on the MADRS scores, and the loss results from training these are better than for the other columns. 
@@ -75,42 +79,48 @@ Next up was our goal to classify whether a participant belongs to the control gr
 
 The input data was split using \textbf{train\_test\_split} so that the training data was 80\% of the total and the rest was going to be used for testing after the training was complete. We used 40\% the training data as validation data, which made it easy for us to tell if the model was learning from epoch to epoch or not. 
 
-We did the training for each of the eight different input sets for ten epochs. To keep it simple, we used a batch size of 16 and the Adam optimizer with a default learning rate of 0,001 throughout this experiment. The primary objective here was to find the best segment length to use, and not to train the models to be perfect,  so these hyper-parameters seemed fine for this purpose. Our guess before we started with the experiment was that the more hours of data we used, the better, meaning that 96 hours of data in each segment was going to give us the best model (from what was possible with only ten epochs).
+We did the training for each of the eight different input sets for ten epochs. We used a batch size of 16 and the Adam optimizer with a default learning rate of 0,001 throughout this experiment. The primary objective here was to find the best segment length to use, and not to train the models to be perfect, so these hyper-parameters seemed fine for this purpose. Our guess before we started with the experiment was that the more hours of data we used, the better, meaning that 96 hours of data in each segment was going to give us the best model (from what was possible with only ten epochs).
 
-Looking at the history graphs (figure \ref{figure:control_condition_10e}) for how the training went epoch by epoch for each of the experiment's datasets, we noticed that the results were better when increasing the number of hours up to 48, and then it did not seem to be any better for 96 hours. This was the case for both training and testing, as the evaluation graphs (results after testing the model with the test-split) to the right also show straight lines from 48 hours to 96 hours. The question was whether 48 hours was our magic number, or if we just needed to train it more.
+Looking at the training history graphs (figure \ref{figure:control_condition_10e_train}) for how the training went epoch by epoch, we noticed that the results were better when increasing the number of hours up to 48, and then it did not seem to be any better for 96 hours. This was the case for both training and testing, as the evaluation graphs (results after testing the model with the test-split - figure \ref{figure:control_condition_10e_eval}) also show straight lines from 48 hours to 96 hours. The question was whether 48 hours was our optimal length, or if we just needed to train it more.
 
-To find the best segment length, we needed to experiment with more epochs. We reran the same experiment for 50 epochs, with 48, 72 and 96 hour long segments. However, from the results for that (figure \ref{figure:control_condition_50e}), it is clear that nothing more was achieved with segments longer than 48 hours. 
+To find the best segment length, we needed to experiment with more epochs. We reran the same experiment for 50 epochs, with 48, 72 and 96 hour long segments. However, from the training graph (figure \ref{figure:control_condition_50e_train}), we can see that nothing more was achieved with segments longer than 48 hours. 
 
-The classifications for the models trained to fit 48-hour segments you can see in the confusion matrices (figure \ref{figure:control_condition_confusion_matrix_48h}) are close to perfect. The additional 40 epochs of training reduced the false negative classifications by a little bit, which was worth the time in our opinion as we want the value of wrong classifications to be as close to 0 as possible. For this relatively small dataset, we are happy with a classification model with scores above 0.99 on all performance metrics previously discussed (table \ref{table:control_condition_performance}). 
+The evaluation data classifications from the model trained to fit 48-hour segments seen in the confusion matrix (figure \ref{figure:control_condition_confusion_matrix_48h}) are close to perfect. The additional 40 epochs of training reduced the false negative classifications by a little bit, which was worth the time in our opinion as we want the value of wrong classifications to be as close to 0 as possible. The model scored above 0.99 on all classification performance metrics (table \ref{table:control_condition_performance}), which is promising.
 
 \begin{figure}
-      \begin{multicols}{2}
-            \includegraphics[height=5cm]{img/control_condition/plot_acc_train.png}
-            \includegraphics[height=5cm]{img/control_condition/plot_loss_train.png}
+\begin{center}
+      \includegraphics[height=10cm]{img/control_condition/plot_acc_train.png}
+      \includegraphics[height=10cm]{img/control_condition/plot_loss_train.png}
 
-            \includegraphics[height=5cm]{img/control_condition/plot_acc_eval.png}
-            \includegraphics[height=5cm]{img/control_condition/plot_loss_eval.png}
-      \end{multicols}
-      \caption{Training loss and accuracy is shown on the left side, where we can see that the model performs better with longer segments up to 48 hours. Evaluation results are on the right side, which shows the same improvements but after training is done. The models were trained for 10 epochs.}
-      \label{figure:control_condition_10e}
+      \caption{Graphs for training loss and accuracy, where we can see the model's performance for different segment lengths throughout 10 epochs of training.}
+      \label{figure:control_condition_10e_train}
+\end{center}
 \end{figure}
 
 \begin{figure}
-      \begin{multicols}{2}
-            \includegraphics[height=5cm]{img/control_condition/plot_acc_train_50e.png}
-            \includegraphics[height=5cm]{img/control_condition/plot_loss_train_50e.png}
+\begin{center}
+      \includegraphics[height=10cm]{img/control_condition/plot_acc_eval.png}
+      \includegraphics[height=10cm]{img/control_condition/plot_loss_eval.png}
 
-            \includegraphics[height=5cm]{img/control_condition/plot_acc_eval_50e.png}
-            \includegraphics[height=5cm]{img/control_condition/plot_loss_eval_50e.png}
-      \end{multicols}
-      \caption{Training the models for 50 epochs to find the best segment length. 48 hours was the overall winner with evaluation accuracy very close to 1.0.}
-      \label{figure:control_condition_50e}
+      \caption{Evaluation loss and accuracy. We can see how the model performed when tested against evaluation data. The performance did not seem to improve with segments longer than 48 hours.}
+      \label{figure:control_condition_10e_eval}
+\end{center}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+      \includegraphics[height=10cm]{img/control_condition/plot_acc_train_50e.png}
+      \includegraphics[height=10cm]{img/control_condition/plot_loss_train_50e.png}
+
+      \caption{Graphs for training loss and accuracy, where we can see the model's performance for different segment lengths throughout 50 epochs of training. Using 48 hours long segments was still the best option (performance did not improve much for longer segments).}
+      \label{figure:control_condition_50e_train}
+\end{center}
 \end{figure}
 
 \begin{figure}
 \begin{center}
       \includegraphics[height=8cm]{img/control_condition/50ep.pdf}
-      \caption{Confusion matrix for running the classifier on unseen data. After training the model for 50 epochs, it was able to correctly classify 3122 control group and 1677 condition group segments.}
+      \caption{Confusion matrix for testing the classifier on unseen data. After training the model for 50 epochs, it was able to correctly classify 3122 control group and 1677 condition group segments.}
       \label{figure:control_condition_confusion_matrix_48h}
 \end{center}
 \end{figure}
@@ -147,7 +157,7 @@ To ensure that our model is not overfitting and did not get lucky when classifyi
               \bfseries Mean & \bfseries 0.063 & \bfseries 0.98
               \\\hline
           \end{tabular}
-          \caption{3-Fold Cross validation. Overall accuracy was 0.98 and loss 0.06.}
+          \caption{3-Fold Cross validation. Mean accuracy was 0.98 and mean loss was 0.06.}
           \label{table:control_condition_5f_cv}
       \end{center}
 \end{table}
@@ -182,23 +192,28 @@ We proceeded to do the same experiment as Garcia-Ceja, E. et al., as it would be
 \end{center}
 \end{table}
 
-Earlier results were almost perfect, so we expected the results of this experiment to be better than what we can see in the confusion matrix (figure \ref{figure:control_condition_conf_loo}). The model did an excellent job of detecting true negatives (where the correct label and the predicted label is \textit{control}, but the number of false positives and false negatives were a bit too high. We could train the models for more than ten epochs and hope for better results, but we assume it would not be much better because of how little training loss and accuracy changed after the first ten epochs (as seen in the training graph - figure \ref{figure:control_condition_50e}). 
+Earlier results were almost perfect, so we expected the results of this experiment to be better than what we can see in the confusion matrix (figure \ref{figure:control_condition_conf_loo}). The model did an excellent job of detecting true negatives (where the correct label and the predicted label is \textit{control}, but the number of false positives and false negatives were a bit too high. We could train the models for more than ten epochs and hope for better results, but we assume it would not be much better because of how little training loss and accuracy changed after the first ten epochs (as seen in the training graph - figure \ref{figure:control_condition_50e_train}). 
 
 \section{1D CNN: Depression Classes}
 
-\begin{figure}[h]
-      \begin{multicols}{2}
-            \includegraphics[height=5cm]{img/depression_class/plot_acc_train.png}
-            \includegraphics[height=5cm]{img/depression_class/plot_loss_train.png}
+\begin{figure}[!ht]
+      \centering
+      \includegraphics[height=10cm]{img/depression_class/plot_acc_train.png}
+      \includegraphics[height=10cm]{img/depression_class/plot_loss_train.png}
 
-            \includegraphics[height=5cm]{img/depression_class/plot_acc_eval.png}
-            \includegraphics[height=5cm]{img/depression_class/plot_loss_eval.png}
-      \end{multicols}
-      \caption{Experimenting with segment lengths for classifying depression classes. After 50 epochs we can see that loss and accuracy continues to be better with longer segments.}
+      \caption{Training loss and accuracy for different segment lengths. After 50 epochs we can see that loss and accuracy continues to be better with longer segments.}
       \label{figure:depression_class_50e}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!ht]
+      \centering
+      \includegraphics[height=10cm]{img/depression_class/plot_acc_eval.png}
+      \includegraphics[height=10cm]{img/depression_class/plot_loss_eval.png}
+      \caption{Evaluation loss and accuracy for different segment lengths. Unlike for the first objective, we continue to gain performance when increasing the segment length.}
+      \label{figure:depression_class_50e_eval}
+\end{figure}
+
+\begin{figure}
 \begin{center}
       \includegraphics[height=8cm]{img/depression_class/conf_5760_60_50_32.png}
       \caption{After training the model on 96 hour long segments for 50 epochs, classification on test-data segments is perfect.}
@@ -213,7 +228,7 @@ based on their MADRS score which is 0 for participants in the control group and 
 
 Using what we previously discovered from classifying control vs. condition groups, we knew how we wanted to achieve this goal. First, find the optimal segment length, then use the best segment length in cross-validation, and guarantee that the performance is consistent. 
 
-In the previous experiment, there was a clear threshold after segment lengths of 24 hours where the performance did not improve that much if increased more (figure \ref{figure:control_condition_10e}). The results were just a little bit better for 48 than 24 hours and worse for longer segments. The question was whether the threshold existed for depression classes also, or if we could use longer segments to achieve better results.
+In the previous experiment, there was a clear threshold after segment lengths of 24 hours where the performance did not improve that much if increased more (figure \ref{figure:control_condition_10e_train}). The results were just a little bit better for 48 than 24 hours and worse for longer segments. The question was whether the threshold existed for depression classes also, or if we could use longer segments to achieve better results.
 
 We experimented the same way as before, except that we went straight for 50 epochs and skipped the shortest segments of 1, 2, 4 and 8 hours, as we were positive these segments would not be any good. We proceeded to train segment lengths of 16, 24, 48, 72 and 96 hours. Looking at the training and testing graphs (figure \ref{figure:depression_class_50e}), we can see that the results for 96-hour segments were outstanding. We achieved an accuracy of 100\% on the testing set. The confusion matrix (figure \ref{figure:depression_class_confusion_matrix_96h}) shows not a single error in classification. 
  
@@ -277,10 +292,9 @@ The plan was to perform 100 epochs of training for different segment lengths. We
 After finding the best segment length, we used the one with the most promising results to train the model for a more extended period. We wanted to see how good performance we could achieve if we increased the number of epochs by a lot and let it learn overnight. 
 
 \subsection{Cross-validation}
-Before training the model to be as perfect as possible, we did cross-validation to check its consistency. Just as we had done before, we performed 3-fold cross-validation. For each fold, we trained the model for 100 epochs to fit the corresponding training data and validated on the corresponding validation data. Then, after a model had completed its training, it was evaluated against the global test data (same procedure as the two previous experiments). Finally, the Mean Squared Error for each fold was saved and compared with other folds to see how they averaged. Table \ref{table:madrs_prediction_cv} contains the cross-validation results, and it seems that the model is consistent.
+Before training the model to be as perfect as possible, we did cross-validation to check its consistency. Just as we had done before, we performed 3-fold cross-validation. For each fold, we trained the model for 100 epochs to fit the corresponding training data and validated on the corresponding validation data. Then, after a model had completed its training, it was evaluated against the global test data (same procedure as the two previous experiments). Finally, the Mean Squared Error for each fold was saved and compared with other folds to see how they averaged. 
 
-
-\begin{table}[h]
+\begin{table}
 \begin{center}
       \begin{tabular}{|l|l|l|}
             \hline
@@ -296,20 +310,19 @@ Before training the model to be as perfect as possible, we did cross-validation 
 \end{center}
 \end{table}
 
-\begin{figure}[h]
-      \begin{multicols}{2}
-            \includegraphics[height=5cm]{img/madrs_prediction/plot_loss_train.png}
-            \vfill
-            \includegraphics[height=5cm]{img/madrs_prediction/plot_loss_eval.png}
-      \end{multicols}
+\begin{figure}
+      \centering
+      \includegraphics[height=10cm]{img/madrs_prediction/plot_loss_train.png}
+      \includegraphics[height=10cm]{img/madrs_prediction/plot_loss_eval.png}
+
       \caption{Training the MADRS prediction model for 100 epochs with different segment lengths. The model trained on 48-hour segments performed best.}
       \label{figure:madrs_prediction_50e}
 \end{figure}
 
 \subsection{Hyper-parameters}
-\begin{figure}[h]
+\begin{figure}
 \begin{center}
-      \includegraphics[height=7cm]{img/madrs_prediction/optimizers.png}
+      \includegraphics[height=8cm]{img/madrs_prediction/optimizers.png}
       \caption{Training the models with 48-hour segments for 100 epochs, comparing different optimizers. The Adam optimizer performed significantly better than SGD and Nadam.}
       \label{figure:madrs_prediction_optimizers}
 \end{center}
@@ -330,17 +343,17 @@ To summarize, this model was trained to fit segments of length 48 hours (2880 mi
 
 When we checked for results the next day, we could see the training had resulted in a mean squared error approximately at 4.0 (on validation data). The training graph (figure \ref{figure:madrs_prediction_history}) shows that further training would not necessarily give any better results. Predictions on the test data (figure \ref{figure:madrs_prediction_testset}) looked very promising. The graph shows correct MADRS scores in the x-axis and the predicted MADRS scores in the y-axis. Each blue dot is a prediction, and the dotted black line is a linear guideline for the perfect predictions (where the predicted and correct scores are the same). 
 
-\begin{figure}[h]
+\begin{figure}
 \begin{center}
-      \includegraphics[height=8cm]{img/madrs_prediction/train_history.pdf}
+      \includegraphics[height=10cm]{img/madrs_prediction/train_history.pdf}
       \caption{MADRS Prediction: Training history throughout 2700 epochs. The MSE is approximately 4.0 after 2000 epochs.}
       \label{figure:madrs_prediction_history}
 \end{center}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}
 \begin{center}
-      \includegraphics[height=8cm]{img/madrs_prediction/predictions.pdf}
+      \includegraphics[height=10cm]{img/madrs_prediction/predictions.pdf}
       \caption{Running the MADRS prediction model on unseen segments. The predictions are not perfect, but they somewhat follow the black dotted line (where predictions and correct MADRS scores are the same).}
       \label{figure:madrs_prediction_testset}
 \end{center}

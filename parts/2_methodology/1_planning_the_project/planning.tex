@@ -1,3 +1,25 @@
+\begin{figure}[h]
+  \begin{center}
+      \includegraphics[height=4cm]{img/flow_detection.pdf}
+      \caption{Diagram of how we detect whether a participant most likely belongs to the control or condition group (first objective) after we have trained the neural network. }
+      \label{figure:flow}
+  \end{center}
+\end{figure}
+
+As described in chapter \ref{chapter:introduction}, our objectives in this thesis are creating convolutional neural network models for three different tasks:
+
+\begin{itemize}
+  \item Detect whether a participant belongs to the \textbf{control} group or \textbf{condition} group.
+  \item Detect a participant's depression level (by MADRS score).
+  \item Predict a participant's MADRS score.
+\end{itemize}
+
+The input data to our neural networks is time-sliced segments of motor activity measurements. We send the segments to the neural networks, which attempts to detect the correct value for each segment. During the training process, correct values have to be visible to the model for it to learn (because we use a supervised learning strategy). After training the models, they should be able to classify/predict the correct value depending on the objective. Because we split the measurements of a participant into segments, we needed to gather all of the detected value so that we could return one final detection. Majority voting is the method used for this, which means that we use the most popular detection (label with most \textit{votes}). 
+
+We implemented one-dimensional convolutional neural networks that were able to take the segments of activity data as input. Also, we wanted the neural network models to be as similar as possible. With few changes in the layers (preferably only the last few layers), we could use a model on another objective. It was, however, only possible for the first two objectives, as they are both about classification and we only changed the number of units in the output layer. We changed more layers for the third objective. We describe of all neural network models in detail in chapter \ref{chapter:models}.
+
+In this chapter, we describe the structure of the dataset, how we use the dataset to create activity segments, and how we can test and evaluate the performance of machine learning models.
+
 \section{The dataset}
 
 \begin{figure}[h]
@@ -18,14 +40,15 @@
 
 \begin{figure}[h]
   \begin{center}
-      \includegraphics[height=6cm]{img/activity_condition_1.pdf}
+      \includegraphics[height=7cm]{img/activity_condition_1.pdf}
       \caption{Motor activity measurements for a participant in the condition group. The participant is a male between 39 and 39 years old, diagnosed with unipolar depression. The number on the X-axis corresponds to the minute throughout the measurement period, and the number on the Y-axis is the activity levels.}
       \label{figure:participant_activity}
   \end{center}
 \end{figure}
+
 \begin{figure}[h]
   \begin{center}
-    \includegraphics[height=6cm]{img/activity_control_1.pdf}
+    \includegraphics[height=7cm]{img/activity_control_1.pdf}
     \caption{Motor activity measurements for a participant in the control group. The participant is a female between 45 and 49 years old. The number on the X-axis corresponds to the minute throughout the measurement period, and the number on the Y-axis is the activity levels.}
     \label{figure:participant_activity_control}
   \end{center}
@@ -50,29 +73,14 @@ The dataset is in two parts. One part includes the demographics of each particip
     \item \textbf{madrs2}: MADRS score after activity measurements ended
 \end{itemize}
 
-
-
 The second part of the dataset includes motor activity measurements about participants in the condition group and control group, as one file for each participant. These files are placed in two folders for the two groups respectively, and there is one file for each participant with filename as "GROUP\_X.csv" where X is their id and GROUP is either condition or control. Inside each file, we can find a list of motor activity measurements for every minute of the data collection period.
 
-Looking at example participants from both groups (figures \ref{figure:participant_activity} and \ref{figure:participant_activity_control}), we can not immediately tell that they are different with our eyes. However, by feeding the data into a convolutional neural network, we aim to find patterns that are specific to the two groups. 
-
-\section{Objectives}
-
-As described in the introduction, our objectives in this thesis is creating convolutional neural network models for three different tasks:
-
-\begin{itemize}
-  \item Classify whether a participant belongs to the \textbf{control} group or \textbf{condition} group.
-  \item Classify a participant's depression class (by MADRS score).
-  \item Predict a participant's MADRS score.
-\end{itemize}
-
-We implemented One-Dimensional Convolutional Neural Networks that were able to take each participant's activity data as input. Also, we wanted the neural network models to be as similar as possible. With few changes in the layers (preferably only the last few layers), one model could be \textit{translated} to another objective. It was, however, only possible for the first two objectives, as they are both about classification and we only changed the number of units in the output layer. We changed more layers for the third objective, and we will describe all neural network models in depth in chapter \ref{chapter:models}.
-
-Before getting started on convolutional neural networks, we wanted to see if these problems were solvable with linear regression. The idea was to use the columns from the demographics dataset (see figure \ref{figure:demographics}). We did not expect much from this, as there are only 55 rows of participants. Anyone having a little bit of experience with machine learning will know that this is not nearly enough data. We wanted to do it regardless, to see how a linear regression model performed.
+Looking at example participants from both groups (figures \ref{figure:participant_activity} and \ref{figure:participant_activity_control}), we can not immediately tell that they are different with our eyes. However, by feeding the data into a convolutional neural network, we aimed to find patterns that were specific to the two groups. 
 
 \section{Data Preprocessing}
+\label{section:data_preprocessing}
 
-We wrote a function \textit{create\_segments\_and\_labels()} (source code \ref{code:reading_dataset}), which was responsible of creating the data that is sent into the neural network. We started by defining a \textit{segment length} ($L$), which is how much data (minutes) we want inside each segment. We experimented with the value of $L$ in the chapter about training the models. Next, we needed a value for how many indexes to step after each iteration, $S$. We kept this value at one hour, meaning $S=60$. Between the different objectives, this function will only be different in how it yields the \textit{labels}.
+We wrote a function \textit{create\_segments\_and\_labels()} (source code \ref{code:reading_dataset}), which was responsible of creating the data that is sent into the neural network. We started by defining a \textit{segment length} ($L$), which is how much data (minutes) we want inside each segment. We experiment with the value of $L$ in chapter \ref{chapter:training}. Next, we needed a value for how many indexes to step after each iteration, $S$. We kept this value at one hour, meaning $S=60$. Between the different objectives, this function will only be different in how it yields the \textit{labels}.
 
 \begin{itemize}
   \item First we read the \textit{global} dataset, where we find each participant and whether they are in the control or condition group. As there is no \textit{afftype} value for non-depressed participants, we set this to 0. Other possible values are 1, 2 and 3. We do the same for the \textit{madrs2} column.

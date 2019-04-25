@@ -11,13 +11,16 @@ from glob import glob
 from tensorflow import keras
 from tensorflow.keras import backend as K
 from tensorflow.keras.optimizers import SGD, Nadam
-from tensorflow.keras.utils import to_categorical
+from tensorflow.keras.utils import to_categorical, plot_model
 from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import Input, Dense, Dropout, Flatten, Reshape, GlobalAveragePooling1D
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Conv1D, MaxPooling1D
 from tensorflow.keras.callbacks import TensorBoard, EarlyStopping, ModelCheckpoint, LambdaCallback
 
-from matplotlib import pyplot as plt
+import matplotlib
+matplotlib.use('PS')
+
+import matplotlib.pyplot as plt 
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
 RESULTS_DIR = '../results'
@@ -177,6 +180,9 @@ class Conv1DModel():
 
     def clear(self):
         self.model = None
+    
+    def plot(self, filename):
+        plot_model(self.model, to_file=filename)
 
 
 class ClassificationModel(Conv1DModel):

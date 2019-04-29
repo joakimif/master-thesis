@@ -29,38 +29,35 @@ we used an 80/20 split for training and testing data. 20\% of the dataset in the
 
 The confusion matrices (figure \ref{figure:regression_test_confusion}) display the results when running the prediction on the test data (and then using it as classification). We said we wanted 100\% on all metrics for the MADRS score columns, and this we can see that this is achieved because the model guessed everything right. The other columns have these performance scores (using \textbf{condition} as positive and \textbf{control} as negative):
 
-\begin{multicols}{2}
-\subsection{Accuracy}
+\subsubsection{Accuracy}
 $ A = \frac{TP+TN}{TP+TN+FN+FP} $
 \\\\
 - \textbf{Gender}: $\frac{7+0}{7+0+4+0} = 7/11 \approx 63\%$\\\\
 - \textbf{Age}: $\frac{6+1}{6+1+3+1} = 7/11 \approx 63\%$\\\\
 - \textbf{Days}: $\frac{5+0}{5+0+6+0} = 5/11 \approx 45\%$\\
 
-\subsection{Precision}
+\subsubsection{Precision}
 $ P = \frac{TP}{TP+FP} $
 \\\\
 - \textbf{Gender}:$ \frac{7}{7+0} = 7/7 = 100\%$\\\\
 - \textbf{Age}: $\frac{6}{6+1} = 6/7 \approx 86\%$\\\\
 - \textbf{Days}: $\frac{5}{5+0} = 5/5 = 100\%$\\
 
-\subsection{Recall}
+\subsubsection{Recall}
 $ R = \frac{TP}{TP+FN} $
 \\\\
 - \textbf{Gender}: $\frac{7}{7+4} = 7/11 \approx 63\%$\\\\
 - \textbf{Age}: $\frac{6}{6+3} = 6/9 \approx 67\%$\\\\
 - \textbf{Days}: $\frac{5}{5+6} = 5/11 \approx 45\%$
 
-\subsection{Specificity}
+\subsubsection{Specificity}
 $ S = \frac{TN}{TN+FP} $
 \\\\
 - \textbf{Gender}: $\frac{0}{0+0} = 0/0$\\\\
 - \textbf{Age}: $\frac{1}{1+1} = 1/2 = 50\%$\\\\
 - \textbf{Days}: $\frac{0}{0+0} = 0/0$\\
 
-\end{multicols}
-
-\subsection{F1 Score}
+\subsubsection{F1 Score}
 $ F1 = 2 \cdot \frac{P \cdot R}{P + R} $
 \\\\
 - \textbf{Gender}: $2 \cdot \frac{1 \cdot 0,63}{1 + 0,63} \approx 77\%$\\\\
@@ -302,7 +299,7 @@ Before training the model to be as perfect as possible, we did cross-validation 
             \csvreader[head to column names]{code/logs/madrs_prediction/cv.csv}{}
             {\\\hline\fold & \mse}
             \\\hline
-            \bfseries Mean & \bfseries 31.398445818687225
+            \bfseries Mean & \bfseries 31.40
             \\\hline
       \end{tabular}
       \caption{3-Fold Cross validation for the prediction model. Only small variation between the folds tells us that the model is consistent enough.}
@@ -328,7 +325,7 @@ Before training the model to be as perfect as possible, we did cross-validation 
 \end{center}
 \end{figure}
 
-\noindent From the training and evaluation graphs (figure \ref{figure:madrs_prediction_50e}), it seemed like the way to go was 48-hour segments. We don't know what's best for training 
+\noindent From the training and evaluation graphs (figure \ref{figure:madrs_prediction_50e}), it seemed like the best was to use 48-hour segments. We do not know what is best for training 
 the model further, but this was what we settled on using. 
 
 Also, unlike the classification experiments, we experimented more with hyper-parameters. The Adam optimizer with default learning rate did the job for classification, 

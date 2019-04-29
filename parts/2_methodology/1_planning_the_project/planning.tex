@@ -6,11 +6,11 @@
   \end{center}
 \end{figure}
 
-As described in chapter \ref{chapter:introduction}, our objectives in this thesis are creating convolutional neural network models for three different tasks:
+As described in chapter \ref{chapter:introduction}, our objectives in this thesis are creating three convolutional neural network models:
 
 \begin{itemize}
-  \item Detect whether a participant belongs to the \textbf{control} group or \textbf{condition} group.
-  \item Detect a participant's depression level (by MADRS score).
+  \item Detect whether a participant is depressed or not.
+  \item Detect whether a participant has no depression, mild depression, moderate depression or severe depression.
   \item Predict a participant's MADRS score.
 \end{itemize}
 
@@ -22,36 +22,20 @@ In this chapter, we describe the structure of the dataset, how we use the datase
 
 \section{The dataset}
 
-\begin{figure}[h]
-  \begin{center}
-      \includegraphics[height=3.5cm]{img/demographics.png}
-      \caption{The 5 first rows in demographic dataset (scores.csv). The displayed participants are from the condition group.}
-      \label{figure:demographics}
-  \end{center}
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[height=3.5cm]{img/demographics.png}
+    \includegraphics[height=3.5cm]{img/demographics_control.png}
+    \caption{The 5 first and the 5 last rows in demographic dataset (scores.csv). The displayed participants are from the condition group (above) and control group (below).}
+    \label{figure:demographics}
 \end{figure}
 
-\begin{figure}[h]
-  \begin{center}
-      \includegraphics[height=3.5cm]{img/demographics_control.png}
-      \caption{The 5 last rows in demographic dataset (scores.csv). The displayed participants are from the control group.}
-      \label{figure:demographics_control}
-  \end{center}
-\end{figure}
-
-\begin{figure}[h]
-  \begin{center}
-      \includegraphics[height=7cm]{img/activity_condition_1.pdf}
-      \caption{Motor activity measurements for a participant in the condition group. The participant is a male between 39 and 39 years old, diagnosed with unipolar depression. The number on the X-axis corresponds to the minute throughout the measurement period, and the number on the Y-axis is the activity levels.}
-      \label{figure:participant_activity}
-  \end{center}
-\end{figure}
-
-\begin{figure}[h]
-  \begin{center}
-    \includegraphics[height=7cm]{img/activity_control_1.pdf}
-    \caption{Motor activity measurements for a participant in the control group. The participant is a female between 45 and 49 years old. The number on the X-axis corresponds to the minute throughout the measurement period, and the number on the Y-axis is the activity levels.}
-    \label{figure:participant_activity_control}
-  \end{center}
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[height=6cm]{img/activity_condition_1.pdf}
+  \includegraphics[height=6cm]{img/activity_control_1.pdf}
+  \caption{Motor activity measurements for a participant in the condition group (above) and control group (below). The condition group participant is male between 35 and 39 years old, diagnosed with unipolar depression. The control group participant is female between 45 and 49 years old. The number on the X-axis corresponds to the minute throughout the measurement period, and the number on the Y-axis is the activity levels.}
+  \label{figure:participant_activity}
 \end{figure}
 
 In this thesis, we used a dataset (called \textit{Depresjon} after the Norwegian word for depression) containing motor activity measurements from participants wearing an Actiwatch (model AW4 from Cambridge Neurotechnology Ltd, England). The dataset was collected originally for a study about behavioral patterns in schizophrenia vs. major depression \cite{Berle2010}. The participants we focus on are 23 bipolar/unipolar patients and 32 non-depressed contributors, removing the participants with schizophrenia. From now on, we will refer to the bipolar/unipolar group as the \textit{condition group}, and the non-depressed group as the \textit{control group}. Garcia-Ceja et al. also follows this convention in their work \cite{GarciaCeja2018_classification_bipolar}.
@@ -75,12 +59,12 @@ The dataset is in two parts. One part includes the demographics of each particip
 
 The second part of the dataset includes motor activity measurements about participants in the condition group and control group, as one file for each participant. These files are placed in two folders for the two groups respectively, and there is one file for each participant with filename as "GROUP\_X.csv" where X is their id and GROUP is either condition or control. Inside each file, we can find a list of motor activity measurements for every minute of the data collection period.
 
-Looking at example participants from both groups (figures \ref{figure:participant_activity} and \ref{figure:participant_activity_control}), we can not immediately tell that they are different with our eyes. However, by feeding the data into a convolutional neural network, we aimed to find patterns that were specific to the two groups. 
+Looking at example participants from both groups (figure \ref{figure:participant_activity}), we can not immediately tell that they are different with our eyes. However, by feeding the data into a convolutional neural network, we aimed to find patterns that were specific to the two groups. 
 
 \section{Data Preprocessing}
 \label{section:data_preprocessing}
 
-We wrote a function \textit{create\_segments\_and\_labels()} (source code \ref{code:reading_dataset}), which was responsible of creating the data that is sent into the neural network. We started by defining a \textit{segment length} ($L$), which is how much data (minutes) we want inside each segment. We experiment with the value of $L$ in chapter \ref{chapter:training}. Next, we needed a value for how many indexes to step after each iteration, $S$. We kept this value at one hour, meaning $S=60$. Between the different objectives, this function will only be different in how it yields the \textit{labels}.
+We wrote a function \textit{create\_segments\_and\_labels()} (source code \ref{code:reading_dataset}), which was responsible for preparing the data before we send it into the neural network. We started by defining a \textit{segment length} ($L$), which is how much data (minutes) we want inside each segment. We experiment with the value of $L$ in chapter \ref{chapter:training}. Next, we needed a value for how many indexes to step after each iteration, $S$. We kept this value at one hour, meaning $S=60$. Between the different objectives, this function will only be different in how it yields the \textit{labels}.
 
 \begin{itemize}
   \item First we read the \textit{global} dataset, where we find each participant and whether they are in the control or condition group. As there is no \textit{afftype} value for non-depressed participants, we set this to 0. Other possible values are 1, 2 and 3. We do the same for the \textit{madrs2} column.

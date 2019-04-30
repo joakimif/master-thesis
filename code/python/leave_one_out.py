@@ -10,11 +10,24 @@ from tensorflow.keras import backend as K
 from cnn.models import ClassificationModel
 from cnn.utils import create_segments_and_labels_loo, create_segments_and_labels_madrs_loo
 
-from parse_args import *
+# mode = 'DEPRESSION'
+mode = 'DEPRESSION_CLASS'
+
+if mode == 'DEPRESSION':
+    create_segments_and_labels = create_segments_and_labels_loo
+    n_output_classes = 2
+elif mode == 'DEPRESSION_CLASS':
+    create_segments_and_labels = create_segments_and_labels_madrs_loo
+    n_output_classes = 3
 
 DATASET_DIR = '../datasets'
-
-print('Participant,Correct,Prediction,Votes,Total,Confidence')
+segment_length = 2880
+step = 60
+epochs = 10
+batch_size = 16
+optimizer = 'adam'
+verbose = 1
+dropout = 0.5
 
 start_i = 0
 N = 55
@@ -32,10 +45,10 @@ if '--reversed' in sys.argv:
     _range = reversed(_range)
 
 for i in _range:
-    print(f'Leaving out {i}')
+    print(f'Leaving out participant {i}')
 
-    segments, labels, left_out_segments, left_out_group, input_shape = create_segments_and_labels_madrs_loo(DATASET_DIR, segment_length, step, leave_out_id=i)
-    model = ClassificationModel(input_shape=input_shape, segment_length=segment_length, step=step, optimizer=optimizer, verbose=verbose, dropout=0.5, n_output_classes=3)
+    segments, labels, left_out_segments, left_out_group, input_shape = create_segments_and_labels(DATASET_DIR, segment_length, step, leave_out_id=i)
+    model = ClassificationModel(input_shape=input_shape, segment_length=segment_length, step=step, optimizer=optimizer, verbose=verbose, dropout=dropout, n_output_classes=n_output_classes)
     model.fit(segments, labels, batch_size, epochs)
     prediction = model.majority_voting_prediction(left_out_segments)
 

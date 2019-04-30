@@ -1,6 +1,8 @@
-For training deep neural networks, we often need expensive hardware if we want to do it on our own. The way to do it these days is to use cloud services such as Google or Amazon to run the machine learning once we have prepared the dataset and the model. We often pay for these services paid by the hour, but they are not expensive as long as we remember to shut them down after use, and only use them when we need to.
+For training deep neural networks, we often need expensive hardware if we want to do it on our own. The way to do it these days is to use cloud services such as Google or Amazon to run the ML once we have prepared the dataset and the model. We often pay for these services paid by the hour, but they are not expensive as long as we remember to shut them down after use, and only use them when we need to.
 
 Our dataset, however, only contains 55 participants and only a few days of activity measurements for each participant, so using a service to train the model would not be necessary. We decided to train them on one of our personal computers, with an Nvidia GTX 1070 which should be enough in terms of performance.
+
+This chapter is where we walk through the process of training the CNN and linear regression models. The performance of the models are evaluated, and we attempt to optimize them by tweaking the segment length and other hyper-parameters.
  
 \section{Linear Regression}
 
@@ -66,7 +68,7 @@ $ F1 = 2 \cdot \frac{P \cdot R}{P + R} $
 
 Looking away from the results of \textbf{madrs1} and \textbf{madrs2}, because, the performance scores tell us that the model is good at predicting that someone is in the condition group (precision). Other than that, we cannot learn that much from them. Also, we have undefined specificity for both gender and days because we do not have any predictions for the values required to calculate them. 
 
-However, we learned a lot about machine learning and regression doing this experiment, and we looked at it more like a warmup for the more complex models that we built for the next objectives.
+However, we learned a lot about ML and linear regression doing this experiment, and we looked at it more like a warmup for the more complex models that we built for the next objectives.
 
 \section{1D CNN: Control vs Condition groups}
 
@@ -284,7 +286,7 @@ Now that we have models for classifying both whether a participant belongs to th
 Training a prediction model is significantly more computationally heavy than training a classification model. We noticed this as soon as we started the training when the loss started on around 100 which is very high, and prediction on test data after a few epochs was poor. In classification, we were used to training and validation loss between 1 and 0 and reaching a high accuracy after only a few epochs. We had to train for some epochs to compare segment lengths, which would only show which are best in the first epochs.
 
 \subsection{Segment length}
-The plan was to perform 100 epochs of training for different segment lengths. We used the same segment lengths as we did for the previous model: 16, 24, 48, 72 and 96 hours. Since the two classification experiments had a different optimal segment length, it was an interesting question whether this was the case for regression as well. 
+The plan was to perform 100 epochs of training for different segment lengths. We used the same segment lengths as we did for the previous model: 16, 24, 48, 72 and 96 hours. Since the two classification experiments had a different optimal segment length, it was an interesting question whether this was the case for MADRS prediction as well. 
 
 After finding the best segment length, we used the one with the most promising results to train the model for a more extended period. We wanted to see how good performance we could achieve if we increased the number of epochs by a lot and let it learn overnight. 
 
@@ -342,7 +344,7 @@ When we checked for results the next day, we could see the training had resulted
 
 \begin{figure}
 \begin{center}
-      \includegraphics[height=10cm]{img/madrs_prediction/train_history.pdf}
+      \includegraphics[height=8cm]{img/madrs_prediction/train_history.pdf}
       \caption{MADRS Prediction: Training history throughout 2700 epochs. The MSE is approximately 4.0 after 2000 epochs.}
       \label{figure:madrs_prediction_history}
 \end{center}
@@ -350,9 +352,18 @@ When we checked for results the next day, we could see the training had resulted
 
 \begin{figure}
 \begin{center}
-      \includegraphics[height=10cm]{img/madrs_prediction/predictions.pdf}
+      \includegraphics[height=8cm]{img/madrs_prediction/predictions.pdf}
       \caption{Running the MADRS prediction model on unseen segments. The predictions are not perfect, but they somewhat follow the black dotted line (where predictions and correct MADRS scores are the same).}
       \label{figure:madrs_prediction_testset}
 \end{center}
 \end{figure}
+\newpage
 
+\section{Summary}
+In this chapter, we have presented how we trained each of our ML models. With linear regression, we got the model to detect with 1.0 accuracy whether participants are depressed or not when training on the madrs1 and madrs2 values. We did not learn much from training on other columns from the demographic dataset, other than the fact that the model was good at detecting that participants were depressed when it was also the correct label (precision).
+
+From the CNN detecting control/condition groups, we learned that 48-hour long segments (2880 minutes) resulted in the highest performance with an F1-score of 0.997 when evaluated against the test-split of the dataset. \textit{Leave one participant out} evaluation resulted in an F1-score of 0.70. The difference between the performance before and after this type of evaluation is a topic for the discussion in the next chapter. 
+
+The optimal segment length was different for the CNN that detects depression classes. We achieved 1.0 evaluation accuracy after 50 epochs of training on segments of length 96 hours (5760 minutes). However, in with the \textit{leave one participant out experiment}, we achieved only an average accuracy of 0.72 and F1-score of 0.30. 
+
+MADRS score prediction happened with a different CNN model, but it was similar to the first objective when it came to the optimal segment length of 48 hours. For this model, we also compared optimizers, finding that Adam was the best choice. We achieved a validation and evaluation loss (MSE) of approximately 4.0 after training the model. 

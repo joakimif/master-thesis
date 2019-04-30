@@ -1,12 +1,12 @@
 \begin{figure}[h]
   \begin{center}
       \includegraphics[height=4cm]{img/flow_detection.pdf}
-      \caption{Diagram of how we detect whether a participant most likely belongs to the control or condition group (first objective) after we have trained the neural network. }
+      \caption{Diagram of how we detect whether a participant is depressed or not (first objective) after we have trained the CNN. }
       \label{figure:flow}
   \end{center}
 \end{figure}
 
-As described in chapter \ref{chapter:introduction}, our objectives in this thesis are creating three convolutional neural network models:
+\noindent As described in chapter \ref{chapter:introduction}, our objectives in this thesis include creating three CNN models:
 
 \begin{itemize}
   \item Detect whether a participant is depressed or not.
@@ -14,9 +14,11 @@ As described in chapter \ref{chapter:introduction}, our objectives in this thesi
   \item Predict a participant's MADRS score.
 \end{itemize}
 
-The input data to our neural networks is time-sliced segments of motor activity measurements. We send the segments to the neural networks, which attempts to detect the correct value for each segment. During the training process, correct values have to be visible to the model for it to learn (because we use a supervised learning strategy). After training the models, they should be able to classify/predict the correct value depending on the objective. Because we split the measurements of a participant into segments, we needed to gather all of the detected value so that we could return one final detection. Majority voting is the method used for this, which means that we use the most popular detection (label with most \textit{votes}). 
+\noindent We also implemented a linear regression model that trained explicitly on the demographic data. The reason for this experiment, which does not include a CNN, was to see if we could learn from any column whether the participants are depressed or not. This experiment is further explained in chapter \ref{chapter:models}. 
 
-We implemented one-dimensional convolutional neural networks that were able to take the segments of activity data as input. Also, we wanted the neural network models to be as similar as possible. With few changes in the layers (preferably only the last few layers), we could use a model on another objective. It was, however, only possible for the first two objectives, as they are both about classification and we only changed the number of units in the output layer. We changed more layers for the third objective. We describe of all neural network models in detail in chapter \ref{chapter:models}.
+For our CNNs, the input data is processed into time-sliced segments of motor activity measurements. Then we send the segments to the CNNs, which attempts to detect the correct value for each segment. During the training process, correct values have to be visible to the model for it to learn (because we use a supervised learning strategy). After training the models, they should be able to classify/predict the correct value depending on the objective. Because we split the measurements of a participant into segments, we needed to gather all of the detected value so that we could return one final detection. Majority voting is the method used for this, which means that we use the most popular detection (label with most \textit{votes}). How the system works from A to Z detecting whether a participant is depressed or not is visualized in figure \ref{figure:flow}.
+
+We implemented one-dimensional CNNs that were able to take the segments of activity data as input. Also, we wanted the neural network models to be as similar as possible. With few changes in the layers (preferably only the last few layers), we could use a model on another objective. It was, however, only possible for the first two objectives, as they are both about classification and we only changed the number of units in the output layer. We changed more layers for the third objective. We describe of all neural network models in detail in chapter \ref{chapter:models}.
 
 In this chapter, we describe the structure of the dataset, how we use the dataset to create activity segments, and how we can test and evaluate the performance of machine learning models.
 
@@ -59,7 +61,7 @@ The dataset is in two parts. One part includes the demographics of each particip
 
 The second part of the dataset includes motor activity measurements about participants in the condition group and control group, as one file for each participant. These files are placed in two folders for the two groups respectively, and there is one file for each participant with filename as "GROUP\_X.csv" where X is their id and GROUP is either condition or control. Inside each file, we can find a list of motor activity measurements for every minute of the data collection period.
 
-Looking at example participants from both groups (figure \ref{figure:participant_activity}), we can not immediately tell that they are different with our eyes. However, by feeding the data into a convolutional neural network, we aimed to find patterns that were specific to the two groups. 
+Looking at example participants from both groups (figure \ref{figure:participant_activity}), we can not immediately tell that they are different with our eyes. However, by feeding the data into a CNN, we aimed to find patterns that were specific to the two groups. 
 
 \section{Data Preprocessing}
 \label{section:data_preprocessing}
@@ -84,8 +86,6 @@ We wrote a function \textit{create\_segments\_and\_labels()} (source code \ref{c
   
   \item Make the list of labels into a \textit{categorical} 2D matrix (see table \ref{table:categorical_labels}) with a \textbf{1} in only one of the columns, instead of a single-dimensional list. This is only needed in the first two objectives.
 \end{itemize}
-
-\subsection{Output data}
 
 \begin{table}[h]
   \begin{center}
@@ -125,3 +125,8 @@ The output data was an array with a value for each segment, corresponding to the
 \section{Performance}
 
 \input{parts/2_methodology/1_planning_the_project/performance.tex}
+
+\section{Summary}
+In this chapter, we introduced the general idea and flow of how the system detects the objectives of our goal, which for the first objective is visualized in figure \ref{figure:flow}. We presented the dataset in two parts, one containing demographic data and another one with motor activity measurements for each participant. Then, we described in detail how the data preprocessing algorithm works, which is responsible for translating the dataset into \textit{segments} we could input to the CNN, and \textit{labels} used for supervised learning. Finally, we introduced how we evaluate the performance of our CNN, in which we described the terminology of loss functions and optimizers, classification metrics, and training/testing data splits. 
+
+Now that we have defined how everything around the CNN works, we can proceed to describe how we implemented the CNNs, which is the topic of the next chapter. 

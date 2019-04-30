@@ -1,3 +1,5 @@
+The previous chapter showed that we structured the dataset into segments and labels so that we can apply supervised learning to it. The type of data in the dataset is activity measurements recorded from a smart-watch, which can have a high potential for analysis through ML. In this chapter, we provide a layer-by-layer description of how implemented our CNNs and linear regression model.
+
 \section{Linear Regression}
 
 Linear Regression is used a lot in statistics, where its primary purpose is to predict a target value based on independent predictors and is useful to find cause and effect relationships between variables \cite{linear_regression}. Before getting started on convolutional neural networks, we wanted to see if these problems were solvable with linear regression. The idea was to use the columns from the demographics dataset (see figure \ref{figure:demographics}). We did not expect high performance from this, as there are only 55 rows of participants. Anyone having a little bit of experience with machine learning will know that this is not nearly enough data. We wanted to do it regardless, to see how a linear regression model performed.
@@ -16,7 +18,7 @@ We used the \textbf{afftype} column as a target in the regression. This way we c
 
 The model for this task is straightforward. We created a sequential model (source code in appendix \ref{code:regression_model}) with one input layer and one output layer. The input is a \textbf{dense} layer which takes one value (the value of the current column), activates using \textbf{relu} and outputs 5 neurons. In the output layer, we activate using a \textbf{linear} function (default activation function when none are specified) and return one value: the prediction. We compiled the model with the loss function \textbf{Mean Squared Error} and the optimizer \textbf{Adam}. 
 
-Since we were predicting the \textbf{afftype} of a participant, which is a binary value (0 or 1) and a prediction from the model yields a value between 0 and 1, we rounded the prediction value to the nearest integer after running predictions on the test data. Doing it this way instead of making a classification model, makes the \textbf{loss} value more useful as a metric while training rather than accuracy. 
+Since we were predicting the \textbf{afftype} of a participant, which is a binary value (0 or 1) and a prediction from the model yields a value between 0 and 1, we rounded the prediction value to the nearest integer after running predictions on the test data. Doing it this way instead of making a classification model, makes the \textbf{loss} value more useful as a metric while training rather than \textbf{accuracy}. 
 
 When testing the model, we wanted to achieve an accuracy of 100\% when using the \textbf{MADRS} scores. The task should be easy because of how easy it is using a simple check: if the MADRS score is 0, then the participant is in the control group. If not, the participant is in the condition group. We did not need to use machine learning on these columns but was interesting to train the model to find this relationship without telling it the simple rule. For the other columns, we did not know what to expect; maybe there was a relationship, maybe not.
 
@@ -34,7 +36,7 @@ When testing the model, we wanted to achieve an accuracy of 100\% when using the
 
 \noindent The main ingredients in a CNN are \textit{convolutional} layers and \textit{pooling layers} \cite{deep_learning}. The convolutional layers are responsible for the convolution process, which in mathematics is a function derived from two given functions by integration which expresses how the shape of one is modified by the other \cite{convolution_definition}. 
 
-The convolutional layer in machine learning consists of \textit{filters} \ref{figure:feature_detector}, which are the sliding windows that go through the input data.  They are also called \textit{feature detectors}, and using 100 of them means that the layer can detect 100 features. The size of a filter is called \textit{kernel size}. The output of the convolutional layer is a matrix with one column for each filter, and one row for each step in the convolution. How many steps there are, is given by the length of the input data (also called \textit{height}) minus the kernel size plus 1.
+The convolutional layer in machine learning consists of \textit{filters}, which are the sliding windows that go through the input data (see figure \ref{figure:feature_detector}). They are also called \textit{feature detectors}, and using 100 of them means that the layer can detect 100 features. The size of a filter is called \textit{kernel size}. The output of the convolutional layer is a matrix with one column for each filter, and one row for each step in the convolution. How many steps there are, is given by the length of the input data (also called \textit{height}) minus the kernel size plus 1.
 
 \subsection{Creating the Model}
 \begin{figure}[!ht]
@@ -45,7 +47,7 @@ The convolutional layer in machine learning consists of \textit{filters} \ref{fi
 \end{center}
 \end{figure}
 
-We built two convolutional neural network models. One model for the first two objectives was built for classification, and for the third objective we came up with another model built for prediction. To make a convolutional neural network, you need some \textit{convolutional} and \textit{pooling} layers. Which layers added in between and the ordering of them, together with the parameters passed to the layers, is what makes the model perform differently. 
+We built three CNN models. The models for the first two objectives were built for classification similarly, and for the third objective we came up with another model built for prediction. To make a CNN, we need some \textit{convolutional} and \textit{pooling} layers. Which layers added in between and the ordering of them, together with the parameters passed to the layers, is what makes the model perform differently. 
 
 \subsubsection{Classification}
 The following model was used to achieve our first two objectives; classifying whether a participant belongs to the \textbf{control} or \textbf{condition} group, and classifying the participant's \textbf{depression class}. The only difference between these two objectives is the number of classes we are trying to classify, and therefore only the output layer needs to be changed. Full source code can be found in the appendix (\ref{code:1d_conv_net_classifier}).
@@ -110,3 +112,8 @@ Hyper-parameters are all the \textit{higher-order} parameters we compile/train t
       \item \textbf{Train/test split size}\\
           When building a neural network, we want as much data as possible to both train and to test on afterward. We cannot use all the data in both cases, so the most balanced split needs to be determined.
 \end{itemize}
+
+\section{Summary}
+In this chapter, we explained how we implemented our linear regression and CNN models. We built a linear regression model able to train on one column in the demographics dataset at a time so that we could compare the performance afterward. Then, we built our one-dimensional CNNs for our primary objectives, explaining each layer and how the data flows through the network (output matrix shape for each layer). We described the main differences between our classification models and our MADRS prediction model. Finally, we defined how we wanted to optimize the CNN models after initial training. 
+
+With our CNN models implemented, we can proceed to the next chapter, where we explain the training process for each of the models, including linear regression. We evaluate the performance of each model, and for the CNNs, we attempt to optimize hyper-parameters and the segment length. 

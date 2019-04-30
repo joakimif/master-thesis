@@ -22,9 +22,9 @@ matplotlib.use('PS')
 
 import matplotlib.pyplot as plt 
 
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
-RESULTS_DIR = '../results'
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' # disable TensorFlow log messages
 
+RESULTS_DIR = '../results'
 losses = []
 
 def timestamp():
@@ -42,6 +42,10 @@ def save_epoch(epoch_num, logs, directory):
     df.to_csv(f'{directory}/history/{START_TIME}.txt', index=False)
 
 class Conv1DModel():
+    """
+    Base Convolution Neural Network model.
+    """
+
     history = None
     callbacks = []
     epoch = 0
@@ -186,6 +190,10 @@ class Conv1DModel():
 
 
 class ClassificationModel(Conv1DModel):
+    """
+    Classification model built upon the base convolutional neural network model.
+    """
+
     def __init__(self, input_shape=None, segment_length=None, step=None, n_output_classes=None, optimizer='adam', dropout=None, verbose=0, old_path=None):
         if old_path:
             self.restore(old_path)
@@ -229,6 +237,10 @@ class ClassificationModel(Conv1DModel):
         
 
 class PredictionModel(Conv1DModel):
+    """
+    Prediction model built upon the base convolutional neural network model.
+    """
+
     def __init__(self, input_shape=None, segment_length=None, step=None, optimizer='adam', learning_rate=None, verbose=0, old_path=None):
         if old_path:
             self.restore(old_path)

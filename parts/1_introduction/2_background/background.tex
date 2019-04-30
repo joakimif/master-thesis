@@ -1,5 +1,5 @@
 
-The fields of studies for this thesis are both mental health and machine learning, and this chapter contains background information and previous research within both of them. We start with mental health, where we describe mental issues, depression, and bipolar disorder. Then we dive into the topic of machine learning, where we provide a technical introduction.
+The fields of studies for this thesis are both mental health and ML, and this chapter contains background information and previous research within both of them. We start with mental health, where we describe mental issues, depression, and bipolar disorder. Then we dive into the topic of ML, where we provide a technical introduction.
 
 \section{Mental health}
 Mental health problems are not known very well by the public. Jorm et al. performed research \cite{jorm1997mental} where they displayed vignettes of one patient suffering from major depression and one from schizophrenia to the people of the Australian public. Of the participants, only 39\% correctly guessed depression, and 27\% correctly guessed schizophrenia. Another study has shown that schizophrenia is often confused with multiple personalities \cite{angermeyer1999social}. Such poor public knowledge about mental health problems can be problematic, as people may have a condition without knowing anything about it. When this is the case, professional help use more time to establish their diagnosis. 
@@ -34,25 +34,25 @@ more aggressive in type I \cite{bipolar_types}. Statistics say that bipolarity 
 disorder if one parent is bipolar, and 66\% if both parents are \cite{bipolar_statistics}. 
 
 \section{Machine learning}
-Machine learning is the field of computer science where we throw data into an algorithm and expect it to give answers to whatever the goal is, 
-with as little work as possible. The process of performing machine learning was not as simple in the early days of the technology, 
+ML is the field of computer science where we throw data into an algorithm and expect it to give answers to whatever the goal is, 
+with as little work as possible. The process of performing ML was not as simple in the early days of the technology, 
 but nowadays it is a lot easier with all the different frameworks and tools available.
 
-Machine learning is a tremendous and almost magical technology, but knowing how one should use it can be difficult without the experience. 
+ML is a tremendous and almost magical technology, but knowing how one should use it can be difficult without the experience. 
 The amount of data needed to make an algorithm learn something makes it difficult to get started, and to be efficient when training the model on a large dataset, 
-decent hardware is required. One can get away with using a CPU if they want to test machine learning on a small dataset, but if the goal is to build something useful, 
+decent hardware is required. One can get away with using a CPU if they want to test ML on a small dataset, but if the goal is to build something useful, 
 too much time is saved using a GPU. 
 
 The reason why GPUs are so much better than CPUs on this specific task is that the design choices of a CPU are for flexibility and general computing workloads. 
 The GPU, on the other hand, is designed to do simple arithmetic instructions over and over again (easy to parallelize). These design choices make GPUs a lot more 
-efficient for machine learning, and especially for deep neural networks \cite{cpu_vs_gpu_ml}. Alternatively, if investing in a GPU is not the preferred choice, 
+efficient for ML, and especially for deep neural networks \cite{cpu_vs_gpu_ml}. Alternatively, if investing in a GPU is not the preferred choice, 
 there are many cloud services available to us today where we can pay a small sum in order to use a system that is a better fit for the task.
 
 Now how do we make a machine learn? Well, there are many different approaches to this, which we will discuss in the next sections, but let us say we want to 
 use a neural network for achieving some goal. Then our next step should be to choose a framework. We can, of course, do everything from scratch, but why 
 reinvent the wheel when there are so many good frameworks and tools already out there? 
 
-Python is a programming language perfect for machine learning in our opinion. The language looks a lot like pseudo-code, and this is perfect because we do not 
+Python is a programming language perfect for ML in our opinion. The language looks a lot like pseudo-code, and this is perfect because we do not 
 want to spend time on syntax rules in another language. A popular framework called \textbf{TensorFlow} is available to use in Python, and developers from Google have built it. 
 
 TensorFlow allows the programmer to build models quickly, and also execute the training and testing. TensorFlow can be used directly, but using \textbf{Keras} as an abstraction layer above it is a popular choice, which we did when implementing the neural networks for our objectives. On their documentation website \cite{keras_docs}, they describe their framework as \blockquote{A high-level neural networks API, written in Python and capable of running on top of TensorFlow, CNTK or Teano}.
@@ -64,15 +64,15 @@ layers, configure its learning process (compile), then fit, train, evaluate and 
 
 One thing that Keras does not make any easier is structuring the dataset so that the model can fit it. There is a high chance that we have to write some 
 code ourselves to do this. Numpy is a package for Python built for math operations where everything happens optimally (Python by itself adds overhead to everything). 
-All machine learning assumes that the input data is Numpy arrays, so experience with Numpy can be advantageous when structuring the dataset.
+All Python based ML algorithms assume that the input data is Numpy arrays, so experience with Numpy can be advantageous when structuring the dataset.
 
 \section{Machine learning strategies}
-Picking the right machine learning model can be quite tricky, especially if inexperienced. There are a couple of different \textit{strategies} one can choose 
-from when deciding on a machine learning model. These are called \textit{supervised and unsupervised learning}, and we need to think about how the dataset is structured, 
+Picking the right ML model can be quite tricky, especially if inexperienced. There are a couple of different \textit{strategies} one can choose 
+from when deciding on an ML model. These are called \textit{supervised and unsupervised learning}, and we need to think about how the dataset is structured, 
 and what we want to achieve to find out which one to use. The following sections will be a description of the strategies, to make the decision easier.
 
 \subsection{Supervised learning}
-Supervised learning is the machine learning strategy where we provide both input and correct output data to the algorithm \cite{supervised_learning}. 
+Supervised learning is the ML strategy where we provide both input and correct output data to the algorithm \cite{supervised_learning}. 
 We may use supervised learning if the goal is to train a model to classify letters in the alphabet, or something else where we have a dataset with both input 
 and output data (for the alphabet, images of letters are input data, and the actual letters are the output data). If we train this alphabet model, 
 we will be able to input an image (not seen before by the algorithm) of a letter, and the model will classify it to the letter it most likely fits. 
@@ -121,7 +121,7 @@ In computer science, trees are data structures commonly used to describe somethi
 a tree can be a representation of how the frequency of letters in the alphabet are distributed in a text file so that the text file can be compressed optimally. 
 We will not go into details about how this works, but our point is that tree-structures are very common in most fields of computer science. 
 
-In machine learning, we can apply the tree-structures as \textit{decision tree learning}. Decision trees are trees that classify instances by sorting them based on feature values, and each \textit{node} represents a feature. Each branch represent a value that the node can assume \cite{supervised_learning}.
+In ML, we can apply the tree-structures as \textit{decision tree learning}. Decision trees are trees that classify instances by sorting them based on feature values, and each \textit{node} represents a feature. Each branch represent a value that the node can assume \cite{supervised_learning}.
 In this approach, we set up all the different outcomes (with the training data set) of a specific question in a tree. Let us say we want to predict whether or not a person will run outside on a specific day. 
 Then it makes sense that the training set contains weather information. The different data in the training set is called attributes, and correctly picking 
 these is essential for the quality of the prediction.
@@ -130,7 +130,7 @@ Table \ref{table:days_running} contains data about whether a person went outside
 Here the first 4 (excluding "Day") columns (Temperature, Outlook, Humidity, and Wind) is the "predictors" and the last column (Run) is the target. 
 To use this table in decision tree learning, we need to view it as a tree, with one of the predictors as the root node and the targets as leaf nodes. 
 
-How we choose the tree structure is critical to the performance of the machine learning, and we need to use a good tree building algorithm. 
+How we choose the tree structure is critical to the performance of the ML, and we need to use a good tree building algorithm. 
 The most common algorithm to use in this situation is the \textit{ID3} algorithm made by J. R. Quinlan. It is a top-down, greedy search through the space 
 of possible branches with no backtracking \cite{decision_tree}. The way this happens is by calculating \textit{Entropy} and \textit{Information Gain}. 
 The idea is to recursively choose the predictor that has the highest information gain and generate a tree structure. With an optimal tree, 
@@ -142,14 +142,14 @@ changes in the training set. One method to reduce the variance is to use Random 
 
 Random forests are a combination of tree predictors such that each tree depends on the values of a
 random vector sampled independently and with the same distribution for all trees in the forest \cite{random_forest}. 
-It is a supervised machine learning strategy and can be useful for both classification and regression learning.
+It is a supervised ML strategy and can be useful for both classification and regression learning.
 
-For example, if we want to get movie recommendations using machine learning, using one decision tree will most likely be insufficient. 
+For example, if we want to get movie recommendations using ML, using one decision tree will most likely be insufficient. 
 Just think what happens when we ask a friend for movies to watch. What that friend recommends is purely based on movies we like ourselves and what the friend likes. 
 We might be lucky and find our next favorite movie, but most likely, asking multiple people for recommendations is going to yield better results. 
-The same goes for machine learning, and decision trees will most likely give a better answer if we combine them in a Random Forest.
+The same goes for ML, and decision trees will most likely give a better answer if we combine them in a Random Forest.
 
-\subsection{Deep Neural Networks}
+\subsection{Deep Neural Networks (DNN)}
 
 \begin{figure}[!ht]
     \begin{center}
@@ -159,23 +159,23 @@ The same goes for machine learning, and decision trees will most likely give a b
     \end{center}
 \end{figure}
 
-The general idea of machine learning with neural networks is to make the computer think like a human, inspired by the way biological neural networks in the human 
+The general idea of ML with neural networks is to make the computer think like a human, inspired by the way biological neural networks in the human 
 brain process information \cite{deep_learning}. There are a lot of different neural networks, but all of them share the same underlying layer-based architecture, 
 where data get passed between layers where computation happens. The first layer is the input layer, which passes the data to the next layer, which is the hidden layers. 
 The number of hidden layers is entirely up to the model and the programmer, and this is where the intermediate processing/computation is done before the data get passed 
 to the output layer where we perform an activation function to define the output \cite{deep_learning}.
 
-If we have a lot of hidden layers in a neural network, we call it a \textit{deep} neural network. Deep networks can be useful for anything, and only the programmer's creativity sets the limit. Two common ways to use neural networks are \textit{Recurrent Neural Networks} and \textit{Convolutional Neural Networks}. These two have their use cases, which we will describe below.
+If we have a lot of hidden layers in a neural network, we call it a \textit{deep} neural network. Deep networks can be useful for anything, and only the programmer's creativity sets the limit. Two common ways to use neural networks are \textit{Recurrent Neural Networks (RNNs)} and \textit{Convolutional Neural Networks (CNNs)}. These two have their use cases, which we will describe below.
 
 Figure \ref{figure:neural_net} is a visual representation of a neural network with the input layer on the left, one hidden layer in the middle and the output layer on the right-hand side. For each layer, we have fully connected nodes, which means that each node has a connection to all nodes in the next layer.
 
-\subsubsection{Recurrent Neural Networks (RNN)}
-Recurrent Neural Networks are useful for predicting something based on a sequence of data, like for example predicting words in a sentence, which can be especially useful for typing on the phone. Also making predictions based on historical data, speech and language, are tasks an RNN can do effectively \cite{deep_learning}.
+\subsubsection{Recurrent Neural Network (RNN)}
+RNNs are useful for predicting something based on a sequence of data, like for example predicting words in a sentence, which can be especially useful for typing on the phone. Also making predictions based on historical data, speech and language, are tasks an RNN can do effectively \cite{deep_learning}.
 
-One downside to Recurrent Neural Networks used on large sequences of data is that the prediction will most likely be off if a word written at the beginning of a long text is a dependency for a prediction four chapters later, for example, the home location of the main character. The workaround for this is something called \textit{Long Short-Term Memory Recurrent Neural Network (LSTM RNN)}, and is the idea of having additional logic to avoid the prediction model forgetting essential facts \cite{deep_learning}.
+One downside to RNNs used on large sequences of data is that the prediction will most likely be off if a word written at the beginning of a long text is a dependency for a prediction four chapters later, for example, the home location of the main character. The workaround for this is something called \textit{Long Short-Term Memory Recurrent Neural Network (LSTM RNN)}, and is the idea of having additional logic to avoid the prediction model forgetting essential facts \cite{deep_learning}.
 
-\subsubsection{Convolutional Neural Networks (CNN)}
-A Convolutional Neural Network, or \textit{CNN} for short, can be used for identifying patterns in data, which then is the underlying calculations for either prediction or classification. They are designed to process data in different array shapes \cite{deep_learning}. A common use case for CNNs is image recognition. In image recognition, we train our models to be good at identifying objects in images, for example, the difference between cats and dogs. Then we can input a completely different image to the model, and it will output whether the image is of a cat or a dog. 
+\subsubsection{Convolutional Neural Network (CNN)}
+A CNN can be used for identifying patterns in data, which then is the underlying calculations for either prediction or classification. They are designed to process data in different array shapes \cite{deep_learning}. A common use case for CNNs is image recognition. In image recognition, we train our models to be good at identifying objects in images, for example, the difference between cats and dogs. Then we can input a completely different image to the model, and it will output whether the image is of a cat or a dog. 
 
 This type of CNN is two-dimensional because an input image is a two-dimensional array of pixels, so the network also needs to have two dimensions in the convolutional layers. Another way of constructing a CNN is one-dimensionally, which can be useful for \textit{one-dimensional} data, for example, sensor data from gyroscopes or accelerometers \cite{deep_learning}.
 
@@ -183,13 +183,13 @@ This type of CNN is two-dimensional because an input image is a two-dimensional 
 \textit{A 1D CNN is very effective when you expect to derive interesting features from shorter (fixed-length) segments of the overall dataset and where the location of the feature within the segment is not of high relevance. This applies well to the analysis of time sequences of sensor data (such as data from gyroscopes or accelerometers).} \cite{1d_cnn}
 \end{quote}
 
-For this reason, we decided on implementing one-dimensional convolutional neural networks to achieve the objectives of our goal. Also, the results are important, as no researchers have applied convolutional neural networks on motor activity measurements in the field of mental health yet to our knowledge. 
+For this reason, we decided on implementing one-dimensional CNNs to achieve the objectives of our goal. Also, the results are important, as no researchers have applied CNNs on motor activity measurements in the field of mental health yet to our knowledge. 
 
 \section{Related work}
-In this section, we mention several research papers that are related to these two topics Mental Health Monitoring Systems and Convolutional Neural Networks.
+In this section, we mention several research papers that are related to these two topics Mental Health Monitoring Systems (MHMS) and CNNs.
 
-\subsection{Mental Health}
-In the field of Mental Health Monitoring Systems (MHMS), research has already been done by many. In this subsection, we describe some earlier research about depression/bipolar disorder, where they also applied machine learning to their study. 
+\subsection{Mental Health Monitoring Systems}
+In the field of MHMS, research has already been done by many. In this subsection, we describe some earlier research about depression/bipolar disorder, where they also applied machine learning to their study. 
 
 E. Garcia-Ceja et al. surveyed some of the recent research works in machine learning for MHMS \cite{GarciaCeja2018_survey}. They gave the different works labels: study type (association/detection/forecasting), study duration (short-term or long term), and sensor types (wearable/external/software or social media). 
 
@@ -209,14 +209,21 @@ Mowery, D. et al. did another study based on social media \cite{twitter_depressi
 
 The authors of the paper mentioned first surveying different machine learning research in MHMS, Garcia-Ceja, E. et al., also released a paper on motor activity based classification of depression in unipolar/bipolar patients \cite{GarciaCeja2018_classification_bipolar}. They applied machine learning for classifying depressed/non-depressed participants using Random Forest and a deep neural network (DNN). The dataset is the same as we used here in this thesis (described in detail in the next chapter), and they achieved an F1-score of 0.73 with Random Forest and 0.7 with the DNN. Since one of our objectives is to do the same classification as in this paper, it was worth mentioning.
 
-The main difference between earlier research within MHMS and our work is that we aim to apply a convolutional neural network to achieve our goal. CNN is a type of machine learning that is more sophisticated than the ones used in the mentioned research papers. We know that motor activity measurements can be related to mental health issues (from Garcia-Ceja, E. et al. \cite{GarciaCeja2018_classification_bipolar}). However, the best methods for extracting this type of knowledge is not known. With our research, we want to find if CNNs can do this job effectively.
+The main difference between earlier research within MHMS and our work is that we aim to apply a CNNs to achieve our goal. CNN is a type of machine learning that is more sophisticated than the ones used in the mentioned research papers. We know that motor activity measurements can be related to mental health issues (from Garcia-Ceja, E. et al. \cite{GarciaCeja2018_classification_bipolar}). However, the best methods for extracting this type of knowledge is not known. With our research, we want to find if CNNs can do this job effectively.
 
 \subsection{Convolutional Neural Networks}
 
-In most of the papers previously mentioned, the complexity of the machine learning models has not been the area of focus, but rather comparing different algorithms like decision trees and Naïve Bayes. A study by Kiranyaz, S. et al. used a 1-D convolutional neural network on real-time patient-specific ECG (electrocardiogram) classification \cite{ecg_1d_conv}. While this paper is not in the field of mental health, we found exploring how others have created convolutional neural networks helpful for us when building our models. Kiranyaz, S. et al. achieved superior classification performance comparing it to most of the state-of-the-art methods, and concluded with the fact that after training a CNN dedicated to a patient, it can be solely responsible for classifying their ECG records.
+In most of the papers previously mentioned, the complexity of the machine learning models has not been the area of focus, but rather comparing different algorithms like decision trees and Naïve Bayes. A study by Kiranyaz, S. et al. used a 1-D CNN on real-time patient-specific ECG (electrocardiogram) classification \cite{ecg_1d_conv}. While this paper is not in the field of mental health, we found exploring how others have created CNNs helpful for us when building our models. Kiranyaz, S. et al. achieved superior classification performance comparing it to most of the state-of-the-art methods, and concluded with the fact that after training a CNN dedicated to a patient, it can be solely responsible for classifying their ECG records.
 
 Human activity recognition (HAR) is another field of study where machine learning has shown its value. Ronao, C. A. et al. presented a deep convolutional network \cite{ronao_har_conv} for classifying human activity (walking, sitting, standing and laying) based on a 1-D time-series of measurements from smartphone sensors. The accuracy they achieved on their test set (95.75\%) outperformed the previous state-of-the-art models. 
 
 The usage of convolutional networks is, of course, not limited to the medical field. Ince, T. et al. published a paper on real-time motor fault detection using a 1-D CNN \cite{motor_fault_conv}. They used raw signal data as input to the model, and a model that only has to be trained once for each motor they achieved an accuracy of detecting motor faults above 97\%.
 
-All of the mentioned convolutional neural networks have high performance, which is a promising indication for our results. The type of data that we apply our CNN to is very similar to the HAR study by Ronao, C. A. et al., but we use it in the detection of mental health issues instead of human activity. 
+All of the mentioned CNNs have high performance, which is a promising indication for our results. The type of data that we apply our CNN to is very similar to the HAR study by Ronao, C. A. et al. \cite{ronao_har_conv}, but we use it in the detection of mental health issues instead of human activity. 
+
+\section{Summary}
+In this chapter, we described background information and related work for our goal. We mentioned different mental health problems, but we focused on depression. Within the topic of depression, we described a rating system called MADRS and then gave an introduction to bipolar disorder. Furthermore, we discussed ML: how one can get started using the Keras ML framework in Python, and different ML strategies and approaches. At the end of the chapter, we discussed related work within the topics of MHMS and CNNs. 
+
+We learned about how MADRS provides a systematic way of telling how depressed patients are, which is essential to know as we use the MADRS score of participants in objective two and three. Bipolar disorder was also necessary to gain knowledge about because some of the participants have the diagnosis. From the topic of ML, we are going to apply a supervised learning strategy, with a DNN approach, and more specifically a CNN type network to achieve our goal. 
+
+Before we can train a CNN, we need to structure the input and output data. In the next chapter, we present a description of the dataset, then discuss our methods of how the system fulfills the objectives by preprocessing the input and output data, and evaluate performance after training has completed. 

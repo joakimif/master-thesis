@@ -27,6 +27,8 @@ Figure \ref{figure:confusion_matrix_bipolar} shows a \textit{confusion matrix}. 
 
 A \textit{confusion matrix} for a good model would look like figure \ref{figure:confusion_matrix_bipolar}, with high numbers in \textbf{True Positive (TP)} and \textbf{True Negative (TN)} and as low numbers as possible in \textbf{False Positive (FP)} and \textbf{False Negative (FN)}. Having a high number in \textbf{True Positive} means that the model can classify that a participant is in the condition group if he or she is, and having a high number in \textbf{True Negative} means that the model can classify that a participant is in the control group if this is the case. The other cases, \textbf{False Positive} and \textbf{False Negative}, are where the model made a wrong classification, and therefore as close these numbers are to zero the better our model is.
 
+\newpage
+
 \subsubsection{Accuracy}
 
 \blockquote[\cite{ml_metrics}]{Accuracy is a good measure when the target variable classes in the data are nearly balanced.}
@@ -36,6 +38,8 @@ A \textit{confusion matrix} for a good model would look like figure \ref{figure:
 When calculating the \textit{accuracy}, we sum up the correct predictions and divide that with the total number of predictions. For our example (\ref{figure:confusion_matrix_bipolar}), the \textit{accuracy} would be $ \frac{93 + 95}{93 + 95 + 5 + 7} = 0.94 $. It is a good metric to use for our example because the number of samples for each variable class is well balanced ($ 93+5=98 $ samples where \textbf{condition group} was the correct option, and $ 7+95=102 $ samples where \textbf{control group} was correct).
 
 Terrible use of the \textit{accuracy} metric would be when one of the classes strongly dominates the samples. For example, if a model predicts \textbf{cancer} vs. \textbf{no cancer}, and the samples contain five people with cancer, and the 95 remaining people do not. The model would be terrible at predicting cancer and still have an accuracy score of $ 0.95 $ \cite{ml_metrics}.
+
+\newpage
 
 \subsubsection{Precision} 
 
@@ -61,6 +65,8 @@ Choosing a metric to use from \textit{precision} or \textit{recall} depends on y
 
 As \textit{recall} operates on \textbf{actual positives}, \textit{specificity} is the exact opposite metric. It tells us the relationship between \textbf{true negatives} and \textbf{actual negatives}. So if your goal is to reduce \textbf{false positives}, specificity is a valid choice. \textit{Specificity} is calculated by dividing \textbf{true negatives} by \textbf{true negatives + false positives}. For the confusion matrix \ref{figure:confusion_matrix_bipolar}, the \textit{specificity} score equals $ \frac{95}{95+7} \approx 0.93 $.
 
+\newpage
+
 \subsubsection{F1 Score}
 
 The metrics that we have described in this section are all useful when determining whether our classification model is good enough. However, the relationship between \textit{recall} and \textit{precision} and knowing when to use which can be confusing, at least if the different classes are somewhere between entirely unbalanced and perfectly balanced (for example a 35\% split). 
@@ -85,7 +91,7 @@ Before starting a model training session, we split the dataset into training and
 
 Validation data and is useful to include when we are developing the model, as we regularly see how the model is performing after each epoch. The metric used is usually the value of the loss function or the accuracy score, depending on the objective of the model. When the model is good enough for the desired task, we do not need validation data. We pass the validation split into the function that starts the model's training as either the validation\_split or the validation\_data parameter. If the validation\_split parameter is used (a number between 0 and 1), the validation data is calculated automatically before training starts. If, however, we want to use specific samples as validation data, we use the validation\_data parameter instead.
 
-The function \textit{train\_test\_split} from the \textit{sklearn} package is useful to split up the dataset into training and evaluation data. We input dataset (X, y), plus how large we want the training and test sets to be (number between 0 and 1, which determines the size of the test partition). The function also randomizes the data, preventing model to accidentally learn something correct for segments in a row that also are chronologically in order. After calling the function, you end up with two arrays for input data (\textit{X\_train, X\_test}), and two arrays for output data (\textit{y\_train, y\_test}). In this case the \textit{test\_size} is set to $0.4$, meaning that the test set contains $40\%$ of the total dataset and the remaining $60\%$ are in the training set.
+The function \textit{train\_test\_split} from the \textit{sklearn} package (see code \ref{code:sklearn_train_test_split}) is useful to split up the dataset into training and evaluation data. We input dataset (X, y), plus how large we want the training and test sets to be (number between 0 and 1, which determines the size of the test partition). The function also randomizes the data, preventing model to accidentally learn something correct for segments in a row that also are chronologically in order. After calling the function, you end up with two arrays for input data (\textit{X\_train, X\_test}), and two arrays for output data (\textit{y\_train, y\_test}). In this case the \textit{test\_size} is set to $0.4$, meaning that the test set contains $40\%$ of the total dataset and the remaining $60\%$ are in the training set.
 
 \begin{figure}[h]
 \begin{code}
@@ -100,6 +106,9 @@ X_train, X_test, y_train, y_test = train_test_split(X, y,
 \end{code}
 \end{figure}
 
+\newpage
+
+\subsubsection{Cross-validation}
 \begin{figure}[h]
   \begin{code}    
       \begin{minted}[linenos]{python}
@@ -124,9 +133,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y,
       \label{code:sklearn_k_fold}
   \end{code}
 \end{figure}
-  
 
-\subsubsection{Cross-validation}
 \begin{figure}[!ht]
   \begin{center}
     \includegraphics[height=8cm]{img/Cross-validation.pdf}
@@ -135,7 +142,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y,
   \end{center}  
 \end{figure}
 
-Another popular choice is to use something called \textit{K-fold cross-validation}. It works by splitting the dataset into $K$ train and test sets, and for each of them, train the model on the training set and validate on the test set (visualized in figure \ref{figure:dataset_cross_val}). Cross-validation is a good way of checking if your model's performance truly is independent on which data samples it trained on. The higher number of splits ($K$) means fewer data samples to test on, so you need to keep that in mind (the same for \textit{train\_test\_split} if you set the \textit{test\_size} too low). Sklearn has an implementation of \textit{K-fold}, called \textit{StratifiedKFold}. An example of how it can be used is shown in code \ref{code:sklearn_k_fold}, where we perform a 3-fold cross-validation ($K = 3$). 
+Another popular choice is to use a technique called \textit{K-fold cross-validation}. It works by splitting the dataset into $K$ train and test sets, and for each of them, train the model on the training set and validate on the test set (visualized in figure \ref{figure:dataset_cross_val}). Cross-validation is a good way of checking if your model's performance truly is independent on which data samples it trained on. The higher number of splits ($K$) means fewer data samples to test on, so you need to keep that in mind (the same for \textit{train\_test\_split} if you set the \textit{test\_size} too low). Sklearn has an implementation of \textit{K-fold}, called \textit{StratifiedKFold}. An example of how it can be used is shown in code \ref{code:sklearn_k_fold}, where we perform a 3-fold cross-validation ($K = 3$). 
 
 Performance testing of a model sometimes happens with both train/test-split and cross-validation. We set aside a small part of the dataset for evaluation and generating folds for the rest, then within each fold, we train and validate the model, and evaluate it against the part of the dataset that we set aside at the beginning. We note loss/accuracy scores for each fold and calculate the mean value which is the overall performance result.
 

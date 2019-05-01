@@ -40,7 +40,7 @@ In this chapter, we describe the structure of the dataset, how we use the datase
   \label{figure:participant_activity}
 \end{figure}
 
-In this thesis, we used a dataset (called \textit{Depresjon} after the Norwegian word for depression) containing motor activity measurements from participants wearing an Actiwatch (model AW4 from Cambridge Neurotechnology Ltd, England). The dataset was collected originally for a study about behavioral patterns in schizophrenia vs. major depression \cite{Berle2010}. The participants we focus on are 23 bipolar/unipolar patients and 32 non-depressed contributors, removing the participants with schizophrenia. From now on, we will refer to the bipolar/unipolar group as the \textit{condition group}, and the non-depressed group as the \textit{control group}. Garcia-Ceja et al. also follows this convention in their work \cite{GarciaCeja2018_classification_bipolar}.
+In this thesis, we used a dataset (called \textit{Depresjon} after the Norwegian word for depression) containing motor activity measurements from participants wearing an Actiwatch (model AW4 from Cambridge Neurotechnology Ltd, England). The dataset was collected originally for a study about behavioral patterns in schizophrenia vs. major depression \cite{Berle2010}. The participants we focus on are 23 bipolar/unipolar patients and 32 non-depressed contributors, removing the participants with schizophrenia. We will refer to the bipolar/unipolar group as the \textit{condition group}, and the non-depressed group as the \textit{control group}. Garcia-Ceja et al. also follows this convention in their work \cite{GarciaCeja2018_classification_bipolar}.
 
 The dataset is in two parts. One part includes the demographics of each participant (see figure \ref{figure:demographics}), where the fields are:
 
@@ -61,12 +61,12 @@ The dataset is in two parts. One part includes the demographics of each particip
 
 The second part of the dataset includes motor activity measurements about participants in the condition group and control group, as one file for each participant. These files are placed in two folders for the two groups respectively, and there is one file for each participant with filename as "GROUP\_X.csv" where X is their id and GROUP is either condition or control. Inside each file, we can find a list of motor activity measurements for every minute of the data collection period.
 
-Looking at example participants from both groups (figure \ref{figure:participant_activity}), we can not immediately tell that they are different with our eyes. However, by feeding the data into a CNN, we aimed to find patterns that were specific to the two groups. 
+Looking at example participants from both groups (figure \ref{figure:participant_activity}), we can not immediately tell with our eyes that they are different. However, by feeding the data into a CNN, we aimed to find patterns that were specific to the two participant groups. 
 
 \section{Data Preprocessing}
 \label{section:data_preprocessing}
 
-We wrote a function \textit{create\_segments\_and\_labels()} (source code \ref{code:reading_dataset}), which was responsible for preparing the data before we send it into the neural network. We started by defining a \textit{segment length} ($L$), which is how much data (minutes) we want inside each segment. We experiment with the value of $L$ in chapter \ref{chapter:training}. Next, we needed a value for how many indexes to step after each iteration, $S$. We kept this value at one hour, meaning $S=60$. Between the different objectives, this function will only be different in how it yields the \textit{labels}.
+We wrote a function (see source code in appendix \ref{code:reading_dataset}), which was responsible for preparing the data before we sent it into the neural network. We started by defining a \textit{segment length} ($L$), which is how much data (minutes) we want inside each segment. We experiment with the value of $L$ in chapter \ref{chapter:training}. Next, we needed a value for how many indexes to step after each iteration, $S$. We kept this value at one hour, meaning $S=60$. Between the different objectives, this function will only be different in how it yields the \textit{labels}.
 
 \begin{itemize}
   \item First we read the \textit{global} dataset, where we find each participant and whether they are in the control or condition group. As there is no \textit{afftype} value for non-depressed participants, we set this to 0. Other possible values are 1, 2 and 3. We do the same for the \textit{madrs2} column.
@@ -75,7 +75,7 @@ We wrote a function \textit{create\_segments\_and\_labels()} (source code \ref{c
   \begin{itemize}
     \item Build segments and labels arrays for current participant:
     \begin{itemize}
-      \item Append a \textbf{segment} that is of length $L$ to the list of segments. 
+      \item Append a segment that is of length $L$ to the list of segments. 
       \item Append a value to labels depending on the objective (see the subsection about output data).
       \item Increase the index by $S$, then repeat until we have added all segments for the current participant.
     \end{itemize}

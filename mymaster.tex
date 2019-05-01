@@ -32,14 +32,14 @@
 
 \newenvironment{code}{\captionsetup{type=listing}}{}
 \SetupFloatingEnvironment{listing}{name=Code}
-\newcommand{\problemStatement}{Detecting Depression with 1-D Convolutional Neural Networks on Motor Activity Measurements}
+\newcommand{\problemStatement}{One-Dimensional Convolutional Neural Networks on Motor Activity Measurements for Detection of Depression}
 
 \title{\problemStatement}
 \subtitle{
 % Subtitle %
 }
 
-\author{Joakim I. Frogner}
+\author{Joakim Ihle Frogner}
  
 \bibliography{bibliography}
 
@@ -99,8 +99,11 @@ long]
 \chapter{Source code}
 \label{appendix:source_code}
 Source code used in the thesis is hosted at \url{https://github.com/joakimif/conv1d-depression}. However, simplified versions of the code are presented on the next pages.
+\newpage
 \input{code/tex/create_segments_and_labels}
+\newpage
 \input{code/tex/regression}
+\newpage
 \input{code/tex/1d_conv_net}
 \end{appendices}
 

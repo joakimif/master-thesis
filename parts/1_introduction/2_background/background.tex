@@ -67,15 +67,15 @@ code ourselves to do this. Numpy is a package for Python built for math operatio
 All Python based ML algorithms assume that the input data is Numpy arrays, so experience with Numpy can be advantageous when structuring the dataset.
 
 \section{Machine learning strategies}
-Picking the right ML model can be quite tricky, especially if inexperienced. There are a couple of different \textit{strategies} one can choose 
+Picking the right ML model can be quite tricky, especially for an inexperienced programmer. There are a couple of different \textit{strategies} one can choose 
 from when deciding on an ML model. These are called \textit{supervised and unsupervised learning}, and we need to think about how the dataset is structured, 
 and what we want to achieve to find out which one to use. The following sections will be a description of the strategies, to make the decision easier.
 
 \subsection{Supervised learning}
 Supervised learning is the ML strategy where we provide both input and correct output data to the algorithm \cite{supervised_learning}. 
 We may use supervised learning if the goal is to train a model to classify letters in the alphabet, or something else where we have a dataset with both input 
-and output data (for the alphabet, images of letters are input data, and the actual letters are the output data). If we train this alphabet model, 
-we will be able to input an image (not seen before by the algorithm) of a letter, and the model will classify it to the letter it most likely fits. 
+and output data (for the alphabet, images of letters are input data, and the actual letters are the output data). If we train this alphabet detection model, 
+we will be able to input an image (not seen before by the algorithm) of a letter, and the model will classify it to the letter it most likely correct. 
 This kind of supervised learning is called \textit{Classification} and is the problem of assigning new observations to the class they most likely belong, 
 based on a classification model built from labeled training data \cite{supervised_learning}.
 
@@ -86,21 +86,18 @@ We call these features \textit{categorical} (first three) and \textit{numerical}
 \subsection{Unsupervised learning}
 Another strategy is unsupervised learning. We want to use this if we have a dataset without the same meaning as in a dataset for supervised learning. 
 The items may not have a fixed answer, like the letters in the alphabet are. It is useful when we have unlabeled data and want to for example group data 
-together in what we call a \textit{cluster}. Unsupervised learning may not be as common as supervised learning, but unsupervised learning can be quite 
+together in what we call a \textit{cluster}. Unsupervised learning may not be as common as supervised learning, but it can be quite 
 beneficial in some cases; for example when grouping addresses together in neighborhoods if we have an unsorted list of addresses as the dataset. Patterns are given to the algorithm, but no \textit{answers} are provided \cite{unsupervised_learning}. 
 
 \subsection{Semi-supervised learning}
-Now, we may not always want to use one of the strategies above. Looking at the dataset, we may want something in between like a combination of labeled and unlabeled data. 
-Semi-supervised learning comes in handy when this is the case. For example, if we have many data samples to label in our dataset, it can be simply too much work. 
-We will not go deep into details about how this works, but it is important to mention it because of its usefulness. The goal of semi-supervised learning is to understand how combining labeled and unlabeled data may change the learning behavior, and design algorithms that take advantage of such a combination \cite{semisupervised_learning}.
+We may not always want to use one of the strategies above. Looking at the dataset, maybe we want something in between like a combination of labeled and unlabeled data. Semi-supervised learning comes in handy when this is the case. For example, if we have many data samples to label in our dataset, it can be too much work. We will not go deep into details about how this works, but it is essential to mention it because of its usefulness. The goal of semi-supervised learning is to understand how combining labeled, and unlabeled data may change the learning behavior, and design algorithms that take advantage of such a combination \cite{semisupervised_learning}.
 
 \section{Machine learning approaches}
-When we know whether we want to use supervised learning, unsupervised learning or something in between, we need to select an approach. We call them 
-approaches because we use these regardless of the strategy that we end up using; most of them (except for reinforcement learning) work in both 
-supervised and unsupervised learning. There are a lot of different approaches available, and we will describe some of them.
+When we know whether we want to use supervised learning, unsupervised learning or something in between, we need to select an approach. We use the term approach because we use these regardless of the strategy, as most approaches work in both supervised and unsupervised learning. There are a lot of different approaches available, and we will describe some of them.
 
 \subsection{Decision tree learning}
 \begin{table}[h]
+    \centering
     \begin{tabular}{| l | l | l | l | l | l |}
     \hline
     \textbf{Day} & \textbf{Temperature} & \textbf{Outlook}   & \textbf{Humidity}  & \textbf{Wind}     & \textbf{Run} \\ \hline
@@ -149,7 +146,7 @@ Just think what happens when we ask a friend for movies to watch. What that frie
 We might be lucky and find our next favorite movie, but most likely, asking multiple people for recommendations is going to yield better results. 
 The same goes for ML, and decision trees will most likely give a better answer if we combine them in a Random Forest.
 
-\subsection{Deep Neural Networks (DNN)}
+\subsection{Deep Neural Networks}
 
 \begin{figure}[!ht]
     \begin{center}
@@ -159,15 +156,11 @@ The same goes for ML, and decision trees will most likely give a better answer i
     \end{center}
 \end{figure}
 
-The general idea of ML with neural networks is to make the computer think like a human, inspired by the way biological neural networks in the human 
-brain process information \cite{deep_learning}. There are a lot of different neural networks, but all of them share the same underlying layer-based architecture, 
-where data get passed between layers where computation happens. The first layer is the input layer, which passes the data to the next layer, which is the hidden layers. 
-The number of hidden layers is entirely up to the model and the programmer, and this is where the intermediate processing/computation is done before the data get passed 
-to the output layer where we perform an activation function to define the output \cite{deep_learning}.
-
-If we have a lot of hidden layers in a neural network, we call it a \textit{deep} neural network. Deep networks can be useful for anything, and only the programmer's creativity sets the limit. Two common ways to use neural networks are \textit{Recurrent Neural Networks (RNNs)} and \textit{Convolutional Neural Networks (CNNs)}. These two have their use cases, which we will describe below.
+The general idea of ML with neural networks is to make the computer think like a human, inspired by the way biological neural networks in the human brain process information \cite{deep_learning}. There are a lot of different neural network architectures, but all of them share the same underlying layer-based architecture, where data get passed between layers where computation happens. The first layer is the input layer, which passes the data to the next layer, which is the hidden layers. The number of hidden layers is entirely up to the model and the programmer, and this is where the intermediate processing/computation is done before the data get passed to the output layer where we perform an activation function to define the output \cite{deep_learning}.
 
 Figure \ref{figure:neural_net} is a visual representation of a neural network with the input layer on the left, one hidden layer in the middle and the output layer on the right-hand side. For each layer, we have fully connected nodes, which means that each node has a connection to all nodes in the next layer.
+
+If we have multiple hidden layers in a neural network, we call it a \textit{deep} neural network (DNN). DNNs can be useful for anything, and only the programmer's creativity sets the limit. Two common ways to use DNNs are \textit{Recurrent Neural Networks (RNNs)} and \textit{Convolutional Neural Networks (CNNs)}. These two have their use cases, which we will describe further.
 
 \subsubsection{Recurrent Neural Network (RNN)}
 RNNs are useful for predicting something based on a sequence of data, like for example predicting words in a sentence, which can be especially useful for typing on the phone. Also making predictions based on historical data, speech and language, are tasks an RNN can do effectively \cite{deep_learning}.
@@ -195,7 +188,7 @@ E. Garcia-Ceja et al. surveyed some of the recent research works in machine lear
 
 Association studies were those who help understand the relationships between variables, and the methods include linear regression, correlation analysis, t-tests and analysis of variance. Detection studies have a goal to detect/recognize the mental state, often using methods like classification models. Forecast studies aim to predict events about patients, for example, epileptic seizures. The wearable sensor types include smart-watches and smartphones, external sensors could, for example, be cameras or microphones installed in an institution where the participants were patients. Some studies, where the sensor type was software or social media used services like Instagram to collect their data \cite{GarciaCeja2018_survey}. 
 
-To find relevant work for this thesis, we had a look into some of the studies included, which studied depression and bipolar disorder. One study by O'Brien, J.T. et al. \cite{obrien_depression} was an association study about depression, where the participants wore accelerometers on their wrists. Twenty-nine adults with depression and 30 healthy adults participated, and the goal was to study the possibility that physical activity has an impact on depression (referred to as Late Life Depressions in the paper). They found that the physical activity of participants with LLDs was significantly lower, which is highly relevant for this thesis because our dataset contains physical activity data. 
+To find relevant work for this thesis, we had a look into some of the studies included, which studied depression and bipolar disorder. One study by O'Brien, J.T. et al. \cite{obrien_depression} was an association study about depression, where the participants wore accelerometers on their wrists. Twenty-nine adults with depression and 30 healthy adults participated, and the goal was to study the possibility that physical activity has an impact on depression (referred to as Late Life Depressions (LLD) in the paper). They found that the physical activity of participants with LLDs was significantly lower, which is highly relevant for this thesis because our dataset contains physical activity data. 
 
 Grünerbl, A. et al. had a detection type study about bipolar disorder \cite{grunerbl_smartphone_bipolar}. The participants consisted of ten bipolar patients in Austria between 18 and 65 years old. In this study, the recorded data was phone calls and microphone data and achieved average recognition accuracy of 76\% and precision and recall of over 97\% of bipolar state detection. They also used the accelerometer and GPS as input data and achieved recognition accuracy of 70\% (accelerometer) and 80\% (GPS).
 
@@ -207,9 +200,9 @@ Andrew G. et al. applied machine learning to photos posted on Instagram \cite{in
 
 Mowery, D. et al. did another study based on social media \cite{twitter_depression}, but instead of Instagram, they used Twitter. For a tweet, they classified whether or not it contained evidence of depression, and there was evidence of depression, they classified one of three symptoms (mood, disturbed sleep or loss of energy). The features they extracted from each tweet included \textbf{syntax} (usage of first/third person pronouns), \textbf{emoticons} usage (happy/sad), and \textbf{sentiment} (whether the text was subjective/objective and positive/negative). They achieved the best performance when classifying that a tweet had no evidence of depression, and their other models performed significantly worse. 
 
-The authors of the paper mentioned first surveying different machine learning research in MHMS, Garcia-Ceja, E. et al., also released a paper on motor activity based classification of depression in unipolar/bipolar patients \cite{GarciaCeja2018_classification_bipolar}. They applied machine learning for classifying depressed/non-depressed participants using Random Forest and a deep neural network (DNN). The dataset is the same as we used here in this thesis (described in detail in the next chapter), and they achieved an F1-score of 0.73 with Random Forest and 0.7 with the DNN. Since one of our objectives is to do the same classification as in this paper, it was worth mentioning.
+The authors of the paper mentioned first surveying different machine learning research in MHMS, Garcia-Ceja, E. et al., also released a paper on motor activity based classification of depression in unipolar/bipolar patients \cite{GarciaCeja2018_classification_bipolar}. They applied machine learning for classifying depressed/non-depressed participants using Random Forest and a DNN. The dataset is the same as we used here in this thesis (described in detail in the next chapter), and they achieved an F1-score of 0.73 with Random Forest and 0.7 with the DNN. Since one of our objectives is to do the same classification as in this paper, it was worth mentioning.
 
-The main difference between earlier research within MHMS and our work is that we aim to apply a CNNs to achieve our goal. CNN is a type of machine learning that is more sophisticated than the ones used in the mentioned research papers. We know that motor activity measurements can be related to mental health issues (from Garcia-Ceja, E. et al. \cite{GarciaCeja2018_classification_bipolar}). However, the best methods for extracting this type of knowledge is not known. With our research, we want to find if CNNs can do this job effectively.
+The main difference between earlier research within MHMS and our work is that we aim to apply a CNNs to achieve our goal. CNN is a type of machine learning that is more sophisticated than the ones used in the mentioned research papers. We know that motor activity measurements can be related to mental health issues (from Garcia-Ceja, E. et al. \cite{GarciaCeja2018_classification_bipolar}). However, the best methods for extracting this type of knowledge is not known. With our experiments, we want to find if CNNs can do this job effectively.
 
 \subsection{Convolutional Neural Networks}
 

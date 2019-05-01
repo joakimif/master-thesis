@@ -17,7 +17,7 @@ This chapter is where we walk through the process of training the CNN and linear
 \begin{figure}
 \begin{center}
       \includegraphics[height=12cm]{img/regression/confusion_kerasregressor_grouped.png}
-      \caption{Confusion Matrices for Regression. For both MADRS1 and MADRS2, predictions were perfect.}
+      \caption{Confusion Matrices for Regression. For both MADRS1 and MADRS2, detections were perfect.}
       \label{figure:regression_test_confusion}
 \end{center}
 \end{figure}
@@ -29,7 +29,7 @@ we used an 80/20 split for training and testing data. 20\% of the dataset in the
 
 \subsection{Results}
 
-The confusion matrices (figure \ref{figure:regression_test_confusion}) display the results when running the prediction on the test data (and then using it as classification). We said we wanted 100\% on all metrics for the MADRS score columns, and this we can see that this is achieved because the model guessed everything right. The other columns have these performance scores (using \textbf{condition} as positive and \textbf{control} as negative):
+The confusion matrices (figure \ref{figure:regression_test_confusion}) display the results when running the prediction on the test data (and then using them as classifications). We said we wanted 100\% on all metrics for the MADRS score columns, and this we can see that this is achieved because the model guessed everything right. The other columns have these performance scores (using \textbf{condition} as positive and \textbf{control} as negative):
 
 \subsubsection{Accuracy}
 $ A = \frac{TP+TN}{TP+TN+FN+FP} $
@@ -66,7 +66,7 @@ $ F1 = 2 \cdot \frac{P \cdot R}{P + R} $
 - \textbf{Age}: $2 \cdot \frac{0,86 \cdot 0,67}{0,86 + 0,67} \approx 75\%$\\\\
 - \textbf{Days}: $2 \cdot \frac{1 \cdot 0,45}{1 + 0,45} \approx 62\%$\\
 
-Looking away from the results of \textbf{madrs1} and \textbf{madrs2}, because, the performance scores tell us that the model is good at predicting that someone is in the condition group (precision). Other than that, we cannot learn that much from them. Also, we have undefined specificity for both gender and days because we do not have any predictions for the values required to calculate them. 
+Looking away from the results of \textbf{madrs1} and \textbf{madrs2}, the performance scores tell us that the model is good at predicting that someone is in the condition group (precision). Other than that, we cannot learn that much from them. Also, we have undefined specificity for both gender and days because we do not have any predictions for the values required to calculate them. 
 
 However, we learned a lot about ML and linear regression doing this experiment, and we looked at it more like a warmup for the more complex models that we built for the next objectives.
 
@@ -353,7 +353,7 @@ When we checked for results the next day, we could see the training had resulted
 \begin{figure}
 \begin{center}
       \includegraphics[height=8cm]{img/madrs_prediction/predictions.pdf}
-      \caption{Running the MADRS prediction model on unseen segments. The predictions are not perfect, but they somewhat follow the black dotted line (where predictions and correct MADRS scores are the same).}
+      \caption{Running the MADRS prediction model on unseen segments. The predictions are not perfect, but they somewhat follow the line where predictions and correct MADRS scores are the same.}
       \label{figure:madrs_prediction_testset}
 \end{center}
 \end{figure}
